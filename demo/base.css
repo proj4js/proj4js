@@ -1,0 +1,22 @@
+#footer {
+  margin-top: 20px;
+  border-top: 1px solid #eee;
+  padding: 10px;
+}  
+body {
+ font-family:Verdana;
+}
+#header {
+  background: #9D9FA1;
+  color: #FFFFFF;
+  font-family: "Trebuchet MS", Helvetica, Arial, sans-serif;
+  font-size: 18px;
+  text-shadow: 2px 2px 3px gray;
+  height: 3em;
+  padding: 4px 16px 0px 16px;
+  vertical-align: top;
+  margin:-10px -5px 0px -5px;
+  border-bottom: 10px solid #e9eef9;
+}
+#header h1{margin-top: 0px;font-weight:normal;}
+#navbar { background-color: #eee; margin: 0px -5px 10px -5px; padding: 10px;  }

@@ -1,0 +1,41 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <link href="test/base.css" type="text/css" rel="stylesheet"/>
+  <title>Proj4js Home Page</title>
+</head>
+
+<body>
+  <div id="header">
+    <h1>Proj4js Home Page</h1>
+  </div>
+  <div id="navbar">
+    <a href="http://svn.codehaus.org/mapbuilder/cscs">Proj4js</a> | 
+    <a href="http://communitymapbuilder.org/">MapBuilder</a> | 
+    <a href="http://openlayers.org/">OpenLayers</a> | 
+    <a href="http://spatialreference.org/">spatialreference.org</a> 
+  </div>
+  <h1>Welcome to Proj4js</h1>
+  <p>
+This is a JavaScript library that provides methods for coordinate 
+transformations between map projections and longitude/latitude, 
+including datum transformations, in a web client.
+  </p>
+
+  <p>
+To use the Proj4js, you first create a source and destination Proj4js.Proj
+objects, passing in a projection code (e.g. EPSG:4326).
+You can then use the Proj4js.transform() method, passing in map XY as a point
+object and the source and destination projection objects,
+and it returns the point coordinate in the destination projection.
+  </p>
+  <ul>
+    Pages included in this distribution:
+    <li><a href="test.html">convert coordinates</a> in a form</li>
+    <li><a href="docs">Documentation</a></li>
+    <li><a href="test">Unit tests</a></li>
+    <li><a href="demo">Demo</a> - very incomplete!</li>
+  </ul>
+  </p>
+</body>
+</html>

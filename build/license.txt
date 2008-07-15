@@ -1,0 +1,9 @@
+/*
+  proj4js.js -- Javascript reprojection library. 
+  
+  Author:       Mike Adair madairATdmsolutions.ca
+                Richard Greenwood rich@greenwoodmap.com
+  License:      LGPL as per: http://www.gnu.org/copyleft/lesser.html 
+                Note: This program is an almost direct port of the C library
+                Proj4.
+*/

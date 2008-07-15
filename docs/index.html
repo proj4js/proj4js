@@ -1,0 +1,35 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <link rel="stylesheet" href="img/base.css"/>
+  <title>Proj4js Docs</title>
+  <script src="../lib/prototype.js"></script>
+  <script src="../lib/proj4js.js"></script>
+  <script>
+    var mapXY = new Proj4js.Point(0,0);
+    var lonLat = new Proj4js.Point(0,0);
+    
+    var sourceProj = new Proj4js.Proj("EPSG:42304");
+    var newLonLat = sourceProj.mapXYToLonLat(mapXY);
+    var newMapXY = sourceProj.lonLatToMapXY(lonLat);
+    
+    var destProj = new Proj4js.Proj("EPSG:2957");
+    var otherProjXY = sourceProj.transform(mapXY, destProj);
+    
+  </script>
+</head>
+
+<body>
+  Proj4js Documentation
+  Usage
+  1. include the Proj4js package source JavaScript
+  2. initialize a Proj4js.Proj object with a projection code
+  3. transform away
+  Configuration
+  defs
+  projCode
+  mapExamples
+  globals
+  Sources
+</body>
+</html>

@@ -1,0 +1,62 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <link href="base.css" type="text/css" rel="stylesheet"/>
+  <title>Proj4js Demonstration Page</title>
+  <script src="http://openlayers.org/api/OpenLayers.js"></script>
+  <script src="../lib/proj4js.js"></script>
+  <script src="../lib/maps/EPSG27563.js"></script>
+  <!--script src="../lib/defs/EPSG27563.js"></script-->
+  <script src="ProjPane.js"></script>
+</head>
+
+<body onload="init()">
+  <div id="header">
+    <h1>Proj4js demo page</h1>
+    <p>This demo is nowhere near complete!</p>
+  </div>
+  <div id="navbar">
+    <a href="http://svn.codehaus.org/mapbuilder/cscs">Proj4js</a> | 
+    <a href="http://communitymapbuilder.org/">MapBuilder</a> | 
+    <a href="http://openlayers.org/">OpenLayers</a> | 
+    <a href="http://spatialreference.org/">spatialreference.org</a> 
+  </div>
+  <table id="content">
+    <tr><td class="projPane">
+      <h2>projection 1</h2>
+      <div>Projection: <input type="text" id="mapL_proj" value="enter a proj code" onchange="panes['mapL'].setProj(this.value)"></input></div>
+      <div>or select 
+        <select id="mapL_choice">
+          <option value="epsg:4905" onclick="panes['mapL'].setProj(this.value)">EPSG:4905</option>
+          <option value="epsg:2957" onclick="panes['mapL'].setProj(this.value)">EPSG:2957</option>
+          <option value="epsg:27563" onclick="panes['mapL'].setProj(this.value)">EPSG:27563</option>
+          <option value="epsg:41001" onclick="panes['mapL'].setProj(this.value)">EPSG:41001</option>
+          <option value="epsg:26912" onclick="panes['mapL'].setProj(this.value)">EPSG:26912</option>
+        </select>
+      </div>
+      <div>Name: <span type="text" id="mapL_title"></span></div>
+      <div>Class: <span type="text" id="mapL_class"></span></div>
+      <div>Datum: <span type="text" id="mapL_datum"></span></div>
+      <div>Coordinates: <span id="mapL_coords"></span>&nbsp;<span id="mapL_units"></span></div>
+      <div id="mapL" style="width: 240px; height: 240px; float: right;"></div>
+    </td><td class="projPane">
+      <h2>Common</h2>
+      <div>Projection: <input type="text" id="mapLL_proj" value="Longitude/Latitude"/></div>
+      <div>Name: <span type="text" id="mapLL_title"></span></div>
+      <div>Class: <span type="text" id="mapLL_class"></span></div>
+      <div>Datum: <span type="text" id="mapLL_datum"></span></div>
+      <div>Coordinates: <span id="mapLL_coords"></span>&nbsp;<span id="mapLL_units"></span></div>
+      <div id="mapLL" style="width: 240px; height: 240px; "/>
+    </td><td class="projPane">
+      <h2>projection 2</h2>
+      <div>Projection: <input type="text" id="mapR_proj" value="enter a proj code"/></div>
+      <div>Name: <span type="text" id="mapR_title"></span></div>
+      <div>Class: <span type="text" id="mapR_class"></span></div>
+      <div>Datum: <span type="text" id="mapR_datum"></span></div>
+      <div>Coordinates: <span id="mapR_coords"></span>&nbsp;<span id="mapR_units"></span></div>
+      <div id="mapR" style="width: 240px; height: 240px;"/>
+    </td>
+    </tr>
+  </table>
+</body>
+</html>
