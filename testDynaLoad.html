@@ -1,7 +1,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
-  <title>Proj4js</title>
+  <title>Proj4js - dynamic loading</title>
   
   <style type="text/css">
     @import url(test/base.css);
@@ -18,23 +18,19 @@
   </style>
   
   <script src="lib/proj4js-combined.js"></script>
- 
-  <script src="lib/defs/EPSG42304.js"></script>
-  <script src="lib/defs/EPSG25833.js"></script>
-  <script src="lib/defs/EPSG27563.js"></script>
-  <script src="lib/defs/EPSG4139.js"></script>
-  <script src="lib/defs/EPSG4302.js"></script>
-  <script src="lib/defs/EPSG31285.js"></script>
-  <script src="lib/defs/EPSG900913.js"></script>
-                      
-  <script type="text/javascript">
+  <script src="lib/proj4js-openlayers.js"></script>
+  <script src="lib/proj4js-dynamicLoad.js"></script>
   
+  <script type="text/javascript">
+  Proj4js.proxyScript = 'proxy.php?url=';
+  var testDefs = ["EPSG:4326","EPSG:42304","EPSG:25833","EPSG:27563","EPSG:4139","EPSG:4302","EPSG:31285","EPSG:900913"];
   var projHash = {};
   function initProj4js() {
     var crsSource = document.getElementById('crsSource');
     var crsDest = document.getElementById('crsDest');
     var optIndex = 0;
-    for (var def in Proj4js.defs) {
+    for (var i in testDefs) {
+       var def = testDefs[i];
        projHash[def] = new Proj4js.Proj(def);    //create a Proj for each definition
        var label = def+" - "+ (projHash[def].title ? projHash[def].title : '');
        var opt = new Option(label, def);
