@@ -97,7 +97,8 @@ $Id: build.xml 2955 2007-07-09 12:12:27Z steven $
     <!-- Copy static content of the mapbuilder project  -->
     <copy todir="${build.home}">
       <fileset dir="${basedir}" excludes="tools/*.pyc "
-          includes="lib/proj4js.js,
+          includes="index.html
+                    lib/proj4js.js,
                     lib/proj4js-combined.js
                     lib/proj4js-compressed.js
                     lib/defs/**
