@@ -134,7 +134,7 @@ $Id: build.xml 2955 2007-07-09 12:12:27Z steven $
     
     <echo message="Generating documentation"/>
     <exec executable="cmd" os="Windows XP" dir="${build.home}">
-        <arg line="/c perl C:\Progra~1\NaturalDocs\NaturalDocs -i ./lib -o html ./docs/NaturalDocs -p ./docs/NaturalDocs -xi ./build -xi ./dist -r"/>
+        <arg line="/c perl C:\Progra~1\NaturalDocs\NaturalDocs -i ./lib -o html ./docs/NaturalDocs -p ./docs/NaturalDocs -r"/>
     </exec>
   </target>
 
@@ -144,7 +144,7 @@ $Id: build.xml 2955 2007-07-09 12:12:27Z steven $
   The "dist" target creates the zip file distribution for the Apache/PHP
   environment.
 -->
-  <target name="dist" description="Create binary distribution" depends="prepare,docs">
+  <target name="dist" description="Create binary distribution" depends="clean,prepare,docs">
 
     <mkdir dir="${dist.home}"/>
 
