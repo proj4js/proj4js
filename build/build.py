@@ -7,7 +7,8 @@ import jsmin, mergejs
 
 sourceDirectory = "../lib"
 configFilename = "library.cfg"
-outputFilename = "../lib/proj4js-compressed.js"
+filename = "proj4js-compressed.js"
+outputFilename = "../lib/" + filename
 
 if len(sys.argv) > 1:
     configFilename = sys.argv[1]
@@ -21,6 +22,8 @@ if len(sys.argv) > 2:
 
 print "Merging libraries."
 merged = mergejs.run(sourceDirectory, None, configFilename)
+print "Setting the filename to "+filename
+merged = merged.replace('scriptName: "proj4js.js",','scriptName: "'+filename+'",');
 print "Compressing."
 minimized = jsmin.jsmin(merged)
 print "Adding license file."
