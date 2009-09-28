@@ -3,7 +3,7 @@
   
   Authors:      Mike Adair madairATdmsolutions.ca
                 Richard Greenwood richATgreenwoodmap.com
-                Didier Richard
+                Didier Richard didier.richardATign.fr
                 Stephen Irons
   License:      LGPL as per: http://www.gnu.org/copyleft/lesser.html 
                 Note: This program is an almost direct port of the C library
