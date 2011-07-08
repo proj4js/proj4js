@@ -1,29 +1,17 @@
 /* Loop through the test points and create a Proj object for each
  */
 function runTests() {
+	
   for (var i=0; i < Proj4js.testPoints.length; ++i) {
     var test = Proj4js.testPoints[i];
-    var proj = new Proj4js.Proj(test.code);
-    checkProjLoaded.call(proj, test);
+    var proj = new Proj4js.Proj(test.code, Proj4js.bind(showResults, this, test));
   }
-}
-
-/* a timer that waits for the readyToUse flag to be set.  This gets called in
- * the context of the Proj4js.Proj object
- */
-function checkProjLoaded(test) {
-    if (!this.readyToUse) {
-      window.setTimeout(Proj4js.bind(checkProjLoaded, this, test), 500);
-    } else {
-      showResults(this, test);
-    }
-  
 }
 
 /* a callback function to run the test for this test point since we are using
  the dynamic load capabilities in the test page
  */
-function showResults(proj, test) {
+function showResults(test, proj) {
   //var test = proj.testPoint;
   var xyEPSLN = 1.0e-2;
   var llEPSLN = 1.0e-6;
