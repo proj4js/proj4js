@@ -1,11 +1,26 @@
 /* Loop through the test points and create a Proj object for each
  */
+ var src, dest;
 function runTests() {
-	
+  
+  //src = new Proj4js.Proj(Proj4js.defs["WKT0"],cb2);
+  /*
+  src = new Proj4js.Proj("EPSG:900913",cb1);
+  var testPt = new Proj4js.Point([1113194.9079327357, 6800125.454397307]);
+  var testRes = Proj4js.transform(src, dest, testPt);
+  alert(testRes.toString());
+  */
+  
   for (var i=0; i < Proj4js.testPoints.length; ++i) {
     var test = Proj4js.testPoints[i];
     var proj = new Proj4js.Proj(test.code, Proj4js.bind(showResults, this, test));
   }
+}
+function cb1() {
+  dest = new Proj4js.Proj("EPSG:2303X",cb2);
+}
+function cb2(arg1) {
+  //alert('all set');
 }
 
 /* a callback function to run the test for this test point since we are using
