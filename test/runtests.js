@@ -1,6 +1,6 @@
 /* Loop through the test points and create a Proj object for each
  */
- var src, dest;
+var src, dest;
 function runTests() {
   
   //src = new Proj4js.Proj(Proj4js.defs["WKT0"],cb2);
@@ -10,6 +10,18 @@ function runTests() {
   var testRes = Proj4js.transform(src, dest, testPt);
   alert(testRes.toString());
   */
+
+  /* 
+  //testing the conversion bewteen CSs which use the towgs84 params (ticket #64)
+  //TODO convert this to asserts
+  src = new Proj4js.Proj("EPSG:21781");
+  dest = new Proj4js.Proj("EPSG:900913");
+  var testPt = new Proj4js.Point([699212,227132]);
+  var testRes = Proj4js.transform(src, dest, testPt);
+  alert(testRes.toString());
+  //result should be 973791.60867,5972764.60117 
+  */
+  
   
   for (var i=0; i < Proj4js.testPoints.length; ++i) {
     var test = Proj4js.testPoints[i];
