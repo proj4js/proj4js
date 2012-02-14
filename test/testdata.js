@@ -1,6 +1,7 @@
 // a set of points in map XY and Lon/Lat that are supposed to correspond between
 // forward and invers transforms
 Proj4js.defs["EPSG:54003"] = "+proj=mill +lat_0=0 +lon_0=0 +x_0=0 +y_0=0 +R_A +ellps=WGS84 +datum=WGS84 +units=m +no_defs";
+Proj4js.defs["EPSG:54008"] = "+proj=sinu +lon_0=0 +x_0=0 +y_0=0 +ellps=WGS84 +datum=WGS84 +units=m  no_defs";
 Proj4js.defs["EPSG:54029"] = "+proj=vandg +lon_0=0 +x_0=0 +y_0=0 +R_A +ellps=WGS84 +datum=WGS84 +units=m +no_defs";
 Proj4js.defs["EPSG:2303X"] = "+proj=utm +zone=30 +ellps=intl +units=m +towgs84=-157.89,-17.16,-78.41,2.118,2.697,-1.434,-1.1097046576093785 +no_defs ";
 Proj4js.defs["EPSG:3035"] = "+proj=laea +lat_0=52 +lon_0=10 +x_0=4321000 +y_0=3210000 +ellps=GRS80 +units=m +no_defs";
@@ -38,6 +39,14 @@ Proj4js.testPoints = [
     xy: [2359523.653024, 3280192.180346],
     ll: [21.796875, 28.828125]
   },
+  {code: 'EPSG:54008',
+    xy: [738509.49,5874620.38],
+    ll: [11.0, 53.0]
+  },
+  {code: 'EPSG:3035',
+    xy: [4388138.60, 3321736.46],
+    ll: [11.0, 53.0]
+  },
   {code: 'EPSG:102018',
     xy: [350577.5930806119, 4705857.070634324],
     ll: [-75,46]
@@ -49,10 +58,6 @@ Proj4js.testPoints = [
   {code: 'EPSG:54009',
     xy: [3891383.58309223, 6876758.9933288],
     ll: [60,60]
-  },
-  {code: 'EPSG:3035',
-    xy: [4388138.60, 3321736.46],
-    ll: [11.0, 53.0]
   },
   {code: 'EPSG:23030',
     xy: [168035.13,4199884.83,-216.62],
