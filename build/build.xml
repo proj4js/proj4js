@@ -74,7 +74,7 @@ $Id: build.xml 2955 2007-07-09 12:12:27Z steven $
   <property environment="env"/>
   <property name="app.name" value="proj4js"/>
   <property name="app.path" value="/${app.name}"/>
-  <property name="app.version" value="1.0.2"/>
+  <property name="app.version" value="1.1.0"/>
   <property name="build.home" value="${basedir}/tempBuild"/>
   <property name="dist.home" value="${basedir}/dist"/>
   <property name="docs.home" value="${build.home}/docs"/>
@@ -103,6 +103,7 @@ $Id: build.xml 2955 2007-07-09 12:12:27Z steven $
                     lib/proj4js-compressed.js
                     lib/defs/**
                     lib/projCode/**
+                    lib/util/**
                     build/**
                     demo/**
                     test/**
