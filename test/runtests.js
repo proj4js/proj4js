@@ -1,5 +1,6 @@
 /* Loop through the test points and create a Proj object for each
  */
+var wgs84 = new Proj4js.Proj('WGS84');
 var src, dest;
 function runTests() {
   
@@ -25,7 +26,8 @@ function runTests() {
   
   for (var i=0; i < Proj4js.testPoints.length; ++i) {
     var test = Proj4js.testPoints[i];
-    var proj = new Proj4js.Proj(test.code, Proj4js.bind(showResults, this, test));
+    var proj = new Proj4js.Proj(test.code);
+	showResults(test, proj);
   }
 }
 function cb1() {
@@ -50,8 +52,8 @@ function showResults(test, proj) {
     td.innerHTML = proj.projName;
     row.appendChild(td);
     
-    //transform from lon/lat to projected x/y and cmopare 
-    var xyResult = Proj4js.transform(Proj4js.WGS84, proj, new Proj4js.Point(test.ll));
+    //transform from lon/lat to projected x/y and compare 
+    var xyResult = Proj4js.transform(wgs84, proj, new Proj4js.Point(test.ll));
     if (xyResult) {
       var deltaX = Math.abs(xyResult.x - test.xy[0]);
       var deltaY = Math.abs(xyResult.y - test.xy[1]);
@@ -72,7 +74,7 @@ function showResults(test, proj) {
     }
     
     //transform from map x/y to lon/lat and compare
-    var llResult = Proj4js.transform(proj, Proj4js.WGS84, new Proj4js.Point(test.xy));
+    var llResult = Proj4js.transform(proj, wgs84, new Proj4js.Point(test.xy));
     if (llResult) {
       var deltaX = Math.abs(llResult.x - test.ll[0]);
       var deltaY = Math.abs(llResult.y - test.ll[1]);
