@@ -7,7 +7,7 @@
   ],
   "paths": [
     "lib",
-	"lib/projCode"
+	   "lib/projCode"
   ],
 
   "define": {
@@ -18,7 +18,7 @@
   "externs": [
   ],
 
-  "mode": "SIMPLE",
+  "mode": "ADVANCED",
   "level": "VERBOSE",
   "pretty-print": true,
   "debug": true,

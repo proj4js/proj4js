@@ -17,7 +17,7 @@
     
   </style>
   
-  <script src="/"></script>
+  <script src="http://localhost:9810/compile?id=proj4js&mode=ADVANCED"></script>
  
   <script src="lib/defs/EPSG27200.js"></script>
   <script src="lib/defs/EPSG4272.js"></script>
@@ -82,8 +82,8 @@
     var pointInput = document.getElementById('xySource');
     if (pointInput.value) {
       var pointSource = new Proj4js.Point(pointInput.value);
-      var pointDest = Proj4js.transform(projSource, projDest, pointSource);
-      document.getElementById('xyDest').value = pointDest.toShortString();
+      Proj4js.transform(projSource, projDest, pointSource);
+      document.getElementById('xyDest').value = pointSource.toShortString();
     } else {
       alert("Enter source coordinates");
       return;
@@ -101,7 +101,6 @@
     <a href="http://trac.osgeo.org/proj4js">Proj4js Wiki/Trac</a> | 
     <a href="http://wiki.osgeo.org/wiki/MetaCRS">OSGeo MetaCRS</a> |
     <a href="http://spatialreference.org/">spatialreference.org</a> |
-    <a href="http://communitymapbuilder.org/">MapBuilder</a> | 
     <a href="http://openlayers.org/">OpenLayers</a> | 
   </div>
   <h1>Welcome to Proj4js</h1>
