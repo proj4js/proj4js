@@ -24,8 +24,8 @@ function runTests() {
   */
   
   
-  for (var i=0; i < Proj4js.testPoints.length; ++i) {
-    var test = Proj4js.testPoints[i];
+  for (var i=0; i < window.Proj4jsTestPoints.length; ++i) {
+    var test = window.Proj4jsTestPoints[i];
     var proj = new Proj4js.Proj(test.code);
 	showResults(test, proj);
   }
@@ -58,13 +58,13 @@ function showResults(test, proj) {
       var deltaX = Math.abs(xyResult.x - test.xy[0]);
       var deltaY = Math.abs(xyResult.y - test.xy[1]);
       td = document.createElement('td');
-      td.innerHTML = "in:"+test.ll[0]+","+test.ll[1];
+      td.innerHTML = "in:"+test.ll[0].toPrecision(8)+","+test.ll[1].toPrecision(8);
       row.appendChild(td);
       td = document.createElement('td');
-      td.innerHTML = "out:"+xyResult.x+","+xyResult.y;
+      td.innerHTML = "out:"+xyResult.x.toFixed(3)+","+xyResult.y.toFixed(3);
       row.appendChild(td);
       td = document.createElement('td');
-      td.innerHTML = "dx:"+deltaX+ " dy:"+deltaY;
+      td.innerHTML = "dx:"+deltaX.toPrecision(3)+ " dy:"+deltaY.toPrecision(3);
       if ( deltaX>xyEPSLN || deltaY>xyEPSLN ) td.style.backgroundColor='red';
       row.appendChild(td);
     } else {
@@ -79,13 +79,13 @@ function showResults(test, proj) {
       var deltaX = Math.abs(llResult.x - test.ll[0]);
       var deltaY = Math.abs(llResult.y - test.ll[1]);
       td = document.createElement('td');
-      td.innerHTML = "in:"+test.xy[0]+","+test.xy[1];
+      td.innerHTML = "in:"+test.xy[0].toFixed(3)+","+test.xy[1].toFixed(3);
       row.appendChild(td);
       td = document.createElement('td');
-      td.innerHTML = "out:"+llResult.x+","+llResult.y;
+      td.innerHTML = "out:"+llResult.x.toPrecision(8)+","+llResult.y.toPrecision(8);
       row.appendChild(td);
       td = document.createElement('td');
-      td.innerHTML = "dx:"+deltaX+ " dy:"+deltaY;
+      td.innerHTML = "dx:"+deltaX.toPrecision(3)+ " dy:"+deltaY.toPrecision(3);
       if ( deltaX>llEPSLN || deltaY>llEPSLN ) td.style.backgroundColor='red';
       row.appendChild(td);
     } else {
