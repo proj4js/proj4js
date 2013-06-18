@@ -2133,6 +2133,7 @@ Proj4js.Datum['OSB36'] = Proj4js.Datum['OSGB36']; //as returned from spatialrefe
 //build this out as required
 Proj4js.wktProjections = {
   "Lambert Tangential Conformal Conic Projection": "lcc",
+  "Lambert_Conformal_Conic": "lcc",
   "Mercator": "merc",
   "Popular Visualisation Pseudo Mercator": "merc",
   "Mercator_1SP": "merc",
