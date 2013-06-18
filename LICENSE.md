@@ -1,15 +1,13 @@
-Proj4js -- Javascript reprojection library. 
+##Proj4js -- Javascript reprojection library. 
  
-Authors:       Mike Adair madairATdmsolutions.ca
-               Richard Greenwood richATgreenwoodmap.com
-               Didier Richard didier.richardATign.fr
-               Stephen Irons stephen.ironsATclear.net.nz
-               Olivier Terral oterralATgmail.com
-               
-License:       MIT 
+Authors:
+- Mike Adair madairATdmsolutions.ca
+- Richard Greenwood richATgreenwoodmap.com
+- Didier Richard didier.richardATign.fr
+- Stephen Irons stephen.ironsATclear.net.nz
+- Olivier Terral oterralATgmail.com
 
-Copyright (c) 2012, Mike Adair, Richard Greenwood, Didier Richard, 
-                    Stephen Irons and Olivier Terral
+Copyright (c) 2012, Mike Adair, Richard Greenwood, Didier Richard, Stephen Irons and Olivier Terral
 
  Permission is hereby granted, free of charge, to any person obtaining a
  copy of this software and associated documentation files (the "Software"),
@@ -21,10 +19,10 @@ Copyright (c) 2012, Mike Adair, Richard Greenwood, Didier Richard,
  The above copyright notice and this permission notice shall be included
  in all copies or substantial portions of the Software.
 
- THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+ _THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
  OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
  THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
  FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
- DEALINGS IN THE SOFTWARE.
+ DEALINGS IN THE SOFTWARE._
