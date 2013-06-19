@@ -22,7 +22,7 @@ Proj4js.defs["WKT4"] = 'LOCAL_CS["Non-Earth (Meter)",LOCAL_DATUM["Local Datum",0
 Proj4js.defs["WKT5"] = 'PROJCS["SVY21",GEOGCS["SVY21[WGS84]",DATUM["D_WGS_1984",SPHEROID["WGS_1984",6378137.0,298.257223563]],PRIMEM["Greenwich",0.0],UNIT["Degree",0.0174532925199433]],PROJECTION["Transverse_Mercator"],PARAMETER["False_Easting",28001.642],PARAMETER["False_Northing",38744.572],PARAMETER["Central_Meridian",103.8333333333333],PARAMETER["Scale_Factor",1.0],PARAMETER["Latitude_Of_Origin",1.366666666666667],UNIT["Meter",1.0]]'
 */
 
-Proj4js.testPoints = [
+var testPoints = [
   {code: 'EPSG:21781',
     xy: [660389.515487, 185731.630396],
     ll: [8.23, 46.82]
@@ -50,7 +50,7 @@ Proj4js.testPoints = [
   {code: 'EPSG:102018',
     xy: [350577.5930806119, 4705857.070634324],
     ll: [-75,46]
-  }/*,
+  },
   {code: 'EPSG:2958',
     xy: [411461.807497, 4700123.744402],
     ll: [-82.07666015625, 42.448388671875]
@@ -62,7 +62,7 @@ Proj4js.testPoints = [
   {code: 'EPSG:23030',
     xy: [168035.13,4199884.83,-216.62],
     ll: [-6.77432123185356, 37.88456231505968]   
-  }, 
+  }/*, 
   {code: 'EPSG:29100',
     xy: [5110899.06,10552971.81,-22.99],
     ll: [-53.0, 5.0,0.0]   
