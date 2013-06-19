@@ -537,9 +537,9 @@ Proj4js.Proj = Proj4js.Class({
           (srsCode.indexOf('LOCAL_CS') >= 0)) {
             this.parseWKT(srsCode);
             this.deriveConstants();
-            this.loadProjCode(this.projName);
-            return;
-      }
+            //this.loadProjCode(this.projName);
+           
+      }else{
       
       // DGR 2008-08-03 : support urn and url
       if (srsCode.indexOf('urn:') == 0) {
@@ -589,6 +589,7 @@ Proj4js.Proj = Proj4js.Class({
       }
       
       this.parseDefs();
+      }
       this.initTransforms();
   },
   
@@ -598,6 +599,9 @@ Proj4js.Proj = Proj4js.Class({
  *
  */
     initTransforms: function() {
+    if(!(this.projName in Proj4js.Proj)){
+    	throw("unknown projection");
+    }
       Proj4js.extend(this, Proj4js.Proj[this.projName]);
       this.init();
       this.readyToUse = true;
