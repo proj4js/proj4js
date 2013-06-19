@@ -20,11 +20,10 @@
   <script src="testdata.js"></script>
   <script src="test.js"></script>
   <script>
-    if (window.mochaPhantomJS) { 
-      mochaPhantomJS.run(); 
-    } else {
-      mocha.run(); 
-    }
+    window.onload = function() {
+          if (window.mochaPhantomJS) { mochaPhantomJS.run(); }
+      else { mocha.run(); }
+      };
   </script>
 </body>
 </html>

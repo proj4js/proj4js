@@ -46,6 +46,5 @@ module.exports = function(grunt) {
 	grunt.registerTask('full', ['concat:full','uglify:full']);
 	grunt.registerTask('noDefs', ['concat:noDefs','uglify:noDefs']);
 	grunt.registerTask('test', ['connect', 'mocha_phantomjs']);
-	//grunt.registerTask('c9', ['connect', 'mocha_phantomjs:c9']);
 	grunt.registerTask('default', ['full','noDefs','test']);
 }
