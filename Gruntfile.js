@@ -3,7 +3,7 @@ module.exports = function(grunt) {
 		pkg: grunt.file.readJSON('package.json'),
 		concat:{
 			full:{
-				src:[ './src/Proj4js.js','./src/Proj.js','./src/defs.js','./src/common.js','./src/datum.js','./src/Point.js','./src/constants.js','./src/projCode/*.js','./src/defs/*.js'],
+				src:[ './src/Proj4js.js','./src/Proj.js','./src/defs.js','./src/common.js','./src/datum.js','./src/Point.js','./src/constants.js','./src/projCode/*.js','./src/defs/*.js','./src/util/MGRS.js'],
 				dest:'./dist/proj4.js'
 			},
 			noDefs:{
@@ -13,7 +13,7 @@ module.exports = function(grunt) {
 		},
 		uglify:{
 			full:{
-				src:[ './src/Proj4js.js','./src/Proj.js','./src/defs.js','./src/common.js','./src/datum.js','./src/Point.js','./src/constants.js','./src/projCode/*.js','./srcgrunt/defs/*.js'],
+				src:[ './src/Proj4js.js','./src/Proj.js','./src/defs.js','./src/common.js','./src/datum.js','./src/Point.js','./src/constants.js','./src/projCode/*.js','./srcgrunt/defs/*.js','./src/util/MGRS.js'],
 				dest:'./dist/proj4.min.js'
 			},
 			noDefs:{
