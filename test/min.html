@@ -6,7 +6,7 @@
 </head>
 <body>
   <div id="mocha"></div>
-  <script src="../dist/proj4.js"></script>
+  <script src="../dist/proj4.min.js"></script>
   <script src="lib/mocha.js"></script>
   <script src="lib/chai.js"></script>
   <script>
@@ -20,10 +20,11 @@
   <script src="testdata.js"></script>
   <script src="test.js"></script>
   <script>
-    window.onload = function() {
-          if (window.mochaPhantomJS) { mochaPhantomJS.run(); }
-      else { mocha.run(); }
-      };
+    if (window.mochaPhantomJS) { 
+      mochaPhantomJS.run(); 
+    } else {
+      mocha.run(); 
+    }
   </script>
 </body>
 </html>
