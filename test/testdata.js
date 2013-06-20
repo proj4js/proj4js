@@ -22,7 +22,7 @@ Proj4js.defs["WKT4"] = 'LOCAL_CS["Non-Earth (Meter)",LOCAL_DATUM["Local Datum",0
 Proj4js.defs["WKT5"] = 'PROJCS["SVY21",GEOGCS["SVY21[WGS84]",DATUM["D_WGS_1984",SPHEROID["WGS_1984",6378137.0,298.257223563]],PRIMEM["Greenwich",0.0],UNIT["Degree",0.0174532925199433]],PROJECTION["Transverse_Mercator"],PARAMETER["False_Easting",28001.642],PARAMETER["False_Northing",38744.572],PARAMETER["Central_Meridian",103.8333333333333],PARAMETER["Scale_Factor",1.0],PARAMETER["Latitude_Of_Origin",1.366666666666667],UNIT["Meter",1.0]]'
 */
 
-Proj4js.testPoints = [
+var testPoints = [
   {code: 'EPSG:21781',
     xy: [660389.515487, 185731.630396],
     ll: [8.23, 46.82]
@@ -34,11 +34,11 @@ Proj4js.testPoints = [
   {code: 'ESRI:102026',
     xy: [3257939.781874, 5459865.918947],
     ll: [45.17578125, 41.923828125]
-  },
+  }/* reactivate once were done with tests,
   {code: 'EPSG:54029',
     xy: [2359523.653024, 3280192.180346],
     ll: [21.796875, 28.828125]
-  },
+  }*/,
   {code: 'EPSG:54008',
     xy: [738509.49,5874620.38],
     ll: [11.0, 53.0]
@@ -50,7 +50,7 @@ Proj4js.testPoints = [
   {code: 'EPSG:102018',
     xy: [350577.5930806119, 4705857.070634324],
     ll: [-75,46]
-  }/*,
+  },
   {code: 'EPSG:2958',
     xy: [411461.807497, 4700123.744402],
     ll: [-82.07666015625, 42.448388671875]
@@ -58,11 +58,7 @@ Proj4js.testPoints = [
   {code: 'EPSG:54009',
     xy: [3891383.58309223, 6876758.9933288],
     ll: [60,60]
-  },
-  {code: 'EPSG:23030',
-    xy: [168035.13,4199884.83,-216.62],
-    ll: [-6.77432123185356, 37.88456231505968]   
-  }, 
+  }/*, 
   {code: 'EPSG:29100',
     xy: [5110899.06,10552971.81,-22.99],
     ll: [-53.0, 5.0,0.0]   
@@ -172,4 +168,42 @@ Proj4js.testPoints = [
     xy: [148312.15,	457804.79, 698.48],
     ll: [5.29, 52.11]
   }*/
+];
+var aWKT = [
+{
+	name:'WGS84 Lat/Long Degrees -180 ==> +180',
+	units:'Degree',
+	proj:'longlat',
+	wkt:'GEOGCS["WGS84 Lat/Long Degrees -180 ==> +180",DATUM["D_WGS_1984",SPHEROID["World_Geodetic_System_of_1984",6378137,298.257222932867]],PRIMEM["Greenwich",0],UNIT["Degree",0.017453292519943295]]'
+},
+{
+	name:'ALG-S-AN',
+	units:'Meter',
+	proj:'lcc',
+	wkt:'PROJCS["ALG-S-AN",GEOGCS["VOIR1875",DATUM["VOIR1875",SPHEROID["CLRK-IGN",6378249.200,293.46602129],TOWGS84[-73.0000,-247.0000,227.0000,0.000000,0.000000,0.000000,0.00000000]],PRIMEM["Greenwich",0],UNIT["Degree",0.017453292519943295]],PROJECTION["Lambert Tangential Conformal Conic Projection"],PARAMETER["false_easting",500000.000],PARAMETER["false_northing",300000.000],PARAMETER["scale_factor",0.999625800000],PARAMETER["central_meridian",2.70000000000000],PARAMETER["latitude_of_origin",33.30000000000000],UNIT["Meter",1.00000000000000]]'
+},
+{
+	name:'CANQ27-M15M',
+	units:'Meter',
+	proj:'tmerc',
+	wkt:'PROJCS["CANQ27-M15M",GEOGCS["LL27",DATUM["NAD27",SPHEROID["CLRK66",6378206.400,294.97869821]],PRIMEM["Greenwich",0],UNIT["Degree",0.017453292519943295]],PROJECTION["Transverse_Mercator"],PARAMETER["false_easting",304800.000],PARAMETER["false_northing",0.000],PARAMETER["scale_factor",0.999900000000],PARAMETER["central_meridian",-90.00000000000000],PARAMETER["latitude_of_origin",0.00000000000000],UNIT["Meter",1.00000000000000]]'
+},
+{
+	name:'Non-Earth (Meter)',
+	units:'Meter',
+	proj:'identity',
+	wkt:'LOCAL_CS["Non-Earth (Meter)",LOCAL_DATUM["Local Datum",0],UNIT["Meter", 1],AXIS["X",EAST],AXIS["Y",NORTH]]'
+},
+{
+	name:'SVY21',
+	units:'Meter',
+	proj:'tmerc',
+	wkt:'PROJCS["SVY21",GEOGCS["SVY21[WGS84]",DATUM["D_WGS_1984",SPHEROID["WGS_1984",6378137.0,298.257223563]],PRIMEM["Greenwich",0.0],UNIT["Degree",0.0174532925199433]],PROJECTION["Transverse_Mercator"],PARAMETER["False_Easting",28001.642],PARAMETER["False_Northing",38744.572],PARAMETER["Central_Meridian",103.8333333333333],PARAMETER["Scale_Factor",1.0],PARAMETER["Latitude_Of_Origin",1.366666666666667],UNIT["Meter",1.0]]'
+},
+{
+	name:'NAD_1983_StatePlane_Massachusetts_Mainland_FIPS_2001_Feet',
+	units:"Foot_US",
+	proj:'lcc',
+	wkt:'PROJCS["NAD_1983_StatePlane_Massachusetts_Mainland_FIPS_2001_Feet",GEOGCS["GCS_North_American_1983",DATUM["D_North_American_1983",SPHEROID["GRS_1980",6378137.0,298.257222101]],PRIMEM["Greenwich",0.0],UNIT["Degree",0.0174532925199433]],PROJECTION["Lambert_Conformal_Conic"],PARAMETER["False_Easting",656166.6666666665],PARAMETER["False_Northing",2460625.0],PARAMETER["Central_Meridian",-71.5],PARAMETER["Standard_Parallel_1",41.71666666666667],PARAMETER["Standard_Parallel_2",42.68333333333333],PARAMETER["Latitude_Of_Origin",41.0],UNIT["Foot_US",0.3048006096012192]]'
+}
 ];
