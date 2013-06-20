@@ -20,7 +20,7 @@ ALGORITHM REFERENCES
     U.S. Geological Survey Professional Paper 1453 , United State Government
     Printing Office, Washington D.C., 1989.
 *******************************************************************************/
-Proj4js.Proj.equi = {
+proj4.Proj.equi = {
 
   init: function() {
     if(!this.x0) this.x0=0;
@@ -39,7 +39,7 @@ Proj4js.Proj.equi = {
     var lon=p.x;				
     var lat=p.y;			
 
-    var dlon = Proj4js.common.adjust_lon(lon - this.long0);
+    var dlon = proj4.common.adjust_lon(lon - this.long0);
     var x = this.x0 +this. a * dlon *Math.cos(this.lat0);
     var y = this.y0 + this.a * lat;
 
@@ -60,10 +60,10 @@ Proj4js.Proj.equi = {
     p.y -= this.y0;
     var lat = p.y /this. a;
 
-    if ( Math.abs(lat) > Proj4js.common.HALF_PI) {
-        Proj4js.reportError("equi:Inv:DataError");
+    if ( Math.abs(lat) > proj4.common.HALF_PI) {
+        proj4.reportError("equi:Inv:DataError");
     }
-    var lon = Proj4js.common.adjust_lon(this.long0 + p.x / (this.a * Math.cos(this.lat0)));
+    var lon = proj4.common.adjust_lon(this.long0 + p.x / (this.a * Math.cos(this.lat0)));
     p.x=lon;
     p.y=lat;
   }//equiInv()

@@ -1,4 +1,4 @@
-Proj4js.Proj.aeqd = {
+proj4.Proj.aeqd = {
 
   init : function() {
     this.sin_p12=Math.sin(this.lat0);
@@ -10,18 +10,18 @@ Proj4js.Proj.aeqd = {
     var lat=p.y;
     var sinphi=Math.sin(p.y);
     var cosphi=Math.cos(p.y); 
-    var dlon = Proj4js.common.adjust_lon(lon - this.long0);
+    var dlon = proj4.common.adjust_lon(lon - this.long0);
     
     if (this.sphere){
-	if (Math.abs(this.sin_p12-1.0)<=Proj4js.common.EPSLN){
+	if (Math.abs(this.sin_p12-1.0)<=proj4.common.EPSLN){
 		//North Pole case
-		p.x=this.x0 + this.a * (Proj4js.common.HALF_PI-lat) *  Math.sin(dlon);
-		p.y=this.y0 - this.a * (Proj4js.common.HALF_PI-lat) *  Math.cos(dlon);
+		p.x=this.x0 + this.a * (proj4.common.HALF_PI-lat) *  Math.sin(dlon);
+		p.y=this.y0 - this.a * (proj4.common.HALF_PI-lat) *  Math.cos(dlon);
 		return p;
-	} else if (Math.abs(this.sin_p12+1.0)<=Proj4js.common.EPSLN){
+	} else if (Math.abs(this.sin_p12+1.0)<=proj4.common.EPSLN){
 		//South Pole case
-		p.x=this.x0 + this.a * (Proj4js.common.HALF_PI+lat) *  Math.sin(dlon);
-		p.y=this.y0 + this.a * (Proj4js.common.HALF_PI+lat) *  Math.cos(dlon);
+		p.x=this.x0 + this.a * (proj4.common.HALF_PI+lat) *  Math.sin(dlon);
+		p.y=this.y0 + this.a * (proj4.common.HALF_PI+lat) *  Math.cos(dlon);
 		return p;
 	} else {
 		//default case
@@ -33,35 +33,35 @@ Proj4js.Proj.aeqd = {
 		return p;
 	}
     } else {
-	var e0 = Proj4js.common.e0fn(this.es);
-	var e1 = Proj4js.common.e1fn(this.es);
-	var e2 = Proj4js.common.e2fn(this.es);
-	var e3 = Proj4js.common.e3fn(this.es);
-	if (Math.abs(this.sin_p12-1.0)<=Proj4js.common.EPSLN){
+	var e0 = proj4.common.e0fn(this.es);
+	var e1 = proj4.common.e1fn(this.es);
+	var e2 = proj4.common.e2fn(this.es);
+	var e3 = proj4.common.e3fn(this.es);
+	if (Math.abs(this.sin_p12-1.0)<=proj4.common.EPSLN){
 		//North Pole case
-		var Mlp = this.a*Proj4js.common.mlfn(e0,e1,e2,e3,Proj4js.common.HALF_PI);
-		var Ml = this.a*Proj4js.common.mlfn(e0,e1,e2,e3,lat);
+		var Mlp = this.a*proj4.common.mlfn(e0,e1,e2,e3,proj4.common.HALF_PI);
+		var Ml = this.a*proj4.common.mlfn(e0,e1,e2,e3,lat);
 		p.x = this.x0 + (Mlp-Ml)*Math.sin(dlon);
 		p.y = this.y0 - (Mlp-Ml)*Math.cos(dlon);
 		return p;
-	} else if (Math.abs(this.sin_p12+1.0)<=Proj4js.common.EPSLN){
+	} else if (Math.abs(this.sin_p12+1.0)<=proj4.common.EPSLN){
 		//South Pole case
-		var Mlp = this.a*Proj4js.common.mlfn(e0,e1,e2,e3,Proj4js.common.HALF_PI);
-		var Ml = this.a*Proj4js.common.mlfn(e0,e1,e2,e3,lat);
+		var Mlp = this.a*proj4.common.mlfn(e0,e1,e2,e3,proj4.common.HALF_PI);
+		var Ml = this.a*proj4.common.mlfn(e0,e1,e2,e3,lat);
 		p.x = this.x0 + (Mlp+Ml)*Math.sin(dlon);
 		p.y = this.y0 + (Mlp+Ml)*Math.cos(dlon);
 		return p;
 	} else {
 		//Default case
 		var tanphi=sinphi/cosphi;
-		var Nl1 = Proj4js.common.gN(this.a,this.e, this.sin_p12);
-		var Nl = Proj4js.common.gN(this.a, this.e, sinphi);
+		var Nl1 = proj4.common.gN(this.a,this.e, this.sin_p12);
+		var Nl = proj4.common.gN(this.a, this.e, sinphi);
 		var psi = Math.atan((1.0-this.es)*tanphi+this.es*Nl1*this.sin_p12/(Nl*cosphi));
 		var Az = Math.atan2(Math.sin(dlon),this.cos_p12*Math.tan(psi)-this.sin_p12*Math.cos(dlon));
 		var s;
 		if (Az==0) {
 			s=Math.asin(this.cos_p12*Math.sin(psi)-this.sin_p12*Math.cos(psi));
-		} else if (Math.abs(Math.abs(Az)-Proj4js.common.PI)<=Proj4js.common.EPSLN){
+		} else if (Math.abs(Math.abs(Az)-proj4.common.PI)<=proj4.common.EPSLN){
 			s=-Math.asin(this.cos_p12*Math.sin(psi)-this.sin_p12*Math.cos(psi));
 		} else {
 			s=Math.asin(Math.sin(dlon)*Math.cos(psi)/Math.sin(Az));
@@ -84,8 +84,8 @@ Proj4js.Proj.aeqd = {
     p.y -= this.y0;
 	if (this.sphere){
 		var rh = Math.sqrt(p.x * p.x + p.y *p.y);
-		if (rh > (2.0 * Proj4js.common.HALF_PI * this.a)) {
-			Proj4js.reportError("aeqdInvDataError");
+		if (rh > (2.0 * proj4.common.HALF_PI * this.a)) {
+			proj4.reportError("aeqdInvDataError");
 			return;
 		}
 		var z = rh / this.a;
@@ -95,26 +95,26 @@ Proj4js.Proj.aeqd = {
 	
 		var lon = this.long0;
 		var lat;
-		if (Math.abs(rh) <= Proj4js.common.EPSLN) {
+		if (Math.abs(rh) <= proj4.common.EPSLN) {
 			lat = this.lat0;
 		} else {
-			lat = Proj4js.common.asinz(cosz * this.sin_p12 + (p.y * sinz * this.cos_p12) / rh);
-			var con = Math.abs(this.lat0) - Proj4js.common.HALF_PI;
-			if (Math.abs(con) <= Proj4js.common.EPSLN) {
+			lat = proj4.common.asinz(cosz * this.sin_p12 + (p.y * sinz * this.cos_p12) / rh);
+			var con = Math.abs(this.lat0) - proj4.common.HALF_PI;
+			if (Math.abs(con) <= proj4.common.EPSLN) {
 				if (this.lat0 >= 0.0) {
-					lon = Proj4js.common.adjust_lon(this.long0 + Math.atan2(p.x , -p.y));
+					lon = proj4.common.adjust_lon(this.long0 + Math.atan2(p.x , -p.y));
 				} else {
-					lon = Proj4js.common.adjust_lon(this.long0 - Math.atan2(-p.x , p.y));
+					lon = proj4.common.adjust_lon(this.long0 - Math.atan2(-p.x , p.y));
 				}
 			} else {
 				/*con = cosz - this.sin_p12 * Math.sin(lat);
-				if ((Math.abs(con) < Proj4js.common.EPSLN) && (Math.abs(p.x) < Proj4js.common.EPSLN)) {
+				if ((Math.abs(con) < proj4.common.EPSLN) && (Math.abs(p.x) < proj4.common.EPSLN)) {
 					//no-op, just keep the lon value as is
 				} else {
 					var temp = Math.atan2((p.x * sinz * this.cos_p12), (con * rh));
-					lon = Proj4js.common.adjust_lon(this.long0 + Math.atan2((p.x * sinz * this.cos_p12), (con * rh)));
+					lon = proj4.common.adjust_lon(this.long0 + Math.atan2((p.x * sinz * this.cos_p12), (con * rh)));
 				}*/
-				lon=Proj4js.common.adjust_lon(this.long0+Math.atan2(p.x*sinz,rh*this.cos_p12*cosz-p.y*this.sin_p12*sinz));
+				lon=proj4.common.adjust_lon(this.long0+Math.atan2(p.x*sinz,rh*this.cos_p12*cosz-p.y*this.sin_p12*sinz));
 			}
 		}
 
@@ -123,28 +123,28 @@ Proj4js.Proj.aeqd = {
 		return p;
 	}
 	else {
-		var e0 = Proj4js.common.e0fn(this.es);
-		var e1 = Proj4js.common.e1fn(this.es);
-		var e2 = Proj4js.common.e2fn(this.es);
-		var e3 = Proj4js.common.e3fn(this.es);
-		if (Math.abs(this.sin_p12-1.0)<=Proj4js.common.EPSLN){
+		var e0 = proj4.common.e0fn(this.es);
+		var e1 = proj4.common.e1fn(this.es);
+		var e2 = proj4.common.e2fn(this.es);
+		var e3 = proj4.common.e3fn(this.es);
+		if (Math.abs(this.sin_p12-1.0)<=proj4.common.EPSLN){
 			//North pole case
-			var Mlp = this.a*Proj4js.common.mlfn(e0,e1,e2,e3,Proj4js.common.HALF_PI);
+			var Mlp = this.a*proj4.common.mlfn(e0,e1,e2,e3,proj4.common.HALF_PI);
 			var rh = Math.sqrt(p.x*p.x+p.y*p.y);
 			var M = Mlp-rh;
-			var lat = Proj4js.common.imlfn(M/this.a,e0, e1,e2,e3);
-			var lon = Proj4js.common.adjust_lon(this.long0+Math.atan2(p.x,-1.0*p.y));
+			var lat = proj4.common.imlfn(M/this.a,e0, e1,e2,e3);
+			var lon = proj4.common.adjust_lon(this.long0+Math.atan2(p.x,-1.0*p.y));
 			p.x=lon,
 			p.y=lat;
 			return p;
-		} else if (Math.abs(this.sin_p12+1.0)<=Proj4js.common.EPSLN){
+		} else if (Math.abs(this.sin_p12+1.0)<=proj4.common.EPSLN){
 			//South pole case
-			var Mlp = this.a*Proj4js.common.mlfn(e0,e1,e2,e3,Proj4js.common.HALF_PI);
+			var Mlp = this.a*proj4.common.mlfn(e0,e1,e2,e3,proj4.common.HALF_PI);
 			var rh = Math.sqrt(p.x*p.x+p.y*p.y);
 			var M = rh-Mlp;
 			
-			var lat = Proj4js.common.imlfn(M/this.a,e0, e1,e2,e3);
-			var lon = Proj4js.common.adjust_lon(this.long0+Math.atan2(p.x,p.y));
+			var lat = proj4.common.imlfn(M/this.a,e0, e1,e2,e3);
+			var lon = proj4.common.adjust_lon(this.long0+Math.atan2(p.x,p.y));
 			p.x=lon,
 			p.y=lat;
 			return p;
@@ -152,7 +152,7 @@ Proj4js.Proj.aeqd = {
 			//default case
 			var rh = Math.sqrt(p.x*p.x+p.y*p.y);
 			var Az = Math.atan2(p.x,p.y);
-			var N1 = Proj4js.common.gN(this.a, this.e, this.sin_p12);
+			var N1 = proj4.common.gN(this.a, this.e, this.sin_p12);
 			var cosAz = Math.cos(Az);
 			var tmp = this.e*this.cos_p12*cosAz;
 			var A = -tmp*tmp/(1.0 - this.es);
@@ -161,7 +161,7 @@ Proj4js.Proj.aeqd = {
 			var Ee = D-A*(1.0+A)*Math.pow(D,3.0)/6.0-B*(1+3.0*A)*Math.pow(D,4.0)/24.0;
 			var F = 1.0-A*Ee*Ee/2.0-D*Ee*Ee*Ee/6.0;
 			var psi = Math.asin(this.sin_p12*Math.cos(Ee)+this.cos_p12*Math.sin(Ee)*cosAz);
-			var lon = Proj4js.common.adjust_lon(this.long0+Math.asin(Math.sin(Az)*Math.sin(Ee)/Math.cos(psi)));
+			var lon = proj4.common.adjust_lon(this.long0+Math.asin(Math.sin(Az)*Math.sin(Ee)/Math.cos(psi)));
 			var lat = Math.atan((1.0-this.es*F*this.sin_p12/Math.sin(psi))*Math.tan(psi)/(1.0-this.es));
 			p.x=lon;
 			p.y=lat;

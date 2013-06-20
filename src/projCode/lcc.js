@@ -23,8 +23,8 @@ ALGORITHM REFERENCES
 // Initialize the Lambert Conformal conic projection
 // -----------------------------------------------------------------
 
-//Proj4js.Proj.lcc = Class.create();
-Proj4js.Proj.lcc = {
+//proj4.Proj.lcc = Class.create();
+proj4.Proj.lcc = {
   init : function() {
 
     // array of:  r_maj,r_min,lat1,lat2,c_lon,c_lat,false_east,false_north
@@ -41,8 +41,8 @@ Proj4js.Proj.lcc = {
       if (!this.k0) this.k0 = 1.0;
 
     // Standard Parallels cannot be equal and on opposite sides of the equator
-      if (Math.abs(this.lat1+this.lat2) < Proj4js.common.EPSLN) {
-        Proj4js.reportError("lcc:init: Equal Latitudes");
+      if (Math.abs(this.lat1+this.lat2) < proj4.common.EPSLN) {
+        proj4.reportError("lcc:init: Equal Latitudes");
         return;
       }
 
@@ -51,17 +51,17 @@ Proj4js.Proj.lcc = {
 
       var sin1 = Math.sin(this.lat1);
       var cos1 = Math.cos(this.lat1);
-      var ms1 = Proj4js.common.msfnz(this.e, sin1, cos1);
-      var ts1 = Proj4js.common.tsfnz(this.e, this.lat1, sin1);
+      var ms1 = proj4.common.msfnz(this.e, sin1, cos1);
+      var ts1 = proj4.common.tsfnz(this.e, this.lat1, sin1);
 
       var sin2 = Math.sin(this.lat2);
       var cos2 = Math.cos(this.lat2);
-      var ms2 = Proj4js.common.msfnz(this.e, sin2, cos2);
-      var ts2 = Proj4js.common.tsfnz(this.e, this.lat2, sin2);
+      var ms2 = proj4.common.msfnz(this.e, sin2, cos2);
+      var ts2 = proj4.common.tsfnz(this.e, this.lat2, sin2);
 
-      var ts0 = Proj4js.common.tsfnz(this.e, this.lat0, Math.sin(this.lat0));
+      var ts0 = proj4.common.tsfnz(this.e, this.lat0, Math.sin(this.lat0));
 
-      if (Math.abs(this.lat1 - this.lat2) > Proj4js.common.EPSLN) {
+      if (Math.abs(this.lat1 - this.lat2) > proj4.common.EPSLN) {
         this.ns = Math.log(ms1/ms2)/Math.log(ts1/ts2);
       } else {
         this.ns = sin1;
@@ -80,24 +80,24 @@ Proj4js.Proj.lcc = {
       var lat = p.y;
 
       // singular cases :
-      if (Math.abs(2*Math.abs(lat)-Proj4js.common.PI)<=Proj4js.common.EPSLN) {
-          lat= Proj4js.common.sign(lat)*(Proj4js.common.HALF_PI - 2*Proj4js.common.EPSLN);
+      if (Math.abs(2*Math.abs(lat)-proj4.common.PI)<=proj4.common.EPSLN) {
+          lat= proj4.common.sign(lat)*(proj4.common.HALF_PI - 2*proj4.common.EPSLN);
       }
 
-      var con  = Math.abs( Math.abs(lat) - Proj4js.common.HALF_PI);
+      var con  = Math.abs( Math.abs(lat) - proj4.common.HALF_PI);
       var ts, rh1;
-      if (con > Proj4js.common.EPSLN) {
-        ts = Proj4js.common.tsfnz(this.e, lat, Math.sin(lat) );
+      if (con > proj4.common.EPSLN) {
+        ts = proj4.common.tsfnz(this.e, lat, Math.sin(lat) );
         rh1 = this.a * this.f0 * Math.pow(ts, this.ns);
       } else {
         con = lat * this.ns;
         if (con <= 0) {
-          Proj4js.reportError("lcc:forward: No Projection");
+          proj4.reportError("lcc:forward: No Projection");
           return null;
         }
         rh1 = 0;
       }
-      var theta = this.ns * Proj4js.common.adjust_lon(lon - this.long0);
+      var theta = this.ns * proj4.common.adjust_lon(lon - this.long0);
       p.x = this.k0 * (rh1 * Math.sin(theta)) + this.x0;
       p.y = this.k0 * (this.rh - rh1 * Math.cos(theta)) + this.y0;
 
@@ -126,12 +126,12 @@ Proj4js.Proj.lcc = {
     if ((rh1 != 0) || (this.ns > 0.0)) {
       con = 1.0/this.ns;
       ts = Math.pow((rh1/(this.a * this.f0)), con);
-      lat = Proj4js.common.phi2z(this.e, ts);
+      lat = proj4.common.phi2z(this.e, ts);
       if (lat == -9999) return null;
     } else {
-      lat = -Proj4js.common.HALF_PI;
+      lat = -proj4.common.HALF_PI;
     }
-    lon = Proj4js.common.adjust_lon(theta/this.ns + this.long0);
+    lon = proj4.common.adjust_lon(theta/this.ns + this.long0);
 
     p.x = lon;
     p.y = lat;

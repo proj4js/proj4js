@@ -1,20 +1,20 @@
 
 /**
- * Class: Proj4js.Proj
+ * Class: proj4.Proj
  *
  * Proj objects provide transformation methods for point coordinates
  * between geodetic latitude/longitude and a projected coordinate system. 
  * once they have been initialized with a projection code.
  *
  * Initialization of Proj objects is with a projection code, usually EPSG codes,
- * which is the key that will be used with the Proj4js.defs array.
+ * which is the key that will be used with the proj4.defs array.
  * 
  * The code passed in will be stripped of colons and converted to uppercase
  * to locate projection definition files.
  *
  * A projection object has properties for units and title strings.
  */
-Proj4js.Proj = Proj4js.Class({
+proj4.Proj = proj4.Class({
 
   /**
    * Property: readyToUse
@@ -31,7 +31,7 @@ Proj4js.Proj = Proj4js.Class({
   /**
    * Property: projName
    * The projection class for this projection, e.g. lcc (lambert conformal conic,
-   * or merc for mercator).  These are exactly equivalent to their Proj4 
+   * or merc for mercator).  These are exactly equivalent to their proj4 
    * counterparts.
    */
   projName: null,
@@ -70,7 +70,7 @@ Proj4js.Proj = Proj4js.Class({
 
   /**
   * Constructor: initialize
-  * Constructor for Proj4js.Proj objects
+  * Constructor for proj4.Proj objects
   *
   * Parameters:
   * srsCode - a code for map projection definition parameters.  These are usually
@@ -154,10 +154,10 @@ Proj4js.Proj = Proj4js.Class({
  *
  */
     initTransforms: function() {
-    if(!(this.projName in Proj4js.Proj)){
+    if(!(this.projName in proj4.Proj)){
     	throw("unknown projection");
     }
-      Proj4js.extend(this, Proj4js.Proj[this.projName]);
+      proj4.extend(this, proj4.Proj[this.projName]);
       this.init();
       this.readyToUse = true;
       if( this.queue ) {
@@ -234,7 +234,7 @@ Proj4js.Proj = Proj4js.Class({
       case 'GEOCCS':
         break;
       case 'PROJECTION':
-        this.projName = Proj4js.wktProjections[wktName];
+        this.projName = proj4.wktProjections[wktName];
         break;
       case 'DATUM':
         this.datumName = wktName;
@@ -270,10 +270,10 @@ Proj4js.Proj = Proj4js.Class({
             this.k0 = value;
             break;
           case 'central_meridian':
-            this.long0 = value*Proj4js.common.D2R;
+            this.long0 = value*proj4.common.D2R;
             break;
           case 'latitude_of_origin':
-            this.lat0 = value*Proj4js.common.D2R;
+            this.lat0 = value*proj4.common.D2R;
             break;
           case 'more_here':
             break;
@@ -327,7 +327,7 @@ Proj4js.Proj = Proj4js.Class({
                          'x_0|y_0|k_0|k|r_a|zone|south|'+
                          'towgs84|to_meter|from_greenwich|pm|axis|czech|'+
                          'wktext|no_rot|no_off|no_defs)');
-      this.defData = Proj4js.defs[this.srsCode];
+      this.defData = proj4.defs[this.srsCode];
       var paramName, paramVal;
       if (!this.defData) {
         return;
@@ -357,17 +357,17 @@ Proj4js.Proj = Proj4js.Class({
               case "b":      this.b =  parseFloat(paramVal); break;  // semi-minor radius
               // DGR 2007-11-20
               case "rf":     this.rf = parseFloat(paramVal); break; // inverse flattening rf= a/(a-b)
-              case "lat_0":  this.lat0 = paramVal*Proj4js.common.D2R; break;        // phi0, central latitude
-              case "lat_1":  this.lat1 = paramVal*Proj4js.common.D2R; break;        //standard parallel 1
-              case "lat_2":  this.lat2 = paramVal*Proj4js.common.D2R; break;        //standard parallel 2
-              case "lat_ts": this.lat_ts = paramVal*Proj4js.common.D2R; break;      // used in merc and eqc
-              case "lon_0":  this.long0 = paramVal*Proj4js.common.D2R; break;       // lam0, central longitude
-              case "lon_1":  this.long1 = paramVal*Proj4js.common.D2R; break;
-              case "lon_2":  this.long2 = paramVal*Proj4js.common.D2R; break;
+              case "lat_0":  this.lat0 = paramVal*proj4.common.D2R; break;        // phi0, central latitude
+              case "lat_1":  this.lat1 = paramVal*proj4.common.D2R; break;        //standard parallel 1
+              case "lat_2":  this.lat2 = paramVal*proj4.common.D2R; break;        //standard parallel 2
+              case "lat_ts": this.lat_ts = paramVal*proj4.common.D2R; break;      // used in merc and eqc
+              case "lon_0":  this.long0 = paramVal*proj4.common.D2R; break;       // lam0, central longitude
+              case "lon_1":  this.long1 = paramVal*proj4.common.D2R; break;
+              case "lon_2":  this.long2 = paramVal*proj4.common.D2R; break;
               case "no_rot": this.no_rot = true; break;
               case "no_off": this.no_off = true; break;
-              case "alpha":  this.alpha =  parseFloat(paramVal)*Proj4js.common.D2R; break;  //for somerc projection
-              case "lonc":   this.longc = paramVal*Proj4js.common.D2R; break;       //for somerc projection
+              case "alpha":  this.alpha =  parseFloat(paramVal)*proj4.common.D2R; break;  //for somerc projection
+              case "lonc":   this.longc = paramVal*proj4.common.D2R; break;       //for somerc projection
               case "x_0":    this.x0 = parseFloat(paramVal); break;  // false easting
               case "y_0":    this.y0 = parseFloat(paramVal); break;  // false northing
               case "k_0":    this.k0 = parseFloat(paramVal); break;  // projection scale factor
@@ -377,14 +377,14 @@ Proj4js.Proj = Proj4js.Class({
               case "south":   this.utmSouth = true; break;  // UTM north/south
               case "towgs84":this.datum_params = paramVal.split(","); break;
               case "to_meter": this.to_meter = parseFloat(paramVal); break; // cartesian scaling
-              case "from_greenwich": this.from_greenwich = paramVal*Proj4js.common.D2R; break;
+              case "from_greenwich": this.from_greenwich = paramVal*proj4.common.D2R; break;
               case "czech": this.czech = true; break;
               // DGR 2008-07-09 : if pm is not a well-known prime meridian take
               // the value instead of 0.0, then convert to radians
               case "pm":     paramVal = paramVal.replace(/\s/gi,"");
-                             this.from_greenwich = Proj4js.PrimeMeridian[paramVal] ?
-                                Proj4js.PrimeMeridian[paramVal] : parseFloat(paramVal);
-                             this.from_greenwich *= Proj4js.common.D2R; 
+                             this.from_greenwich = proj4.PrimeMeridian[paramVal] ?
+                                proj4.PrimeMeridian[paramVal] : parseFloat(paramVal);
+                             this.from_greenwich *= proj4.common.D2R; 
                              break;
               // DGR 2010-11-12: axis
               case "axis":   paramVal = paramVal.replace(/\s/gi,"");
@@ -423,16 +423,16 @@ Proj4js.Proj = Proj4js.Class({
             g= this.grids[i];
             var fg= g.split("@");
             if (fg[fg.length-1]=="") {
-              Proj4js.reportError("nadgrids syntax error '"+this.nadgrids+"' : empty grid found");
+              proj4.reportError("nadgrids syntax error '"+this.nadgrids+"' : empty grid found");
               continue;
             }
             this.grids[i]= {
               mandatory: fg.length==1,//@=> optional grid (no error if not found)
               name:fg[fg.length-1],
-              grid: Proj4js.grids[fg[fg.length-1]]//FIXME: grids loading ...
+              grid: proj4.grids[fg[fg.length-1]]//FIXME: grids loading ...
             };
             if (this.grids[i].mandatory && !this.grids[i].grid) {
-              Proj4js.reportError("Missing '"+this.grids[i].name+"'");
+              proj4.reportError("Missing '"+this.grids[i].name+"'");
             }
           }
         }
@@ -440,7 +440,7 @@ Proj4js.Proj = Proj4js.Class({
         // the loaded grids, its name and the mandatory informations of it.
       }
       if (this.datumCode && this.datumCode != 'none') {
-        var datumDef = Proj4js.Datum[this.datumCode];
+        var datumDef = proj4.Datum[this.datumCode];
         if (datumDef) {
           this.datum_params = datumDef.towgs84 ? datumDef.towgs84.split(',') : null;
           this.ellps = datumDef.ellipse;
@@ -448,11 +448,11 @@ Proj4js.Proj = Proj4js.Class({
         }
       }
       if (!this.a) {    // do we have an ellipsoid?
-          var ellipse = Proj4js.Ellipsoid[this.ellps] ? Proj4js.Ellipsoid[this.ellps] : Proj4js.Ellipsoid['WGS84'];
-          Proj4js.extend(this, ellipse);
+          var ellipse = proj4.Ellipsoid[this.ellps] ? proj4.Ellipsoid[this.ellps] : proj4.Ellipsoid['WGS84'];
+          proj4.extend(this, ellipse);
       }
       if (this.rf && !this.b) this.b = (1.0 - 1.0/this.rf) * this.a;
-      if (this.rf === 0 || Math.abs(this.a - this.b)<Proj4js.common.EPSLN) {
+      if (this.rf === 0 || Math.abs(this.a - this.b)<proj4.common.EPSLN) {
         this.sphere = true;
         this.b= this.a;
       }
@@ -461,7 +461,7 @@ Proj4js.Proj = Proj4js.Class({
       this.es = (this.a2-this.b2)/this.a2;  // e ^ 2
       this.e = Math.sqrt(this.es);        // eccentricity
       if (this.R_A) {
-        this.a *= 1. - this.es * (Proj4js.common.SIXTH + this.es * (Proj4js.common.RA4 + this.es * Proj4js.common.RA6));
+        this.a *= 1. - this.es * (proj4.common.SIXTH + this.es * (proj4.common.RA4 + this.es * proj4.common.RA6));
         this.a2 = this.a * this.a;
         this.b2 = this.b * this.b;
         this.es = 0.;
@@ -471,11 +471,11 @@ Proj4js.Proj = Proj4js.Class({
       //DGR 2010-11-12: axis
       if (!this.axis) { this.axis= "enu"; }
 
-      this.datum = new Proj4js.datum(this);
+      this.datum = new proj4.datum(this);
   }
 });
 
-Proj4js.Proj.longlat = {
+proj4.Proj.longlat = {
   init: function() {
     //no-op for longlat
   },
@@ -488,10 +488,10 @@ Proj4js.Proj.longlat = {
     return pt;
   }
 };
-Proj4js.Proj.identity = Proj4js.Proj.longlat;
+proj4.Proj.identity = proj4.Proj.longlat;
 
 /**
-  Proj4js.defs is a collection of coordinate system definition objects in the 
+  proj4.defs is a collection of coordinate system definition objects in the 
   PROJ.4 command line format.
   Generally a def is added by means of a separate .js file for example:
 

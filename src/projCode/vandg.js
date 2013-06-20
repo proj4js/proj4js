@@ -27,7 +27,7 @@ ALGORITHM REFERENCES
     Package", U.S. Geological Survey National Mapping Division, May 1982.
 *******************************************************************************/
 
-Proj4js.Proj.vandg = {
+proj4.Proj.vandg = {
 
 /* Initialize the Van Der Grinten projection
   ----------------------------------------*/
@@ -43,24 +43,24 @@ Proj4js.Proj.vandg = {
 
 		/* Forward equations
 		-----------------*/
-		var dlon = Proj4js.common.adjust_lon(lon - this.long0);
+		var dlon = proj4.common.adjust_lon(lon - this.long0);
 		var x,y;
 
-		if (Math.abs(lat) <= Proj4js.common.EPSLN) {
+		if (Math.abs(lat) <= proj4.common.EPSLN) {
 			x = this.x0  + this.R * dlon;
 			y = this.y0;
 		}
-		var theta = Proj4js.common.asinz(2.0 * Math.abs(lat / Proj4js.common.PI));
-		if ((Math.abs(dlon) <= Proj4js.common.EPSLN) || (Math.abs(Math.abs(lat) - Proj4js.common.HALF_PI) <= Proj4js.common.EPSLN)) {
+		var theta = proj4.common.asinz(2.0 * Math.abs(lat / proj4.common.PI));
+		if ((Math.abs(dlon) <= proj4.common.EPSLN) || (Math.abs(Math.abs(lat) - proj4.common.HALF_PI) <= proj4.common.EPSLN)) {
 			x = this.x0;
 			if (lat >= 0) {
-				y = this.y0 + Proj4js.common.PI * this.R * Math.tan(.5 * theta);
+				y = this.y0 + proj4.common.PI * this.R * Math.tan(.5 * theta);
 			} else {
-				y = this.y0 + Proj4js.common.PI * this.R * - Math.tan(.5 * theta);
+				y = this.y0 + proj4.common.PI * this.R * - Math.tan(.5 * theta);
 			}
 			//  return(OK);
 		}
-		var al = .5 * Math.abs((Proj4js.common.PI / dlon) - (dlon / Proj4js.common.PI));
+		var al = .5 * Math.abs((proj4.common.PI / dlon) - (dlon / proj4.common.PI));
 		var asq = al * al;
 		var sinth = Math.sin(theta);
 		var costh = Math.cos(theta);
@@ -69,19 +69,19 @@ Proj4js.Proj.vandg = {
 		var gsq = g * g;
 		var m = g * (2.0 / sinth - 1.0);
 		var msq = m * m;
-		var con = Proj4js.common.PI * this.R * (al * (g - msq) + Math.sqrt(asq * (g - msq) * (g - msq) - (msq + asq) * (gsq - msq))) / (msq + asq);
+		var con = proj4.common.PI * this.R * (al * (g - msq) + Math.sqrt(asq * (g - msq) * (g - msq) - (msq + asq) * (gsq - msq))) / (msq + asq);
 		if (dlon < 0) {
 		 con = -con;
 		}
 		x = this.x0 + con;
-		//con = Math.abs(con / (Proj4js.common.PI * this.R));
+		//con = Math.abs(con / (proj4.common.PI * this.R));
 		var q =asq+g;
-		con=Proj4js.common.PI*this.R*(m*q-al*Math.sqrt((msq+asq)*(asq+1.0)-q*q))/(msq+asq);
+		con=proj4.common.PI*this.R*(m*q-al*Math.sqrt((msq+asq)*(asq+1.0)-q*q))/(msq+asq);
 		if (lat >= 0) {
-		 //y = this.y0 + Proj4js.common.PI * this.R * Math.sqrt(1.0 - con * con - 2.0 * al * con);
+		 //y = this.y0 + proj4.common.PI * this.R * Math.sqrt(1.0 - con * con - 2.0 * al * con);
 		 y=this.y0 + con;
 		} else {
-		 //y = this.y0 - Proj4js.common.PI * this.R * Math.sqrt(1.0 - con * con - 2.0 * al * con);
+		 //y = this.y0 - proj4.common.PI * this.R * Math.sqrt(1.0 - con * con - 2.0 * al * con);
 		 y=this.y0 - con;
 		}
 		p.x = x;
@@ -105,7 +105,7 @@ Proj4js.Proj.vandg = {
 		-----------------*/
 		p.x -= this.x0;
 		p.y -= this.y0;
-		con = Proj4js.common.PI * this.R;
+		con = proj4.common.PI * this.R;
 		xx = p.x / con;
 		yy =p.y / con;
 		xys = xx * xx + yy * yy;
@@ -125,15 +125,15 @@ Proj4js.Proj.vandg = {
 		}
 		th1 = Math.acos(con) / 3.0;
 		if (p.y >= 0) {
-			lat = (-m1 *Math.cos(th1 + Proj4js.common.PI / 3.0) - c2 / 3.0 / c3) * Proj4js.common.PI;
+			lat = (-m1 *Math.cos(th1 + proj4.common.PI / 3.0) - c2 / 3.0 / c3) * proj4.common.PI;
 		} else {
-			lat = -(-m1 * Math.cos(th1 + Proj4js.common.PI / 3.0) - c2 / 3.0 / c3) * Proj4js.common.PI;
+			lat = -(-m1 * Math.cos(th1 + proj4.common.PI / 3.0) - c2 / 3.0 / c3) * proj4.common.PI;
 		}
 
-		if (Math.abs(xx) < Proj4js.common.EPSLN) {
+		if (Math.abs(xx) < proj4.common.EPSLN) {
 			lon = this.long0;
 		} else {
-			lon = Proj4js.common.adjust_lon(this.long0 + Proj4js.common.PI * (xys - 1.0 + Math.sqrt(1.0 + 2.0 * (xx * xx - yy * yy) + xys * xys)) / 2.0 / xx);
+			lon = proj4.common.adjust_lon(this.long0 + proj4.common.PI * (xys - 1.0 + Math.sqrt(1.0 + 2.0 * (xx * xx - yy * yy) + xys * xys)) / 2.0 / xx);
 		}
 
 		p.x=lon;
