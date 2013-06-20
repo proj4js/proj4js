@@ -156,19 +156,19 @@ United States complies, relating to the export or re-export of
 any commodities, software, or technical data.
 */
 
-if (window.Proj4js && !Proj4js.util) { Proj4js.util = {}; }
+if (window.proj4 && !proj4.util) { proj4.util = {}; }
 
 /**
  * Converts between lat/lon and MGRS coordinates. Note that this static class
  * is restricted to the WGS84 ellipsoid and does not support MGRS notations
  * for polar regions (i.e. above 84° North and below 80° South).
  *
- * If Proj4js is loaded, this will be referenced as Proj4js.util.MGRS. If used
+ * If proj4 is loaded, this will be referenced as proj4.util.MGRS. If used
  * standalone, it will be referenced as window.MGRS.
  *
  * @static
  */
-(window.Proj4js ? Proj4js.util : window)["MGRS"] = (function() {
+(window.proj4 ? proj4.util : window)["MGRS"] = (function() {
 
     /**
      * UTM zones are grouped, and assigned to one of a group of 6
@@ -915,36 +915,36 @@ if (window.Proj4js && !Proj4js.util) { Proj4js.util = {}; }
 	
 })();
 
-if (window.Proj4js && Proj4js.Point) {
+if (window.proj4 && proj4.Point) {
     
     /**
-     * Creates a Proj4js.Point instance from a MGRS reference. The point will
+     * Creates a proj4.Point instance from a MGRS reference. The point will
      * reference the center of the MGRS reference, and coordinates will be in
      * WGS84 longitude and latitude.
      *
-     * Only available if Proj4js is loaded.
+     * Only available if proj4 is loaded.
      *
      * @param mgrs {string} MGRS reference
      */
-    Proj4js.Point.fromMGRS = function(mgrs) {
-        var llbbox = Proj4js.util.MGRS.inverse(mgrs);
-        return new Proj4js.Point(
+    proj4.Point.fromMGRS = function(mgrs) {
+        var llbbox = proj4.util.MGRS.inverse(mgrs);
+        return new proj4.Point(
             (llbbox[2] + llbbox[0]) / 2,
             (llbbox[3] + llbbox[1]) / 2
         );
     };
     
     /**
-     * Converts a Proj4js.Point instance to a MGRS reference. The point
+     * Converts a proj4.Point instance to a MGRS reference. The point
      * coordinates are expected to be in WGS84 longitude and latitude.
      *
-     * Only available if Proj4js is loaded.
+     * Only available if proj4 is loaded.
      *
      * @param accuracy {int} The accuracy for the MGRS reference in digits (5
      *     for 1 m, 4 for 10 m, 3 for 100 m, 4 for 1000 m or 5 for 10000 m) 
      */
-    Proj4js.Point.prototype.toMGRS = function(accuracy) {
-        return Proj4js.util.MGRS.forward({lon: this.x, lat: this.y}, accuracy);
+    proj4.Point.prototype.toMGRS = function(accuracy) {
+        return proj4.util.MGRS.forward({lon: this.x, lat: this.y}, accuracy);
     };
     
 }

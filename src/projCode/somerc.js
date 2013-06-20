@@ -13,7 +13,7 @@ ALGORITHM REFERENCES
 
 *******************************************************************************/
 
-Proj4js.Proj.somerc = {
+proj4.Proj.somerc = {
 
   init: function() {
     var phy0 = this.lat0;
@@ -88,7 +88,7 @@ Proj4js.Proj.somerc = {
     {
       if (++iteration > 20)
       {
-        Proj4js.reportError("omercFwdInfinity");
+        proj4.reportError("omercFwdInfinity");
         return;
       }
       //S = Math.log(Math.tan(Math.PI / 4.0 + phy / 2.0));

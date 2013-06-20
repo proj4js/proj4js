@@ -22,11 +22,11 @@ ALGORITHM REFERENCES
 *******************************************************************************/
 
 
-Proj4js.Proj.aea = {
+proj4.Proj.aea = {
   init : function() {
 
-    if (Math.abs(this.lat1 + this.lat2) < Proj4js.common.EPSLN) {
-       Proj4js.reportError("aeaInitEqualLatitudes");
+    if (Math.abs(this.lat1 + this.lat2) < proj4.common.EPSLN) {
+       proj4.reportError("aeaInitEqualLatitudes");
        return;
     }
     this.temp = this.b / this.a;
@@ -37,21 +37,21 @@ Proj4js.Proj.aea = {
     this.cos_po=Math.cos(this.lat1);
     this.t1=this.sin_po;
     this.con = this.sin_po;
-    this.ms1 = Proj4js.common.msfnz(this.e3,this.sin_po,this.cos_po);
-    this.qs1 = Proj4js.common.qsfnz(this.e3,this.sin_po,this.cos_po);
+    this.ms1 = proj4.common.msfnz(this.e3,this.sin_po,this.cos_po);
+    this.qs1 = proj4.common.qsfnz(this.e3,this.sin_po,this.cos_po);
 
     this.sin_po=Math.sin(this.lat2);
     this.cos_po=Math.cos(this.lat2);
     this.t2=this.sin_po;
-    this.ms2 = Proj4js.common.msfnz(this.e3,this.sin_po,this.cos_po);
-    this.qs2 = Proj4js.common.qsfnz(this.e3,this.sin_po,this.cos_po);
+    this.ms2 = proj4.common.msfnz(this.e3,this.sin_po,this.cos_po);
+    this.qs2 = proj4.common.qsfnz(this.e3,this.sin_po,this.cos_po);
 
     this.sin_po=Math.sin(this.lat0);
     this.cos_po=Math.cos(this.lat0);
     this.t3=this.sin_po;
-    this.qs0 = Proj4js.common.qsfnz(this.e3,this.sin_po,this.cos_po);
+    this.qs0 = proj4.common.qsfnz(this.e3,this.sin_po,this.cos_po);
 
-    if (Math.abs(this.lat1 - this.lat2) > Proj4js.common.EPSLN) {
+    if (Math.abs(this.lat1 - this.lat2) > proj4.common.EPSLN) {
       this.ns0 = (this.ms1 * this.ms1 - this.ms2 *this.ms2)/ (this.qs2 - this.qs1);
     } else {
       this.ns0 = this.con;
@@ -70,9 +70,9 @@ Proj4js.Proj.aea = {
     this.sin_phi=Math.sin(lat);
     this.cos_phi=Math.cos(lat);
 
-    var qs = Proj4js.common.qsfnz(this.e3,this.sin_phi,this.cos_phi);
+    var qs = proj4.common.qsfnz(this.e3,this.sin_phi,this.cos_phi);
     var rh1 =this.a * Math.sqrt(this.c - this.ns0 * qs)/this.ns0;
-    var theta = this.ns0 * Proj4js.common.adjust_lon(lon - this.long0); 
+    var theta = this.ns0 * proj4.common.adjust_lon(lon - this.long0); 
     var x = rh1 * Math.sin(theta) + this.x0;
     var y = this.rh - rh1 * Math.cos(theta) + this.y0;
 
@@ -106,7 +106,7 @@ Proj4js.Proj.aea = {
       lat = this.phi1z(this.e3,qs);
     }
 
-    lon = Proj4js.common.adjust_lon(theta/this.ns0 + this.long0);
+    lon = proj4.common.adjust_lon(theta/this.ns0 + this.long0);
     p.x = lon;
     p.y = lat;
     return p;
@@ -117,8 +117,8 @@ Proj4js.Proj.aea = {
 -------------------------------------------*/
   phi1z: function (eccent,qs) {
     var sinphi, cosphi, con, com, dphi;
-    var phi = Proj4js.common.asinz(.5 * qs);
-    if (eccent < Proj4js.common.EPSLN) return phi;
+    var phi = proj4.common.asinz(.5 * qs);
+    if (eccent < proj4.common.EPSLN) return phi;
     
     var eccnts = eccent * eccent; 
     for (var i = 1; i <= 25; i++) {
@@ -130,7 +130,7 @@ Proj4js.Proj.aea = {
         phi = phi + dphi;
         if (Math.abs(dphi) <= 1e-7) return phi;
     }
-    Proj4js.reportError("aea:phi1z:Convergence error");
+    proj4.reportError("aea:phi1z:Convergence error");
     return null;
   }
   

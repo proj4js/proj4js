@@ -1,4 +1,4 @@
-Proj4js.PrimeMeridian = {
+proj4.PrimeMeridian = {
     "greenwich": 0.0,               //"0dE",
     "lisbon":     -9.131906111111,   //"9d07'54.862\"W",
     "paris":       2.337229166667,   //"2d20'14.025\"E",
@@ -14,7 +14,7 @@ Proj4js.PrimeMeridian = {
     "oslo":       10.722916666667   //"10d43'22.5\"E"
 };
 
-Proj4js.Ellipsoid = {
+proj4.Ellipsoid = {
   "MERIT": {a:6378137.0, rf:298.257, ellipseName:"MERIT 1983"},
   "SGS85": {a:6378136.0, rf:298.257, ellipseName:"Soviet Geodetic System 85"},
   "GRS80": {a:6378137.0, rf:298.257222101, ellipseName:"GRS 1980(IUGG, 1980)"},
@@ -59,7 +59,7 @@ Proj4js.Ellipsoid = {
   "sphere": {a:6370997.0, b:6370997.0, ellipseName:"Normal Sphere (r=6370997)"}
 };
 
-Proj4js.Datum = {
+proj4.Datum = {
   "WGS84": {towgs84: "0,0,0", ellipse: "WGS84", datumName: "WGS84"},
   "GGRS87": {towgs84: "-199.87,74.79,246.62", ellipse: "GRS80", datumName: "Greek_Geodetic_Reference_System_1987"},
   "NAD83": {towgs84: "0,0,0", ellipse: "GRS80", datumName: "North_American_Datum_1983"},
@@ -72,12 +72,12 @@ Proj4js.Datum = {
   "OSGB36": {towgs84: "446.448,-125.157,542.060,0.1502,0.2470,0.8421,-20.4894", ellipse: "airy", datumName: "Airy 1830"}
 };
 
-Proj4js.WGS84 = new Proj4js.Proj('WGS84');
-Proj4js.Datum['OSB36'] = Proj4js.Datum['OSGB36']; //as returned from spatialreference.org
+proj4.WGS84 = new proj4.Proj('WGS84');
+proj4.Datum['OSB36'] = proj4.Datum['OSGB36']; //as returned from spatialreference.org
 
-//lookup table to go from the projection name in WKT to the Proj4js projection name
+//lookup table to go from the projection name in WKT to the proj4 projection name
 //build this out as required
-Proj4js.wktProjections = {
+proj4.wktProjections = {
   "Lambert Tangential Conformal Conic Projection": "lcc",
   "Lambert_Conformal_Conic": "lcc",
   "Mercator": "merc",
@@ -95,7 +95,7 @@ Proj4js.wktProjections = {
 //        1 is latitude ...
 //        In the later case, grid object gets bigger !!!!
 //        Solution 1 is chosen based on pj_gridinfo.c
-Proj4js.grids= {
+proj4.grids= {
     "null":{                                // name of grid's file
         "ll": [-3.14159265, -1.57079633],   // lower-left coordinates in radians (longitude, latitude):
         "del":[ 3.14159265,  1.57079633],   // cell's size in radians (longitude, latitude):

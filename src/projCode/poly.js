@@ -25,7 +25,7 @@ function phi4z (eccent,e0,e1,e2,e3,a,b,c,phi) {
 		phi += dphi;
 		if (Math.abs(dphi) <= .0000000001 ) return(phi);   
 	}
-	Proj4js.reportError("phi4z: No convergence");
+	proj4.reportError("phi4z: No convergence");
 	return null;
 }
 /*
@@ -69,7 +69,7 @@ ALGORITHM REFERENCES
     Printing Office, Washington D.C., 1989.
 *******************************************************************************/
 
-Proj4js.Proj.poly = {
+proj4.Proj.poly = {
 
 	/* Initialize the POLYCONIC projection
 	  ----------------------------------*/
@@ -79,11 +79,11 @@ Proj4js.Proj.poly = {
 		this.temp = this.b / this.a;
 		this.es = 1.0 - Math.pow(this.temp,2);// devait etre dans tmerc.js mais n y est pas donc je commente sinon retour de valeurs nulles
 		this.e = Math.sqrt(this.es);
-		this.e0 = Proj4js.common.e0fn(this.es);
-		this.e1 = Proj4js.common.e1fn(this.es);
-		this.e2 = Proj4js.common.e2fn(this.es);
-		this.e3 = Proj4js.common.e3fn(this.es);
-		this.ml0 = this.a*Proj4js.common.mlfn(this.e0, this.e1,this.e2, this.e3, this.lat0);//si que des zeros le calcul ne se fait pas
+		this.e0 = proj4.common.e0fn(this.es);
+		this.e1 = proj4.common.e1fn(this.es);
+		this.e2 = proj4.common.e2fn(this.es);
+		this.e3 = proj4.common.e3fn(this.es);
+		this.ml0 = this.a*proj4.common.mlfn(this.e0, this.e1,this.e2, this.e3, this.lat0);//si que des zeros le calcul ne se fait pas
 	},
 
 
@@ -93,24 +93,24 @@ Proj4js.Proj.poly = {
 		var lon=p.x;
 		var lat=p.y;
 		var x,y,el;
-		var dlon=Proj4js.common.adjust_lon(lon-this.long0);
+		var dlon=proj4.common.adjust_lon(lon-this.long0);
 		el=dlon*Math.sin(lat);
 		if (this.sphere){
-			if (Math.abs(lat)<=Proj4js.common.EPSLN){
+			if (Math.abs(lat)<=proj4.common.EPSLN){
 				x=this.a*dlon;
 				y=-1.0*this.a*this.lat0;
 			} else {
 				x=this.a*Math.sin(el)/Math.tan(lat);
-				y=this.a*(Proj4js.common.adjust_lat(lat-this.lat0)+(1.0-Math.cos(el))/Math.tan(lat));
+				y=this.a*(proj4.common.adjust_lat(lat-this.lat0)+(1.0-Math.cos(el))/Math.tan(lat));
 			}
 		} else {
-			if (Math.abs(lat)<=Proj4js.common.EPSLN){
+			if (Math.abs(lat)<=proj4.common.EPSLN){
 				x=this.a*dlon;
 				y=-1.0*this.ml0;
 			} else {
-				var nl =Proj4js.common.gN(this.a, this.e,Math.sin(lat))/Math.tan(lat);
+				var nl =proj4.common.gN(this.a, this.e,Math.sin(lat))/Math.tan(lat);
 				x=nl*Math.sin(el);
-				y=this.a*Proj4js.common.mlfn(this.e0, this.e1,this.e2, this.e3, lat)-this.ml0+nl*(1.0-Math.cos(el));
+				y=this.a*proj4.common.mlfn(this.e0, this.e1,this.e2, this.e3, lat)-this.ml0+nl*(1.0-Math.cos(el));
 			}
 			
 		}
@@ -130,29 +130,29 @@ Proj4js.Proj.poly = {
 		y=p.y-this.y0;
 		
 		if (this.sphere){
-			if (Math.abs(y+this.a*this.lat0)<=Proj4js.common.EPSLN){
-				lon=Proj4js.common.adjust_lon(x/this.a+this.long0);
+			if (Math.abs(y+this.a*this.lat0)<=proj4.common.EPSLN){
+				lon=proj4.common.adjust_lon(x/this.a+this.long0);
 				lat=0;
 			} else {
 				al = this.lat0 + y/this.a;
 				bl = x*x/this.a/this.a+al*al;
 				phi = al;
 				var tanphi;
-				for (var i = Proj4js.common.MAX_ITER; i ; --i){
+				for (var i = proj4.common.MAX_ITER; i ; --i){
 					tanphi = Math.tan(phi);
 					dphi = -1.0*(al*(phi*tanphi+1.0)-phi-0.5*(phi*phi+bl)*tanphi)/((phi-al)/tanphi-1.0);
 					phi+=dphi;
-					if (Math.abs(dphi)<=Proj4js.common.EPSLN){
+					if (Math.abs(dphi)<=proj4.common.EPSLN){
 						lat=phi;
 						break;
 					}
 				}
-				lon=Proj4js.common.adjust_lon(this.long0+(Math.asin(x*Math.tan(phi)/this.a))/Math.sin(lat));
+				lon=proj4.common.adjust_lon(this.long0+(Math.asin(x*Math.tan(phi)/this.a))/Math.sin(lat));
 			}
 		} else {
-			if (Math.abs(y+this.ml0)<=Proj4js.common.EPSLN){
+			if (Math.abs(y+this.ml0)<=proj4.common.EPSLN){
 				lat=0;
-				lon=Proj4js.common.adjust_lon(this.long0+x/this.a);
+				lon=proj4.common.adjust_lon(this.long0+x/this.a);
 			} else {
 				
 				al=(this.ml0+y)/this.a;
@@ -160,15 +160,15 @@ Proj4js.Proj.poly = {
 				phi=al;
 				var cl,mln,mlnp,ma;
 				var con;
-				for (var i = Proj4js.common.MAX_ITER; i ; --i){
+				for (var i = proj4.common.MAX_ITER; i ; --i){
 					con = this.e*Math.sin(phi);
 					cl = Math.sqrt(1.0-con*con)*Math.tan(phi);
-					mln = this.a*Proj4js.common.mlfn(this.e0, this.e1,this.e2, this.e3, phi);
+					mln = this.a*proj4.common.mlfn(this.e0, this.e1,this.e2, this.e3, phi);
 					mlnp = this.e0-2.0*this.e1*Math.cos(2.0*phi)+4.0*this.e2*Math.cos(4.0*phi)-6.0*this.e3*Math.cos(6.0*phi);
 					ma=mln/this.a;
 					dphi=(al*(cl*ma+1.0)-ma-0.5*cl*(ma*ma+bl))/(this.es*Math.sin(2.0*phi)*(ma*ma+bl-2.0*al*ma)/(4.0*cl)+(al-ma)*(cl*mlnp-2.0/Math.sin(2.0*phi))-mlnp);
 					phi-=dphi;
-					if (Math.abs(dphi)<=Proj4js.common.EPSLN){
+					if (Math.abs(dphi)<=proj4.common.EPSLN){
 						lat=phi;
 						break;
 					}
@@ -176,7 +176,7 @@ Proj4js.Proj.poly = {
 				
 				//lat=phi4z(this.e,this.e0,this.e1,this.e2,this.e3,al,bl,0,0);
 				cl=Math.sqrt(1-this.es*Math.pow(Math.sin(lat),2.0))*Math.tan(lat);
-				lon=Proj4js.common.adjust_lon(this.long0+Math.asin(x*cl/this.a)/Math.sin(lat));
+				lon=proj4.common.adjust_lon(this.long0+Math.asin(x*cl/this.a)/Math.sin(lat));
 			}
 		}
 		
