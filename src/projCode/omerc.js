@@ -21,7 +21,7 @@ ALGORITHM REFERENCES
     Printing Office, Washington D.C., 1989.
 *******************************************************************************/
 
-Proj4js.Proj.omerc = {
+proj4.Proj.omerc = {
 
   /* Initialize the Oblique Mercator  projection
     ------------------------------------------*/
@@ -37,7 +37,7 @@ Proj4js.Proj.omerc = {
 
 	this.bl=Math.sqrt(1.0+this.es/(1.0-this.es)*Math.pow(coslat,4.0));
 	this.al= this.a*this.bl*this.k0*Math.sqrt(1-this.es)/(1-con*con);
-	var t0 = Proj4js.common.tsfnz(this.e,this.lat0,sinlat);
+	var t0 = proj4.common.tsfnz(this.e,this.lat0,sinlat);
 	var dl = this.bl/coslat*Math.sqrt((1-this.es)/(1-con*con));
 	if (dl*dl<1.0)
 		dl=1.0;
@@ -58,8 +58,8 @@ Proj4js.Proj.omerc = {
 
 	} else {
 		//2 points method
-		var t1 = Proj4js.common.tsfnz(this.e,this.lat1,Math.sin(this.lat1));
-		var t2 = Proj4js.common.tsfnz(this.e,this.lat2,Math.sin(this.lat2));
+		var t1 = proj4.common.tsfnz(this.e,this.lat1,Math.sin(this.lat1));
+		var t2 = proj4.common.tsfnz(this.e,this.lat2,Math.sin(this.lat2));
 		if (this.lat0>=0.0){
 			this.el = (dl+Math.sqrt(dl*dl-1.0))*Math.pow(t0,this.bl);
 		} else {
@@ -71,10 +71,10 @@ Proj4js.Proj.omerc = {
 		gl = 0.5*(fl-1.0/fl);
 		var jl = (this.el*this.el-ll*hl)/(this.el*this.el+ll*hl);
 		var pl = (ll-hl)/(ll+hl);
-		var dlon12=Proj4js.common.adjust_lon(this.long1-this.long2);
+		var dlon12=proj4.common.adjust_lon(this.long1-this.long2);
 		this.long0=0.5*(this.long1+this.long2)-Math.atan(jl*Math.tan(0.5*this.bl*(dlon12))/pl)/this.bl;
-		this.long0=Proj4js.common.adjust_lon(this.long0);
-		var dlon10=Proj4js.common.adjust_lon(this.long1-this.long0);
+		this.long0=proj4.common.adjust_lon(this.long0);
+		var dlon10=proj4.common.adjust_lon(this.long1-this.long0);
 		this.gamma0 = Math.atan(Math.sin(this.bl*(dlon10))/gl);
 		this.alpha = Math.asin(dl*Math.sin(this.gamma0));
 	}
@@ -97,30 +97,30 @@ Proj4js.Proj.omerc = {
   forward: function(p) {
 	var lon = p.x;
 	var lat = p.y;
-	var dlon=Proj4js.common.adjust_lon(lon-this.long0);
+	var dlon=proj4.common.adjust_lon(lon-this.long0);
 	var us, vs;
 	var con;
-	if (Math.abs(Math.abs(lat)-Proj4js.common.HALF_PI)<=Proj4js.common.EPSLN){
+	if (Math.abs(Math.abs(lat)-proj4.common.HALF_PI)<=proj4.common.EPSLN){
 		if (lat>0.0){
 			con=-1.0;
 		} else {
 			con=1.0;
 		}
-		vs=this.al/this.bl*Math.log(Math.tan(Proj4js.common.FORTPI+con*this.gamma0*0.5));
-		us=-1.0*con*Proj4js.common.HALF_PI*this.al/this.bl;
+		vs=this.al/this.bl*Math.log(Math.tan(proj4.common.FORTPI+con*this.gamma0*0.5));
+		us=-1.0*con*proj4.common.HALF_PI*this.al/this.bl;
 	} else {
-		var t = Proj4js.common.tsfnz(this.e,lat,Math.sin(lat));
+		var t = proj4.common.tsfnz(this.e,lat,Math.sin(lat));
 		var ql = this.el/Math.pow(t,this.bl);
 		var sl = 0.5*(ql-1.0/ql);
 		var tl = 0.5*(ql+1.0/ql);
 		var vl=Math.sin(this.bl*(dlon));
 		var ul=(sl*Math.sin(this.gamma0)-vl*Math.cos(this.gamma0))/tl;
-		if (Math.abs(Math.abs(ul)-1.0)<=Proj4js.common.EPSLN) {
+		if (Math.abs(Math.abs(ul)-1.0)<=proj4.common.EPSLN) {
 			vs=Number.POSITIVE_INFINITY;
 		} else {
 			vs=0.5*this.al*Math.log((1.0-ul)/(1.0+ul))/this.bl;
 		}
-		if (Math.abs(Math.cos(this.bl*(dlon)))<=Proj4js.common.EPSLN) {
+		if (Math.abs(Math.cos(this.bl*(dlon)))<=proj4.common.EPSLN) {
 			us=this.al*this.bl*(dlon);
 		} else {
 			us=this.al*Math.atan2(sl*Math.cos(this.gamma0)+vl*Math.sin(this.gamma0),Math.cos(this.bl*dlon))/this.bl;
@@ -156,15 +156,15 @@ Proj4js.Proj.omerc = {
 	var vp = Math.sin(this.bl*us/this.al);
 	var up = (vp*Math.cos(this.gamma0)+sp*Math.sin(this.gamma0))/tp;
 	var ts = Math.pow(this.el/Math.sqrt((1.0+up)/(1.0-up)),1.0/this.bl);
-	if (Math.abs(up-1.0)<Proj4js.common.EPSLN){
+	if (Math.abs(up-1.0)<proj4.common.EPSLN){
 		p.x=this.long0;
-		p.y=Proj4js.common.HALF_PI;
-	} else if (Math.abs(up+1.0)<Proj4js.common.EPSLN){
+		p.y=proj4.common.HALF_PI;
+	} else if (Math.abs(up+1.0)<proj4.common.EPSLN){
 		p.x=this.long0;
-		p.y=-1.0*Proj4js.common.HALF_PI;
+		p.y=-1.0*proj4.common.HALF_PI;
 	} else {
-		p.y=Proj4js.common.phi2z(this.e, ts);
-		p.x=Proj4js.common.adjust_lon(this.long0-Math.atan2(sp*Math.cos(this.gamma0)-vp*Math.sin(this.gamma0),Math.cos(this.bl*us/this.al))/this.bl);
+		p.y=proj4.common.phi2z(this.e, ts);
+		p.x=proj4.common.adjust_lon(this.long0-Math.atan2(sp*Math.cos(this.gamma0)-vp*Math.sin(this.gamma0),Math.cos(this.bl*us/this.al))/this.bl);
 	}
 	return p;
   }

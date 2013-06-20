@@ -27,7 +27,7 @@ ALGORITHM REFERENCES
     Package", U.S. Geological Survey National Mapping Division, May 1982.
 *******************************************************************************/
 
-Proj4js.Proj.mill = {
+proj4.Proj.mill = {
 
 /* Initialize the Miller Cylindrical projection
   -------------------------------------------*/
@@ -43,9 +43,9 @@ Proj4js.Proj.mill = {
     var lat=p.y;
     /* Forward equations
       -----------------*/
-    var dlon = Proj4js.common.adjust_lon(lon -this.long0);
+    var dlon = proj4.common.adjust_lon(lon -this.long0);
     var x = this.x0 + this.a * dlon;
-    var y = this.y0 + this.a * Math.log(Math.tan((Proj4js.common.PI / 4.0) + (lat / 2.5))) * 1.25;
+    var y = this.y0 + this.a * Math.log(Math.tan((proj4.common.PI / 4.0) + (lat / 2.5))) * 1.25;
 
     p.x=x;
     p.y=y;
@@ -58,8 +58,8 @@ Proj4js.Proj.mill = {
     p.x -= this.x0;
     p.y -= this.y0;
 
-    var lon = Proj4js.common.adjust_lon(this.long0 + p.x /this.a);
-    var lat = 2.5 * (Math.atan(Math.exp(0.8*p.y/this.a)) - Proj4js.common.PI / 4.0);
+    var lon = proj4.common.adjust_lon(this.long0 + p.x /this.a);
+    var lat = 2.5 * (Math.atan(Math.exp(0.8*p.y/this.a)) - proj4.common.PI / 4.0);
 
     p.x=lon;
     p.y=lat;

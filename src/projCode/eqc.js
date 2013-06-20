@@ -1,5 +1,5 @@
 /* similar to equi.js FIXME proj4 uses eqc */
-Proj4js.Proj.eqc = {
+proj4.Proj.eqc = {
   init : function() {
 
       if(!this.x0) this.x0=0;
@@ -20,8 +20,8 @@ Proj4js.Proj.eqc = {
       var lon= p.x;
       var lat= p.y;
 
-      var dlon = Proj4js.common.adjust_lon(lon - this.long0);
-      var dlat = Proj4js.common.adjust_lat(lat - this.lat0 );
+      var dlon = proj4.common.adjust_lon(lon - this.long0);
+      var dlat = proj4.common.adjust_lat(lat - this.lat0 );
       p.x= this.x0 + (this.a*dlon*this.rc);
       p.y= this.y0 + (this.a*dlat        );
       return p;
@@ -34,8 +34,8 @@ Proj4js.Proj.eqc = {
     var x= p.x;
     var y= p.y;
 
-    p.x= Proj4js.common.adjust_lon(this.long0 + ((x - this.x0)/(this.a*this.rc)));
-    p.y= Proj4js.common.adjust_lat(this.lat0  + ((y - this.y0)/(this.a        )));
+    p.x= proj4.common.adjust_lon(this.long0 + ((x - this.x0)/(this.a*this.rc)));
+    p.y= proj4.common.adjust_lat(this.lat0  + ((y - this.y0)/(this.a        )));
     return p;
   }
 

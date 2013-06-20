@@ -24,7 +24,7 @@ ALGORITHM REFERENCES
     Package", U.S. Geological Survey National Mapping Division, May 1982.
 *******************************************************************************/
 
-Proj4js.Proj.sinu = {
+proj4.Proj.sinu = {
 
 	/* Initialize the Sinusoidal projection
 	  ------------------------------------*/
@@ -34,7 +34,7 @@ Proj4js.Proj.sinu = {
 		  
 
 		if (!this.sphere) {
-		  this.en = Proj4js.common.pj_enfn(this.es);
+		  this.en = proj4.common.pj_enfn(this.es);
     } else {
       this.n = 1.;
       this.m = 0.;
@@ -53,17 +53,17 @@ Proj4js.Proj.sinu = {
 		var lat=p.y;	
 		/* Forward equations
 		-----------------*/
-		lon = Proj4js.common.adjust_lon(lon - this.long0);
+		lon = proj4.common.adjust_lon(lon - this.long0);
 		
 		if (this.sphere) {
       if (!this.m) {
         lat = this.n != 1. ? Math.asin(this.n * Math.sin(lat)): lat;
       } else {
         var k = this.n * Math.sin(lat);
-        for (var i = Proj4js.common.MAX_ITER; i ; --i) {
+        for (var i = proj4.common.MAX_ITER; i ; --i) {
           var V = (this.m * lat + Math.sin(lat) - k) / (this.m + Math.cos(lat));
           lat -= V;
-          if (Math.abs(V) < Proj4js.common.EPSLN) break;
+          if (Math.abs(V) < proj4.common.EPSLN) break;
         }
       }
       x = this.a * this.C_x * lon * (this.m + Math.cos(lat));
@@ -73,7 +73,7 @@ Proj4js.Proj.sinu = {
 		  
 		  var s = Math.sin(lat);
 		  var c = Math.cos(lat);
-      y = this.a * Proj4js.common.pj_mlfn(lat, s, c, this.en);
+      y = this.a * proj4.common.pj_mlfn(lat, s, c, this.en);
       x = this.a * lon * c / Math.sqrt(1. - this.es * s * s);
 		}
 
@@ -99,14 +99,14 @@ Proj4js.Proj.sinu = {
       lon = p.x / (this.C_x * (this.m + Math.cos(p.y)));
 		  
 		} else {
-		  lat = Proj4js.common.pj_inv_mlfn(p.y/this.a, this.es, this.en);
+		  lat = proj4.common.pj_inv_mlfn(p.y/this.a, this.es, this.en);
 		  var s = Math.abs(lat);
-      if (s < Proj4js.common.HALF_PI) {
+      if (s < proj4.common.HALF_PI) {
         s = Math.sin(lat);
         temp = this.long0 + p.x * Math.sqrt(1. - this.es * s * s) /(this.a * Math.cos(lat));
         //temp = this.long0 + p.x / (this.a * Math.cos(lat));
-        lon = Proj4js.common.adjust_lon(temp);
-      } else if ((s - Proj4js.common.EPSLN) < Proj4js.common.HALF_PI) {
+        lon = proj4.common.adjust_lon(temp);
+      } else if ((s - proj4.common.EPSLN) < proj4.common.HALF_PI) {
         lon = this.long0;
       }
 		  
