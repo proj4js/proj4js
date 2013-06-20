@@ -1,4 +1,4 @@
-Proj4js.Proj.gstmerc = {
+proj4.Proj.gstmerc = {
   init : function() {
 
     // array of:  a, b, lon0, lat0, k0, x0, y0
@@ -9,7 +9,7 @@ Proj4js.Proj.gstmerc = {
       var sinz= Math.sin(this.lat0);
       var pc= Math.asin(sinz/this.rs);
       var sinzpc= Math.sin(pc);
-      this.cp= Proj4js.common.latiso(0.0,pc,sinzpc)-this.rs*Proj4js.common.latiso(this.e,this.lat0,sinz);
+      this.cp= proj4.common.latiso(0.0,pc,sinzpc)-this.rs*proj4.common.latiso(this.e,this.lat0,sinz);
       this.n2= this.k0*this.a*Math.sqrt(1.0-this.e*this.e)/(1.0-this.e*this.e*sinz*sinz);
       this.xs= this.x0;
       this.ys= this.y0-this.n2*pc;
@@ -26,11 +26,11 @@ Proj4js.Proj.gstmerc = {
       var lat= p.y;
 
       var L= this.rs*(lon-this.lc);
-      var Ls= this.cp+(this.rs*Proj4js.common.latiso(this.e,lat,Math.sin(lat)));
-      var lat1= Math.asin(Math.sin(L)/Proj4js.common.cosh(Ls));
-      var Ls1= Proj4js.common.latiso(0.0,lat1,Math.sin(lat1));
+      var Ls= this.cp+(this.rs*proj4.common.latiso(this.e,lat,Math.sin(lat)));
+      var lat1= Math.asin(Math.sin(L)/proj4.common.cosh(Ls));
+      var Ls1= proj4.common.latiso(0.0,lat1,Math.sin(lat1));
       p.x= this.xs+(this.n2*Ls1);
-      p.y= this.ys+(this.n2*Math.atan(Proj4js.common.sinh(Ls)/Math.cos(L)));
+      p.y= this.ys+(this.n2*Math.atan(proj4.common.sinh(Ls)/Math.cos(L)));
       return p;
     },
 
@@ -41,11 +41,11 @@ Proj4js.Proj.gstmerc = {
     var x= p.x;
     var y= p.y;
 
-    var L= Math.atan(Proj4js.common.sinh((x-this.xs)/this.n2)/Math.cos((y-this.ys)/this.n2));
-    var lat1= Math.asin(Math.sin((y-this.ys)/this.n2)/Proj4js.common.cosh((x-this.xs)/this.n2));
-    var LC= Proj4js.common.latiso(0.0,lat1,Math.sin(lat1));
+    var L= Math.atan(proj4.common.sinh((x-this.xs)/this.n2)/Math.cos((y-this.ys)/this.n2));
+    var lat1= Math.asin(Math.sin((y-this.ys)/this.n2)/proj4.common.cosh((x-this.xs)/this.n2));
+    var LC= proj4.common.latiso(0.0,lat1,Math.sin(lat1));
     p.x= this.lc+L/this.rs;
-    p.y= Proj4js.common.invlatiso(this.e,(LC-this.cp)/this.rs);
+    p.y= proj4.common.invlatiso(this.e,(LC-this.cp)/this.rs);
     return p;
   }
 

@@ -1,34 +1,34 @@
 /** datum object
 */
-Proj4js.datum = Proj4js.Class({
+proj4.datum = proj4.Class({
 
   initialize : function(proj) {
-    this.datum_type = Proj4js.common.PJD_WGS84;   //default setting
+    this.datum_type = proj4.common.PJD_WGS84;   //default setting
     if (!proj) { return; }
     if (proj.datumCode && proj.datumCode == 'none') {
-      this.datum_type = Proj4js.common.PJD_NODATUM;
+      this.datum_type = proj4.common.PJD_NODATUM;
     }
     if (proj.datum_params) {
       for (var i=0; i<proj.datum_params.length; i++) {
         proj.datum_params[i]=parseFloat(proj.datum_params[i]);
       }
       if (proj.datum_params[0] != 0 || proj.datum_params[1] != 0 || proj.datum_params[2] != 0 ) {
-        this.datum_type = Proj4js.common.PJD_3PARAM;
+        this.datum_type = proj4.common.PJD_3PARAM;
       }
       if (proj.datum_params.length > 3) {
         if (proj.datum_params[3] != 0 || proj.datum_params[4] != 0 ||
             proj.datum_params[5] != 0 || proj.datum_params[6] != 0 ) {
-          this.datum_type = Proj4js.common.PJD_7PARAM;
-          proj.datum_params[3] *= Proj4js.common.SEC_TO_RAD;
-          proj.datum_params[4] *= Proj4js.common.SEC_TO_RAD;
-          proj.datum_params[5] *= Proj4js.common.SEC_TO_RAD;
+          this.datum_type = proj4.common.PJD_7PARAM;
+          proj.datum_params[3] *= proj4.common.SEC_TO_RAD;
+          proj.datum_params[4] *= proj4.common.SEC_TO_RAD;
+          proj.datum_params[5] *= proj4.common.SEC_TO_RAD;
           proj.datum_params[6] = (proj.datum_params[6]/1000000.0) + 1.0;
         }
       }
     }
     // DGR 2011-03-21 : nadgrids support
     this.datum_type = proj.grids?
-      Proj4js.common.PJD_GRIDSHIFT
+      proj4.common.PJD_GRIDSHIFT
     : this.datum_type;
 
     this.a = proj.a;    //datum object also uses these values
@@ -36,7 +36,7 @@ Proj4js.datum = Proj4js.Class({
     this.es = proj.es;
     this.ep2 = proj.ep2;
     this.datum_params = proj.datum_params;
-    if (this.datum_type==Proj4js.common.PJD_GRIDSHIFT) {
+    if (this.datum_type==proj4.common.PJD_GRIDSHIFT) {
       this.grids= proj.grids;
     }
   },
@@ -51,11 +51,11 @@ Proj4js.datum = Proj4js.Class({
       // the tolerence for es is to ensure that GRS80 and WGS84
       // are considered identical
       return false;
-    } else if( this.datum_type == Proj4js.common.PJD_3PARAM ) {
+    } else if( this.datum_type == proj4.common.PJD_3PARAM ) {
       return (this.datum_params[0] == dest.datum_params[0]
               && this.datum_params[1] == dest.datum_params[1]
               && this.datum_params[2] == dest.datum_params[2]);
-    } else if( this.datum_type == Proj4js.common.PJD_7PARAM ) {
+    } else if( this.datum_type == proj4.common.PJD_7PARAM ) {
       return (this.datum_params[0] == dest.datum_params[0]
               && this.datum_params[1] == dest.datum_params[1]
               && this.datum_params[2] == dest.datum_params[2]
@@ -63,8 +63,8 @@ Proj4js.datum = Proj4js.Class({
               && this.datum_params[4] == dest.datum_params[4]
               && this.datum_params[5] == dest.datum_params[5]
               && this.datum_params[6] == dest.datum_params[6]);
-    } else if ( this.datum_type == Proj4js.common.PJD_GRIDSHIFT ||
-                dest.datum_type == Proj4js.common.PJD_GRIDSHIFT ) {
+    } else if ( this.datum_type == proj4.common.PJD_GRIDSHIFT ||
+                dest.datum_type == proj4.common.PJD_GRIDSHIFT ) {
       //alert("ERROR: Grid shift transformations are not implemented.");
       //return false
       //DGR 2012-07-29 lazy ...
@@ -106,17 +106,17 @@ Proj4js.datum = Proj4js.Class({
     ** range as it may just be a rounding issue.  Also removed longitude
     ** test, it should be wrapped by Math.cos() and Math.sin().  NFW for PROJ.4, Sep/2001.
     */
-    if( Latitude < -Proj4js.common.HALF_PI && Latitude > -1.001 * Proj4js.common.HALF_PI ) {
-        Latitude = -Proj4js.common.HALF_PI;
-    } else if( Latitude > Proj4js.common.HALF_PI && Latitude < 1.001 * Proj4js.common.HALF_PI ) {
-        Latitude = Proj4js.common.HALF_PI;
-    } else if ((Latitude < -Proj4js.common.HALF_PI) || (Latitude > Proj4js.common.HALF_PI)) {
+    if( Latitude < -proj4.common.HALF_PI && Latitude > -1.001 * proj4.common.HALF_PI ) {
+        Latitude = -proj4.common.HALF_PI;
+    } else if( Latitude > proj4.common.HALF_PI && Latitude < 1.001 * proj4.common.HALF_PI ) {
+        Latitude = proj4.common.HALF_PI;
+    } else if ((Latitude < -proj4.common.HALF_PI) || (Latitude > proj4.common.HALF_PI)) {
       /* Latitude out of range */
-      Proj4js.reportError('geocent:lat out of range:'+Latitude);
+      proj4.reportError('geocent:lat out of range:'+Latitude);
       return null;
     }
 
-    if (Longitude > Proj4js.common.PI) Longitude -= (2*Proj4js.common.PI);
+    if (Longitude > proj4.common.PI) Longitude -= (2*proj4.common.PI);
     Sin_Lat = Math.sin(Latitude);
     Cos_Lat = Math.cos(Latitude);
     Sin2_Lat = Sin_Lat * Sin_Lat;
@@ -175,7 +175,7 @@ var maxiter = 30;
 /*  if (X,Y,Z)=(0.,0.,0.) then Height becomes semi-minor axis
  *  of ellipsoid (=center of mass), Latitude becomes PI/2 */
         if (RR/this.a < genau) {
-            Latitude = Proj4js.common.HALF_PI;
+            Latitude = proj4.common.HALF_PI;
             Height   = -this.b;
             return;
         }
@@ -270,11 +270,11 @@ var maxiter = 30;
     {
         if (Y > 0)
         {
-            Longitude = Proj4js.common.HALF_PI;
+            Longitude = proj4.common.HALF_PI;
         }
         else if (Y < 0)
         {
-            Longitude = -Proj4js.common.HALF_PI;
+            Longitude = -proj4.common.HALF_PI;
         }
         else
         {
@@ -282,15 +282,15 @@ var maxiter = 30;
             Longitude = 0.0;
             if (Z > 0.0)
             {  /* north pole */
-                Latitude = Proj4js.common.HALF_PI;
+                Latitude = proj4.common.HALF_PI;
             }
             else if (Z < 0.0)
             {  /* south pole */
-                Latitude = -Proj4js.common.HALF_PI;
+                Latitude = -proj4.common.HALF_PI;
             }
             else
             {  /* center of earth */
-                Latitude = Proj4js.common.HALF_PI;
+                Latitude = proj4.common.HALF_PI;
                 Height = -this.b;
                 return;
             }
@@ -298,7 +298,7 @@ var maxiter = 30;
     }
     W2 = X*X + Y*Y;
     W = Math.sqrt(W2);
-    T0 = Z * Proj4js.common.AD_C;
+    T0 = Z * proj4.common.AD_C;
     S0 = Math.sqrt(T0 * T0 + W2);
     Sin_B0 = T0 / S0;
     Cos_B0 = W / S0;
@@ -309,11 +309,11 @@ var maxiter = 30;
     Sin_p1 = T1 / S1;
     Cos_p1 = Sum / S1;
     Rn = this.a / Math.sqrt(1.0 - this.es * Sin_p1 * Sin_p1);
-    if (Cos_p1 >= Proj4js.common.COS_67P5)
+    if (Cos_p1 >= proj4.common.COS_67P5)
     {
         Height = W / Cos_p1 - Rn;
     }
-    else if (Cos_p1 <= -Proj4js.common.COS_67P5)
+    else if (Cos_p1 <= -proj4.common.COS_67P5)
     {
         Height = W / -Cos_p1 - Rn;
     }
@@ -337,7 +337,7 @@ var maxiter = 30;
   //  p = point to transform in geocentric coordinates (x,y,z)
   geocentric_to_wgs84 : function ( p ) {
 
-    if( this.datum_type == Proj4js.common.PJD_3PARAM )
+    if( this.datum_type == proj4.common.PJD_3PARAM )
     {
       // if( x[io] == HUGE_VAL )
       //    continue;
@@ -346,7 +346,7 @@ var maxiter = 30;
       p.z += this.datum_params[2];
 
     }
-    else if (this.datum_type == Proj4js.common.PJD_7PARAM)
+    else if (this.datum_type == proj4.common.PJD_7PARAM)
     {
       var Dx_BF =this.datum_params[0];
       var Dy_BF =this.datum_params[1];
@@ -372,7 +372,7 @@ var maxiter = 30;
   //  point to transform in geocentric coordinates (x,y,z)
   geocentric_from_wgs84 : function( p ) {
 
-    if( this.datum_type == Proj4js.common.PJD_3PARAM )
+    if( this.datum_type == proj4.common.PJD_3PARAM )
     {
       //if( x[io] == HUGE_VAL )
       //    continue;
@@ -381,7 +381,7 @@ var maxiter = 30;
       p.z -= this.datum_params[2];
 
     }
-    else if (this.datum_type == Proj4js.common.PJD_7PARAM)
+    else if (this.datum_type == proj4.common.PJD_7PARAM)
     {
       var Dx_BF =this.datum_params[0];
       var Dy_BF =this.datum_params[1];
