@@ -2,12 +2,12 @@
 proj4.Proj.eqc = {
   init: function() {
 
-    if (!this.x0) this.x0 = 0;
-    if (!this.y0) this.y0 = 0;
-    if (!this.lat0) this.lat0 = 0;
-    if (!this.long0) this.long0 = 0;
-    if (!this.lat_ts) this.lat_ts = 0;
-    if (!this.title) this.title = "Equidistant Cylindrical (Plate Carre)";
+    this.x0 = this.x0||0;
+    this.y0 = this.y0||0;
+    this.lat0 = this.lat0||0;
+    this.long0 = this.long0||0;
+    this.lat_ts = this.lat_t||0;
+    this.title = this.title||"Equidistant Cylindrical (Plate Carre)";
 
     this.rc = Math.cos(this.lat_ts);
   },
