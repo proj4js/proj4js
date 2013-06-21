@@ -37,11 +37,9 @@ proj4.Proj.eqdc = {
       proj4.common.reportError("eqdc:init: Equal Latitudes");
       return;
     }
-    if (this.lat2 == null) {
-      this.lat2 = this.lat1;
-    }
+    this.lat2 = this.lat2||this.lat1;
     this.temp = this.b / this.a;
-    this.es = 1.0 - Math.pow(this.temp, 2);
+    this.es = 1 - Math.pow(this.temp, 2);
     this.e = Math.sqrt(this.es);
     this.e0 = proj4.common.e0fn(this.es);
     this.e1 = proj4.common.e1fn(this.es);
@@ -103,14 +101,14 @@ proj4.Proj.eqdc = {
     var con, rh1, lat, lon;
     if (this.ns >= 0) {
       rh1 = Math.sqrt(p.x * p.x + p.y * p.y);
-      con = 1.0;
+      con = 1;
     }
     else {
       rh1 = -Math.sqrt(p.x * p.x + p.y * p.y);
-      con = -1.0;
+      con = -1;
     }
-    var theta = 0.0;
-    if (rh1 != 0.0) {
+    var theta = 0;
+    if (rh1 !== 0) {
       theta = Math.atan2(con * p.x, con * p.y);
     }
 
