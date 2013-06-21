@@ -17,12 +17,6 @@
 proj4.Proj = proj4.Class({
 
   /**
-   * Property: readyToUse
-   * Flag to indicate if initialization is complete for this Proj object
-   */
-  readyToUse: true,   
-  
-  /**
    * Property: title
    * The title to describe the projection
    */
@@ -159,7 +153,6 @@ proj4.Proj = proj4.Class({
     }
       proj4.extend(this, proj4.Proj[this.projName]);
       this.init();
-      this.readyToUse = true;
       if( this.queue ) {
         var item;
         while( (item = this.queue.shift()) ) {
