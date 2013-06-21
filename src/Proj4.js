@@ -65,73 +65,72 @@ proj4.defaultDatum = 'WGS84';                  //default datum
     *     projected Cartesian (x,y), but should always have x,y properties.
     */
 proj4.transform = function(source, dest, point) {
-        if (!source.readyToUse) {
-            this.reportError("proj4 initialization for:"+source.srsCode+" not yet complete");
-            return point;
-        }
-        if (!dest.readyToUse) {
-            this.reportError("proj4 initialization for:"+dest.srsCode+" not yet complete");
-            return point;
-        }
-        
-        // Workaround for datum shifts towgs84, if either source or destination projection is not wgs84
-        if (source.datum && dest.datum && (
-            ((source.datum.datum_type === proj4.common.PJD_3PARAM || source.datum.datum_type === proj4.common.PJD_7PARAM) && dest.datumCode !== "WGS84") ||
-            ((dest.datum.datum_type === proj4.common.PJD_3PARAM || dest.datum.datum_type === proj4.common.PJD_7PARAM) && source.datumCode !== "WGS84"))) {
-            var wgs84 = proj4.WGS84;
-            this.transform(source, wgs84, point);
-            source = wgs84;
-        }
+  var wgs84;
+  if (!source.readyToUse) {
+    this.reportError("proj4 initialization for:"+source.srsCode+" not yet complete");
+      return point;
+  }
+  if (!dest.readyToUse) {
+    this.reportError("proj4 initialization for:"+dest.srsCode+" not yet complete");
+      return point;
+  }
+  function checkNotWGS(source,dest){
+    return ((source.datum.datum_type === proj4.common.PJD_3PARAM || source.datum.datum_type === proj4.common.PJD_7PARAM) && dest.datumCode !== "WGS84");
+  }
+  
+  // Workaround for datum shifts towgs84, if either source or destination projection is not wgs84
+  if (source.datum && dest.datum && (checkNotWGS(source, dest) ||checkNotWGS(dest,source))) {
+    wgs84 = proj4.WGS84;
+    this.transform(source, wgs84, point);
+    source = wgs84;
+  }
+  // DGR, 2010/11/12
+  if (source.axis!=="enu") {
+    this.adjust_axis(source,false,point);
+  }
+  // Transform source points to long/lat, if they aren't already.
+  if (source.projName==="longlat") {
+    point.x *= proj4.common.D2R;  // convert degrees to radians
+    point.y *= proj4.common.D2R;
+  } else {
+    if (source.to_meter) {
+      point.x *= source.to_meter;
+      point.y *= source.to_meter;
+    }
+     source.inverse(point); // Convert Cartesian to longlat
+  }
+  // Adjust for the prime meridian if necessary
+  if (source.from_greenwich) { 
+    point.x += source.from_greenwich; 
+  }
 
-        // DGR, 2010/11/12
-        if (source.axis!=="enu") {
-            this.adjust_axis(source,false,point);
-        }
+  // Convert datums if needed, and if possible.
+  point = this.datum_transform( source.datum, dest.datum, point );
 
-        // Transform source points to long/lat, if they aren't already.
-        if (source.projName==="longlat") {
-            point.x *= proj4.common.D2R;  // convert degrees to radians
-            point.y *= proj4.common.D2R;
-        } else {
-            if (source.to_meter) {
-                point.x *= source.to_meter;
-                point.y *= source.to_meter;
-            }
-            source.inverse(point); // Convert Cartesian to longlat
-        }
+  // Adjust for the prime meridian if necessary
+  if (dest.from_greenwich) {
+    point.x -= dest.from_greenwich;
+  }
 
-        // Adjust for the prime meridian if necessary
-        if (source.from_greenwich) { 
-            point.x += source.from_greenwich; 
-        }
+  if (dest.projName==="longlat") {
+    // convert radians to decimal degrees
+    point.x *= proj4.common.R2D;
+    point.y *= proj4.common.R2D;
+  } else {               // else project
+    dest.forward(point);
+    if (dest.to_meter) {
+      point.x /= dest.to_meter;
+      point.y /= dest.to_meter;
+    }
+  }
 
-        // Convert datums if needed, and if possible.
-        point = this.datum_transform( source.datum, dest.datum, point );
+  // DGR, 2010/11/12
+  if (dest.axis!=="enu") {
+    this.adjust_axis(dest,true,point);
+  }
 
-        // Adjust for the prime meridian if necessary
-        if (dest.from_greenwich) {
-            point.x -= dest.from_greenwich;
-        }
-
-        if (dest.projName==="longlat") {
-            // convert radians to decimal degrees
-            point.x *= proj4.common.R2D;
-            point.y *= proj4.common.R2D;
-        } else  {               // else project
-            dest.forward(point);
-            if (dest.to_meter) {
-                point.x /= dest.to_meter;
-                point.y /= dest.to_meter;
-            }
-        }
-
-        // DGR, 2010/11/12
-        if (dest.axis!=="enu") {
-            this.adjust_axis(dest,true,point);
-        }
-
-        return point;
-    }; // transform()
+  return point;
+}; // transform()
 
     /** datum_transform()
       source coordinate system definition,
@@ -139,58 +138,56 @@ proj4.transform = function(source, dest, point) {
       point to transform in geodetic coordinates (long, lat, height)
     */
 proj4.datum_transform = function( source, dest, point ) {
+  var wp,i,l;
+  // Short cut if the datums are identical.
+  if( source.compare_datums( dest ) ) {
+    return point; // in this case, zero is sucess,
+    // whereas cs_compare_datums returns 1 to indicate TRUE
+    // confusing, should fix this
+  }
 
-      // Short cut if the datums are identical.
-      if( source.compare_datums( dest ) ) {
-          return point; // in this case, zero is sucess,
-                    // whereas cs_compare_datums returns 1 to indicate TRUE
-                    // confusing, should fix this
+  // Explicitly skip datum transform by setting 'datum=none' as parameter for either source or dest
+  if( source.datum_type === proj4.common.PJD_NODATUM || dest.datum_type === proj4.common.PJD_NODATUM) {
+    return point;
+  }
+
+  //DGR: 2012-07-29 : add nadgrids support (begin)
+  var src_a = source.a;
+  var src_es = source.es;
+
+  var dst_a = dest.a;
+  var dst_es = dest.es;
+
+  var fallback= source.datum_type;
+  // If this datum requires grid shifts, then apply it to geodetic coordinates.
+  if( fallback === proj4.common.PJD_GRIDSHIFT ) {
+    if (this.apply_gridshift( source, 0, point )===0) {
+      source.a = proj4.common.SRS_WGS84_SEMIMAJOR;
+      source.es = proj4.common.SRS_WGS84_ESQUARED;
+    } else {
+      // try 3 or 7 params transformation or nothing ?
+      if (!source.datum_params) {
+        source.a = src_a;
+        source.es = source.es;
+        return point;
       }
-
-      // Explicitly skip datum transform by setting 'datum=none' as parameter for either source or dest
-      if( source.datum_type === proj4.common.PJD_NODATUM || dest.datum_type === proj4.common.PJD_NODATUM) {
-          return point;
+      wp= 1;
+      for (i= 0, l= source.datum_params.length; i<l; i++) {
+        wp*= source.datum_params[i];
       }
-
-      //DGR: 2012-07-29 : add nadgrids support (begin)
-      var src_a = source.a;
-      var src_es = source.es;
-
-      var dst_a = dest.a;
-      var dst_es = dest.es;
-
-      var fallback= source.datum_type;
-      // If this datum requires grid shifts, then apply it to geodetic coordinates.
-      if( fallback === proj4.common.PJD_GRIDSHIFT )
-      {
-          if (this.apply_gridshift( source, 0, point )===0) {
-            source.a = proj4.common.SRS_WGS84_SEMIMAJOR;
-            source.es = proj4.common.SRS_WGS84_ESQUARED;
-          } else {
-
-              // try 3 or 7 params transformation or nothing ?
-              if (!source.datum_params) {
-                  source.a = src_a;
-                  source.es = source.es;
-                  return point;
-              }
-              var wp= 1.0;
-              for (var i= 0, l= source.datum_params.length; i<l; i++) {
-                wp*= source.datum_params[i];
-              }
-              if (wp===0.0) {
-                source.a = src_a;
-                source.es = source.es;
-                return point;
-              }
-              fallback= source.datum_params.length>3?
-                proj4.common.PJD_7PARAM
-              : proj4.common.PJD_3PARAM;
-              // CHECK_RETURN;
-          }
+      if (wp===0) {
+        source.a = src_a;
+        source.es = source.es;
+        return point;
       }
-
-      if( dest.datum_type === proj4.common.PJD_GRIDSHIFT ){
+      if(source.datum_params.length>3){
+        fallback = proj4.common.PJD_7PARAM;
+      } else {
+        fallback = proj4.common.PJD_3PARAM;
+      }
+    }
+  }
+  if( dest.datum_type === proj4.common.PJD_GRIDSHIFT ){
           dest.a = proj4.common.SRS_WGS84_SEMIMAJOR;
           dest.es = proj4.common.SRS_WGS84_ESQUARED;
       }
