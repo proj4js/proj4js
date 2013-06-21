@@ -24,7 +24,7 @@ proj4.Proj.gnom = {
 
   /* Initialize the Gnomonic projection
     -------------------------------------*/
-  init: function(def) {
+  init: function() {
 
     /* Place parameters in static storage for common use
       -------------------------------------------------*/
@@ -83,7 +83,6 @@ proj4.Proj.gnom = {
 
   inverse: function(p) {
     var rh; /* Rho */
-    var z; /* angle */
     var sinc, cosc;
     var c;
     var lon, lat;
