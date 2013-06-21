@@ -49,7 +49,9 @@ proj4.Proj.moll = {
     for (var i = 0; true; i++) {
       var delta_theta = -(theta + Math.sin(theta) - con) / (1.0 + Math.cos(theta));
       theta += delta_theta;
-      if (Math.abs(delta_theta) < proj4.common.EPSLN) break;
+      if (Math.abs(delta_theta) < proj4.common.EPSLN){
+        break;
+      }
       if (i >= 50) {
         proj4.reportError("moll:Fwd:IterationError");
         //return(241);
@@ -60,7 +62,9 @@ proj4.Proj.moll = {
     /* If the latitude is 90 deg, force the x coordinate to be "0 + false easting"
        this is done here because of precision problems with "cos(theta)"
        --------------------------------------------------------------------------*/
-    if (proj4.common.PI / 2 - Math.abs(lat) < proj4.common.EPSLN) delta_lon = 0;
+    if (proj4.common.PI / 2 - Math.abs(lat) < proj4.common.EPSLN){
+      delta_lon = 0;
+    }
     var x = 0.900316316158 * this.a * delta_lon * Math.cos(theta) + this.x0;
     var y = 1.4142135623731 * this.a * Math.sin(theta) + this.y0;
 
@@ -77,18 +81,26 @@ proj4.Proj.moll = {
       -----------------*/
     p.x -= this.x0;
     p.y -= this.y0;
-    var arg = p.y / (1.4142135623731 * this.a);
+    arg = p.y / (1.4142135623731 * this.a);
 
     /* Because of division by zero problems, 'arg' can not be 1.0.  Therefore
        a number very close to one is used instead.
        -------------------------------------------------------------------*/
-    if (Math.abs(arg) > 0.999999999999) arg = 0.999999999999;
-    var theta = Math.asin(arg);
+    if (Math.abs(arg) > 0.999999999999){
+      arg = 0.999999999999;
+    }
+    theta = Math.asin(arg);
     var lon = proj4.common.adjust_lon(this.long0 + (p.x / (0.900316316158 * this.a * Math.cos(theta))));
-    if (lon < (-proj4.common.PI)) lon = -proj4.common.PI;
-    if (lon > proj4.common.PI) lon = proj4.common.PI;
+    if (lon < (-proj4.common.PI)){
+      lon = -proj4.common.PI;
+    }
+    if (lon > proj4.common.PI){
+      lon = proj4.common.PI;
+    }
     arg = (2.0 * theta + Math.sin(2.0 * theta)) / proj4.common.PI;
-    if (Math.abs(arg) > 1.0) arg = 1.0;
+    if (Math.abs(arg) > 1.0){
+      arg = 1.0;
+    }
     var lat = Math.asin(arg);
     //return(OK);
 
