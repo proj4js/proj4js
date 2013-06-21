@@ -11,15 +11,15 @@ proj4.Proj.aeqd = {
     var sinphi = Math.sin(p.y);
     var cosphi = Math.cos(p.y);
     var dlon = proj4.common.adjust_lon(lon - this.long0);
-
+    var e0,e1,e2,e3,Mlp,Ml,tanphi,Nl1,Nl,psi,Az,G,H,GH,Hs,c,kp,cos_c,s,s2,s3,s4,s5;
     if (this.sphere) {
-      if (Math.abs(this.sin_p12 - 1.0) <= proj4.common.EPSLN) {
+      if (Math.abs(this.sin_p12 - 1) <= proj4.common.EPSLN) {
         //North Pole case
         p.x = this.x0 + this.a * (proj4.common.HALF_PI - lat) * Math.sin(dlon);
         p.y = this.y0 - this.a * (proj4.common.HALF_PI - lat) * Math.cos(dlon);
         return p;
       }
-      else if (Math.abs(this.sin_p12 + 1.0) <= proj4.common.EPSLN) {
+      else if (Math.abs(this.sin_p12 + 1) <= proj4.common.EPSLN) {
         //South Pole case
         p.x = this.x0 + this.a * (proj4.common.HALF_PI + lat) * Math.sin(dlon);
         p.y = this.y0 + this.a * (proj4.common.HALF_PI + lat) * Math.cos(dlon);
@@ -27,44 +27,43 @@ proj4.Proj.aeqd = {
       }
       else {
         //default case
-        var cos_c = this.sin_p12 * sinphi + this.cos_p12 * cosphi * Math.cos(dlon);
-        var c = Math.acos(cos_c);
-        var kp = c / Math.sin(c);
+        cos_c = this.sin_p12 * sinphi + this.cos_p12 * cosphi * Math.cos(dlon);
+        c = Math.acos(cos_c);
+        kp = c / Math.sin(c);
         p.x = this.x0 + this.a * kp * cosphi * Math.sin(dlon);
         p.y = this.y0 + this.a * kp * (this.cos_p12 * sinphi - this.sin_p12 * cosphi * Math.cos(dlon));
         return p;
       }
     }
     else {
-      var e0 = proj4.common.e0fn(this.es);
-      var e1 = proj4.common.e1fn(this.es);
-      var e2 = proj4.common.e2fn(this.es);
-      var e3 = proj4.common.e3fn(this.es);
-      if (Math.abs(this.sin_p12 - 1.0) <= proj4.common.EPSLN) {
+      e0 = proj4.common.e0fn(this.es);
+      e1 = proj4.common.e1fn(this.es);
+      e2 = proj4.common.e2fn(this.es);
+      e3 = proj4.common.e3fn(this.es);
+      if (Math.abs(this.sin_p12 - 1) <= proj4.common.EPSLN) {
         //North Pole case
-        var Mlp = this.a * proj4.common.mlfn(e0, e1, e2, e3, proj4.common.HALF_PI);
-        var Ml = this.a * proj4.common.mlfn(e0, e1, e2, e3, lat);
+        Mlp = this.a * proj4.common.mlfn(e0, e1, e2, e3, proj4.common.HALF_PI);
+        Ml = this.a * proj4.common.mlfn(e0, e1, e2, e3, lat);
         p.x = this.x0 + (Mlp - Ml) * Math.sin(dlon);
         p.y = this.y0 - (Mlp - Ml) * Math.cos(dlon);
         return p;
       }
-      else if (Math.abs(this.sin_p12 + 1.0) <= proj4.common.EPSLN) {
+      else if (Math.abs(this.sin_p12 + 1) <= proj4.common.EPSLN) {
         //South Pole case
-        var Mlp = this.a * proj4.common.mlfn(e0, e1, e2, e3, proj4.common.HALF_PI);
-        var Ml = this.a * proj4.common.mlfn(e0, e1, e2, e3, lat);
+        Mlp = this.a * proj4.common.mlfn(e0, e1, e2, e3, proj4.common.HALF_PI);
+        Ml = this.a * proj4.common.mlfn(e0, e1, e2, e3, lat);
         p.x = this.x0 + (Mlp + Ml) * Math.sin(dlon);
         p.y = this.y0 + (Mlp + Ml) * Math.cos(dlon);
         return p;
       }
       else {
         //Default case
-        var tanphi = sinphi / cosphi;
-        var Nl1 = proj4.common.gN(this.a, this.e, this.sin_p12);
-        var Nl = proj4.common.gN(this.a, this.e, sinphi);
-        var psi = Math.atan((1.0 - this.es) * tanphi + this.es * Nl1 * this.sin_p12 / (Nl * cosphi));
-        var Az = Math.atan2(Math.sin(dlon), this.cos_p12 * Math.tan(psi) - this.sin_p12 * Math.cos(dlon));
-        var s;
-        if (Az == 0) {
+        tanphi = sinphi / cosphi;
+        Nl1 = proj4.common.gN(this.a, this.e, this.sin_p12);
+        Nl = proj4.common.gN(this.a, this.e, sinphi);
+        psi = Math.atan((1 - this.es) * tanphi + this.es * Nl1 * this.sin_p12 / (Nl * cosphi));
+        Az = Math.atan2(Math.sin(dlon), this.cos_p12 * Math.tan(psi) - this.sin_p12 * Math.cos(dlon));
+        if (Az === 0) {
           s = Math.asin(this.cos_p12 * Math.sin(psi) - this.sin_p12 * Math.cos(psi));
         }
         else if (Math.abs(Math.abs(Az) - proj4.common.PI) <= proj4.common.EPSLN) {
@@ -73,10 +72,15 @@ proj4.Proj.aeqd = {
         else {
           s = Math.asin(Math.sin(dlon) * Math.cos(psi) / Math.sin(Az));
         }
-        var G = this.e * this.sin_p12 / Math.sqrt(1.0 - this.es);
-        var H = this.e * this.cos_p12 * Math.cos(Az) / Math.sqrt(1.0 - this.es);
-        var Hs = H * H;
-        var c = Nl1 * s * (1.0 - s * s * Hs * (1.0 - Hs) / 6.0 + s * s * s / 8.0 * G * H * (1.0 - 2.0 * Hs) + s * s * s * s / 120.0 * (Hs * (4.0 - 7.0 * Hs) - 3.0 * G * G * (1.0 - 7.0 * Hs)) - s * s * s * s * s / 48.0 * G * H);
+        G = this.e * this.sin_p12 / Math.sqrt(1 - this.es);
+        H = this.e * this.cos_p12 * Math.cos(Az) / Math.sqrt(1 - this.es);
+        GH = G * H;
+        Hs = H * H;
+        s2 = s * s;
+        s3 = s2 * s;
+        s4 = s3 * s;
+        s5 = s4 * s;
+        c = Nl1 * s * (1 - s2 * Hs * (1 - Hs) / 6 + s3 / 8 * GH * (1 - 2 * Hs) + s4 / 120 * (Hs * (4 - 7 * Hs) - 3 * G * G * (1 - 7 * Hs)) - s5 / 48 * GH);
         p.x = this.x0 + c * Math.sin(Az);
         p.y = this.y0 + c * Math.cos(Az);
         return p;
@@ -89,27 +93,27 @@ proj4.Proj.aeqd = {
   inverse: function(p) {
     p.x -= this.x0;
     p.y -= this.y0;
+    var rh,z,sinz,cosz,lon,lat,con,e0,e1,e2,e3,Mlp,M,N1,psi,Az,cosAz,tmp,A,B,D,Ee,F;
     if (this.sphere) {
-      var rh = Math.sqrt(p.x * p.x + p.y * p.y);
-      if (rh > (2.0 * proj4.common.HALF_PI * this.a)) {
+      rh = Math.sqrt(p.x * p.x + p.y * p.y);
+      if (rh > (2 * proj4.common.HALF_PI * this.a)) {
         proj4.reportError("aeqdInvDataError");
         return;
       }
-      var z = rh / this.a;
+      z = rh / this.a;
 
-      var sinz = Math.sin(z);
-      var cosz = Math.cos(z);
+      sinz = Math.sin(z);
+      cosz = Math.cos(z);
 
-      var lon = this.long0;
-      var lat;
+      lon = this.long0;
       if (Math.abs(rh) <= proj4.common.EPSLN) {
         lat = this.lat0;
       }
       else {
         lat = proj4.common.asinz(cosz * this.sin_p12 + (p.y * sinz * this.cos_p12) / rh);
-        var con = Math.abs(this.lat0) - proj4.common.HALF_PI;
+        con = Math.abs(this.lat0) - proj4.common.HALF_PI;
         if (Math.abs(con) <= proj4.common.EPSLN) {
-          if (this.lat0 >= 0.0) {
+          if (this.lat0 >= 0) {
             lon = proj4.common.adjust_lon(this.long0 + Math.atan2(p.x, - p.y));
           }
           else {
@@ -133,48 +137,48 @@ proj4.Proj.aeqd = {
       return p;
     }
     else {
-      var e0 = proj4.common.e0fn(this.es);
-      var e1 = proj4.common.e1fn(this.es);
-      var e2 = proj4.common.e2fn(this.es);
-      var e3 = proj4.common.e3fn(this.es);
-      if (Math.abs(this.sin_p12 - 1.0) <= proj4.common.EPSLN) {
+      e0 = proj4.common.e0fn(this.es);
+      e1 = proj4.common.e1fn(this.es);
+      e2 = proj4.common.e2fn(this.es);
+      e3 = proj4.common.e3fn(this.es);
+      if (Math.abs(this.sin_p12 - 1) <= proj4.common.EPSLN) {
         //North pole case
-        var Mlp = this.a * proj4.common.mlfn(e0, e1, e2, e3, proj4.common.HALF_PI);
-        var rh = Math.sqrt(p.x * p.x + p.y * p.y);
-        var M = Mlp - rh;
-        var lat = proj4.common.imlfn(M / this.a, e0, e1, e2, e3);
-        var lon = proj4.common.adjust_lon(this.long0 + Math.atan2(p.x, - 1.0 * p.y));
-        p.x = lon,
+        Mlp = this.a * proj4.common.mlfn(e0, e1, e2, e3, proj4.common.HALF_PI);
+        rh = Math.sqrt(p.x * p.x + p.y * p.y);
+        M = Mlp - rh;
+        lat = proj4.common.imlfn(M / this.a, e0, e1, e2, e3);
+        lon = proj4.common.adjust_lon(this.long0 + Math.atan2(p.x, - 1 * p.y));
+        p.x = lon;
         p.y = lat;
         return p;
       }
-      else if (Math.abs(this.sin_p12 + 1.0) <= proj4.common.EPSLN) {
+      else if (Math.abs(this.sin_p12 + 1) <= proj4.common.EPSLN) {
         //South pole case
-        var Mlp = this.a * proj4.common.mlfn(e0, e1, e2, e3, proj4.common.HALF_PI);
-        var rh = Math.sqrt(p.x * p.x + p.y * p.y);
-        var M = rh - Mlp;
+        Mlp = this.a * proj4.common.mlfn(e0, e1, e2, e3, proj4.common.HALF_PI);
+        rh = Math.sqrt(p.x * p.x + p.y * p.y);
+        M = rh - Mlp;
 
-        var lat = proj4.common.imlfn(M / this.a, e0, e1, e2, e3);
-        var lon = proj4.common.adjust_lon(this.long0 + Math.atan2(p.x, p.y));
-        p.x = lon,
+        lat = proj4.common.imlfn(M / this.a, e0, e1, e2, e3);
+        lon = proj4.common.adjust_lon(this.long0 + Math.atan2(p.x, p.y));
+        p.x = lon;
         p.y = lat;
         return p;
       }
       else {
         //default case
-        var rh = Math.sqrt(p.x * p.x + p.y * p.y);
-        var Az = Math.atan2(p.x, p.y);
-        var N1 = proj4.common.gN(this.a, this.e, this.sin_p12);
-        var cosAz = Math.cos(Az);
-        var tmp = this.e * this.cos_p12 * cosAz;
-        var A = -tmp * tmp / (1.0 - this.es);
-        var B = 3.0 * this.es * (1.0 - A) * this.sin_p12 * this.cos_p12 * cosAz / (1.0 - this.es);
-        var D = rh / N1;
-        var Ee = D - A * (1.0 + A) * Math.pow(D, 3.0) / 6.0 - B * (1 + 3.0 * A) * Math.pow(D, 4.0) / 24.0;
-        var F = 1.0 - A * Ee * Ee / 2.0 - D * Ee * Ee * Ee / 6.0;
-        var psi = Math.asin(this.sin_p12 * Math.cos(Ee) + this.cos_p12 * Math.sin(Ee) * cosAz);
-        var lon = proj4.common.adjust_lon(this.long0 + Math.asin(Math.sin(Az) * Math.sin(Ee) / Math.cos(psi)));
-        var lat = Math.atan((1.0 - this.es * F * this.sin_p12 / Math.sin(psi)) * Math.tan(psi) / (1.0 - this.es));
+        rh = Math.sqrt(p.x * p.x + p.y * p.y);
+        Az = Math.atan2(p.x, p.y);
+        N1 = proj4.common.gN(this.a, this.e, this.sin_p12);
+        cosAz = Math.cos(Az);
+        tmp = this.e * this.cos_p12 * cosAz;
+        A = -tmp * tmp / (1 - this.es);
+        B = 3 * this.es * (1 - A) * this.sin_p12 * this.cos_p12 * cosAz / (1 - this.es);
+        D = rh / N1;
+        Ee = D - A * (1 + A) * Math.pow(D, 3) / 6 - B * (1 + 3 * A) * Math.pow(D, 4) / 24;
+        F = 1 - A * Ee * Ee / 2 - D * Ee * Ee * Ee / 6;
+        psi = Math.asin(this.sin_p12 * Math.cos(Ee) + this.cos_p12 * Math.sin(Ee) * cosAz);
+        lon = proj4.common.adjust_lon(this.long0 + Math.asin(Math.sin(Az) * Math.sin(Ee) / Math.cos(psi)));
+        lat = Math.atan((1 - this.es * F * this.sin_p12 / Math.sin(psi)) * Math.tan(psi) / (1 - this.es));
         p.x = lon;
         p.y = lat;
         return p;
