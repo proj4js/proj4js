@@ -26,12 +26,8 @@ proj4.Proj.omerc = {
   /* Initialize the Oblique Mercator  projection
     ------------------------------------------*/
   init: function() {
-    if (this.no_off === null) {
-      this.no_off = false;
-    }
-    if (this.no_rot === null) {
-      this.no_rot = false;
-    }
+    this.no_off = this.no_off||false;
+    this.no_rot = this.no_rot||false;
 
     if (isNaN(this.k0)){
       this.k0 = 1.0;
