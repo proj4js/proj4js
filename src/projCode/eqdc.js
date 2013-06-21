@@ -1,14 +1,14 @@
 /*******************************************************************************
 NAME                            EQUIDISTANT CONIC 
 
-PURPOSE:	Transforms input longitude and latitude to Easting and Northing
-		for the Equidistant Conic projection.  The longitude and
-		latitude must be in radians.  The Easting and Northing values
-		will be returned in meters.
+PURPOSE:  Transforms input longitude and latitude to Easting and Northing
+    for the Equidistant Conic projection.  The longitude and
+    latitude must be in radians.  The Easting and Northing values
+    will be returned in meters.
 
 PROGRAMMER              DATE
 ----------              ----
-T. Mittan		Mar, 1993
+T. Mittan    Mar, 1993
 
 ALGORITHM REFERENCES
 

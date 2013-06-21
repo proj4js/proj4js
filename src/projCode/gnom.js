@@ -1,8 +1,8 @@
 /*****************************************************************************
 NAME                             GNOMONIC
 
-PURPOSE:	Transforms input longitude and latitude to Easting and
-		Northing for the Gnomonic Projection.
+PURPOSE:  Transforms input longitude and latitude to Easting and
+    Northing for the Gnomonic Projection.
                 Implementation based on the existing sterea and ortho
                 implementations.
 
@@ -39,10 +39,10 @@ proj4.Proj.gnom = {
   /* Gnomonic forward equations--mapping lat,long to x,y
     ---------------------------------------------------*/
   forward: function(p) {
-    var sinphi, cosphi; /* sin and cos value				*/
-    var dlon; /* delta longitude value			*/
-    var coslon; /* cos of longitude				*/
-    var ksp; /* scale factor					*/
+    var sinphi, cosphi; /* sin and cos value        */
+    var dlon; /* delta longitude value      */
+    var coslon; /* cos of longitude        */
+    var ksp; /* scale factor          */
     var g;
     var x, y;
     var lon = p.x;

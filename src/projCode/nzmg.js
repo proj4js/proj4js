@@ -1,10 +1,10 @@
 /*******************************************************************************
 NAME                            NEW ZEALAND MAP GRID
 
-PURPOSE:	Transforms input longitude and latitude to Easting and
-		Northing for the New Zealand Map Grid projection.  The
-		longitude and latitude must be in radians.  The Easting
-		and Northing values will be returned in meters.
+PURPOSE:  Transforms input longitude and latitude to Easting and
+    Northing for the New Zealand Map Grid projection.  The
+    longitude and latitude must be in radians.  The Easting
+    and Northing values will be returned in meters.
 
 
 ALGORITHM REFERENCES

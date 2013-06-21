@@ -1,14 +1,14 @@
 /*******************************************************************************
 NAME                     ALBERS CONICAL EQUAL AREA 
 
-PURPOSE:	Transforms input longitude and latitude to Easting and Northing
-		for the Albers Conical Equal Area projection.  The longitude
-		and latitude must be in radians.  The Easting and Northing
-		values will be returned in meters.
+PURPOSE:  Transforms input longitude and latitude to Easting and Northing
+    for the Albers Conical Equal Area projection.  The longitude
+    and latitude must be in radians.  The Easting and Northing
+    values will be returned in meters.
 
 PROGRAMMER              DATE
 ----------              ----
-T. Mittan,       	Feb, 1992
+T. Mittan,         Feb, 1992
 
 ALGORITHM REFERENCES
 

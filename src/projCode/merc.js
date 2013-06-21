@@ -1,15 +1,15 @@
 /*******************************************************************************
 NAME                            MERCATOR
 
-PURPOSE:	Transforms input longitude and latitude to Easting and
-		Northing for the Mercator projection.  The
-		longitude and latitude must be in radians.  The Easting
-		and Northing values will be returned in meters.
+PURPOSE:  Transforms input longitude and latitude to Easting and
+    Northing for the Mercator projection.  The
+    longitude and latitude must be in radians.  The Easting
+    and Northing values will be returned in meters.
 
 PROGRAMMER              DATE
 ----------              ----
 D. Steinwand, EROS      Nov, 1991
-T. Mittan		Mar, 1993
+T. Mittan    Mar, 1993
 
 ALGORITHM REFERENCES
 
@@ -22,14 +22,14 @@ ALGORITHM REFERENCES
     Printing Office, Washington D.C., 1989.
 *******************************************************************************/
 
-//static double r_major = a;		   /* major axis 				*/
-//static double r_minor = b;		   /* minor axis 				*/
-//static double lon_center = long0;	   /* Center longitude (projection center) */
-//static double lat_origin =  lat0;	   /* center latitude			*/
-//static double e,es;		           /* eccentricity constants		*/
-//static double m1;		               /* small value m			*/
-//static double false_northing = y0;   /* y offset in meters			*/
-//static double false_easting = x0;	   /* x offset in meters			*/
+//static double r_major = a;       /* major axis         */
+//static double r_minor = b;       /* minor axis         */
+//static double lon_center = long0;     /* Center longitude (projection center) */
+//static double lat_origin =  lat0;     /* center latitude      */
+//static double e,es;               /* eccentricity constants    */
+//static double m1;                   /* small value m      */
+//static double false_northing = y0;   /* y offset in meters      */
+//static double false_easting = x0;     /* x offset in meters      */
 //scale_fact = k0 
 
 proj4.Proj.merc = {
@@ -107,7 +107,7 @@ proj4.Proj.merc = {
     else {
       var ts = Math.exp(-y / (this.a * this.k0));
       lat = proj4.common.phi2z(this.e, ts);
-      if (lat == -9999) {
+      if (lat === -9999) {
         proj4.reportError("merc:inverse: lat = -9999");
         return null;
       }

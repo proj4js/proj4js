@@ -1,12 +1,12 @@
 /*******************************************************************************
 NAME                    LAMBERT CYLINDRICAL EQUAL AREA
 
-PURPOSE:	Transforms input longitude and latitude to Easting and
-		Northing for the Lambert Cylindrical Equal Area projection.
+PURPOSE:  Transforms input longitude and latitude to Easting and
+    Northing for the Lambert Cylindrical Equal Area projection.
                 This class of projection includes the Behrmann and 
                 Gall-Peters Projections.  The
-		longitude and latitude must be in radians.  The Easting
-		and Northing values will be returned in meters.
+    longitude and latitude must be in radians.  The Easting
+    and Northing values will be returned in meters.
 
 PROGRAMMER              DATE            
 ----------              ----

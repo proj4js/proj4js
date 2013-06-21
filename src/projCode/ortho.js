@@ -1,14 +1,14 @@
 /*******************************************************************************
 NAME                             ORTHOGRAPHIC 
 
-PURPOSE:	Transforms input longitude and latitude to Easting and
-		Northing for the Orthographic projection.  The
-		longitude and latitude must be in radians.  The Easting
-		and Northing values will be returned in meters.
+PURPOSE:  Transforms input longitude and latitude to Easting and
+    Northing for the Orthographic projection.  The
+    longitude and latitude must be in radians.  The Easting
+    and Northing values will be returned in meters.
 
 PROGRAMMER              DATE
 ----------              ----
-T. Mittan		Mar, 1993
+T. Mittan    Mar, 1993
 
 ALGORITHM REFERENCES
 
@@ -26,7 +26,7 @@ proj4.Proj.ortho = {
   /* Initialize the Orthographic projection
     -------------------------------------*/
   init: function() {
-    //double temp;			/* temporary variable		*/
+    //double temp;      /* temporary variable    */
 
     /* Place parameters in static storage for common use
       -------------------------------------------------*/
@@ -38,10 +38,10 @@ proj4.Proj.ortho = {
   /* Orthographic forward equations--mapping lat,long to x,y
     ---------------------------------------------------*/
   forward: function(p) {
-    var sinphi, cosphi; /* sin and cos value				*/
-    var dlon; /* delta longitude value			*/
-    var coslon; /* cos of longitude				*/
-    var ksp; /* scale factor					*/
+    var sinphi, cosphi; /* sin and cos value        */
+    var dlon; /* delta longitude value      */
+    var coslon; /* cos of longitude        */
+    var ksp; /* scale factor          */
     var g,x,y;
     var lon = p.x;
     var lat = p.y;
@@ -69,9 +69,9 @@ proj4.Proj.ortho = {
 
 
   inverse: function(p) {
-    var rh; /* height above ellipsoid			*/
-    var z; /* angle					*/
-    var sinz, cosz; /* sin of z and cos of z			*/
+    var rh; /* height above ellipsoid      */
+    var z; /* angle          */
+    var sinz, cosz; /* sin of z and cos of z      */
     var con;
     var lon, lat;
     /* Inverse equations

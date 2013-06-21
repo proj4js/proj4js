@@ -43,8 +43,8 @@ proj4.Proj.krovak = {
     this.s90 = 2 * this.s45;
     this.fi0 = this.lat0; /* Latitude of projection centre 49� 30' */
     /*  Ellipsoid Bessel 1841 a = 6377397.155m 1/f = 299.1528128,
-      					 e2=0.006674372230614;
-		 */
+                 e2=0.006674372230614;
+     */
     this.e2 = this.es; /* 0.006674372230614; */
     this.e = Math.sqrt(this.e2);
     this.alfa = Math.sqrt(1. + (this.e2 * Math.pow(Math.cos(this.fi0), 4)) / (1. - this.e2));

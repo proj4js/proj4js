@@ -1,14 +1,14 @@
 /*******************************************************************************
 NAME                    MILLER CYLINDRICAL 
 
-PURPOSE:	Transforms input longitude and latitude to Easting and
-		Northing for the Miller Cylindrical projection.  The
-		longitude and latitude must be in radians.  The Easting
-		and Northing values will be returned in meters.
+PURPOSE:  Transforms input longitude and latitude to Easting and
+    Northing for the Miller Cylindrical projection.  The
+    longitude and latitude must be in radians.  The Easting
+    and Northing values will be returned in meters.
 
 PROGRAMMER              DATE            
 ----------              ----           
-T. Mittan		March, 1993
+T. Mittan    March, 1993
 
 This function was adapted from the Lambert Azimuthal Equal Area projection
 code (FORTRAN) in the General Cartographic Transformation Package software

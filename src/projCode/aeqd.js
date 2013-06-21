@@ -118,12 +118,12 @@ proj4.Proj.aeqd = {
         }
         else {
           /*con = cosz - this.sin_p12 * Math.sin(lat);
-				if ((Math.abs(con) < proj4.common.EPSLN) && (Math.abs(p.x) < proj4.common.EPSLN)) {
-					//no-op, just keep the lon value as is
-				} else {
-					var temp = Math.atan2((p.x * sinz * this.cos_p12), (con * rh));
-					lon = proj4.common.adjust_lon(this.long0 + Math.atan2((p.x * sinz * this.cos_p12), (con * rh)));
-				}*/
+        if ((Math.abs(con) < proj4.common.EPSLN) && (Math.abs(p.x) < proj4.common.EPSLN)) {
+          //no-op, just keep the lon value as is
+        } else {
+          var temp = Math.atan2((p.x * sinz * this.cos_p12), (con * rh));
+          lon = proj4.common.adjust_lon(this.long0 + Math.atan2((p.x * sinz * this.cos_p12), (con * rh)));
+        }*/
           lon = proj4.common.adjust_lon(this.long0 + Math.atan2(p.x * sinz, rh * this.cos_p12 * cosz - p.y * this.sin_p12 * sinz));
         }
       }
