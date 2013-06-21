@@ -405,30 +405,5 @@ var proj4 = {
       Class.prototype = extended;
       
       return Class;
-    },
-
-    /**
-     * Function: bind
-     * Bind a function to an object.  Method to easily create closures with
-     *     'this' altered.
-     * 
-     * Parameters:
-     * func - {Function} Input function.
-     * object - {Object} The object to bind to the input function (as this).
-     * 
-     * Returns:
-     * {Function} A closure with 'this' set to the passed in object.
-     */
-    bind: function(func, object) {
-        // create a reference to all arguments past the second one
-        var args = Array.prototype.slice.apply(arguments, [2]);
-        return function() {
-            // Push on any additional arguments from the actual function call.
-            // These will come after those sent to the bind call.
-            var newArgs = args.concat(
-                Array.prototype.slice.apply(arguments, [0])
-            );
-            return func.apply(object, newArgs);
-        };
     }
 };
