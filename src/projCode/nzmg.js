@@ -98,8 +98,8 @@ NZMG     EPSG:27200
 NZGD49   EPSG:4272
 
 http://spatialreference.org/ defines these as
-  Proj4js.defs["EPSG:4272"] = "+proj=longlat +ellps=intl +datum=nzgd49 +no_defs ";
-  Proj4js.defs["EPSG:27200"] = "+proj=nzmg +lat_0=-41 +lon_0=173 +x_0=2510000 +y_0=6023150 +ellps=intl +datum=nzgd49 +units=m +no_defs ";
+  proj4.defs["EPSG:4272"] = "+proj=longlat +ellps=intl +datum=nzgd49 +no_defs ";
+  proj4.defs["EPSG:27200"] = "+proj=nzmg +lat_0=-41 +lon_0=173 +x_0=2510000 +y_0=6023150 +ellps=intl +datum=nzgd49 +units=m +no_defs ";
 
 
 LICENSE
@@ -113,7 +113,7 @@ LICENSE
   Initialize New Zealand Map Grip projection
 */
 
-Proj4js.Proj.nzmg = {
+proj4.Proj.nzmg = {
 
   /**
    * iterations: Number of iterations to refine inverse transform.
@@ -177,7 +177,7 @@ Proj4js.Proj.nzmg = {
 
     // 1. Calculate d_phi and d_psi    ...                          // and d_lambda
     // For this algorithm, delta_latitude is in seconds of arc x 10-5, so we need to scale to those units. Longitude is radians.
-    var d_phi = delta_lat / Proj4js.common.SEC_TO_RAD * 1E-5;       var d_lambda = delta_lon;
+    var d_phi = delta_lat / proj4.common.SEC_TO_RAD * 1E-5;       var d_lambda = delta_lon;
     var d_phi_n = 1;  // d_phi^0
 
     var d_psi = 0;
@@ -273,7 +273,7 @@ Proj4js.Proj.nzmg = {
 
     // 4. Calculate latitude and longitude
     // d_phi is calcuated in second of arc * 10^-5, so we need to scale back to radians. d_lambda is in radians.
-    var lat = this.lat0 + (d_phi * Proj4js.common.SEC_TO_RAD * 1E5);
+    var lat = this.lat0 + (d_phi * proj4.common.SEC_TO_RAD * 1E5);
     var lon = this.long0 +  d_lambda;
 
     p.x = lon;

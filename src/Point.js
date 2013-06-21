@@ -1,7 +1,7 @@
-Proj4js.Point = Proj4js.Class({
+proj4.Point = proj4.Class({
 
     /**
-     * Constructor: Proj4js.Point
+     * Constructor: proj4.Point
      *
      * Parameters:
      * - x {float} or {Array} either the first coordinates component or
@@ -28,13 +28,13 @@ Proj4js.Point = Proj4js.Class({
 
     /**
      * APIMethod: clone
-     * Build a copy of a Proj4js.Point object.
+     * Build a copy of a proj4.Point object.
      *
      * Return:
-     * {Proj4js}.Point the cloned point.
+     * {proj4}.Point the cloned point.
      */
     clone : function() {
-      return new Proj4js.Point(this.x, this.y, this.z);
+      return new proj4.Point(this.x, this.y, this.z);
     },
 
     /**
@@ -42,7 +42,7 @@ Proj4js.Point = Proj4js.Class({
      * Return a readable string version of the point
      *
      * Return:
-     * {String} String representation of Proj4js.Point object. 
+     * {String} String representation of proj4.Point object. 
      *           (ex. <i>"x=5,y=42"</i>)
      */
     toString : function() {
@@ -54,7 +54,7 @@ Proj4js.Point = Proj4js.Class({
      * Return a short string version of the point.
      *
      * Return:
-     * {String} Shortened String representation of Proj4js.Point object. 
+     * {String} Shortened String representation of proj4.Point object. 
      *         (ex. <i>"5, 42"</i>)
      */
     toShortString : function() {

@@ -32,7 +32,7 @@ ALGORITHM REFERENCES
 //static double false_easting = x0;	   /* x offset in meters			*/
 //scale_fact = k0 
 
-Proj4js.Proj.merc = {
+proj4.Proj.merc = {
   init : function() {
 	var con= this.b / this.a;
 	this.es = 1.0 - con*con;
@@ -41,7 +41,7 @@ Proj4js.Proj.merc = {
 		if (this.sphere) {
 			this.k0=Math.cos(this.lat_ts);
 		} else {
-			this.k0=Proj4js.common.msfnz(this.e, Math.sin(this.lat_ts), Math.cos(this.lat_ts));
+			this.k0=proj4.common.msfnz(this.e, Math.sin(this.lat_ts), Math.cos(this.lat_ts));
 		}
 	} else {
 		if (!this.k0){
@@ -62,26 +62,26 @@ Proj4js.Proj.merc = {
     var lon = p.x;
     var lat = p.y;
     // convert to radians
-    if ( lat*Proj4js.common.R2D > 90.0 && 
-          lat*Proj4js.common.R2D < -90.0 && 
-          lon*Proj4js.common.R2D > 180.0 && 
-          lon*Proj4js.common.R2D < -180.0) {
-      Proj4js.reportError("merc:forward: llInputOutOfRange: "+ lon +" : " + lat);
+    if ( lat*proj4.common.R2D > 90.0 && 
+          lat*proj4.common.R2D < -90.0 && 
+          lon*proj4.common.R2D > 180.0 && 
+          lon*proj4.common.R2D < -180.0) {
+      proj4.reportError("merc:forward: llInputOutOfRange: "+ lon +" : " + lat);
       return null;
     }
 
     var x,y;
-    if(Math.abs( Math.abs(lat) - Proj4js.common.HALF_PI)  <= Proj4js.common.EPSLN) {
-      Proj4js.reportError("merc:forward: ll2mAtPoles");
+    if(Math.abs( Math.abs(lat) - proj4.common.HALF_PI)  <= proj4.common.EPSLN) {
+      proj4.reportError("merc:forward: ll2mAtPoles");
       return null;
     } else {
       if (this.sphere) {
-        x = this.x0 + this.a * this.k0 * Proj4js.common.adjust_lon(lon - this.long0);
-        y = this.y0 + this.a * this.k0 * Math.log(Math.tan(Proj4js.common.FORTPI + 0.5*lat));
+        x = this.x0 + this.a * this.k0 * proj4.common.adjust_lon(lon - this.long0);
+        y = this.y0 + this.a * this.k0 * Math.log(Math.tan(proj4.common.FORTPI + 0.5*lat));
       } else {
         var sinphi = Math.sin(lat);
-        var ts = Proj4js.common.tsfnz(this.e,lat,sinphi);
-        x = this.x0 + this.a * this.k0 * Proj4js.common.adjust_lon(lon - this.long0);
+        var ts = proj4.common.tsfnz(this.e,lat,sinphi);
+        x = this.x0 + this.a * this.k0 * proj4.common.adjust_lon(lon - this.long0);
         y = this.y0 - this.a * this.k0 * Math.log(ts);
       }
       p.x = x; 
@@ -100,16 +100,16 @@ Proj4js.Proj.merc = {
     var lon,lat;
 
     if (this.sphere) {
-      lat = Proj4js.common.HALF_PI - 2.0 * Math.atan(Math.exp(-y / (this.a * this.k0)));
+      lat = proj4.common.HALF_PI - 2.0 * Math.atan(Math.exp(-y / (this.a * this.k0)));
     } else {
       var ts = Math.exp(-y / (this.a * this.k0));
-      lat = Proj4js.common.phi2z(this.e,ts);
+      lat = proj4.common.phi2z(this.e,ts);
       if(lat == -9999) {
-        Proj4js.reportError("merc:inverse: lat = -9999");
+        proj4.reportError("merc:inverse: lat = -9999");
         return null;
       }
     }
-    lon = Proj4js.common.adjust_lon(this.long0+ x / (this.a * this.k0));
+    lon = proj4.common.adjust_lon(this.long0+ x / (this.a * this.k0));
 
     p.x = lon;
     p.y = lat;

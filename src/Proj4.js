@@ -7,9 +7,9 @@ $Id: Proj.js 2956 2007-07-09 12:17:52Z steven $
 */
 
 /**
- * Namespace: Proj4js
+ * Namespace: proj4
  *
- * Proj4js is a JavaScript library to transform point coordinates from one 
+ * proj4 is a JavaScript library to transform point coordinates from one 
  * coordinate system to another, including datum transformations.
  *
  * This library is a port of both the Proj.4 and GCTCP C libraries to JavaScript. 
@@ -17,15 +17,15 @@ $Id: Proj.js 2956 2007-07-09 12:17:52Z steven $
  * in different projections to be combined in browser-based web mapping 
  * applications.
  * 
- * Proj4js must have access to coordinate system initialization strings (which
+ * proj4 must have access to coordinate system initialization strings (which
  * are the same as for PROJ.4 command line).  Thes can be included in your 
- * application using a <script> tag or Proj4js can load CS initialization 
+ * application using a <script> tag or proj4 can load CS initialization 
  * strings from a local directory or a web service such as spatialreference.org.
  *
- * Similarly, Proj4js must have access to projection transform code.  These can
+ * Similarly, proj4 must have access to projection transform code.  These can
  * be included individually using a <script> tag in your page, built into a 
- * custom build of Proj4js or loaded dynamically at run-time.  Using the
- * -combined and -compressed versions of Proj4js includes all projection class
+ * custom build of proj4 or loaded dynamically at run-time.  Using the
+ * -combined and -compressed versions of proj4 includes all projection class
  * code by default.
  *
  * Note that dynamic loading of defs and code happens ascynchrously, check the
@@ -37,15 +37,15 @@ $Id: Proj.js 2956 2007-07-09 12:17:52Z steven $
  * All coordinates are handled as points which have a .x and a .y property
  * which will be modified in place.
  *
- * Override Proj4js.reportError for output of alerts and warnings.
+ * Override proj4.reportError for output of alerts and warnings.
  *
  * See http://trac.osgeo.org/proj4js/wiki/UserGuide for full details.
 */
 
 /**
- * Global namespace object for Proj4js library
+ * Global namespace object for proj4 library
  */
-var Proj4js = {
+var proj4 = {
 
     /**
      * Property: defaultDatum
@@ -59,26 +59,26 @@ var Proj4js = {
     * really the only public method you should need to use.
     *
     * Parameters:
-    * source - {Proj4js.Proj} source map projection for the transformation
-    * dest - {Proj4js.Proj} destination map projection for the transformation
+    * source - {proj4.Proj} source map projection for the transformation
+    * dest - {proj4.Proj} destination map projection for the transformation
     * point - {Object} point to transform, may be geodetic (long, lat) or
     *     projected Cartesian (x,y), but should always have x,y properties.
     */
     transform: function(source, dest, point) {
         if (!source.readyToUse) {
-            this.reportError("Proj4js initialization for:"+source.srsCode+" not yet complete");
+            this.reportError("proj4 initialization for:"+source.srsCode+" not yet complete");
             return point;
         }
         if (!dest.readyToUse) {
-            this.reportError("Proj4js initialization for:"+dest.srsCode+" not yet complete");
+            this.reportError("proj4 initialization for:"+dest.srsCode+" not yet complete");
             return point;
         }
         
         // Workaround for datum shifts towgs84, if either source or destination projection is not wgs84
         if (source.datum && dest.datum && (
-            ((source.datum.datum_type == Proj4js.common.PJD_3PARAM || source.datum.datum_type == Proj4js.common.PJD_7PARAM) && dest.datumCode != "WGS84") ||
-            ((dest.datum.datum_type == Proj4js.common.PJD_3PARAM || dest.datum.datum_type == Proj4js.common.PJD_7PARAM) && source.datumCode != "WGS84"))) {
-            var wgs84 = Proj4js.WGS84;
+            ((source.datum.datum_type == proj4.common.PJD_3PARAM || source.datum.datum_type == proj4.common.PJD_7PARAM) && dest.datumCode != "WGS84") ||
+            ((dest.datum.datum_type == proj4.common.PJD_3PARAM || dest.datum.datum_type == proj4.common.PJD_7PARAM) && source.datumCode != "WGS84"))) {
+            var wgs84 = proj4.WGS84;
             this.transform(source, wgs84, point);
             source = wgs84;
         }
@@ -90,8 +90,8 @@ var Proj4js = {
 
         // Transform source points to long/lat, if they aren't already.
         if (source.projName=="longlat") {
-            point.x *= Proj4js.common.D2R;  // convert degrees to radians
-            point.y *= Proj4js.common.D2R;
+            point.x *= proj4.common.D2R;  // convert degrees to radians
+            point.y *= proj4.common.D2R;
         } else {
             if (source.to_meter) {
                 point.x *= source.to_meter;
@@ -115,8 +115,8 @@ var Proj4js = {
 
         if (dest.projName=="longlat") {
             // convert radians to decimal degrees
-            point.x *= Proj4js.common.R2D;
-            point.y *= Proj4js.common.R2D;
+            point.x *= proj4.common.R2D;
+            point.y *= proj4.common.R2D;
         } else  {               // else project
             dest.forward(point);
             if (dest.to_meter) {
@@ -148,8 +148,8 @@ var Proj4js = {
       }
 
       // Explicitly skip datum transform by setting 'datum=none' as parameter for either source or dest
-      if( source.datum_type == Proj4js.common.PJD_NODATUM
-          || dest.datum_type == Proj4js.common.PJD_NODATUM) {
+      if( source.datum_type == proj4.common.PJD_NODATUM
+          || dest.datum_type == proj4.common.PJD_NODATUM) {
           return point;
       }
 
@@ -162,11 +162,11 @@ var Proj4js = {
 
       var fallback= source.datum_type;
       // If this datum requires grid shifts, then apply it to geodetic coordinates.
-      if( fallback == Proj4js.common.PJD_GRIDSHIFT )
+      if( fallback == proj4.common.PJD_GRIDSHIFT )
       {
           if (this.apply_gridshift( source, 0, point )==0) {
-            source.a = Proj4js.common.SRS_WGS84_SEMIMAJOR;
-            source.es = Proj4js.common.SRS_WGS84_ESQUARED;
+            source.a = proj4.common.SRS_WGS84_SEMIMAJOR;
+            source.es = proj4.common.SRS_WGS84_ESQUARED;
           } else {
 
               // try 3 or 7 params transformation or nothing ?
@@ -185,23 +185,23 @@ var Proj4js = {
                 return point;
               }
               fallback= source.datum_params.length>3?
-                Proj4js.common.PJD_7PARAM
-              : Proj4js.common.PJD_3PARAM;
+                proj4.common.PJD_7PARAM
+              : proj4.common.PJD_3PARAM;
               // CHECK_RETURN;
           }
       }
 
-      if( dest.datum_type == Proj4js.common.PJD_GRIDSHIFT )
+      if( dest.datum_type == proj4.common.PJD_GRIDSHIFT )
       {
-          dest.a = Proj4js.common.SRS_WGS84_SEMIMAJOR;
-          dest.es = Proj4js.common.SRS_WGS84_ESQUARED;
+          dest.a = proj4.common.SRS_WGS84_SEMIMAJOR;
+          dest.es = proj4.common.SRS_WGS84_ESQUARED;
       }
       // Do we need to go through geocentric coordinates?
       if (source.es != dest.es || source.a != dest.a
-          || fallback == Proj4js.common.PJD_3PARAM
-          || fallback == Proj4js.common.PJD_7PARAM
-          || dest.datum_type == Proj4js.common.PJD_3PARAM
-          || dest.datum_type == Proj4js.common.PJD_7PARAM)
+          || fallback == proj4.common.PJD_3PARAM
+          || fallback == proj4.common.PJD_7PARAM
+          || dest.datum_type == proj4.common.PJD_3PARAM
+          || dest.datum_type == proj4.common.PJD_7PARAM)
       {
       //DGR: 2012-07-29 : add nadgrids support (end)
 
@@ -210,12 +210,12 @@ var Proj4js = {
         // CHECK_RETURN;
 
         // Convert between datums
-        if( source.datum_type == Proj4js.common.PJD_3PARAM || source.datum_type == Proj4js.common.PJD_7PARAM ) {
+        if( source.datum_type == proj4.common.PJD_3PARAM || source.datum_type == proj4.common.PJD_7PARAM ) {
           source.geocentric_to_wgs84(point);
           // CHECK_RETURN;
         }
 
-        if( dest.datum_type == Proj4js.common.PJD_3PARAM || dest.datum_type == Proj4js.common.PJD_7PARAM ) {
+        if( dest.datum_type == proj4.common.PJD_3PARAM || dest.datum_type == proj4.common.PJD_7PARAM ) {
           dest.geocentric_from_wgs84(point);
           // CHECK_RETURN;
         }
@@ -226,7 +226,7 @@ var Proj4js = {
       }
 
       // Apply grid shift to destination if required
-      if( dest.datum_type == Proj4js.common.PJD_GRIDSHIFT )
+      if( dest.datum_type == proj4.common.PJD_GRIDSHIFT )
       {
           this.apply_gridshift( dest, 1, point);
           // CHECK_RETURN;
@@ -274,13 +274,13 @@ var Proj4js = {
             /* TODO : only plain grid has been implemented ... */
             /* we found a more refined child node to use */
             /* load the grid shift info if we don't have it. */
-            /* TODO : Proj4js.grids pre-loaded (as they can be huge ...) */
+            /* TODO : proj4.grids pre-loaded (as they can be huge ...) */
             /* skip numerical computing error when "null" grid (identity grid): */
             if (gi.name=="null") {
                 output.x= input.x;
                 output.y= input.y;
             } else {
-                output= Proj4js.common.nad_cvt(input, inverse, ct);
+                output= proj4.common.nad_cvt(input, inverse, ct);
             }
             if (!isNaN(output.x)) {
                 break;
@@ -289,7 +289,7 @@ var Proj4js = {
         if (isNaN(output.x)) {
             if (!onlyMandatoryGrids) {
                 this.reportError("failed to find a grid shift table for location '"+
-                    input.x*Proj4js.common.R2D+" "+input.y*Proj4js.common.R2D+
+                    input.x*proj4.common.R2D+" "+input.y*proj4.common.R2D+
                     " tried: '"+srs.nadgrids+"'");
                 return -48;
             }
@@ -305,7 +305,7 @@ var Proj4js = {
      * Normalize or de-normalized the x/y/z axes.  The normal form is "enu"
      * (easting, northing, up).
      * Parameters:
-     * crs {Proj4js.Proj} the coordinate reference system
+     * crs {proj4.Proj} the coordinate reference system
      * denorm {Boolean} when false, normalize
      * point {Object} the coordinates to adjust
      */
@@ -359,7 +359,7 @@ var Proj4js = {
  * The following properties and methods are intended for internal use only.
  *
  * This is a minimal implementation of JavaScript inheritance methods so that 
- * Proj4js can be used as a stand-alone library.
+ * proj4 can be used as a stand-alone library.
  * These are copies of the equivalent OpenLayers methods at v2.7
  */
  
@@ -410,7 +410,7 @@ var Proj4js = {
               // in this case we're extending with the prototype
               parent = arguments[i];
           }
-          Proj4js.extend(extended, parent);
+          proj4.extend(extended, parent);
       }
       Class.prototype = extended;
       
