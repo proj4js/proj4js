@@ -47,13 +47,15 @@ proj4.Proj.tmerc = {
 
     if (this.sphere) {  /* spherical form */
       var b = cos_phi * Math.sin(delta_lon);
-      if ((Math.abs(Math.abs(b) - 1.0)) < .0000000001)  {
+      if ((Math.abs(Math.abs(b) - 1.0)) < 0.0000000001)  {
         proj4.reportError("tmerc:forward: Point projects into infinity");
         return(93);
       } else {
-        x = .5 * this.a * this.k0 * Math.log((1.0 + b)/(1.0 - b));
-        con = Math.acos(cos_phi * Math.cos(delta_lon)/Math.sqrt(1.0 - b*b));
-        if (lat < 0) con = - con;
+        x = 0.5 * this.a * this.k0 * Math.log((1 + b)/(1 - b));
+        con = Math.acos(cos_phi * Math.cos(delta_lon)/Math.sqrt(1 - b*b));
+        if (lat < 0) {
+          con = - con;
+        }
         y = this.a * this.k0 * (con - this.lat0);
       }
     } else {
@@ -70,7 +72,8 @@ proj4.Proj.tmerc = {
       y = this.k0 * (ml - this.ml0 + n * tq * (als * (0.5 + als / 24.0 * (5.0 - t + 9.0 * c + 4.0 * Math.pow(c,2) + als / 30.0 * (61.0 - 58.0 * t + Math.pow(t,2) + 600.0 * c - 330.0 * this.ep2))))) + this.y0;
 
     }
-    p.x = x; p.y = y;
+    p.x = x;
+    p.y = y;
     return p;
   }, // tmercFwd()
 
@@ -86,19 +89,20 @@ proj4.Proj.tmerc = {
 
     if (this.sphere) {   /* spherical form */
       var f = Math.exp(p.x/(this.a * this.k0));
-      var g = .5 * (f - 1/f);
+      var g = 0.5 * (f - 1/f);
       var temp = this.lat0 + p.y/(this.a * this.k0);
       var h = Math.cos(temp);
-      con = Math.sqrt((1.0 - h * h)/(1.0 + g * g));
+      con = Math.sqrt((1 - h * h)/(1 + g * g));
       lat = proj4.common.asinz(con);
-      if (temp < 0)
+      if (temp < 0) {
         lat = -lat;
-      if ((g == 0) && (h == 0)) {
+      }
+      if ((g === 0) && (h === 0)) {
         lon = this.long0;
       } else {
         lon = proj4.common.adjust_lon(Math.atan2(g,h) + this.long0);
       }
-    } else {    // ellipsoidal form
+    } else { // ellipsoidal form
       var x = p.x - this.x0;
       var y = p.y - this.y0;
 
@@ -107,7 +111,9 @@ proj4.Proj.tmerc = {
       for (i=0;true;i++) {
         delta_phi=((con + this.e1 * Math.sin(2.0*phi) - this.e2 * Math.sin(4.0*phi) + this.e3 * Math.sin(6.0*phi)) / this.e0) - phi;
         phi += delta_phi;
-        if (Math.abs(delta_phi) <= proj4.common.EPSLN) break;
+        if (Math.abs(delta_phi) <= proj4.common.EPSLN){
+          break;
+        }
         if (i >= max_iter) {
           proj4.reportError("tmerc:inverse: Latitude failed to converge");
           return(95);
