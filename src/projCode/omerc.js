@@ -26,14 +26,16 @@ proj4.Proj.omerc = {
   /* Initialize the Oblique Mercator  projection
     ------------------------------------------*/
   init: function() {
-    if (this.no_off == null) {
+    if (this.no_off === null) {
       this.no_off = false;
     }
-    if (this.no_rot == null) {
+    if (this.no_rot === null) {
       this.no_rot = false;
     }
 
-    if (isNaN(this.k0)) this.k0 = 1.0;
+    if (isNaN(this.k0)){
+      this.k0 = 1.0;
+    }
     var sinlat = Math.sin(this.lat0);
     var coslat = Math.cos(this.lat0);
     var con = this.e * sinlat;
@@ -42,7 +44,9 @@ proj4.Proj.omerc = {
     this.al = this.a * this.bl * this.k0 * Math.sqrt(1 - this.es) / (1 - con * con);
     var t0 = proj4.common.tsfnz(this.e, this.lat0, sinlat);
     var dl = this.bl / coslat * Math.sqrt((1 - this.es) / (1 - con * con));
-    if (dl * dl < 1.0) dl = 1.0;
+    if (dl * dl < 1.0){
+      dl = 1.0;
+    }
     var fl;
     var gl;
     if (!isNaN(this.longc)) {
@@ -148,7 +152,6 @@ proj4.Proj.omerc = {
       p.x = this.x0 + vs * Math.cos(this.alpha) + us * Math.sin(this.alpha);
       p.y = this.y0 + us * Math.cos(this.alpha) - vs * Math.sin(this.alpha);
     }
-    return p;
     return p;
   },
 
