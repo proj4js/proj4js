@@ -3,30 +3,30 @@
 ------------------------------------------------------------*/
 /*
 function phi4z (eccent,e0,e1,e2,e3,a,b,c,phi) {
-	var sinphi, sin2ph, tanphi, ml, mlp, con1, con2, con3, dphi, i;
+  var sinphi, sin2ph, tanphi, ml, mlp, con1, con2, con3, dphi, i;
 
-	phi = a;
-	for (i = 1; i <= 15; i++) {
-		sinphi = Math.sin(phi);
-		tanphi = Math.tan(phi);
-		c = tanphi * Math.sqrt (1.0 - eccent * sinphi * sinphi);
-		sin2ph = Math.sin (2.0 * phi);
-		/*
-		ml = e0 * *phi - e1 * sin2ph + e2 * sin (4.0 *  *phi);
-		mlp = e0 - 2.0 * e1 * cos (2.0 *  *phi) + 4.0 * e2 *  cos (4.0 *  *phi);
-		*/
+  phi = a;
+  for (i = 1; i <= 15; i++) {
+    sinphi = Math.sin(phi);
+    tanphi = Math.tan(phi);
+    c = tanphi * Math.sqrt (1.0 - eccent * sinphi * sinphi);
+    sin2ph = Math.sin (2.0 * phi);
+    /*
+    ml = e0 * *phi - e1 * sin2ph + e2 * sin (4.0 *  *phi);
+    mlp = e0 - 2.0 * e1 * cos (2.0 *  *phi) + 4.0 * e2 *  cos (4.0 *  *phi);
+    */
 /*
-		ml = e0 * phi - e1 * sin2ph + e2 * Math.sin (4.0 *  phi) - e3 * Math.sin (6.0 * phi);
-		mlp = e0 - 2.0 * e1 * Math.cos (2.0 *  phi) + 4.0 * e2 * Math.cos (4.0 *  phi) - 6.0 * e3 * Math.cos (6.0 *  phi);
-		con1 = 2.0 * ml + c * (ml * ml + b) - 2.0 * a *  (c * ml + 1.0);
-		con2 = eccent * sin2ph * (ml * ml + b - 2.0 * a * ml) / (2.0 *c);
-		con3 = 2.0 * (a - ml) * (c * mlp - 2.0 / sin2ph) - 2.0 * mlp;
-		dphi = con1 / (con2 + con3);
-		phi += dphi;
-		if (Math.abs(dphi) <= .0000000001 ) return(phi);   
-	}
-	proj4.reportError("phi4z: No convergence");
-	return null;
+    ml = e0 * phi - e1 * sin2ph + e2 * Math.sin (4.0 *  phi) - e3 * Math.sin (6.0 * phi);
+    mlp = e0 - 2.0 * e1 * Math.cos (2.0 *  phi) + 4.0 * e2 * Math.cos (4.0 *  phi) - 6.0 * e3 * Math.cos (6.0 *  phi);
+    con1 = 2.0 * ml + c * (ml * ml + b) - 2.0 * a *  (c * ml + 1.0);
+    con2 = eccent * sin2ph * (ml * ml + b - 2.0 * a * ml) / (2.0 *c);
+    con3 = 2.0 * (a - ml) * (c * mlp - 2.0 / sin2ph) - 2.0 * mlp;
+    dphi = con1 / (con2 + con3);
+    phi += dphi;
+    if (Math.abs(dphi) <= .0000000001 ) return(phi);   
+  }
+  proj4.reportError("phi4z: No convergence");
+  return null;
 }
 /*
 
@@ -35,28 +35,28 @@ function phi4z (eccent,e0,e1,e2,e3,a,b,c,phi) {
    of the spheroid, x.  This constant is used in the Polar Stereographic
    projection.
 --------------------------------------------------------------------*/
-function e4fn(x) {
+/*function e4fn(x) {
   var con, com;
   con = 1.0 + x;
   com = 1.0 - x;
   return (Math.sqrt((Math.pow(con, con)) * (Math.pow(com, com))));
 }
 
-
+*/
 
 
 
 /*******************************************************************************
 NAME                             POLYCONIC 
 
-PURPOSE:	Transforms input longitude and latitude to Easting and
-		Northing for the Polyconic projection.  The
-		longitude and latitude must be in radians.  The Easting
-		and Northing values will be returned in meters.
+PURPOSE:  Transforms input longitude and latitude to Easting and
+    Northing for the Polyconic projection.  The
+    longitude and latitude must be in radians.  The Easting
+    and Northing values will be returned in meters.
 
 PROGRAMMER              DATE
 ----------              ----
-T. Mittan		Mar, 1993
+T. Mittan    Mar, 1993
 
 ALGORITHM REFERENCES
 
@@ -72,10 +72,10 @@ ALGORITHM REFERENCES
 proj4.Proj.poly = {
 
   /* Initialize the POLYCONIC projection
-	  ----------------------------------*/
+    ----------------------------------*/
   init: function() {
     /* Place parameters in static storage for common use
-		  -------------------------------------------------*/
+      -------------------------------------------------*/
     this.temp = this.b / this.a;
     this.es = 1.0 - Math.pow(this.temp, 2); // devait etre dans tmerc.js mais n y est pas donc je commente sinon retour de valeurs nulles
     this.e = Math.sqrt(this.es);
@@ -88,7 +88,7 @@ proj4.Proj.poly = {
 
 
   /* Polyconic forward equations--mapping lat,long to x,y
-	  ---------------------------------------------------*/
+    ---------------------------------------------------*/
   forward: function(p) {
     var lon = p.x;
     var lat = p.y;
@@ -124,9 +124,9 @@ proj4.Proj.poly = {
 
 
   /* Inverse equations
-	-----------------*/
+  -----------------*/
   inverse: function(p) {
-    var lon, lat, x, y;
+    var lon, lat, x, y, i;
     var al, bl;
     var phi, dphi;
     x = p.x - this.x0;
@@ -142,7 +142,7 @@ proj4.Proj.poly = {
         bl = x * x / this.a / this.a + al * al;
         phi = al;
         var tanphi;
-        for (var i = proj4.common.MAX_ITER; i; --i) {
+        for (i = proj4.common.MAX_ITER; i; --i) {
           tanphi = Math.tan(phi);
           dphi = -1.0 * (al * (phi * tanphi + 1.0) - phi - 0.5 * (phi * phi + bl) * tanphi) / ((phi - al) / tanphi - 1.0);
           phi += dphi;
@@ -166,7 +166,7 @@ proj4.Proj.poly = {
         phi = al;
         var cl, mln, mlnp, ma;
         var con;
-        for (var i = proj4.common.MAX_ITER; i; --i) {
+        for (i = proj4.common.MAX_ITER; i; --i) {
           con = this.e * Math.sin(phi);
           cl = Math.sqrt(1.0 - con * con) * Math.tan(phi);
           mln = this.a * proj4.common.mlfn(this.e0, this.e1, this.e2, this.e3, phi);
