@@ -28,12 +28,6 @@ $Id: Proj.js 2956 2007-07-09 12:17:52Z steven $
  * -combined and -compressed versions of Proj4js includes all projection class
  * code by default.
  *
- * Note that dynamic loading of defs and code happens ascynchrously, check the
- * Proj.readyToUse flag before using the Proj object.  If the defs and code
- * required by your application are loaded through script tags, dynamic loading
- * is not required and the Proj object will be readyToUse on return from the 
- * constructor.
- * 
  * All coordinates are handled as points which have a .x and a .y property
  * which will be modified in place.
  *
@@ -66,14 +60,7 @@ proj4.defaultDatum = 'WGS84';                  //default datum
     */
 proj4.transform = function(source, dest, point) {
   var wgs84;
-  if (!source.readyToUse) {
-    this.reportError("proj4 initialization for:"+source.srsCode+" not yet complete");
-    return point;
-  }
-  if (!dest.readyToUse) {
-    this.reportError("proj4 initialization for:"+dest.srsCode+" not yet complete");
-    return point;
-  }
+
   function checkNotWGS(source,dest){
     return ((source.datum.datum_type === proj4.common.PJD_3PARAM || source.datum.datum_type === proj4.common.PJD_7PARAM) && dest.datumCode !== "WGS84");
   }
