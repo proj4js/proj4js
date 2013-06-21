@@ -40,6 +40,15 @@ module.exports = function(grunt) {
 			}
 		},
 		jshint: {
+			options:{
+				curly: true,
+				eqeqeq: true,
+				latedef: true,
+				//undef: true,
+				unused: true,
+				trailing:true,
+				indent:4
+			},
 			all: [ './src/Proj4.js','./src/Proj.js','./src/defs.js','./src/common.js','./src/datum.js','./src/Point.js','./src/constants.js','./src/projCode/*.js','./src/defs/*.js','./src/util/MGRS.js']
 		}
 	});
