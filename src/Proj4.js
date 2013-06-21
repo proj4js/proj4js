@@ -39,8 +39,25 @@ $Id: Proj.js 2956 2007-07-09 12:17:52Z steven $
 /**
  * Global namespace object for proj4 library
  */
-var proj4 = {};
-
+function proj4(fromProj,toProj,coord){
+  var tc;
+  fromProj = fromProj instanceof proj4.Proj ? fromProj : new proj4.Proj(fromProj);
+  if(typeof toProj === 'undefined'){
+    toProj = proj4.WGS84;
+  } else if(('x' in toProj)||Array.isArray(toProj)){
+    coord = toProj;
+    toProj = proj4.WGS84;
+  }else{
+    toProj = toProj instanceof proj4.Proj ? toProj : new proj4.Proj(toProj);
+  }
+  if(coord){
+    
+    coord = coord instanceof proj4.Point ? coord : new proj4.Point(coord);
+    
+  } else {
+    
+  }
+}
     /**
      * Property: defaultDatum
      * The datum to use when no others a specified
