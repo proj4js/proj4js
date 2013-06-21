@@ -441,3 +441,7 @@ proj4.Class = function() {
   Class.prototype = extended;
   return Class;
 };
+
+if(typeof module !== 'undefined'){
+	module.exports = proj4;
+}
