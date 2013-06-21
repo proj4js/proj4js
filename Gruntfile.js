@@ -47,7 +47,10 @@ module.exports = function(grunt) {
 				undef: true,
 				unused: true,
 				trailing:true,
-				indent:2
+				indent:2,
+        globals: {
+          proj4: true
+        }
 			},
 			all: [ './src/Proj4.js','./src/Proj.js','./src/defs.js','./src/common.js','./src/datum.js','./src/Point.js','./src/constants.js','./src/projCode/*.js','./src/defs/*.js','./src/util/MGRS.js']
 		}

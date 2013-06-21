@@ -1,15 +1,15 @@
 /*******************************************************************************
 NAME                            MERCATOR
 
-PURPOSE:	Transforms input longitude and latitude to Easting and
-		Northing for the Mercator projection.  The
-		longitude and latitude must be in radians.  The Easting
-		and Northing values will be returned in meters.
+PURPOSE:  Transforms input longitude and latitude to Easting and
+    Northing for the Mercator projection.  The
+    longitude and latitude must be in radians.  The Easting
+    and Northing values will be returned in meters.
 
 PROGRAMMER              DATE
 ----------              ----
 D. Steinwand, EROS      Nov, 1991
-T. Mittan		Mar, 1993
+T. Mittan    Mar, 1993
 
 ALGORITHM REFERENCES
 
@@ -22,69 +22,71 @@ ALGORITHM REFERENCES
     Printing Office, Washington D.C., 1989.
 *******************************************************************************/
 
-//static double r_major = a;		   /* major axis 				*/
-//static double r_minor = b;		   /* minor axis 				*/
-//static double lon_center = long0;	   /* Center longitude (projection center) */
-//static double lat_origin =  lat0;	   /* center latitude			*/
-//static double e,es;		           /* eccentricity constants		*/
-//static double m1;		               /* small value m			*/
-//static double false_northing = y0;   /* y offset in meters			*/
-//static double false_easting = x0;	   /* x offset in meters			*/
+//static double r_major = a;       /* major axis         */
+//static double r_minor = b;       /* minor axis         */
+//static double lon_center = long0;     /* Center longitude (projection center) */
+//static double lat_origin =  lat0;     /* center latitude      */
+//static double e,es;               /* eccentricity constants    */
+//static double m1;                   /* small value m      */
+//static double false_northing = y0;   /* y offset in meters      */
+//static double false_easting = x0;     /* x offset in meters      */
 //scale_fact = k0 
 
 proj4.Proj.merc = {
-  init : function() {
-	var con= this.b / this.a;
-	this.es = 1.0 - con*con;
-	this.e = Math.sqrt( this.es );
-	if (this.lat_ts) {
-		if (this.sphere) {
-			this.k0=Math.cos(this.lat_ts);
-		} else {
-			this.k0=proj4.common.msfnz(this.e, Math.sin(this.lat_ts), Math.cos(this.lat_ts));
-		}
-	} else {
-		if (!this.k0){
-			if (this.k){
-				this.k0=this.k;
-			} else {
-				this.k0=1.0;
-			}
-		}
-	}
+  init: function() {
+    var con = this.b / this.a;
+    this.es = 1 - con * con;
+    this.e = Math.sqrt(this.es);
+    if (this.lat_ts) {
+      if (this.sphere) {
+        this.k0 = Math.cos(this.lat_ts);
+      }
+      else {
+        this.k0 = proj4.common.msfnz(this.e, Math.sin(this.lat_ts), Math.cos(this.lat_ts));
+      }
+    }
+    else {
+      if (!this.k0) {
+        if (this.k) {
+          this.k0 = this.k;
+        }
+        else {
+          this.k0 = 1;
+        }
+      }
+    }
   },
 
-/* Mercator forward equations--mapping lat,long to x,y
+  /* Mercator forward equations--mapping lat,long to x,y
   --------------------------------------------------*/
 
-  forward : function(p) {	
+  forward: function(p) {
     //alert("ll2m coords : "+coords);
     var lon = p.x;
     var lat = p.y;
     // convert to radians
-    if ( lat*proj4.common.R2D > 90.0 && 
-          lat*proj4.common.R2D < -90.0 && 
-          lon*proj4.common.R2D > 180.0 && 
-          lon*proj4.common.R2D < -180.0) {
-      proj4.reportError("merc:forward: llInputOutOfRange: "+ lon +" : " + lat);
+    if (lat * proj4.common.R2D > 90 && lat * proj4.common.R2D < -90 && lon * proj4.common.R2D > 180 && lon * proj4.common.R2D < -180) {
+      proj4.reportError("merc:forward: llInputOutOfRange: " + lon + " : " + lat);
       return null;
     }
 
-    var x,y;
-    if(Math.abs( Math.abs(lat) - proj4.common.HALF_PI)  <= proj4.common.EPSLN) {
+    var x, y;
+    if (Math.abs(Math.abs(lat) - proj4.common.HALF_PI) <= proj4.common.EPSLN) {
       proj4.reportError("merc:forward: ll2mAtPoles");
       return null;
-    } else {
+    }
+    else {
       if (this.sphere) {
         x = this.x0 + this.a * this.k0 * proj4.common.adjust_lon(lon - this.long0);
-        y = this.y0 + this.a * this.k0 * Math.log(Math.tan(proj4.common.FORTPI + 0.5*lat));
-      } else {
+        y = this.y0 + this.a * this.k0 * Math.log(Math.tan(proj4.common.FORTPI + 0.5 * lat));
+      }
+      else {
         var sinphi = Math.sin(lat);
-        var ts = proj4.common.tsfnz(this.e,lat,sinphi);
+        var ts = proj4.common.tsfnz(this.e, lat, sinphi);
         x = this.x0 + this.a * this.k0 * proj4.common.adjust_lon(lon - this.long0);
         y = this.y0 - this.a * this.k0 * Math.log(ts);
       }
-      p.x = x; 
+      p.x = x;
       p.y = y;
       return p;
     }
@@ -93,23 +95,24 @@ proj4.Proj.merc = {
 
   /* Mercator inverse equations--mapping x,y to lat/long
   --------------------------------------------------*/
-  inverse : function(p) {	
+  inverse: function(p) {
 
     var x = p.x - this.x0;
     var y = p.y - this.y0;
-    var lon,lat;
+    var lon, lat;
 
     if (this.sphere) {
-      lat = proj4.common.HALF_PI - 2.0 * Math.atan(Math.exp(-y / (this.a * this.k0)));
-    } else {
+      lat = proj4.common.HALF_PI - 2 * Math.atan(Math.exp(-y / (this.a * this.k0)));
+    }
+    else {
       var ts = Math.exp(-y / (this.a * this.k0));
-      lat = proj4.common.phi2z(this.e,ts);
-      if(lat == -9999) {
+      lat = proj4.common.phi2z(this.e, ts);
+      if (lat === -9999) {
         proj4.reportError("merc:inverse: lat = -9999");
         return null;
       }
     }
-    lon = proj4.common.adjust_lon(this.long0+ x / (this.a * this.k0));
+    lon = proj4.common.adjust_lon(this.long0 + x / (this.a * this.k0));
 
     p.x = lon;
     p.y = lat;
