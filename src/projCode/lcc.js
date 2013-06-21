@@ -40,7 +40,9 @@ proj4.Proj.lcc = {
     if (!this.lat2) {
       this.lat2 = this.lat1;
     } //if lat2 is not defined
-    if (!this.k0) this.k0 = 1.0;
+    if (!this.k0){
+      this.k0 = 1;
+    }
 
     // Standard Parallels cannot be equal and on opposite sides of the equator
     if (Math.abs(this.lat1 + this.lat2) < proj4.common.EPSLN) {
@@ -71,7 +73,9 @@ proj4.Proj.lcc = {
     }
     this.f0 = ms1 / (this.ns * Math.pow(ts1, this.ns));
     this.rh = this.a * this.f0 * Math.pow(ts0, this.ns);
-    if (!this.title) this.title = "Lambert Conformal Conic";
+    if (!this.title){
+      this.title = "Lambert Conformal Conic";
+    }
   },
 
 
@@ -125,14 +129,16 @@ proj4.Proj.lcc = {
       con = -1.0;
     }
     var theta = 0.0;
-    if (rh1 != 0) {
+    if (rh1 !== 0) {
       theta = Math.atan2((con * x), (con * y));
     }
-    if ((rh1 != 0) || (this.ns > 0.0)) {
+    if ((rh1 !== 0) || (this.ns > 0.0)) {
       con = 1.0 / this.ns;
       ts = Math.pow((rh1 / (this.a * this.f0)), con);
       lat = proj4.common.phi2z(this.e, ts);
-      if (lat == -9999) return null;
+      if (lat === -9999){
+        return null;
+      }
     }
     else {
       lat = -proj4.common.HALF_PI;
