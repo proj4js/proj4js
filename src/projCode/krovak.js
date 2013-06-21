@@ -39,22 +39,22 @@ proj4.Proj.krovak = {
     if (!this.k0) {
       this.k0 = 0.9999;
     }
-    this.s45 = 0.785398163397448; /* 45� */
+    this.s45 = 0.785398163397448; /* 45 */
     this.s90 = 2 * this.s45;
-    this.fi0 = this.lat0; /* Latitude of projection centre 49� 30' */
+    this.fi0 = this.lat0; /* Latitude of projection centre 49  30' */
     /*  Ellipsoid Bessel 1841 a = 6377397.155m 1/f = 299.1528128,
                  e2=0.006674372230614;
      */
     this.e2 = this.es; /* 0.006674372230614; */
     this.e = Math.sqrt(this.e2);
-    this.alfa = Math.sqrt(1. + (this.e2 * Math.pow(Math.cos(this.fi0), 4)) / (1. - this.e2));
+    this.alfa = Math.sqrt(1 + (this.e2 * Math.pow(Math.cos(this.fi0), 4)) / (1 - this.e2));
     this.uq = 1.04216856380474; /* DU(2, 59, 42, 42.69689) */
     this.u0 = Math.asin(Math.sin(this.fi0) / this.alfa);
-    this.g = Math.pow((1. + this.e * Math.sin(this.fi0)) / (1. - this.e * Math.sin(this.fi0)), this.alfa * this.e / 2.);
-    this.k = Math.tan(this.u0 / 2. + this.s45) / Math.pow(Math.tan(this.fi0 / 2. + this.s45), this.alfa) * this.g;
+    this.g = Math.pow((1 + this.e * Math.sin(this.fi0)) / (1 - this.e * Math.sin(this.fi0)), this.alfa * this.e / 2);
+    this.k = Math.tan(this.u0 / 2 + this.s45) / Math.pow(Math.tan(this.fi0 / 2 + this.s45), this.alfa) * this.g;
     this.k1 = this.k0;
-    this.n0 = this.a * Math.sqrt(1. - this.e2) / (1. - this.e2 * Math.pow(Math.sin(this.fi0), 2));
-    this.s0 = 1.37008346281555; /* Latitude of pseudo standard parallel 78� 30'00" N */
+    this.n0 = this.a * Math.sqrt(1 - this.e2) / (1 - this.e2 * Math.pow(Math.sin(this.fi0), 2));
+    this.s0 = 1.37008346281555; /* Latitude of pseudo standard parallel 78 30'00" N */
     this.n = Math.sin(this.s0);
     this.ro0 = this.k1 * this.n0 / Math.tan(this.s0);
     this.ad = this.s90 - this.uq;
@@ -69,13 +69,13 @@ proj4.Proj.krovak = {
     var lat = p.y;
     var delta_lon = proj4.common.adjust_lon(lon - this.long0); // Delta longitude
     /* Transformation */
-    gfi = Math.pow(((1. + this.e * Math.sin(lat)) / (1. - this.e * Math.sin(lat))), (this.alfa * this.e / 2.));
-    u = 2. * (Math.atan(this.k * Math.pow(Math.tan(lat / 2. + this.s45), this.alfa) / gfi) - this.s45);
+    gfi = Math.pow(((1 + this.e * Math.sin(lat)) / (1 - this.e * Math.sin(lat))), (this.alfa * this.e / 2));
+    u = 2 * (Math.atan(this.k * Math.pow(Math.tan(lat / 2 + this.s45), this.alfa) / gfi) - this.s45);
     deltav = -delta_lon * this.alfa;
     s = Math.asin(Math.cos(this.ad) * Math.sin(u) + Math.sin(this.ad) * Math.cos(u) * Math.cos(deltav));
     d = Math.asin(Math.cos(u) * Math.sin(deltav) / Math.cos(s));
     eps = this.n * d;
-    ro = this.ro0 * Math.pow(Math.tan(this.s0 / 2. + this.s45), this.n) / Math.pow(Math.tan(s / 2. + this.s45), this.n);
+    ro = this.ro0 * Math.pow(Math.tan(this.s0 / 2 + this.s45), this.n) / Math.pow(Math.tan(s / 2 + this.s45), this.n);
     /* x and y are reverted! */
     //p.y = ro * Math.cos(eps) / a;
     //p.x = ro * Math.sin(eps) / a;
@@ -107,7 +107,7 @@ proj4.Proj.krovak = {
     ro = Math.sqrt(p.x * p.x + p.y * p.y);
     eps = Math.atan2(p.y, p.x);
     d = eps / Math.sin(this.s0);
-    s = 2. * (Math.atan(Math.pow(this.ro0 / ro, 1. / this.n) * Math.tan(this.s0 / 2. + this.s45)) - this.s45);
+    s = 2 * (Math.atan(Math.pow(this.ro0 / ro, 1 / this.n) * Math.tan(this.s0 / 2 + this.s45)) - this.s45);
     u = Math.asin(Math.cos(this.ad) * Math.sin(s) - Math.sin(this.ad) * Math.cos(s) * Math.cos(d));
     deltav = Math.asin(Math.cos(s) * Math.sin(d) / Math.cos(u));
     p.x = this.long0 - deltav / this.alfa;
@@ -116,11 +116,13 @@ proj4.Proj.krovak = {
     ok = 0;
     var iter = 0;
     do {
-      p.y = 2. * (Math.atan(Math.pow(this.k, - 1. / this.alfa) * Math.pow(Math.tan(u / 2. + this.s45), 1. / this.alfa) * Math.pow((1. + this.e * Math.sin(fi1)) / (1. - this.e * Math.sin(fi1)), this.e / 2.)) - this.s45);
-      if (Math.abs(fi1 - p.y) < 0.0000000001) ok = 1;
+      p.y = 2 * (Math.atan(Math.pow(this.k, - 1 / this.alfa) * Math.pow(Math.tan(u / 2 + this.s45), 1 / this.alfa) * Math.pow((1 + this.e * Math.sin(fi1)) / (1 - this.e * Math.sin(fi1)), this.e / 2)) - this.s45);
+      if (Math.abs(fi1 - p.y) < 0.0000000001){
+        ok = 1;
+      }
       fi1 = p.y;
       iter += 1;
-    } while (ok == 0 && iter < 15);
+    } while (ok === 0 && iter < 15);
     if (iter >= 15) {
       proj4.reportError("PHI3Z-CONV:Latitude failed to converge after 15 iterations");
       //console.log('iter:', iter);
