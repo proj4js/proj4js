@@ -3,7 +3,7 @@ proj4.Proj.sterea = {
   dependsOn : 'gauss',
 
   init : function() {
-    proj4.Proj['gauss'].init.apply(this);
+    proj4.Proj.gauss.init.apply(this);
     if (!this.rc) {
       proj4.reportError("sterea:init:E_ERROR_0");
       return;
@@ -11,13 +11,15 @@ proj4.Proj.sterea = {
     this.sinc0 = Math.sin(this.phic0);
     this.cosc0 = Math.cos(this.phic0);
     this.R2 = 2.0 * this.rc;
-    if (!this.title) this.title = "Oblique Stereographic Alternative";
+    if (!this.title){
+      this.title = "Oblique Stereographic Alternative";
+    }
   },
 
   forward : function(p) {
     var sinc, cosc, cosl, k;
     p.x = proj4.common.adjust_lon(p.x-this.long0); /* adjust del longitude */
-    proj4.Proj['gauss'].forward.apply(this, [p]);
+    proj4.Proj.gauss.forward.apply(this, [p]);
     sinc = Math.sin(p.y);
     cosc = Math.cos(p.y);
     cosl = Math.cos(p.x);
@@ -44,12 +46,12 @@ proj4.Proj.sterea = {
       lon = Math.atan2(p.x * sinc, rho * this.cosc0 * cosc - p.y * this.sinc0 * sinc);
     } else {
       lat = this.phic0;
-      lon = 0.;
+      lon = 0.0;
     }
 
     p.x = lon;
     p.y = lat;
-    proj4.Proj['gauss'].inverse.apply(this,[p]);
+    proj4.Proj.gauss.inverse.apply(this,[p]);
     p.x = proj4.common.adjust_lon(p.x + this.long0); /* adjust longitude to CM */
     return p;
   }
