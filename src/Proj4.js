@@ -9,7 +9,7 @@ $Id: Proj.js 2956 2007-07-09 12:17:52Z steven $
 /**
  * Namespace: proj4
  *
- * proj4 is a JavaScript library to transform point coordinates from one 
+ * Proj4js is a JavaScript library to transform point coordinates from one 
  * coordinate system to another, including datum transformations.
  *
  * This library is a port of both the Proj.4 and GCTCP C libraries to JavaScript. 
@@ -17,15 +17,15 @@ $Id: Proj.js 2956 2007-07-09 12:17:52Z steven $
  * in different projections to be combined in browser-based web mapping 
  * applications.
  * 
- * proj4 must have access to coordinate system initialization strings (which
+ * Proj4js must have access to coordinate system initialization strings (which
  * are the same as for PROJ.4 command line).  Thes can be included in your 
- * application using a <script> tag or proj4 can load CS initialization 
+ * application using a <script> tag or Proj4js can load CS initialization 
  * strings from a local directory or a web service such as spatialreference.org.
  *
- * Similarly, proj4 must have access to projection transform code.  These can
+ * Similarly, Proj4js must have access to projection transform code.  These can
  * be included individually using a <script> tag in your page, built into a 
- * custom build of proj4 or loaded dynamically at run-time.  Using the
- * -combined and -compressed versions of proj4 includes all projection class
+ * custom build of Proj4js or loaded dynamically at run-time.  Using the
+ * -combined and -compressed versions of Proj4js includes all projection class
  * code by default.
  *
  * Note that dynamic loading of defs and code happens ascynchrously, check the
