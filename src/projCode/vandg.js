@@ -32,7 +32,7 @@ proj4.Proj.vandg = {
 /* Initialize the Van Der Grinten projection
   ----------------------------------------*/
   init: function() {
-    //this.R = 6370997.0; //Radius of earth
+    //this.R = 6370997; //Radius of earth
     this.R = this.a;
   },
 
@@ -50,7 +50,7 @@ proj4.Proj.vandg = {
       x = this.x0  + this.R * dlon;
       y = this.y0;
     }
-    var theta = proj4.common.asinz(2.0 * Math.abs(lat / proj4.common.PI));
+    var theta = proj4.common.asinz(2 * Math.abs(lat / proj4.common.PI));
     if ((Math.abs(dlon) <= proj4.common.EPSLN) || (Math.abs(Math.abs(lat) - proj4.common.HALF_PI) <= proj4.common.EPSLN)) {
       x = this.x0;
       if (lat >= 0) {
@@ -65,9 +65,9 @@ proj4.Proj.vandg = {
     var sinth = Math.sin(theta);
     var costh = Math.cos(theta);
 
-    var g = costh / (sinth + costh - 1.0);
+    var g = costh / (sinth + costh - 1);
     var gsq = g * g;
-    var m = g * (2.0 / sinth - 1.0);
+    var m = g * (2 / sinth - 1);
     var msq = m * m;
     var con = proj4.common.PI * this.R * (al * (g - msq) + Math.sqrt(asq * (g - msq) * (g - msq) - (msq + asq) * (gsq - msq))) / (msq + asq);
     if (dlon < 0) {
@@ -76,12 +76,12 @@ proj4.Proj.vandg = {
     x = this.x0 + con;
     //con = Math.abs(con / (proj4.common.PI * this.R));
     var q =asq+g;
-    con=proj4.common.PI*this.R*(m*q-al*Math.sqrt((msq+asq)*(asq+1.0)-q*q))/(msq+asq);
+    con=proj4.common.PI*this.R*(m*q-al*Math.sqrt((msq+asq)*(asq+1)-q*q))/(msq+asq);
     if (lat >= 0) {
-      //y = this.y0 + proj4.common.PI * this.R * Math.sqrt(1.0 - con * con - 2.0 * al * con);
+      //y = this.y0 + proj4.common.PI * this.R * Math.sqrt(1 - con * con - 2 * al * con);
       y=this.y0 + con;
     } else {
-      //y = this.y0 - proj4.common.PI * this.R * Math.sqrt(1.0 - con * con - 2.0 * al * con);
+      //y = this.y0 - proj4.common.PI * this.R * Math.sqrt(1 - con * con - 2 * al * con);
       y=this.y0 - con;
     }
     p.x = x;
@@ -108,31 +108,31 @@ proj4.Proj.vandg = {
     xx = p.x / con;
     yy =p.y / con;
     xys = xx * xx + yy * yy;
-    c1 = -Math.abs(yy) * (1.0 + xys);
-    c2 = c1 - 2.0 * yy * yy + xx * xx;
-    c3 = -2.0 * c1 + 1.0 + 2.0 * yy * yy + xys * xys;
-    d = yy * yy / c3 + (2.0 * c2 * c2 * c2 / c3 / c3 / c3 - 9.0 * c1 * c2 / c3 /c3) / 27.0;
-    a1 = (c1 - c2 * c2 / 3.0 / c3) / c3;
-    m1 = 2.0 * Math.sqrt( -a1 / 3.0);
-    con = ((3.0 * d) / a1) / m1;
-    if (Math.abs(con) > 1.0) {
-      if (con >= 0.0) {
-        con = 1.0;
+    c1 = -Math.abs(yy) * (1 + xys);
+    c2 = c1 - 2 * yy * yy + xx * xx;
+    c3 = -2 * c1 + 1 + 2 * yy * yy + xys * xys;
+    d = yy * yy / c3 + (2 * c2 * c2 * c2 / c3 / c3 / c3 - 9 * c1 * c2 / c3 /c3) / 27;
+    a1 = (c1 - c2 * c2 / 3 / c3) / c3;
+    m1 = 2 * Math.sqrt( -a1 / 3);
+    con = ((3 * d) / a1) / m1;
+    if (Math.abs(con) > 1) {
+      if (con >= 0) {
+        con = 1;
       } else {
-        con = -1.0;
+        con = -1;
       }
     }
-    th1 = Math.acos(con) / 3.0;
+    th1 = Math.acos(con) / 3;
     if (p.y >= 0) {
-      lat = (-m1 *Math.cos(th1 + proj4.common.PI / 3.0) - c2 / 3.0 / c3) * proj4.common.PI;
+      lat = (-m1 *Math.cos(th1 + proj4.common.PI / 3) - c2 / 3 / c3) * proj4.common.PI;
     } else {
-      lat = -(-m1 * Math.cos(th1 + proj4.common.PI / 3.0) - c2 / 3.0 / c3) * proj4.common.PI;
+      lat = -(-m1 * Math.cos(th1 + proj4.common.PI / 3) - c2 / 3 / c3) * proj4.common.PI;
     }
 
     if (Math.abs(xx) < proj4.common.EPSLN) {
       lon = this.long0;
     } else {
-      lon = proj4.common.adjust_lon(this.long0 + proj4.common.PI * (xys - 1.0 + Math.sqrt(1.0 + 2.0 * (xx * xx - yy * yy) + xys * xys)) / 2.0 / xx);
+      lon = proj4.common.adjust_lon(this.long0 + proj4.common.PI * (xys - 1 + Math.sqrt(1 + 2 * (xx * xx - yy * yy) + xys * xys)) / 2 / xx);
     }
 
     p.x=lon;

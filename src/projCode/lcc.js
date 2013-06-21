@@ -51,7 +51,7 @@ proj4.Proj.lcc = {
     }
 
     var temp = this.b / this.a;
-    this.e = Math.sqrt(1.0 - temp * temp);
+    this.e = Math.sqrt(1 - temp * temp);
 
     var sin1 = Math.sin(this.lat1);
     var cos1 = Math.cos(this.lat1);
@@ -122,18 +122,18 @@ proj4.Proj.lcc = {
     var y = (this.rh - (p.y - this.y0) / this.k0);
     if (this.ns > 0) {
       rh1 = Math.sqrt(x * x + y * y);
-      con = 1.0;
+      con = 1;
     }
     else {
       rh1 = -Math.sqrt(x * x + y * y);
-      con = -1.0;
+      con = -1;
     }
-    var theta = 0.0;
+    var theta = 0;
     if (rh1 !== 0) {
       theta = Math.atan2((con * x), (con * y));
     }
-    if ((rh1 !== 0) || (this.ns > 0.0)) {
-      con = 1.0 / this.ns;
+    if ((rh1 !== 0) || (this.ns > 0)) {
+      con = 1 / this.ns;
       ts = Math.pow((rh1 / (this.a * this.f0)), con);
       lat = proj4.common.phi2z(this.e, ts);
       if (lat === -9999){

@@ -54,7 +54,7 @@ proj4.Proj.ortho = {
 
     coslon = Math.cos(dlon);
     g = this.sin_p14 * sinphi + this.cos_p14 * cosphi * coslon;
-    ksp = 1.0;
+    ksp = 1;
     if ((g > 0) || (Math.abs(g) <= proj4.common.EPSLN)) {
       x = this.a * ksp * cosphi * Math.sin(dlon);
       y = this.y0 + this.a * ksp * (this.cos_p14 * sinphi - this.sin_p14 * cosphi * coslon);

@@ -56,7 +56,7 @@ proj4.Proj.gnom = {
 
     coslon = Math.cos(dlon);
     g = this.sin_p14 * sinphi + this.cos_p14 * cosphi * coslon;
-    ksp = 1.0;
+    ksp = 1;
     if ((g > 0) || (Math.abs(g) <= proj4.common.EPSLN)) {
       x = this.x0 + this.a * ksp * cosphi * Math.sin(dlon) / g;
       y = this.y0 + this.a * ksp * (this.cos_p14 * sinphi - this.sin_p14 * cosphi * coslon) / g;
@@ -106,7 +106,7 @@ proj4.Proj.gnom = {
     }
     else {
       lat = this.phic0;
-      lon = 0.0;
+      lon = 0;
     }
 
     p.x = lon;

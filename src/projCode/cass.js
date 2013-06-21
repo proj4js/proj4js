@@ -60,11 +60,11 @@ proj4.Proj.cass = {
       var tl = Math.tan(phi) * Math.tan(phi);
       var al = lam * Math.cos(phi);
       var asq = al * al;
-      var cl = this.es * cosphi * cosphi / (1.0 - this.es);
+      var cl = this.es * cosphi * cosphi / (1 - this.es);
       var ml = this.a * proj4.common.mlfn(this.e0, this.e1, this.e2, this.e3, phi);
 
-      x = nl * al * (1.0 - asq * tl * (1.0 / 6.0 - (8.0 - tl + 8.0 * cl) * asq / 120.0));
-      y = ml - this.ml0 + nl * sinphi / cosphi * asq * (0.5 + (5.0 - tl + 6.0 * cl) * asq / 24.0);
+      x = nl * al * (1 - asq * tl * (1 / 6 - (8 - tl + 8 * cl) * asq / 120));
+      y = ml - this.ml0 + nl * sinphi / cosphi * asq * (0.5 + (5 - tl + 6 * cl) * asq / 24);
 
 
     }
@@ -95,19 +95,19 @@ proj4.Proj.cass = {
       if (Math.abs(Math.abs(phi1) - proj4.common.HALF_PI) <= proj4.common.EPSLN) {
         p.x = this.long0;
         p.y = proj4.common.HALF_PI;
-        if (y < 0.0) {
-          p.y *= -1.0;
+        if (y < 0) {
+          p.y *= -1;
         }
         return p;
       }
       var nl1 = proj4.common.gN(this.a, this.e, Math.sin(phi1));
 
-      var rl1 = nl1 * nl1 * nl1 / this.a / this.a * (1.0 - this.es);
-      var tl1 = Math.pow(Math.tan(phi1), 2.0);
+      var rl1 = nl1 * nl1 * nl1 / this.a / this.a * (1 - this.es);
+      var tl1 = Math.pow(Math.tan(phi1), 2);
       var dl = x * this.a / nl1;
       var dsq = dl * dl;
-      phi = phi1 - nl1 * Math.tan(phi1) / rl1 * dl * dl * (0.5 - (1.0 + 3.0 * tl1) * dl * dl / 24.0);
-      lam = dl * (1.0 - dsq * (tl1 / 3.0 + (1.0 + 3.0 * tl1) * tl1 * dsq / 15.0)) / Math.cos(phi1);
+      phi = phi1 - nl1 * Math.tan(phi1) / rl1 * dl * dl * (0.5 - (1 + 3 * tl1) * dl * dl / 24);
+      lam = dl * (1 - dsq * (tl1 / 3 + (1 + 3 * tl1) * tl1 * dsq / 15)) / Math.cos(phi1);
 
     }
 

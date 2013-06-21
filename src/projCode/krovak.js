@@ -79,12 +79,12 @@ proj4.Proj.krovak = {
     /* x and y are reverted! */
     //p.y = ro * Math.cos(eps) / a;
     //p.x = ro * Math.sin(eps) / a;
-    p.y = ro * Math.cos(eps) / 1.0;
-    p.x = ro * Math.sin(eps) / 1.0;
+    p.y = ro * Math.cos(eps) / 1;
+    p.x = ro * Math.sin(eps) / 1;
 
     if (!this.czech) {
-      p.y *= -1.0;
-      p.x *= -1.0;
+      p.y *= -1;
+      p.x *= -1;
     }
     return (p);
   },
@@ -101,8 +101,8 @@ proj4.Proj.krovak = {
     p.x = p.y;
     p.y = tmp;
     if (!this.czech) {
-      p.y *= -1.0;
-      p.x *= -1.0;
+      p.y *= -1;
+      p.x *= -1;
     }
     ro = Math.sqrt(p.x * p.x + p.y * p.y);
     eps = Math.atan2(p.y, p.x);

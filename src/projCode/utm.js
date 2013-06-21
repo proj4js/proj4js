@@ -30,10 +30,10 @@ proj4.Proj.utm = {
       proj4.reportError("utm:init: zone must be specified for UTM");
       return;
     }
-    this.lat0 = 0.0;
+    this.lat0 = 0;
     this.long0 = ((6 * Math.abs(this.zone)) - 183) * proj4.common.D2R;
-    this.x0 = 500000.0;
-    this.y0 = this.utmSouth ? 10000000.0 : 0.0;
+    this.x0 = 500000;
+    this.y0 = this.utmSouth ? 10000000 : 0;
     this.k0 = 0.9996;
 
     proj4.Proj.tmerc.init.apply(this);

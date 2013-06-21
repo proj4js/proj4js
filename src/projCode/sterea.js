@@ -10,7 +10,7 @@ proj4.Proj.sterea = {
     }
     this.sinc0 = Math.sin(this.phic0);
     this.cosc0 = Math.cos(this.phic0);
-    this.R2 = 2.0 * this.rc;
+    this.R2 = 2 * this.rc;
     if (!this.title){
       this.title = "Oblique Stereographic Alternative";
     }
@@ -23,7 +23,7 @@ proj4.Proj.sterea = {
     sinc = Math.sin(p.y);
     cosc = Math.cos(p.y);
     cosl = Math.cos(p.x);
-    k = this.k0 * this.R2 / (1.0 + this.sinc0 * sinc + this.cosc0 * cosc * cosl);
+    k = this.k0 * this.R2 / (1 + this.sinc0 * sinc + this.cosc0 * cosc * cosl);
     p.x = k * cosc * Math.sin(p.x);
     p.y = k * (this.cosc0 * sinc - this.sinc0 * cosc * cosl);
     p.x = this.a * p.x + this.x0;
@@ -39,14 +39,14 @@ proj4.Proj.sterea = {
     p.x /= this.k0;
     p.y /= this.k0;
     if ( (rho = Math.sqrt(p.x*p.x + p.y*p.y)) ) {
-      var c = 2.0 * Math.atan2(rho, this.R2);
+      var c = 2 * Math.atan2(rho, this.R2);
       sinc = Math.sin(c);
       cosc = Math.cos(c);
       lat = Math.asin(cosc * this.sinc0 + p.y * sinc * this.cosc0 / rho);
       lon = Math.atan2(p.x * sinc, rho * this.cosc0 * cosc - p.y * this.sinc0 * sinc);
     } else {
       lat = this.phic0;
-      lon = 0.0;
+      lon = 0;
     }
 
     p.x = lon;

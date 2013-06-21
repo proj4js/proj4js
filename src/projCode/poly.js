@@ -9,18 +9,18 @@ function phi4z (eccent,e0,e1,e2,e3,a,b,c,phi) {
   for (i = 1; i <= 15; i++) {
     sinphi = Math.sin(phi);
     tanphi = Math.tan(phi);
-    c = tanphi * Math.sqrt (1.0 - eccent * sinphi * sinphi);
-    sin2ph = Math.sin (2.0 * phi);
+    c = tanphi * Math.sqrt (1 - eccent * sinphi * sinphi);
+    sin2ph = Math.sin (2 * phi);
     /*
-    ml = e0 * *phi - e1 * sin2ph + e2 * sin (4.0 *  *phi);
-    mlp = e0 - 2.0 * e1 * cos (2.0 *  *phi) + 4.0 * e2 *  cos (4.0 *  *phi);
+    ml = e0 * *phi - e1 * sin2ph + e2 * sin (4 *  *phi);
+    mlp = e0 - 2 * e1 * cos (2 *  *phi) + 4 * e2 *  cos (4 *  *phi);
     */
 /*
-    ml = e0 * phi - e1 * sin2ph + e2 * Math.sin (4.0 *  phi) - e3 * Math.sin (6.0 * phi);
-    mlp = e0 - 2.0 * e1 * Math.cos (2.0 *  phi) + 4.0 * e2 * Math.cos (4.0 *  phi) - 6.0 * e3 * Math.cos (6.0 *  phi);
-    con1 = 2.0 * ml + c * (ml * ml + b) - 2.0 * a *  (c * ml + 1.0);
-    con2 = eccent * sin2ph * (ml * ml + b - 2.0 * a * ml) / (2.0 *c);
-    con3 = 2.0 * (a - ml) * (c * mlp - 2.0 / sin2ph) - 2.0 * mlp;
+    ml = e0 * phi - e1 * sin2ph + e2 * Math.sin (4 *  phi) - e3 * Math.sin (6 * phi);
+    mlp = e0 - 2 * e1 * Math.cos (2 *  phi) + 4 * e2 * Math.cos (4 *  phi) - 6 * e3 * Math.cos (6 *  phi);
+    con1 = 2 * ml + c * (ml * ml + b) - 2 * a *  (c * ml + 1);
+    con2 = eccent * sin2ph * (ml * ml + b - 2 * a * ml) / (2 *c);
+    con3 = 2 * (a - ml) * (c * mlp - 2 / sin2ph) - 2 * mlp;
     dphi = con1 / (con2 + con3);
     phi += dphi;
     if (Math.abs(dphi) <= .0000000001 ) return(phi);   
@@ -37,8 +37,8 @@ function phi4z (eccent,e0,e1,e2,e3,a,b,c,phi) {
 --------------------------------------------------------------------*/
 /*function e4fn(x) {
   var con, com;
-  con = 1.0 + x;
-  com = 1.0 - x;
+  con = 1 + x;
+  com = 1 - x;
   return (Math.sqrt((Math.pow(con, con)) * (Math.pow(com, com))));
 }
 
@@ -77,7 +77,7 @@ proj4.Proj.poly = {
     /* Place parameters in static storage for common use
       -------------------------------------------------*/
     this.temp = this.b / this.a;
-    this.es = 1.0 - Math.pow(this.temp, 2); // devait etre dans tmerc.js mais n y est pas donc je commente sinon retour de valeurs nulles
+    this.es = 1 - Math.pow(this.temp, 2); // devait etre dans tmerc.js mais n y est pas donc je commente sinon retour de valeurs nulles
     this.e = Math.sqrt(this.es);
     this.e0 = proj4.common.e0fn(this.es);
     this.e1 = proj4.common.e1fn(this.es);
@@ -98,22 +98,22 @@ proj4.Proj.poly = {
     if (this.sphere) {
       if (Math.abs(lat) <= proj4.common.EPSLN) {
         x = this.a * dlon;
-        y = -1.0 * this.a * this.lat0;
+        y = -1 * this.a * this.lat0;
       }
       else {
         x = this.a * Math.sin(el) / Math.tan(lat);
-        y = this.a * (proj4.common.adjust_lat(lat - this.lat0) + (1.0 - Math.cos(el)) / Math.tan(lat));
+        y = this.a * (proj4.common.adjust_lat(lat - this.lat0) + (1 - Math.cos(el)) / Math.tan(lat));
       }
     }
     else {
       if (Math.abs(lat) <= proj4.common.EPSLN) {
         x = this.a * dlon;
-        y = -1.0 * this.ml0;
+        y = -1 * this.ml0;
       }
       else {
         var nl = proj4.common.gN(this.a, this.e, Math.sin(lat)) / Math.tan(lat);
         x = nl * Math.sin(el);
-        y = this.a * proj4.common.mlfn(this.e0, this.e1, this.e2, this.e3, lat) - this.ml0 + nl * (1.0 - Math.cos(el));
+        y = this.a * proj4.common.mlfn(this.e0, this.e1, this.e2, this.e3, lat) - this.ml0 + nl * (1 - Math.cos(el));
       }
 
     }
@@ -144,7 +144,7 @@ proj4.Proj.poly = {
         var tanphi;
         for (i = proj4.common.MAX_ITER; i; --i) {
           tanphi = Math.tan(phi);
-          dphi = -1.0 * (al * (phi * tanphi + 1.0) - phi - 0.5 * (phi * phi + bl) * tanphi) / ((phi - al) / tanphi - 1.0);
+          dphi = -1 * (al * (phi * tanphi + 1) - phi - 0.5 * (phi * phi + bl) * tanphi) / ((phi - al) / tanphi - 1);
           phi += dphi;
           if (Math.abs(dphi) <= proj4.common.EPSLN) {
             lat = phi;
@@ -168,11 +168,11 @@ proj4.Proj.poly = {
         var con;
         for (i = proj4.common.MAX_ITER; i; --i) {
           con = this.e * Math.sin(phi);
-          cl = Math.sqrt(1.0 - con * con) * Math.tan(phi);
+          cl = Math.sqrt(1 - con * con) * Math.tan(phi);
           mln = this.a * proj4.common.mlfn(this.e0, this.e1, this.e2, this.e3, phi);
-          mlnp = this.e0 - 2.0 * this.e1 * Math.cos(2.0 * phi) + 4.0 * this.e2 * Math.cos(4.0 * phi) - 6.0 * this.e3 * Math.cos(6.0 * phi);
+          mlnp = this.e0 - 2 * this.e1 * Math.cos(2 * phi) + 4 * this.e2 * Math.cos(4 * phi) - 6 * this.e3 * Math.cos(6 * phi);
           ma = mln / this.a;
-          dphi = (al * (cl * ma + 1.0) - ma - 0.5 * cl * (ma * ma + bl)) / (this.es * Math.sin(2.0 * phi) * (ma * ma + bl - 2.0 * al * ma) / (4.0 * cl) + (al - ma) * (cl * mlnp - 2.0 / Math.sin(2.0 * phi)) - mlnp);
+          dphi = (al * (cl * ma + 1) - ma - 0.5 * cl * (ma * ma + bl)) / (this.es * Math.sin(2 * phi) * (ma * ma + bl - 2 * al * ma) / (4 * cl) + (al - ma) * (cl * mlnp - 2 / Math.sin(2 * phi)) - mlnp);
           phi -= dphi;
           if (Math.abs(dphi) <= proj4.common.EPSLN) {
             lat = phi;
@@ -181,7 +181,7 @@ proj4.Proj.poly = {
         }
 
         //lat=phi4z(this.e,this.e0,this.e1,this.e2,this.e3,al,bl,0,0);
-        cl = Math.sqrt(1 - this.es * Math.pow(Math.sin(lat), 2.0)) * Math.tan(lat);
+        cl = Math.sqrt(1 - this.es * Math.pow(Math.sin(lat), 2)) * Math.tan(lat);
         lon = proj4.common.adjust_lon(this.long0 + Math.asin(x * cl / this.a) / Math.sin(lat));
       }
     }

@@ -81,7 +81,7 @@ proj4.Proj.cea = {
       lat = Math.asin((p.y / this.a) * Math.cos(this.lat_ts));
     }
     else {
-      lat = proj4.common.iqsfnz(this.e, 2.0 * p.y * this.k0 / this.a);
+      lat = proj4.common.iqsfnz(this.e, 2 * p.y * this.k0 / this.a);
       lon = proj4.common.adjust_lon(this.long0 + p.x / (this.a * this.k0));
     }
 

@@ -19,20 +19,20 @@ proj4.Proj.stere = {
         if (this.lat0 > 0) {
           //North pole
           //trace('stere:north pole');
-          this.con = 1.0;
+          this.con = 1;
         }
         else {
           //South pole
           //trace('stere:south pole');
-          this.con = -1.0;
+          this.con = -1;
         }
       }
       this.cons = Math.sqrt(Math.pow(1 + this.e, 1 + this.e) * Math.pow(1 - this.e, 1 - this.e));
-      if (this.k0 === 1.0 && !isNaN(this.lat_ts) && Math.abs(this.coslat0) <= proj4.common.EPSLN) {
+      if (this.k0 === 1 && !isNaN(this.lat_ts) && Math.abs(this.coslat0) <= proj4.common.EPSLN) {
         this.k0 = 0.5 * this.cons * proj4.common.msfnz(this.e, Math.sin(this.lat_ts), Math.cos(this.lat_ts)) / proj4.common.tsfnz(this.e, this.con * this.lat_ts, this.con * Math.sin(this.lat_ts));
       }
       this.ms1 = proj4.common.msfnz(this.e, this.sinlat0, this.coslat0);
-      this.X0 = 2.0 * Math.atan(this.ssfn_(this.lat0, this.sinlat0, this.e)) - proj4.common.HALF_PI;
+      this.X0 = 2 * Math.atan(this.ssfn_(this.lat0, this.sinlat0, this.e)) - proj4.common.HALF_PI;
       this.cosX0 = Math.cos(this.X0);
       this.sinX0 = Math.sin(this.X0);
     }
@@ -56,18 +56,18 @@ proj4.Proj.stere = {
     }
     if (this.sphere) {
       //trace('stere:sphere case');
-      A = 2 * this.k0 / (1.0 + this.sinlat0 * sinlat + this.coslat0 * coslat * Math.cos(dlon));
+      A = 2 * this.k0 / (1 + this.sinlat0 * sinlat + this.coslat0 * coslat * Math.cos(dlon));
       p.x = this.a * A * coslat * Math.sin(dlon) + this.x0;
       p.y = this.a * A * (this.coslat0 * sinlat - this.sinlat0 * coslat * Math.cos(dlon)) + this.y0;
       return p;
     }
     else {
-      X = 2.0 * Math.atan(this.ssfn_(lat, sinlat, this.e)) - proj4.common.HALF_PI;
+      X = 2 * Math.atan(this.ssfn_(lat, sinlat, this.e)) - proj4.common.HALF_PI;
       cosX = Math.cos(X);
       sinX = Math.sin(X);
       if (Math.abs(this.coslat0) <= proj4.common.EPSLN) {
         ts = proj4.common.tsfnz(this.e, lat * this.con, this.con * sinlat);
-        rh = 2.0 * this.a * this.k0 * ts / this.cons;
+        rh = 2 * this.a * this.k0 * ts / this.cons;
         p.x = this.x0 + rh * Math.sin(lon - this.long0);
         p.y = this.y0 - this.con * rh * Math.cos(lon - this.long0);
         //trace(p.toString());
@@ -76,13 +76,13 @@ proj4.Proj.stere = {
       else if (Math.abs(this.sinlat0) < proj4.common.EPSLN) {
         //Eq
         //trace('stere:equateur');
-        A = 2.0 * this.a * this.k0 / (1.0 + cosX * Math.cos(dlon));
+        A = 2 * this.a * this.k0 / (1 + cosX * Math.cos(dlon));
         p.y = A * sinX;
       }
       else {
         //other case
         //trace('stere:normal case');
-        A = 2.0 * this.a * this.k0 * this.ms1 / (this.cosX0 * (1.0 + this.sinX0 * sinX + this.cosX0 * cosX * Math.cos(dlon)));
+        A = 2 * this.a * this.k0 * this.ms1 / (this.cosX0 * (1 + this.sinX0 * sinX + this.cosX0 * cosX * Math.cos(dlon)));
         p.y = A * (this.cosX0 * sinX - this.sinX0 * cosX * Math.cos(dlon)) + this.y0;
       }
       p.x = A * cosX * Math.sin(dlon) + this.x0;
@@ -109,8 +109,8 @@ proj4.Proj.stere = {
       }
       lat = Math.asin(Math.cos(c) * this.sinlat0 + p.y * Math.sin(c) * this.coslat0 / rh);
       if (Math.abs(this.coslat0) < proj4.common.EPSLN) {
-        if (this.lat0 > 0.0) {
-          lon = proj4.common.adjust_lon(this.long0 + Math.atan2(p.x, - 1.0 * p.y));
+        if (this.lat0 > 0) {
+          lon = proj4.common.adjust_lon(this.long0 + Math.atan2(p.x, - 1 * p.y));
         }
         else {
           lon = proj4.common.adjust_lon(this.long0 + Math.atan2(p.x, p.y));
@@ -135,12 +135,12 @@ proj4.Proj.stere = {
         }
         p.x *= this.con;
         p.y *= this.con;
-        ts = rh * this.cons / (2.0 * this.a * this.k0);
+        ts = rh * this.cons / (2 * this.a * this.k0);
         lat = this.con * proj4.common.phi2z(this.e, ts);
-        lon = this.con * proj4.common.adjust_lon(this.con * this.long0 + Math.atan2(p.x, - 1.0 * p.y));
+        lon = this.con * proj4.common.adjust_lon(this.con * this.long0 + Math.atan2(p.x, - 1 * p.y));
       }
       else {
-        ce = 2.0 * Math.atan(rh * this.cosX0 / (2.0 * this.a * this.k0 * this.ms1));
+        ce = 2 * Math.atan(rh * this.cosX0 / (2 * this.a * this.k0 * this.ms1));
         lon = this.long0;
         if (rh <= proj4.common.EPSLN) {
           Chi = this.X0;
@@ -149,7 +149,7 @@ proj4.Proj.stere = {
           Chi = Math.asin(Math.cos(ce) * this.sinX0 + p.y * Math.sin(ce) * this.cosX0 / rh);
           lon = proj4.common.adjust_lon(this.long0 + Math.atan2(p.x * Math.sin(ce), rh * this.cosX0 * Math.cos(ce) - p.y * this.sinX0 * Math.sin(ce)));
         }
-        lat = -1.0 * proj4.common.phi2z(this.e, Math.tan(0.5 * (proj4.common.HALF_PI + Chi)));
+        lat = -1 * proj4.common.phi2z(this.e, Math.tan(0.5 * (proj4.common.HALF_PI + Chi)));
       }
     }
     p.x = lon;

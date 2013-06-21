@@ -47,7 +47,7 @@ proj4.Proj.moll = {
     /* Iterate using the Newton-Raphson method to find theta
       -----------------------------------------------------*/
     for (var i = 0; true; i++) {
-      var delta_theta = -(theta + Math.sin(theta) - con) / (1.0 + Math.cos(theta));
+      var delta_theta = -(theta + Math.sin(theta) - con) / (1 + Math.cos(theta));
       theta += delta_theta;
       if (Math.abs(delta_theta) < proj4.common.EPSLN){
         break;
@@ -57,7 +57,7 @@ proj4.Proj.moll = {
         //return(241);
       }
     }
-    theta /= 2.0;
+    theta /= 2;
 
     /* If the latitude is 90 deg, force the x coordinate to be "0 + false easting"
        this is done here because of precision problems with "cos(theta)"
@@ -83,7 +83,7 @@ proj4.Proj.moll = {
     p.y -= this.y0;
     arg = p.y / (1.4142135623731 * this.a);
 
-    /* Because of division by zero problems, 'arg' can not be 1.0.  Therefore
+    /* Because of division by zero problems, 'arg' can not be 1.  Therefore
        a number very close to one is used instead.
        -------------------------------------------------------------------*/
     if (Math.abs(arg) > 0.999999999999){
@@ -97,9 +97,9 @@ proj4.Proj.moll = {
     if (lon > proj4.common.PI){
       lon = proj4.common.PI;
     }
-    arg = (2.0 * theta + Math.sin(2.0 * theta)) / proj4.common.PI;
-    if (Math.abs(arg) > 1.0){
-      arg = 1.0;
+    arg = (2 * theta + Math.sin(2 * theta)) / proj4.common.PI;
+    if (Math.abs(arg) > 1){
+      arg = 1;
     }
     var lat = Math.asin(arg);
     //return(OK);

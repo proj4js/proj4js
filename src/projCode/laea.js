@@ -62,8 +62,8 @@ proj4.Proj.laea = {
         break;
       case this.EQUIT:
         this.rq = Math.sqrt(0.5 * this.qp);
-        this.dd = 1.0 / this.rq;
-        this.xmf = 1.0;
+        this.dd = 1 / this.rq;
+        this.xmf = 1;
         this.ymf = 0.5 * this.qp;
         break;
       case this.OBLIQ:
@@ -181,7 +181,7 @@ proj4.Proj.laea = {
       }
     }
 
-    //v 1.0
+    //v 1
     /*
     var sin_lat=Math.sin(lat);
     var cos_lat=Math.cos(lat);
@@ -190,11 +190,11 @@ proj4.Proj.laea = {
     var cos_delta_lon=Math.cos(delta_lon);
 
     var g =this.sin_lat_o * sin_lat +this.cos_lat_o * cos_lat * cos_delta_lon;
-    if (g == -1.0) {
-      proj4.reportError("laea:fwd:Point projects to a circle of radius "+ 2.0 * R);
+    if (g == -1) {
+      proj4.reportError("laea:fwd:Point projects to a circle of radius "+ 2 * R);
       return null;
     }
-    var ksp = this.a * Math.sqrt(2.0 / (1.0 + g));
+    var ksp = this.a * Math.sqrt(2 / (1 + g));
     var x = ksp * cos_lat * sin_delta_lon + this.x0;
     var y = ksp * (this.cos_lat_o * sin_lat - this.sin_lat_o * cos_lat * cos_delta_lon) + this.y0;
     */
@@ -296,14 +296,14 @@ proj4.Proj.laea = {
 
     /*
     var Rh = Math.Math.sqrt(p.x *p.x +p.y * p.y);
-    var temp = Rh / (2.0 * this.a);
+    var temp = Rh / (2 * this.a);
 
     if (temp > 1) {
       proj4.reportError("laea:Inv:DataError");
       return null;
     }
 
-    var z = 2.0 * proj4.common.asinz(temp);
+    var z = 2 * proj4.common.asinz(temp);
     var sin_z=Math.sin(z);
     var cos_z=Math.cos(z);
 
@@ -313,8 +313,8 @@ proj4.Proj.laea = {
        var temp =Math.abs(this.lat0) - proj4.common.HALF_PI;
        if (Math.abs(temp) > proj4.common.EPSLN) {
           temp = cos_z -this.sin_lat_o * Math.sin(lat);
-          if(temp!=0.0) lon=proj4.common.adjust_lon(this.long0+Math.atan2(p.x*sin_z*this.cos_lat_o,temp*Rh));
-       } else if (this.lat0 < 0.0) {
+          if(temp!=0) lon=proj4.common.adjust_lon(this.long0+Math.atan2(p.x*sin_z*this.cos_lat_o,temp*Rh));
+       } else if (this.lat0 < 0) {
           lon = proj4.common.adjust_lon(this.long0 - Math.atan2(-p.x,p.y));
        } else {
           lon = proj4.common.adjust_lon(this.long0 + Math.atan2(p.x, -p.y));

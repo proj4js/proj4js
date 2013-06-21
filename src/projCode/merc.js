@@ -35,7 +35,7 @@ ALGORITHM REFERENCES
 proj4.Proj.merc = {
   init: function() {
     var con = this.b / this.a;
-    this.es = 1.0 - con * con;
+    this.es = 1 - con * con;
     this.e = Math.sqrt(this.es);
     if (this.lat_ts) {
       if (this.sphere) {
@@ -51,7 +51,7 @@ proj4.Proj.merc = {
           this.k0 = this.k;
         }
         else {
-          this.k0 = 1.0;
+          this.k0 = 1;
         }
       }
     }
@@ -65,7 +65,7 @@ proj4.Proj.merc = {
     var lon = p.x;
     var lat = p.y;
     // convert to radians
-    if (lat * proj4.common.R2D > 90.0 && lat * proj4.common.R2D < -90.0 && lon * proj4.common.R2D > 180.0 && lon * proj4.common.R2D < -180.0) {
+    if (lat * proj4.common.R2D > 90 && lat * proj4.common.R2D < -90 && lon * proj4.common.R2D > 180 && lon * proj4.common.R2D < -180) {
       proj4.reportError("merc:forward: llInputOutOfRange: " + lon + " : " + lat);
       return null;
     }
@@ -102,7 +102,7 @@ proj4.Proj.merc = {
     var lon, lat;
 
     if (this.sphere) {
-      lat = proj4.common.HALF_PI - 2.0 * Math.atan(Math.exp(-y / (this.a * this.k0)));
+      lat = proj4.common.HALF_PI - 2 * Math.atan(Math.exp(-y / (this.a * this.k0)));
     }
     else {
       var ts = Math.exp(-y / (this.a * this.k0));

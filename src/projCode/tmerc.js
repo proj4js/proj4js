@@ -47,7 +47,7 @@ proj4.Proj.tmerc = {
 
     if (this.sphere) {  /* spherical form */
       var b = cos_phi * Math.sin(delta_lon);
-      if ((Math.abs(Math.abs(b) - 1.0)) < 0.0000000001)  {
+      if ((Math.abs(Math.abs(b) - 1)) < 0.0000000001)  {
         proj4.reportError("tmerc:forward: Point projects into infinity");
         return(93);
       } else {
@@ -64,12 +64,12 @@ proj4.Proj.tmerc = {
       var c   = this.ep2 * Math.pow(cos_phi,2);
       var tq  = Math.tan(lat);
       var t   = Math.pow(tq,2);
-      con = 1.0 - this.es * Math.pow(sin_phi,2);
+      con = 1 - this.es * Math.pow(sin_phi,2);
       var n   = this.a / Math.sqrt(con);
       var ml  = this.a * proj4.common.mlfn(this.e0, this.e1, this.e2, this.e3, lat);
 
-      x = this.k0 * n * al * (1.0 + als / 6.0 * (1.0 - t + c + als / 20.0 * (5.0 - 18.0 * t + Math.pow(t,2) + 72.0 * c - 58.0 * this.ep2))) + this.x0;
-      y = this.k0 * (ml - this.ml0 + n * tq * (als * (0.5 + als / 24.0 * (5.0 - t + 9.0 * c + 4.0 * Math.pow(c,2) + als / 30.0 * (61.0 - 58.0 * t + Math.pow(t,2) + 600.0 * c - 330.0 * this.ep2))))) + this.y0;
+      x = this.k0 * n * al * (1 + als / 6 * (1 - t + c + als / 20 * (5 - 18 * t + Math.pow(t,2) + 72 * c - 58 * this.ep2))) + this.x0;
+      y = this.k0 * (ml - this.ml0 + n * tq * (als * (0.5 + als / 24 * (5 - t + 9 * c + 4 * Math.pow(c,2) + als / 30 * (61 - 58 * t + Math.pow(t,2) + 600 * c - 330 * this.ep2))))) + this.y0;
 
     }
     p.x = x;
@@ -109,7 +109,7 @@ proj4.Proj.tmerc = {
       con = (this.ml0 + y / this.k0) / this.a;
       phi = con;
       for (i=0;true;i++) {
-        delta_phi=((con + this.e1 * Math.sin(2.0*phi) - this.e2 * Math.sin(4.0*phi) + this.e3 * Math.sin(6.0*phi)) / this.e0) - phi;
+        delta_phi=((con + this.e1 * Math.sin(2*phi) - this.e2 * Math.sin(4*phi) + this.e3 * Math.sin(6*phi)) / this.e0) - phi;
         phi += delta_phi;
         if (Math.abs(delta_phi) <= proj4.common.EPSLN){
           break;
@@ -128,13 +128,13 @@ proj4.Proj.tmerc = {
         var cs = Math.pow(c,2);
         var t = Math.pow(tan_phi,2);
         var ts = Math.pow(t,2);
-        con = 1.0 - this.es * Math.pow(sin_phi,2);
+        con = 1 - this.es * Math.pow(sin_phi,2);
         var n = this.a / Math.sqrt(con);
-        var r = n * (1.0 - this.es) / con;
+        var r = n * (1 - this.es) / con;
         var d = x / (n * this.k0);
         var ds = Math.pow(d,2);
-        lat = phi - (n * tan_phi * ds / r) * (0.5 - ds / 24.0 * (5.0 + 3.0 * t + 10.0 * c - 4.0 * cs - 9.0 * this.ep2 - ds / 30.0 * (61.0 + 90.0 * t + 298.0 * c + 45.0 * ts - 252.0 * this.ep2 - 3.0 * cs)));
-        lon = proj4.common.adjust_lon(this.long0 + (d * (1.0 - ds / 6.0 * (1.0 + 2.0 * t + c - ds / 20.0 * (5.0 - 2.0 * c + 28.0 * t - 3.0 * cs + 8.0 * this.ep2 + 24.0 * ts))) / cos_phi));
+        lat = phi - (n * tan_phi * ds / r) * (0.5 - ds / 24 * (5 + 3 * t + 10 * c - 4 * cs - 9 * this.ep2 - ds / 30 * (61 + 90 * t + 298 * c + 45 * ts - 252 * this.ep2 - 3 * cs)));
+        lon = proj4.common.adjust_lon(this.long0 + (d * (1 - ds / 6 * (1 + 2 * t + c - ds / 20 * (5 - 2 * c + 28 * t - 3 * cs + 8 * this.ep2 + 24 * ts))) / cos_phi));
       } else {
         lat = proj4.common.HALF_PI * proj4.common.sign(y);
         lon = this.long0;
