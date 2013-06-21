@@ -12,12 +12,12 @@ proj4.datum = proj4.Class({
       for (var i=0; i<proj.datum_params.length; i++) {
         proj.datum_params[i]=parseFloat(proj.datum_params[i]);
       }
-      if (proj.datum_params[0] != 0 || proj.datum_params[1] != 0 || proj.datum_params[2] != 0 ) {
+      if (proj.datum_params[0] !== 0 || proj.datum_params[1] !== 0 || proj.datum_params[2] !== 0 ) {
         this.datum_type = proj4.common.PJD_3PARAM;
       }
       if (proj.datum_params.length > 3) {
-        if (proj.datum_params[3] != 0 || proj.datum_params[4] != 0 ||
-            proj.datum_params[5] != 0 || proj.datum_params[6] != 0 ) {
+        if (proj.datum_params[3] !== 0 || proj.datum_params[4] !== 0 ||
+            proj.datum_params[5] !== 0 || proj.datum_params[6] !== 0 ) {
           this.datum_type = proj4.common.PJD_7PARAM;
           proj.datum_params[3] *= proj4.common.SEC_TO_RAD;
           proj.datum_params[4] *= proj4.common.SEC_TO_RAD;
@@ -45,24 +45,24 @@ proj4.datum = proj4.Class({
   // cs_compare_datums()
   //   Returns TRUE if the two datums match, otherwise FALSE.
   compare_datums : function( dest ) {
-    if( this.datum_type != dest.datum_type ) {
+    if( this.datum_type !== dest.datum_type ) {
       return false; // false, datums are not equal
-    } else if( this.a != dest.a || Math.abs(this.es-dest.es) > 0.000000000050 ) {
+    } else if( this.a !== dest.a || Math.abs(this.es-dest.es) > 0.000000000050 ) {
       // the tolerence for es is to ensure that GRS80 and WGS84
       // are considered identical
       return false;
     } else if( this.datum_type == proj4.common.PJD_3PARAM ) {
-      return (this.datum_params[0] == dest.datum_params[0]
-              && this.datum_params[1] == dest.datum_params[1]
-              && this.datum_params[2] == dest.datum_params[2]);
+      return (this.datum_params[0] == dest.datum_params[0] &&
+              this.datum_params[1] == dest.datum_params[1] &&
+              this.datum_params[2] == dest.datum_params[2]);
     } else if( this.datum_type == proj4.common.PJD_7PARAM ) {
-      return (this.datum_params[0] == dest.datum_params[0]
-              && this.datum_params[1] == dest.datum_params[1]
-              && this.datum_params[2] == dest.datum_params[2]
-              && this.datum_params[3] == dest.datum_params[3]
-              && this.datum_params[4] == dest.datum_params[4]
-              && this.datum_params[5] == dest.datum_params[5]
-              && this.datum_params[6] == dest.datum_params[6]);
+      return (this.datum_params[0] == dest.datum_params[0] &&
+              this.datum_params[1] == dest.datum_params[1] &&
+              this.datum_params[2] == dest.datum_params[2] &&
+              this.datum_params[3] == dest.datum_params[3] &&
+              this.datum_params[4] == dest.datum_params[4] &&
+              this.datum_params[5] == dest.datum_params[5] &&
+              this.datum_params[6] == dest.datum_params[6]);
     } else if ( this.datum_type == proj4.common.PJD_GRIDSHIFT ||
                 dest.datum_type == proj4.common.PJD_GRIDSHIFT ) {
       //alert("ERROR: Grid shift transformations are not implemented.");
@@ -187,7 +187,7 @@ var maxiter = 30;
 
 /* --------------------------------------------------------------
  * Following iterative algorithm was developped by
- * "Institut f�r Erdmessung", University of Hannover, July 1988.
+ * "Institut for Erdmessung", University of Hannover, July 1988.
  * Internet: www.ife.uni-hannover.de
  * Iterative computation of CPHI,SPHI and Height.
  * Iteration of CPHI and SPHI to 10**-12 radian resp.
@@ -262,7 +262,7 @@ var maxiter = 30;
     Z = parseFloat(Z);
 
     At_Pole = false;
-    if (X != 0.0)
+    if (X !== 0.0)
     {
         Longitude = Math.atan2(Y,X);
     }
@@ -321,7 +321,7 @@ var maxiter = 30;
     {
         Height = Z / Sin_p1 + Rn * (this.es - 1.0);
     }
-    if (At_Pole == false)
+    if (At_Pole === false)
     {
         Latitude = Math.atan(Sin_p1 / Cos_p1);
     }

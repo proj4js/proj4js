@@ -73,7 +73,7 @@ proj4.Datum = {
 };
 
 proj4.WGS84 = new proj4.Proj('WGS84');
-proj4.Datum['OSB36'] = proj4.Datum['OSGB36']; //as returned from spatialreference.org
+proj4.Datum.OSB36 = proj4.Datum.OSGB36; //as returned from spatialreference.org
 
 //lookup table to go from the projection name in WKT to the proj4 projection name
 //build this out as required

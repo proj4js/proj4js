@@ -23,11 +23,11 @@ proj4.common = {
   SRS_WGS84_ESQUARED : 0.006694379990141316, //DGR: 2012-07-29
 
   // ellipoid pj_set_ell.c
-  SIXTH : .1666666666666666667, /* 1/6 */
-  RA4   : .04722222222222222222, /* 17/360 */
-  RA6   : .02215608465608465608, /* 67/3024 */
-  RV4   : .06944444444444444444, /* 5/72 */
-  RV6   : .04243827160493827160, /* 55/1296 */
+  SIXTH : 0.1666666666666666667, /* 1/6 */
+  RA4   : 0.04722222222222222222, /* 17/360 */
+  RA6   : 0.02215608465608465608, /* 67/3024 */
+  RV4   : 0.06944444444444444444, /* 5/72 */
+  RV6   : 0.04243827160493827160, /* 55/1296 */
 
 // Function to compute the constant small m which is the radius of
 //   a parallel of latitude, phi, divided by the semimajor axis.
@@ -43,23 +43,23 @@ proj4.common = {
 // -----------------------------------------------------------------
   tsfnz : function(eccent, phi, sinphi) {
     var con = eccent * sinphi;
-    var com = .5 * eccent;
+    var com = 0.5 * eccent;
     con = Math.pow(((1.0 - con) / (1.0 + con)), com);
-    return (Math.tan(.5 * (this.HALF_PI - phi))/con);
+    return (Math.tan(0.5 * (this.HALF_PI - phi))/con);
   },
 
 // Function to compute the latitude angle, phi2, for the inverse of the
 //   Lambert Conformal Conic and Polar Stereographic projections.
 // ----------------------------------------------------------------
   phi2z : function(eccent, ts) {
-    var eccnth = .5 * eccent;
+    var eccnth = 0.5 * eccent;
     var con, dphi;
     var phi = this.HALF_PI - 2 * Math.atan(ts);
     for (var i = 0; i <= 15; i++) {
       con = eccent * Math.sin(phi);
       dphi = this.HALF_PI - 2 * Math.atan(ts *(Math.pow(((1.0 - con)/(1.0 + con)),eccnth))) - phi;
       phi += dphi;
-      if (Math.abs(dphi) <= .0000000001) return phi;
+      if (Math.abs(dphi) <= 0.0000000001) return phi;
     }
     alert("phi2z has NoConvergence");
     return (-9999);
@@ -72,7 +72,7 @@ proj4.common = {
     var con;
     if (eccent > 1.0e-7) {
       con = eccent * sinphi;
-      return (( 1.0- eccent * eccent) * (sinphi /(1.0 - con * con) - (.5/eccent)*Math.log((1.0 - con)/(1.0 + con))));
+      return (( 1.0- eccent * eccent) * (sinphi /(1.0 - con * con) - (0.5/eccent)*Math.log((1.0 - con)/(1.0 + con))));
     } else {
       return(2.0 * sinphi);
     }
@@ -101,7 +101,7 @@ proj4.common = {
       con = eccent*sin_phi;
       dphi=Math.pow(1.0-con*con,2.0)/(2.0*cos_phi)*(q/(1-eccent*eccent)-sin_phi/(1.0-con*con)+0.5/eccent*Math.log((1.0-con)/(1.0+con)));
       phi+=dphi;
-      if (Math.abs(dphi) <= .0000000001) {
+      if (Math.abs(dphi) <= 0.0000000001) {
         return phi;
       }
     }
@@ -133,7 +133,7 @@ proj4.common = {
     for (var i=0;i<15;i++){
       dphi=(ml-(e0*phi-e1*Math.sin(2.0*phi)+e2*Math.sin(4.0*phi)-e3*Math.sin(6.0*phi)))/(e0-2.0*e1*Math.cos(2.0*phi)+4.0*e2*Math.cos(4.0*phi)-6.0*e3*Math.cos(6.0*phi));
       phi+=dphi;
-      if (Math.abs(dphi) <= .0000000001) {
+      if (Math.abs(dphi) <= 0.0000000001) {
         return phi;
       }
     }
@@ -239,7 +239,7 @@ proj4.common = {
   
   //code from the PROJ.4 pj_mlfn.c file;  this may be useful for other projections
   pj_enfn: function(es) {
-    var en = new Array();
+    var en = [];
     en[0] = this.C00 - es * (this.C02 + es * (this.C04 + es * (this.C06 + es * this.C08)));
     en[1] = es * (this.C22 - es * (this.C04 + es * (this.C06 + es * this.C08)));
     var t = es * es;
@@ -257,11 +257,11 @@ proj4.common = {
   },
   
   pj_inv_mlfn: function(arg, es, en) {
-    var k = 1./(1.-es);
+    var k = 1.0/(1.0-es);
     var phi = arg;
     for (var i = proj4.common.MAX_ITER; i ; --i) { /* rarely goes over 2 iterations */
       var s = Math.sin(phi);
-      var t = 1. - es * s * s;
+      var t = 1.0 - es * s * s;
       //t = this.pj_mlfn(phi, s, Math.cos(phi), en) - arg;
       //phi -= t * (t * Math.sqrt(t)) * k;
       t = (this.pj_mlfn(phi, s, Math.cos(phi), en) - arg) * (t * Math.sqrt(t)) * k;
@@ -383,16 +383,16 @@ proj4.common = {
 **	Inverse determines phi to EPS (1e-11) radians, about 1e-6 seconds.
 */
   C00: 1.0,
-  C02: .25,
-  C04: .046875,
-  C06: .01953125,
-  C08: .01068115234375,
-  C22: .75,
-  C44: .46875,
-  C46: .01302083333333333333,
-  C48: .00712076822916666666,
-  C66: .36458333333333333333,
-  C68: .00569661458333333333,
-  C88: .3076171875  
+  C02: 0.25,
+  C04: 0.046875,
+  C06: 0.01953125,
+  C08: 0.01068115234375,
+  C22: 0.75,
+  C44: 0.46875,
+  C46: 0.01302083333333333333,
+  C48: 0.00712076822916666666,
+  C66: 0.36458333333333333333,
+  C68: 0.00569661458333333333,
+  C88: 0.3076171875  
 
 };
