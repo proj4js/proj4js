@@ -68,11 +68,11 @@ proj4.transform = function(source, dest, point) {
   var wgs84;
   if (!source.readyToUse) {
     this.reportError("proj4 initialization for:"+source.srsCode+" not yet complete");
-      return point;
+    return point;
   }
   if (!dest.readyToUse) {
     this.reportError("proj4 initialization for:"+dest.srsCode+" not yet complete");
-      return point;
+    return point;
   }
   function checkNotWGS(source,dest){
     return ((source.datum.datum_type === proj4.common.PJD_3PARAM || source.datum.datum_type === proj4.common.PJD_7PARAM) && dest.datumCode !== "WGS84");
@@ -97,11 +97,11 @@ proj4.transform = function(source, dest, point) {
       point.x *= source.to_meter;
       point.y *= source.to_meter;
     }
-     source.inverse(point); // Convert Cartesian to longlat
+    source.inverse(point); // Convert Cartesian to longlat
   }
   // Adjust for the prime meridian if necessary
-  if (source.from_greenwich) { 
-    point.x += source.from_greenwich; 
+  if (source.from_greenwich) {
+    point.x += source.from_greenwich;
   }
 
   // Convert datums if needed, and if possible.
@@ -204,7 +204,7 @@ proj4.datum_transform = function( source, dest, point ) {
     if(checkParams(source.datum_type)) {
       source.geocentric_to_wgs84(point);
       // CHECK_RETURN;
-     }
+    }
     if(checkParams(dest.datum_type)) {
       dest.geocentric_from_wgs84(point);
       // CHECK_RETURN;
@@ -247,7 +247,7 @@ proj4.apply_gridshift = function(srs,inverse,point) {
     if (ct===null) {
       if (gi.mandatory) {
         this.reportError("unable to find '"+gi.name+"' grid.");
-          return -48;//are these error codes?
+        return -48;//are these error codes?
       }
       continue;//optional grid
     }
@@ -306,37 +306,38 @@ proj4.adjust_axis = function(crs, denorm, point) {
       v= xin;
       t= 'x';
     } else if (i===1) {
-      v= yin; t= 'y';
+      v= yin;
+      t= 'y';
     } else {
       v= zin;
       t= 'z';
     }
     switch(crs.axis[i]) {
-      case 'e':
-        point[t]= v;
-        break;
-      case 'w':
-        point[t]= -v;
-        break;
-      case 'n':
-        point[t]= v;
-        break;
-      case 's':
-        point[t]= -v;
-        break;
-      case 'u':
-        if (point[t]!==undefined) {
-          point.z= v;
-        }
-        break;
-      case 'd':
-        if (point[t]!==undefined) {
-          point.z= -v;
-        }
-        break;
-      default :
-        alert("ERROR: unknow axis ("+crs.axis[i]+") - check definition of "+crs.projName);
-        return null;
+    case 'e':
+      point[t]= v;
+      break;
+    case 'w':
+      point[t]= -v;
+      break;
+    case 'n':
+      point[t]= v;
+      break;
+    case 's':
+      point[t]= -v;
+      break;
+    case 'u':
+      if (point[t]!==undefined) {
+        point.z= v;
+      }
+      break;
+    case 'd':
+      if (point[t]!==undefined) {
+        point.z= -v;
+      }
+      break;
+    default :
+      //console.log("ERROR: unknow axis ("+crs.axis[i]+") - check definition of "+crs.projName);
+      return null;
     }
   }
   return point;
@@ -347,7 +348,7 @@ proj4.adjust_axis = function(crs, denorm, point) {
      * An internal method to report errors back to user. 
      * Override this in applications to report error messages or throw exceptions.
      */
-proj4.reportError = function(msg) {
+proj4.reportError = function(/*msg*/) {
   //console.log(msg);
 };
 
@@ -402,7 +403,7 @@ proj4.Class = function() {
   var extended = {};
   var parent,i;
   for(i=0; i<arguments.length; ++i) {
-    if(typeof arguments[i] == "function") {
+    if(typeof arguments[i] === "function") {
       // get the prototype of the superclass
       parent = arguments[i].prototype;
     } else {
@@ -412,6 +413,5 @@ proj4.Class = function() {
     proj4.extend(extended, parent);
   }
   Class.prototype = extended;
-      
- return Class;
+  return Class;
 };
