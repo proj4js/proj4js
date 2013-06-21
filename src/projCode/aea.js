@@ -30,7 +30,7 @@ proj4.Proj.aea = {
       return;
     }
     this.temp = this.b / this.a;
-    this.es = 1.0 - Math.pow(this.temp, 2);
+    this.es = 1 - Math.pow(this.temp, 2);
     this.e3 = Math.sqrt(this.es);
 
     this.sin_po = Math.sin(this.lat1);
@@ -90,19 +90,19 @@ proj4.Proj.aea = {
     p.y = this.rh - p.y + this.y0;
     if (this.ns0 >= 0) {
       rh1 = Math.sqrt(p.x * p.x + p.y * p.y);
-      con = 1.0;
+      con = 1;
     }
     else {
       rh1 = -Math.sqrt(p.x * p.x + p.y * p.y);
-      con = -1.0;
+      con = -1;
     }
-    theta = 0.0;
-    if (rh1 != 0.0) {
+    theta = 0;
+    if (rh1 !== 0) {
       theta = Math.atan2(con * p.x, con * p.y);
     }
     con = rh1 * this.ns0 / this.a;
     if (this.sphere) {
-      lat = Math.asin((this.c - con * con) / (2.0 * this.ns0));
+      lat = Math.asin((this.c - con * con) / (2 * this.ns0));
     }
     else {
       qs = (this.c - con * con) / this.ns0;
@@ -120,18 +120,22 @@ proj4.Proj.aea = {
 -------------------------------------------*/
   phi1z: function(eccent, qs) {
     var sinphi, cosphi, con, com, dphi;
-    var phi = proj4.common.asinz(.5 * qs);
-    if (eccent < proj4.common.EPSLN) return phi;
+    var phi = proj4.common.asinz(0.5 * qs);
+    if (eccent < proj4.common.EPSLN){
+      return phi;
+    }
 
     var eccnts = eccent * eccent;
     for (var i = 1; i <= 25; i++) {
       sinphi = Math.sin(phi);
       cosphi = Math.cos(phi);
       con = eccent * sinphi;
-      com = 1.0 - con * con;
-      dphi = .5 * com * com / cosphi * (qs / (1.0 - eccnts) - sinphi / com + .5 / eccent * Math.log((1.0 - con) / (1.0 + con)));
+      com = 1 - con * con;
+      dphi = 0.5 * com * com / cosphi * (qs / (1 - eccnts) - sinphi / com + 0.5 / eccent * Math.log((1 - con) / (1 + con)));
       phi = phi + dphi;
-      if (Math.abs(dphi) <= 1e-7) return phi;
+      if (Math.abs(dphi) <= 1e-7){
+        return phi;
+      }
     }
     proj4.reportError("aea:phi1z:Convergence error");
     return null;
