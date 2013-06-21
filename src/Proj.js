@@ -97,15 +97,15 @@ proj4.Proj = proj4.Class({
       }else{
       
       // DGR 2008-08-03 : support urn and url
-      if (srsCode.indexOf('urn:') == 0) {
+      if (srsCode.indexOf('urn:') === 0) {
           //urn:ORIGINATOR:def:crs:CODESPACE:VERSION:ID
           var urn = srsCode.split(':');
-          if ((urn[1] == 'ogc' || urn[1] =='x-ogc') &&
-              (urn[2] =='def') &&
-              (urn[3] =='crs')) {
+          if ((urn[1] === 'ogc' || urn[1] =='x-ogc') &&
+              (urn[2] ==='def') &&
+              (urn[3] ==='crs')) {
               srsCode = urn[4]+':'+urn[urn.length-1];
           }
-      } else if (srsCode.indexOf('http://') == 0) {
+      } else if (srsCode.indexOf('http://') === 0) {
           //url#ID
           var url = srsCode.split('#');
           if (url[0].match(/epsg.org/)) {
@@ -124,17 +124,17 @@ proj4.Proj = proj4.Class({
           }
       }
       this.srsCode = srsCode.toUpperCase();
-      if (this.srsCode.indexOf("EPSG") == 0) {
+      if (this.srsCode.indexOf("EPSG") === 0) {
           this.srsCode = this.srsCode;
           this.srsAuth = 'epsg';
           this.srsProjNumber = this.srsCode.substring(5);
       // DGR 2007-11-20 : authority IGNF
-      } else if (this.srsCode.indexOf("IGNF") == 0) {
+      } else if (this.srsCode.indexOf("IGNF") === 0) {
           this.srsCode = this.srsCode;
           this.srsAuth = 'IGNF';
           this.srsProjNumber = this.srsCode.substring(5);
       // DGR 2008-06-19 : pseudo-authority CRS for WMS
-      } else if (this.srsCode.indexOf("CRS") == 0) {
+      } else if (this.srsCode.indexOf("CRS") === 0) {
           this.srsCode = this.srsCode;
           this.srsAuth = 'CRS';
           this.srsProjNumber = this.srsCode.substring(4);
@@ -155,7 +155,7 @@ proj4.Proj = proj4.Class({
  */
     initTransforms: function() {
     if(!(this.projName in proj4.Proj)){
-    	throw("unknown projection");
+        throw("unknown projection");
     }
       proj4.extend(this, proj4.Proj[this.projName]);
       this.init();
@@ -181,7 +181,7 @@ proj4.Proj = proj4.Class({
     var wktContent = wktMatch[2];
     var wktTemp = wktContent.split(",");
     var wktName;
-    if (wktObject.toUpperCase() == "TOWGS84") {
+    if (wktObject.toUpperCase() === "TOWGS84") {
       wktName = wktObject;  //no name supplied for the TOWGS84 array
     } else {
       wktName = wktTemp.shift();
@@ -197,14 +197,14 @@ proj4.Proj = proj4.Class({
     }
     */
     
-    var wktArray = new Array();
+    var wktArray = [];
     var bkCount = 0;
     var obj = "";
     for (var i=0; i<wktTemp.length; ++i) {
       var token = wktTemp[i];
-      for (var j=0; j<token.length; ++j) {
-        if (token.charAt(j) == "[") ++bkCount;
-        if (token.charAt(j) == "]") --bkCount;
+      for (var j2=0; j2<token.length; ++j2) {
+        if (token.charAt(j2) === "[") ++bkCount;
+        if (token.charAt(j2) === "]") --bkCount;
       }
       obj += token;
       if (bkCount === 0) {
@@ -215,8 +215,8 @@ proj4.Proj = proj4.Class({
       }
     }
     
-    //do something based on the type of the wktObject being parsed
-    //add in variations in the spelling as required
+    //this is grotesque -cwm
+    var name,value;
     switch (wktObject) {
       case 'LOCAL_CS':
         this.projName = 'identity';
@@ -255,8 +255,8 @@ proj4.Proj = proj4.Class({
         this.unitsPerMeter = parseFloat(wktArray.shift());
         break;
       case 'PARAMETER':
-        var name = wktName.toLowerCase();
-        var value = parseFloat(wktArray.shift());
+        name = wktName.toLowerCase();
+        value = parseFloat(wktArray.shift());
         //there may be many variations on the wktName values, add in case
         //statements as required
         switch (name) {
@@ -286,8 +286,8 @@ proj4.Proj = proj4.Class({
         break;
       //DGR 2010-11-12: AXIS
       case 'AXIS':
-        var name= wktName.toLowerCase();
-        var value= wktArray.shift();
+        name= wktName.toLowerCase();
+        value= wktArray.shift();
         switch (value) {
           case 'EAST' : value= 'e'; break;
           case 'WEST' : value= 'w'; break;
@@ -295,7 +295,7 @@ proj4.Proj = proj4.Class({
           case 'SOUTH': value= 's'; break;
           case 'UP'   : value= 'u'; break;
           case 'DOWN' : value= 'd'; break;
-          case 'OTHER':
+          //case 'OTHER': 
           default     : value= ' '; break;//FIXME
         }
         if (!this.axis) { this.axis= "enu"; }
@@ -305,13 +305,14 @@ proj4.Proj = proj4.Class({
           case 'z': this.axis= this.axis.substr(0,2) + value                        ; break;
           default : break;
         }
+        break;
       case 'MORE_HERE':
         break;
       default:
         break;
     }
-    for (var i=0; i<wktArray.length; ++i) {
-      this.parseWKT(wktArray[i]);
+    for (var j=0; j<wktArray.length; ++j) {
+      this.parseWKT(wktArray[j]);
     }
  },
 
@@ -389,7 +390,7 @@ proj4.Proj = proj4.Class({
               // DGR 2010-11-12: axis
               case "axis":   paramVal = paramVal.replace(/\s/gi,"");
                              var legalAxis= "ewnsud";
-                             if (paramVal.length==3 &&
+                             if (paramVal.length===3 &&
                                  legalAxis.indexOf(paramVal.substr(0,1))!=-1 &&
                                  legalAxis.indexOf(paramVal.substr(1,1))!=-1 &&
                                  legalAxis.indexOf(paramVal.substr(2,1))!=-1) {
@@ -412,7 +413,7 @@ proj4.Proj = proj4.Class({
  */
   deriveConstants: function() {
       // DGR 2011-03-20 : nagrids -> nadgrids
-      if (this.nadgrids && this.nadgrids.length==0) {
+      if (this.nadgrids && this.nadgrids.length===0) {
           this.nadgrids= null;
       }
       if (this.nadgrids) {
@@ -422,12 +423,12 @@ proj4.Proj = proj4.Class({
           for (var i= 0; i<l; i++) {
             g= this.grids[i];
             var fg= g.split("@");
-            if (fg[fg.length-1]=="") {
+            if (fg[fg.length-1]==="") {
               proj4.reportError("nadgrids syntax error '"+this.nadgrids+"' : empty grid found");
               continue;
             }
             this.grids[i]= {
-              mandatory: fg.length==1,//@=> optional grid (no error if not found)
+              mandatory: fg.length===1,//@=> optional grid (no error if not found)
               name:fg[fg.length-1],
               grid: proj4.grids[fg[fg.length-1]]//FIXME: grids loading ...
             };
@@ -439,7 +440,7 @@ proj4.Proj = proj4.Class({
         // DGR, 2011-03-20: grids is an array of objects that hold
         // the loaded grids, its name and the mandatory informations of it.
       }
-      if (this.datumCode && this.datumCode != 'none') {
+      if (this.datumCode && this.datumCode !== 'none') {
         var datumDef = proj4.Datum[this.datumCode];
         if (datumDef) {
           this.datum_params = datumDef.towgs84 ? datumDef.towgs84.split(',') : null;
@@ -448,7 +449,7 @@ proj4.Proj = proj4.Class({
         }
       }
       if (!this.a) {    // do we have an ellipsoid?
-          var ellipse = proj4.Ellipsoid[this.ellps] ? proj4.Ellipsoid[this.ellps] : proj4.Ellipsoid['WGS84'];
+          var ellipse = proj4.Ellipsoid[this.ellps] ? proj4.Ellipsoid[this.ellps] : proj4.Ellipsoid.WGS84;
           proj4.extend(this, ellipse);
       }
       if (this.rf && !this.b) this.b = (1.0 - 1.0/this.rf) * this.a;
@@ -461,10 +462,10 @@ proj4.Proj = proj4.Class({
       this.es = (this.a2-this.b2)/this.a2;  // e ^ 2
       this.e = Math.sqrt(this.es);        // eccentricity
       if (this.R_A) {
-        this.a *= 1. - this.es * (proj4.common.SIXTH + this.es * (proj4.common.RA4 + this.es * proj4.common.RA6));
+        this.a *= 1 - this.es * (proj4.common.SIXTH + this.es * (proj4.common.RA4 + this.es * proj4.common.RA6));
         this.a2 = this.a * this.a;
         this.b2 = this.b * this.b;
-        this.es = 0.;
+        this.es = 0;
       }
       this.ep2=(this.a2-this.b2)/this.b2; // used in geocentric
       if (!this.k0) this.k0 = 1.0;    //default value
