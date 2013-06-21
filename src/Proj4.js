@@ -41,26 +41,29 @@ $Id: Proj.js 2956 2007-07-09 12:17:52Z steven $
  */
 function proj4(fromProj,toProj,coord){
   var trnc = function(f,t,c){
-    var tc,nc;
-    nc = c instanceof proj4.Point ? c : new proj4.Point(c);
+    var tc;
     if(Array.isArray(c)){
-      tc = proj4.tranformation(f,t,nc);
+      tc = proj4.transform(f,t,new proj4.Point(c));
       if(c.length === 3){
         return [tc.x,tc.y,tc.z];
       }else{
         return [tc.x,tc.y];
       }
     }else{
-      return proj4.tranformation(fromProj,toProj,nc);
+      return proj4.transform(fromProj,toProj,c);
     }
   };
   
   fromProj = fromProj instanceof proj4.Proj ? fromProj : new proj4.Proj(fromProj);
   if(typeof toProj === 'undefined'){
-    toProj = proj4.WGS84;
-  } else if(('x' in toProj)||Array.isArray(toProj)){
+    toProj = fromProj;
+    fromProj = proj4.WGS84;
+  }else if(typeof toProj === 'string'){
+    toProj = new proj4.Proj(toProj);
+  }else if(toProj.x||Array.isArray(toProj)){
     coord = toProj;
-    toProj = proj4.WGS84;
+    toProj = fromProj;
+    fromProj = proj4.WGS84;
   }else{
     toProj = toProj instanceof proj4.Proj ? toProj : new proj4.Proj(toProj);
   }
@@ -69,10 +72,10 @@ function proj4(fromProj,toProj,coord){
   } else {
     return {
       forward: function(coords){
-        return trnc(fromProj,toProj,coord); 
+        return trnc(fromProj,toProj,coords);
       },
       inverse: function(coords){
-        return trnc(toProj,fromProj,coord); 
+        return trnc(toProj,fromProj,coords);
       }
     };
   }

@@ -2,20 +2,93 @@
 var xyEPSLN = 1.0e-2;
   var llEPSLN = 1.0e-6;
 describe('proj4', function () {
-	describe('core',function(){
+    describe('core',function(){
 	testPoints.forEach(function(testPoint){
-		it('should work with forwards ' + testPoint.code, function () {
-			var proj = new proj4.Proj(testPoint.code);
-			var xy = proj4.transform(proj4.WGS84, proj, new proj4.Point(testPoint.ll));
-			assert.closeTo(xy.x, testPoint.xy[0],xyEPSLN, 'x is close');
-			assert.closeTo(xy.y, testPoint.xy[1],xyEPSLN, 'y is close');
-		});
-		it('should work with backwards ' + testPoint.code, function () {
-			var proj = new proj4.Proj(testPoint.code);
-			var ll = proj4.transform(proj,proj4.WGS84, new proj4.Point(testPoint.xy));
-			assert.closeTo(ll.x, testPoint.ll[0],llEPSLN, 'lng is close');
-			assert.closeTo(ll.y, testPoint.ll[1],llEPSLN, 'lat is close');
-		});
+        describe(testPoint.code,function(){
+            describe('traditional',function(){
+		        it('should work with forwards', function () {
+			        var proj = new proj4.Proj(testPoint.code);
+			        var xy = proj4.transform(proj4.WGS84, proj, new proj4.Point(testPoint.ll));
+			        assert.closeTo(xy.x, testPoint.xy[0],xyEPSLN, 'x is close');
+			        assert.closeTo(xy.y, testPoint.xy[1],xyEPSLN, 'y is close');
+		        });
+		        it('should work with backwards', function () {
+			        var proj = new proj4.Proj(testPoint.code);
+			        var ll = proj4.transform(proj,proj4.WGS84, new proj4.Point(testPoint.xy));
+			        assert.closeTo(ll.x, testPoint.ll[0],llEPSLN, 'lng is close');
+			        assert.closeTo(ll.y, testPoint.ll[1],llEPSLN, 'lat is close');
+		        });
+            });
+            describe('new method 2 param',function(){
+                it('shortcut method should work with an array', function(){
+                    var xy = proj4(testPoint.code,testPoint.ll);
+                    assert.closeTo(xy[0], testPoint.xy[0],xyEPSLN, 'x is close');
+  		            assert.closeTo(xy[1], testPoint.xy[1],xyEPSLN, 'y is close');
+                });
+                it('shortcut method should work with an object', function(){
+                    var pt = {x:testPoint.ll[0],y:testPoint.ll[1]};
+                    var xy = proj4(testPoint.code,pt);
+                    assert.closeTo(xy.x, testPoint.xy[0],xyEPSLN, 'x is close');
+    	            assert.closeTo(xy.y, testPoint.xy[1],xyEPSLN, 'y is close');
+                });
+                it('shortcut method should work with a point object', function(){
+                    var pt = new proj4.Point(testPoint.ll);
+                    var xy = proj4(testPoint.code,pt);
+                    assert.closeTo(xy.x, testPoint.xy[0],xyEPSLN, 'x is close');
+                    assert.closeTo(xy.y, testPoint.xy[1],xyEPSLN, 'y is close');
+                });
+            });
+            describe('new method 3 param',function(){
+                it('shortcut method should work with an array', function(){
+                    var xy = proj4(proj4.WGS84,testPoint.code,testPoint.ll);
+                    assert.closeTo(xy[0], testPoint.xy[0],xyEPSLN, 'x is close');
+      	            assert.closeTo(xy[1], testPoint.xy[1],xyEPSLN, 'y is close');
+                });
+                it('shortcut method should work with an object', function(){
+                    var pt = {x:testPoint.ll[0],y:testPoint.ll[1]};
+                    var xy = proj4(proj4.WGS84,testPoint.code,pt);
+                    assert.closeTo(xy.x, testPoint.xy[0],xyEPSLN, 'x is close');
+    	            assert.closeTo(xy.y, testPoint.xy[1],xyEPSLN, 'y is close');
+                });
+                it('shortcut method should work with a point object', function(){
+                    var pt = new proj4.Point(testPoint.ll);
+                    var xy = proj4(proj4.WGS84,testPoint.code,pt);
+                    assert.closeTo(xy.x, testPoint.xy[0],xyEPSLN, 'x is close');
+                    assert.closeTo(xy.y, testPoint.xy[1],xyEPSLN, 'y is close');
+                });
+            });
+            describe('new method 3 param other way',function(){
+                it('shortcut method should work with an array', function(){
+                    var ll = proj4(testPoint.code,proj4.WGS84,testPoint.xy);
+                    assert.closeTo(ll[0], testPoint.ll[0],llEPSLN, 'x is close');
+                    assert.closeTo(ll[1], testPoint.ll[1],llEPSLN, 'y is close');
+                });
+                it('shortcut method should work with an object', function(){
+                    var pt = {x:testPoint.xy[0],y:testPoint.xy[1]};
+                    var ll = proj4(testPoint.code,proj4.WGS84,pt);
+                    assert.closeTo(ll.x, testPoint.ll[0],llEPSLN, 'x is close');
+                    assert.closeTo(ll.y, testPoint.ll[1],llEPSLN, 'y is close');
+                });
+                it('shortcut method should work with a point object', function(){
+                    var pt = new proj4.Point(testPoint.xy);
+                    var ll = proj4(testPoint.code,proj4.WGS84,pt);
+                    assert.closeTo(ll.x, testPoint.ll[0],llEPSLN, 'x is close');
+                    assert.closeTo(ll.y, testPoint.ll[1],llEPSLN, 'y is close');
+                });
+            });
+            describe('1 param',function(){
+              it('forwards',function(){
+                var xy = proj4(testPoint.code).forward(testPoint.ll);
+                assert.closeTo(xy[0], testPoint.xy[0],xyEPSLN, 'x is close');
+                assert.closeTo(xy[1], testPoint.xy[1],xyEPSLN, 'y is close');
+              });
+              it('inverse',function(){
+                var ll = proj4(testPoint.code).inverse(testPoint.xy);
+                assert.closeTo(ll[0], testPoint.ll[0],llEPSLN, 'x is close');
+                assert.closeTo(ll[1], testPoint.ll[1],llEPSLN, 'y is close');
+              });
+            });
+	    });
 	});
 	});
 	describe('errors',function(){
