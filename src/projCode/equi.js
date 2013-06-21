@@ -23,10 +23,10 @@ ALGORITHM REFERENCES
 proj4.Proj.equi = {
 
   init: function() {
-    if (!this.x0) this.x0 = 0;
-    if (!this.y0) this.y0 = 0;
-    if (!this.lat0) this.lat0 = 0;
-    if (!this.long0) this.long0 = 0;
+    this.x0 = this.x0||0;
+    this.y0 = this.y0||0;
+    this.lat0 = this.lat0||0;
+    this.long0 = this.long0||0;
     ///this.t2;
   },
 
