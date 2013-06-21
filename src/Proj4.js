@@ -45,13 +45,13 @@ $Id: Proj.js 2956 2007-07-09 12:17:52Z steven $
 /**
  * Global namespace object for proj4 library
  */
-var proj4 = {
+var proj4 = {};
 
     /**
      * Property: defaultDatum
      * The datum to use when no others a specified
      */
-    defaultDatum: 'WGS84',                  //default datum
+proj4.defaultDatum = 'WGS84';                  //default datum
 
     /** 
     * Method: transform(source, dest, point)
@@ -64,7 +64,7 @@ var proj4 = {
     * point - {Object} point to transform, may be geodetic (long, lat) or
     *     projected Cartesian (x,y), but should always have x,y properties.
     */
-    transform: function(source, dest, point) {
+proj4.transform = function(source, dest, point) {
         if (!source.readyToUse) {
             this.reportError("proj4 initialization for:"+source.srsCode+" not yet complete");
             return point;
@@ -131,14 +131,14 @@ var proj4 = {
         }
 
         return point;
-    }, // transform()
+    }; // transform()
 
     /** datum_transform()
       source coordinate system definition,
       destination coordinate system definition,
       point to transform in geodetic coordinates (long, lat, height)
     */
-    datum_transform : function( source, dest, point ) {
+proj4.datum_transform = function( source, dest, point ) {
 
       // Short cut if the datums are identical.
       if( source.compare_datums( dest ) ) {
@@ -230,13 +230,13 @@ var proj4 = {
       dest.es = dst_es;
 
       return point;
-    }, // cs_datum_transform
+    }; // cs_datum_transform
 
     /**
      * This is the real workhorse, given a gridlist
      * DGR: 2012-07-29 addition based on proj4 trunk
      */
-    apply_gridshift : function(srs,inverse,point) {
+proj4.apply_gridshift = function(srs,inverse,point) {
         if (srs.grids===null || srs.grids.length===0) {
             return -38;
         }
@@ -288,7 +288,7 @@ var proj4 = {
         point.x= output.x;
         point.y= output.y;
         return 0;
-    },
+    };
 
     /**
      * Function: adjust_axis
@@ -299,7 +299,7 @@ var proj4 = {
      * denorm {Boolean} when false, normalize
      * point {Object} the coordinates to adjust
      */
-    adjust_axis: function(crs, denorm, point) {
+proj4.adjust_axis = function(crs, denorm, point) {
         var xin= point.x, yin= point.y, zin= point.z || 0.0;
         var v, t;
         for (var i= 0; i<3; i++) {
@@ -332,16 +332,16 @@ var proj4 = {
             }
         }
         return point;
-    },
+    };
 
     /**
      * Function: reportError
      * An internal method to report errors back to user. 
      * Override this in applications to report error messages or throw exceptions.
      */
-    reportError: function(msg) {
+proj4.reportError = function(msg) {
       //console.log(msg);
-    },
+    };
 
 /**
  *
@@ -366,7 +366,7 @@ var proj4 = {
  * Returns:
  * {Object} The destination object.
  */
-    extend: function(destination, source) {
+proj4.extend = function(destination, source) {
       destination = destination || {};
       if(source) {
           for(var property in source) {
@@ -377,7 +377,7 @@ var proj4 = {
           }
       }
       return destination;
-    },
+    };
 
 /**
  * Constructor: Class
@@ -385,7 +385,7 @@ var proj4 = {
  *     multiple inheritance. 
  *  
  */
-    Class: function() {
+proj4.Class = function() {
       var Class = function() {
           this.initialize.apply(this, arguments);
       };
@@ -405,5 +405,4 @@ var proj4 = {
       Class.prototype = extended;
       
       return Class;
-    }
-};
+    };
