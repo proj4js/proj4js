@@ -26,41 +26,43 @@ ALGORITHM REFERENCES
 
 proj4.Proj.sinu = {
 
-	/* Initialize the Sinusoidal projection
+  /* Initialize the Sinusoidal projection
 	  ------------------------------------*/
-	init: function() {
-		/* Place parameters in static storage for common use
+  init: function() {
+    /* Place parameters in static storage for common use
 		  -------------------------------------------------*/
-		  
 
-		if (!this.sphere) {
-		  this.en = proj4.common.pj_enfn(this.es);
-    } else {
+
+    if (!this.sphere) {
+      this.en = proj4.common.pj_enfn(this.es);
+    }
+    else {
       this.n = 1.;
       this.m = 0.;
       this.es = 0;
       this.C_y = Math.sqrt((this.m + 1.) / this.n);
-      this.C_x = this.C_y/(this.m + 1.);
+      this.C_x = this.C_y / (this.m + 1.);
     }
-		  
-	},
 
-	/* Sinusoidal forward equations--mapping lat,long to x,y
+  },
+
+  /* Sinusoidal forward equations--mapping lat,long to x,y
 	-----------------------------------------------------*/
-	forward: function(p) {
-		var x,y,delta_lon;	
-		var lon=p.x;
-		var lat=p.y;	
-		/* Forward equations
+  forward: function(p) {
+    var x, y, delta_lon;
+    var lon = p.x;
+    var lat = p.y;
+    /* Forward equations
 		-----------------*/
-		lon = proj4.common.adjust_lon(lon - this.long0);
-		
-		if (this.sphere) {
+    lon = proj4.common.adjust_lon(lon - this.long0);
+
+    if (this.sphere) {
       if (!this.m) {
-        lat = this.n != 1. ? Math.asin(this.n * Math.sin(lat)): lat;
-      } else {
+        lat = this.n != 1. ? Math.asin(this.n * Math.sin(lat)) : lat;
+      }
+      else {
         var k = this.n * Math.sin(lat);
-        for (var i = proj4.common.MAX_ITER; i ; --i) {
+        for (var i = proj4.common.MAX_ITER; i; --i) {
           var V = (this.m * lat + Math.sin(lat) - k) / (this.m + Math.cos(lat));
           lat -= V;
           if (Math.abs(V) < proj4.common.EPSLN) break;
@@ -69,53 +71,53 @@ proj4.Proj.sinu = {
       x = this.a * this.C_x * lon * (this.m + Math.cos(lat));
       y = this.a * this.C_y * lat;
 
-		} else {
-		  
-		  var s = Math.sin(lat);
-		  var c = Math.cos(lat);
+    }
+    else {
+
+      var s = Math.sin(lat);
+      var c = Math.cos(lat);
       y = this.a * proj4.common.pj_mlfn(lat, s, c, this.en);
       x = this.a * lon * c / Math.sqrt(1. - this.es * s * s);
-		}
+    }
 
-		p.x=x;
-		p.y=y;	
-		return p;
-	},
+    p.x = x;
+    p.y = y;
+    return p;
+  },
 
-	inverse: function(p) {
-		var lat,temp,lon;	
-		
-		/* Inverse equations
+  inverse: function(p) {
+    var lat, temp, lon;
+
+    /* Inverse equations
 		  -----------------*/
-		p.x -= this.x0;
-		p.y -= this.y0;
-		lat = p.y / this.a;
-		
-		if (this.sphere) {
-		  
+    p.x -= this.x0;
+    p.y -= this.y0;
+    lat = p.y / this.a;
+
+    if (this.sphere) {
+
       p.y /= this.C_y;
-      lat = this.m ? Math.asin((this.m * p.y + Math.sin(p.y)) / this.n) :
-        ( this.n != 1. ? Math.asin(Math.sin(p.y) / this.n) : p.y );
+      lat = this.m ? Math.asin((this.m * p.y + Math.sin(p.y)) / this.n) : (this.n != 1. ? Math.asin(Math.sin(p.y) / this.n) : p.y);
       lon = p.x / (this.C_x * (this.m + Math.cos(p.y)));
-		  
-		} else {
-		  lat = proj4.common.pj_inv_mlfn(p.y/this.a, this.es, this.en);
-		  var s = Math.abs(lat);
+
+    }
+    else {
+      lat = proj4.common.pj_inv_mlfn(p.y / this.a, this.es, this.en);
+      var s = Math.abs(lat);
       if (s < proj4.common.HALF_PI) {
         s = Math.sin(lat);
-        temp = this.long0 + p.x * Math.sqrt(1. - this.es * s * s) /(this.a * Math.cos(lat));
+        temp = this.long0 + p.x * Math.sqrt(1. - this.es * s * s) / (this.a * Math.cos(lat));
         //temp = this.long0 + p.x / (this.a * Math.cos(lat));
         lon = proj4.common.adjust_lon(temp);
-      } else if ((s - proj4.common.EPSLN) < proj4.common.HALF_PI) {
+      }
+      else if ((s - proj4.common.EPSLN) < proj4.common.HALF_PI) {
         lon = this.long0;
       }
-		  
-		}
-		  
-		p.x=lon;
-		p.y=lat;
-		return p;
-	}
+
+    }
+
+    p.x = lon;
+    p.y = lat;
+    return p;
+  }
 };
-
-

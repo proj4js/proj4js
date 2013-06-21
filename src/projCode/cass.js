@@ -25,92 +25,96 @@ ALGORITHM REFERENCES
 // -----------------------------------------------------------------
 
 proj4.Proj.cass = {
-  init : function() {
+  init: function() {
     if (!this.sphere) {
       this.e0 = proj4.common.e0fn(this.es);
       this.e1 = proj4.common.e1fn(this.es);
       this.e2 = proj4.common.e2fn(this.es);
       this.e3 = proj4.common.e3fn(this.es);
-      this.ml0 = this.a*proj4.common.mlfn(this.e0,this.e1,this.e2,this.e3,this.lat0);
+      this.ml0 = this.a * proj4.common.mlfn(this.e0, this.e1, this.e2, this.e3, this.lat0);
     }
   },
 
 
 
-/* Cassini forward equations--mapping lat,long to x,y
+  /* Cassini forward equations--mapping lat,long to x,y
   -----------------------------------------------------------------------*/
   forward: function(p) {
 
     /* Forward equations
       -----------------*/
-    var x,y;
-    var lam=p.x;
-    var phi=p.y;
+    var x, y;
+    var lam = p.x;
+    var phi = p.y;
     lam = proj4.common.adjust_lon(lam - this.long0);
-    
+
     if (this.sphere) {
-      x = this.a*Math.asin(Math.cos(phi) * Math.sin(lam));
-      y = this.a*(Math.atan2(Math.tan(phi) , Math.cos(lam)) - this.lat0);
-    } else {
-        //ellipsoid
+      x = this.a * Math.asin(Math.cos(phi) * Math.sin(lam));
+      y = this.a * (Math.atan2(Math.tan(phi), Math.cos(lam)) - this.lat0);
+    }
+    else {
+      //ellipsoid
       var sinphi = Math.sin(phi);
       var cosphi = Math.cos(phi);
-      var nl = proj4.common.gN(this.a,this.e,sinphi);
-      var tl = Math.tan(phi)*Math.tan(phi);
-      var al = lam*Math.cos(phi);
-      var asq = al*al;
-      var cl = this.es*cosphi*cosphi/(1.0-this.es);
-      var ml = this.a*proj4.common.mlfn(this.e0,this.e1,this.e2,this.e3,phi);
-      
-      x = nl*al*(1.0-asq*tl*(1.0/6.0-(8.0-tl+8.0*cl)*asq/120.0));
-      y = ml-this.ml0 + nl*sinphi/cosphi*asq*(0.5+(5.0-tl+6.0*cl)*asq/24.0);
-      
-      
+      var nl = proj4.common.gN(this.a, this.e, sinphi);
+      var tl = Math.tan(phi) * Math.tan(phi);
+      var al = lam * Math.cos(phi);
+      var asq = al * al;
+      var cl = this.es * cosphi * cosphi / (1.0 - this.es);
+      var ml = this.a * proj4.common.mlfn(this.e0, this.e1, this.e2, this.e3, phi);
+
+      x = nl * al * (1.0 - asq * tl * (1.0 / 6.0 - (8.0 - tl + 8.0 * cl) * asq / 120.0));
+      y = ml - this.ml0 + nl * sinphi / cosphi * asq * (0.5 + (5.0 - tl + 6.0 * cl) * asq / 24.0);
+
+
     }
-    
+
     p.x = x + this.x0;
     p.y = y + this.y0;
     return p;
-  },//cassFwd()
+  }, //cassFwd()
 
-/* Inverse equations
+  /* Inverse equations
   -----------------*/
   inverse: function(p) {
     p.x -= this.x0;
     p.y -= this.y0;
-    var x = p.x/this.a;
-    var y = p.y/this.a;
+    var x = p.x / this.a;
+    var y = p.y / this.a;
     var phi, lam;
 
     if (this.sphere) {
       var dd = y + this.lat0;
       phi = Math.asin(Math.sin(dd) * Math.cos(x));
       lam = Math.atan2(Math.tan(x), Math.cos(dd));
-    } else {
+    }
+    else {
       /* ellipsoid */
-      var ml1 = this.ml0/this.a + y;
-      var phi1 = proj4.common.imlfn(ml1, this.e0,this.e1,this.e2,this.e3);
-      if (Math.abs(Math.abs(phi1)-proj4.common.HALF_PI)<=proj4.common.EPSLN){
-	p.x=this.long0;
-	p.y=proj4.common.HALF_PI;
-	if (y<0.0){p.y*=-1.0;}
-	return p;
+      var ml1 = this.ml0 / this.a + y;
+      var phi1 = proj4.common.imlfn(ml1, this.e0, this.e1, this.e2, this.e3);
+      if (Math.abs(Math.abs(phi1) - proj4.common.HALF_PI) <= proj4.common.EPSLN) {
+        p.x = this.long0;
+        p.y = proj4.common.HALF_PI;
+        if (y < 0.0) {
+          p.y *= -1.0;
+        }
+        return p;
       }
-      var nl1 = proj4.common.gN(this.a,this.e, Math.sin(phi1));
-      
-      var rl1 = nl1*nl1*nl1/this.a/this.a*(1.0-this.es);
-      var tl1 = Math.pow(Math.tan(phi1),2.0);
-      var dl = x*this.a/nl1;
-      var dsq=dl*dl;
-      phi = phi1-nl1*Math.tan(phi1)/rl1*dl*dl*(0.5-(1.0+3.0*tl1)*dl*dl/24.0);
-      lam = dl*(1.0-dsq*(tl1/3.0+(1.0+3.0*tl1)*tl1*dsq/15.0))/Math.cos(phi1);
-      
-    } 
-    
-    p.x=proj4.common.adjust_lon(lam+this.long0);
-    p.y=proj4.common.adjust_lat(phi);
+      var nl1 = proj4.common.gN(this.a, this.e, Math.sin(phi1));
+
+      var rl1 = nl1 * nl1 * nl1 / this.a / this.a * (1.0 - this.es);
+      var tl1 = Math.pow(Math.tan(phi1), 2.0);
+      var dl = x * this.a / nl1;
+      var dsq = dl * dl;
+      phi = phi1 - nl1 * Math.tan(phi1) / rl1 * dl * dl * (0.5 - (1.0 + 3.0 * tl1) * dl * dl / 24.0);
+      lam = dl * (1.0 - dsq * (tl1 / 3.0 + (1.0 + 3.0 * tl1) * tl1 * dsq / 15.0)) / Math.cos(phi1);
+
+    }
+
+    p.x = proj4.common.adjust_lon(lam + this.long0);
+    p.y = proj4.common.adjust_lat(phi);
     return p;
-    
-   }//cassInv()
+
+  } //cassInv()
 
 };

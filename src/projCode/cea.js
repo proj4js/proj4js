@@ -35,12 +35,12 @@ ALGORITHM REFERENCES
 
 proj4.Proj.cea = {
 
-/* Initialize the Cylindrical Equal Area projection
+  /* Initialize the Cylindrical Equal Area projection
   -------------------------------------------*/
   init: function() {
     //no-op
-    if (!this.sphere){
-	    this.k0 = proj4.common.msfnz(this.e, Math.sin(this.lat_ts), Math.cos(this.lat_ts));
+    if (!this.sphere) {
+      this.k0 = proj4.common.msfnz(this.e, Math.sin(this.lat_ts), Math.cos(this.lat_ts));
     }
   },
 
@@ -48,25 +48,26 @@ proj4.Proj.cea = {
   /* Cylindrical Equal Area forward equations--mapping lat,long to x,y
     ------------------------------------------------------------*/
   forward: function(p) {
-    var lon=p.x;
-    var lat=p.y;
-    var x,y;
+    var lon = p.x;
+    var lat = p.y;
+    var x, y;
     /* Forward equations
       -----------------*/
-    var dlon = proj4.common.adjust_lon(lon -this.long0);
-    if (this.sphere){
-	x = this.x0 + this.a * dlon * Math.cos(this.lat_ts);
-	y = this.y0 + this.a * Math.sin(lat) / Math.cos(this.lat_ts);
-    } else {
-	var qs = proj4.common.qsfnz(this.e,Math.sin(lat));
-	x = this.x0 + this.a*this.k0*dlon;
-	y = this.y0 + this.a*qs*0.5/this.k0;
+    var dlon = proj4.common.adjust_lon(lon - this.long0);
+    if (this.sphere) {
+      x = this.x0 + this.a * dlon * Math.cos(this.lat_ts);
+      y = this.y0 + this.a * Math.sin(lat) / Math.cos(this.lat_ts);
+    }
+    else {
+      var qs = proj4.common.qsfnz(this.e, Math.sin(lat));
+      x = this.x0 + this.a * this.k0 * dlon;
+      y = this.y0 + this.a * qs * 0.5 / this.k0;
     }
 
-    p.x=x;
-    p.y=y;
+    p.x = x;
+    p.y = y;
     return p;
-  },//ceaFwd()
+  }, //ceaFwd()
 
   /* Cylindrical Equal Area inverse equations--mapping x,y to lat/long
     ------------------------------------------------------------*/
@@ -74,17 +75,18 @@ proj4.Proj.cea = {
     p.x -= this.x0;
     p.y -= this.y0;
     var lon, lat;
-    
-    if (this.sphere){
-	lon = proj4.common.adjust_lon( this.long0 + (p.x / this.a) / Math.cos(this.lat_ts) );
-        lat = Math.asin( (p.y/this.a) * Math.cos(this.lat_ts) );
-    } else {
-	lat=proj4.common.iqsfnz(this.e,2.0*p.y*this.k0/this.a);
-	lon = proj4.common.adjust_lon( this.long0 + p.x/(this.a*this.k0));
+
+    if (this.sphere) {
+      lon = proj4.common.adjust_lon(this.long0 + (p.x / this.a) / Math.cos(this.lat_ts));
+      lat = Math.asin((p.y / this.a) * Math.cos(this.lat_ts));
+    }
+    else {
+      lat = proj4.common.iqsfnz(this.e, 2.0 * p.y * this.k0 / this.a);
+      lon = proj4.common.adjust_lon(this.long0 + p.x / (this.a * this.k0));
     }
 
-    p.x=lon;
-    p.y=lat;
+    p.x = lon;
+    p.y = lat;
     return p;
-  }//ceaInv()
+  } //ceaInv()
 };

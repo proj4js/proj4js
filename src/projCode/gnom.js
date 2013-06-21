@@ -28,8 +28,8 @@ proj4.Proj.gnom = {
 
     /* Place parameters in static storage for common use
       -------------------------------------------------*/
-    this.sin_p14=Math.sin(this.lat0);
-    this.cos_p14=Math.cos(this.lat0);
+    this.sin_p14 = Math.sin(this.lat0);
+    this.cos_p14 = Math.cos(this.lat0);
     // Approximation for projecting points to the horizon (infinity)
     this.infinity_dist = 1000 * this.a;
     this.rc = 1;
@@ -39,20 +39,20 @@ proj4.Proj.gnom = {
   /* Gnomonic forward equations--mapping lat,long to x,y
     ---------------------------------------------------*/
   forward: function(p) {
-    var sinphi, cosphi;	/* sin and cos value				*/
-    var dlon;		/* delta longitude value			*/
-    var coslon;		/* cos of longitude				*/
-    var ksp;		/* scale factor					*/
-    var g;		
+    var sinphi, cosphi; /* sin and cos value				*/
+    var dlon; /* delta longitude value			*/
+    var coslon; /* cos of longitude				*/
+    var ksp; /* scale factor					*/
+    var g;
     var x, y;
-    var lon=p.x;
-    var lat=p.y;	
+    var lon = p.x;
+    var lat = p.y;
     /* Forward equations
       -----------------*/
     dlon = proj4.common.adjust_lon(lon - this.long0);
 
-    sinphi=Math.sin(lat);
-    cosphi=Math.cos(lat);	
+    sinphi = Math.sin(lat);
+    cosphi = Math.cos(lat);
 
     coslon = Math.cos(dlon);
     g = this.sin_p14 * sinphi + this.cos_p14 * cosphi * coslon;
@@ -60,7 +60,8 @@ proj4.Proj.gnom = {
     if ((g > 0) || (Math.abs(g) <= proj4.common.EPSLN)) {
       x = this.x0 + this.a * ksp * cosphi * Math.sin(dlon) / g;
       y = this.y0 + this.a * ksp * (this.cos_p14 * sinphi - this.sin_p14 * cosphi * coslon) / g;
-    } else {
+    }
+    else {
       proj4.reportError("orthoFwdPointError");
 
       // Point is in the opposing hemisphere and is unprojectable
@@ -74,18 +75,18 @@ proj4.Proj.gnom = {
       y = this.y0 + this.infinity_dist * (this.cos_p14 * sinphi - this.sin_p14 * cosphi * coslon);
 
     }
-    p.x=x;
-    p.y=y;
+    p.x = x;
+    p.y = y;
     return p;
   },
 
 
   inverse: function(p) {
-    var rh;		/* Rho */
-    var z;		/* angle */
+    var rh; /* Rho */
+    var z; /* angle */
     var sinc, cosc;
     var c;
-    var lon , lat;
+    var lon, lat;
 
     /* Inverse equations
       -----------------*/
@@ -95,23 +96,22 @@ proj4.Proj.gnom = {
     p.x /= this.k0;
     p.y /= this.k0;
 
-    if ( (rh = Math.sqrt(p.x * p.x + p.y * p.y)) ) {
+    if ((rh = Math.sqrt(p.x * p.x + p.y * p.y))) {
       c = Math.atan2(rh, this.rc);
       sinc = Math.sin(c);
       cosc = Math.cos(c);
 
-      lat = proj4.common.asinz(cosc*this.sin_p14 + (p.y*sinc*this.cos_p14) / rh);
-      lon = Math.atan2(p.x*sinc, rh*this.cos_p14*cosc - p.y*this.sin_p14*sinc);
-      lon = proj4.common.adjust_lon(this.long0+lon);
-    } else {
+      lat = proj4.common.asinz(cosc * this.sin_p14 + (p.y * sinc * this.cos_p14) / rh);
+      lon = Math.atan2(p.x * sinc, rh * this.cos_p14 * cosc - p.y * this.sin_p14 * sinc);
+      lon = proj4.common.adjust_lon(this.long0 + lon);
+    }
+    else {
       lat = this.phic0;
       lon = 0.0;
     }
- 
-    p.x=lon;
-    p.y=lat;
+
+    p.x = lon;
+    p.y = lat;
     return p;
   }
 };
-
-

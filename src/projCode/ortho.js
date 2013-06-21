@@ -29,28 +29,29 @@ proj4.Proj.ortho = {
     //double temp;			/* temporary variable		*/
 
     /* Place parameters in static storage for common use
-      -------------------------------------------------*/;
-    this.sin_p14=Math.sin(this.lat0);
-    this.cos_p14=Math.cos(this.lat0);	
+      -------------------------------------------------*/
+    ;
+    this.sin_p14 = Math.sin(this.lat0);
+    this.cos_p14 = Math.cos(this.lat0);
   },
 
 
   /* Orthographic forward equations--mapping lat,long to x,y
     ---------------------------------------------------*/
   forward: function(p) {
-    var sinphi, cosphi;	/* sin and cos value				*/
-    var dlon;		/* delta longitude value			*/
-    var coslon;		/* cos of longitude				*/
-    var ksp;		/* scale factor					*/
-    var g;		
-    var lon=p.x;
-    var lat=p.y;	
+    var sinphi, cosphi; /* sin and cos value				*/
+    var dlon; /* delta longitude value			*/
+    var coslon; /* cos of longitude				*/
+    var ksp; /* scale factor					*/
+    var g;
+    var lon = p.x;
+    var lat = p.y;
     /* Forward equations
       -----------------*/
     dlon = proj4.common.adjust_lon(lon - this.long0);
 
-    sinphi=Math.sin(lat);
-    cosphi=Math.cos(lat);	
+    sinphi = Math.sin(lat);
+    cosphi = Math.cos(lat);
 
     coslon = Math.cos(dlon);
     g = this.sin_p14 * sinphi + this.cos_p14 * cosphi * coslon;
@@ -58,22 +59,23 @@ proj4.Proj.ortho = {
     if ((g > 0) || (Math.abs(g) <= proj4.common.EPSLN)) {
       var x = this.a * ksp * cosphi * Math.sin(dlon);
       var y = this.y0 + this.a * ksp * (this.cos_p14 * sinphi - this.sin_p14 * cosphi * coslon);
-    } else {
+    }
+    else {
       proj4.reportError("orthoFwdPointError");
     }
-    p.x=x;
-    p.y=y;
+    p.x = x;
+    p.y = y;
     return p;
   },
 
 
   inverse: function(p) {
-    var rh;		/* height above ellipsoid			*/
-    var z;		/* angle					*/
-    var sinz,cosz;	/* sin of z and cos of z			*/
+    var rh; /* height above ellipsoid			*/
+    var z; /* angle					*/
+    var sinz, cosz; /* sin of z and cos of z			*/
     var temp;
     var con;
-    var lon , lat;
+    var lon, lat;
     /* Inverse equations
       -----------------*/
     p.x -= this.x0;
@@ -84,33 +86,32 @@ proj4.Proj.ortho = {
     }
     z = proj4.common.asinz(rh / this.a);
 
-    sinz=Math.sin(z);
-    cosz=Math.cos(z);
+    sinz = Math.sin(z);
+    cosz = Math.cos(z);
 
     lon = this.long0;
     if (Math.abs(rh) <= proj4.common.EPSLN) {
-      lat = this.lat0; 
-       p.x=lon;
-       p.y=lat;
-    return p;
+      lat = this.lat0;
+      p.x = lon;
+      p.y = lat;
+      return p;
     }
-    lat = proj4.common.asinz(cosz * this.sin_p14 + (p.y * sinz * this.cos_p14)/rh);
+    lat = proj4.common.asinz(cosz * this.sin_p14 + (p.y * sinz * this.cos_p14) / rh);
     con = Math.abs(this.lat0) - proj4.common.HALF_PI;
     if (Math.abs(con) <= proj4.common.EPSLN) {
-       if (this.lat0 >= 0) {
-          lon = proj4.common.adjust_lon(this.long0 + Math.atan2(p.x, -p.y));
-       } else {
-          lon = proj4.common.adjust_lon(this.long0 -Math.atan2(-p.x, p.y));
-       }
-        p.x=lon;
-        p.y=lat;
-        return p;
+      if (this.lat0 >= 0) {
+        lon = proj4.common.adjust_lon(this.long0 + Math.atan2(p.x, - p.y));
+      }
+      else {
+        lon = proj4.common.adjust_lon(this.long0 - Math.atan2(-p.x, p.y));
+      }
+      p.x = lon;
+      p.y = lat;
+      return p;
     }
-    lon=proj4.common.adjust_lon(this.long0 + Math.atan2((p.x * sinz ), rh*this.cos_p14*cosz-p.y*this.sin_p14*sinz));
-    p.x=lon;
-    p.y=lat;
+    lon = proj4.common.adjust_lon(this.long0 + Math.atan2((p.x * sinz), rh * this.cos_p14 * cosz - p.y * this.sin_p14 * sinz));
+    p.x = lon;
+    p.y = lat;
     return p;
   }
 };
-
-
