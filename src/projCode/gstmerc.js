@@ -14,7 +14,9 @@ proj4.Proj.gstmerc = {
     this.xs = this.x0;
     this.ys = this.y0 - this.n2 * pc;
 
-    if (!this.title) this.title = "Gauss Schreiber transverse mercator";
+    if (!this.title){
+      this.title = "Gauss Schreiber transverse mercator";
+    }
   },
 
 
