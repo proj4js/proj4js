@@ -25,12 +25,11 @@ proj4.Proj.ortho = {
 
   /* Initialize the Orthographic projection
     -------------------------------------*/
-  init: function(def) {
+  init: function() {
     //double temp;			/* temporary variable		*/
 
     /* Place parameters in static storage for common use
       -------------------------------------------------*/
-    ;
     this.sin_p14 = Math.sin(this.lat0);
     this.cos_p14 = Math.cos(this.lat0);
   },
@@ -43,7 +42,7 @@ proj4.Proj.ortho = {
     var dlon; /* delta longitude value			*/
     var coslon; /* cos of longitude				*/
     var ksp; /* scale factor					*/
-    var g;
+    var g,x,y;
     var lon = p.x;
     var lat = p.y;
     /* Forward equations
@@ -57,8 +56,8 @@ proj4.Proj.ortho = {
     g = this.sin_p14 * sinphi + this.cos_p14 * cosphi * coslon;
     ksp = 1.0;
     if ((g > 0) || (Math.abs(g) <= proj4.common.EPSLN)) {
-      var x = this.a * ksp * cosphi * Math.sin(dlon);
-      var y = this.y0 + this.a * ksp * (this.cos_p14 * sinphi - this.sin_p14 * cosphi * coslon);
+      x = this.a * ksp * cosphi * Math.sin(dlon);
+      y = this.y0 + this.a * ksp * (this.cos_p14 * sinphi - this.sin_p14 * cosphi * coslon);
     }
     else {
       proj4.reportError("orthoFwdPointError");
@@ -73,7 +72,6 @@ proj4.Proj.ortho = {
     var rh; /* height above ellipsoid			*/
     var z; /* angle					*/
     var sinz, cosz; /* sin of z and cos of z			*/
-    var temp;
     var con;
     var lon, lat;
     /* Inverse equations
@@ -81,7 +79,7 @@ proj4.Proj.ortho = {
     p.x -= this.x0;
     p.y -= this.y0;
     rh = Math.sqrt(p.x * p.x + p.y * p.y);
-    if (rh > this.a + .0000001) {
+    if (rh > this.a + 0.0000001) {
       proj4.reportError("orthoInvDataError");
     }
     z = proj4.common.asinz(rh / this.a);
