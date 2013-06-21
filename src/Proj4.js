@@ -40,7 +40,21 @@ $Id: Proj.js 2956 2007-07-09 12:17:52Z steven $
  * Global namespace object for proj4 library
  */
 function proj4(fromProj,toProj,coord){
-  var tc;
+  var trnc = function(f,t,c){
+    var tc,nc;
+    nc = c instanceof proj4.Point ? c : new proj4.Point(c);
+    if(Array.isArray(c)){
+      tc = proj4.tranformation(f,t,nc);
+      if(c.length === 3){
+        return [tc.x,tc.y,tc.z];
+      }else{
+        return [tc.x,tc.y];
+      }
+    }else{
+      return proj4.tranformation(fromProj,toProj,nc);
+    }
+  };
+  
   fromProj = fromProj instanceof proj4.Proj ? fromProj : new proj4.Proj(fromProj);
   if(typeof toProj === 'undefined'){
     toProj = proj4.WGS84;
@@ -51,11 +65,16 @@ function proj4(fromProj,toProj,coord){
     toProj = toProj instanceof proj4.Proj ? toProj : new proj4.Proj(toProj);
   }
   if(coord){
-    
-    coord = coord instanceof proj4.Point ? coord : new proj4.Point(coord);
-    
+    return trnc(fromProj,toProj,coord);
   } else {
-    
+    return {
+      forward: function(coords){
+        return trnc(fromProj,toProj,coord); 
+      },
+      inverse: function(coords){
+        return trnc(toProj,fromProj,coord); 
+      }
+    };
   }
 }
     /**
