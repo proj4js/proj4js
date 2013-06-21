@@ -24,10 +24,12 @@ proj4.Proj.gauss = {
     var DEL_TOL = 1e-14;
     var lon = p.x / this.C;
     var lat = p.y;
-    var num = Math.pow(Math.tan(0.5 * lat + proj4.common.FORTPI) / this.K, 1. / this.C);
+    var num = Math.pow(Math.tan(0.5 * lat + proj4.common.FORTPI) / this.K, 1 / this.C);
     for (var i = proj4.common.MAX_ITER; i > 0; --i) {
       lat = 2.0 * Math.atan(num * proj4.common.srat(this.e * Math.sin(p.y), - 0.5 * this.e)) - proj4.common.HALF_PI;
-      if (Math.abs(lat - p.y) < DEL_TOL) break;
+      if (Math.abs(lat - p.y) < DEL_TOL){
+        break;
+      }
       p.y = lat;
     }
     /* convergence failed */
