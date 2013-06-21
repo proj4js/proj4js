@@ -52,7 +52,8 @@ module.exports = function(grunt) {
           proj4: true
         }
 			},
-			all: [ './src/Proj4.js','./src/Proj.js','./src/defs.js','./src/common.js','./src/datum.js','./src/Point.js','./src/constants.js','./src/projCode/*.js','./src/defs/*.js','./src/util/MGRS.js']
+			before: [ './src/Proj4.js','./src/Proj.js','./src/defs.js','./src/common.js','./src/datum.js','./src/Point.js','./src/constants.js','./src/projCode/*.js','./src/defs/*.js','./src/util/MGRS.js'],
+      after: [ './dist/proj4.js']
 		}
 	});
 	grunt.loadNpmTasks('grunt-contrib-jshint');
@@ -63,5 +64,5 @@ module.exports = function(grunt) {
 	grunt.registerTask('full', ['concat:full','uglify:full']);
 	grunt.registerTask('noDefs', ['concat:noDefs','uglify:noDefs']);
 	grunt.registerTask('test', ['connect', 'mocha_phantomjs']);
-	grunt.registerTask('default', ['full','noDefs','jshint','test']);
+	grunt.registerTask('default', ['jshint:before','full','noDefs','jshint:after','test']);
 }
