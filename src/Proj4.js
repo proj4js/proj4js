@@ -139,6 +139,9 @@ proj4.transform = function(source, dest, point) {
     */
 proj4.datum_transform = function( source, dest, point ) {
   var wp,i,l;
+  function checkParams(fallback){
+    return (fallback === proj4.common.PJD_3PARAM || fallback === proj4.common.PJD_7PARAM);
+  }
   // Short cut if the datums are identical.
   if( source.compare_datums( dest ) ) {
     return point; // in this case, zero is sucess,
@@ -188,104 +191,100 @@ proj4.datum_transform = function( source, dest, point ) {
     }
   }
   if( dest.datum_type === proj4.common.PJD_GRIDSHIFT ){
-          dest.a = proj4.common.SRS_WGS84_SEMIMAJOR;
-          dest.es = proj4.common.SRS_WGS84_ESQUARED;
-      }
-      // Do we need to go through geocentric coordinates?
-      if (source.es !== dest.es || source.a !== dest.a || fallback === proj4.common.PJD_3PARAM || fallback === proj4.common.PJD_7PARAM || dest.datum_type === proj4.common.PJD_3PARAM || dest.datum_type === proj4.common.PJD_7PARAM) {
-      //DGR: 2012-07-29 : add nadgrids support (end)
+    dest.a = proj4.common.SRS_WGS84_SEMIMAJOR;
+    dest.es = proj4.common.SRS_WGS84_ESQUARED;
+  }
+   // Do we need to go through geocentric coordinates?
+  if (source.es !== dest.es || source.a !== dest.a || checkParams(fallback) || checkParams(dest.datum_type)) {
+    //DGR: 2012-07-29 : add nadgrids support (end)
+    // Convert to geocentric coordinates.
+    source.geodetic_to_geocentric( point );
+    // CHECK_RETURN;
+    // Convert between datums
+    if(checkParams(source.datum_type)) {
+      source.geocentric_to_wgs84(point);
+      // CHECK_RETURN;
+     }
+    if(checkParams(dest.datum_type)) {
+      dest.geocentric_from_wgs84(point);
+      // CHECK_RETURN;
+    }
+    // Convert back to geodetic coordinates
+    dest.geocentric_to_geodetic( point );
+    // CHECK_RETURN;
+  }
+  // Apply grid shift to destination if required
+  if( dest.datum_type === proj4.common.PJD_GRIDSHIFT ) {
+    this.apply_gridshift( dest, 1, point);
+    // CHECK_RETURN;
+  }
 
-        // Convert to geocentric coordinates.
-        source.geodetic_to_geocentric( point );
-        // CHECK_RETURN;
+  source.a = src_a;
+  source.es = src_es;
+  dest.a = dst_a;
+  dest.es = dst_es;
 
-        // Convert between datums
-        if( source.datum_type === proj4.common.PJD_3PARAM || source.datum_type === proj4.common.PJD_7PARAM ) {
-          source.geocentric_to_wgs84(point);
-          // CHECK_RETURN;
-        }
-
-        if( dest.datum_type === proj4.common.PJD_3PARAM || dest.datum_type === proj4.common.PJD_7PARAM ) {
-          dest.geocentric_from_wgs84(point);
-          // CHECK_RETURN;
-        }
-
-        // Convert back to geodetic coordinates
-        dest.geocentric_to_geodetic( point );
-          // CHECK_RETURN;
-      }
-
-      // Apply grid shift to destination if required
-      if( dest.datum_type === proj4.common.PJD_GRIDSHIFT ) {
-          this.apply_gridshift( dest, 1, point);
-          // CHECK_RETURN;
-      }
-
-      source.a = src_a;
-      source.es = src_es;
-      dest.a = dst_a;
-      dest.es = dst_es;
-
-      return point;
-    }; // cs_datum_transform
+  return point;
+}; // cs_datum_transform
 
     /**
      * This is the real workhorse, given a gridlist
      * DGR: 2012-07-29 addition based on proj4 trunk
      */
 proj4.apply_gridshift = function(srs,inverse,point) {
-        if (srs.grids===null || srs.grids.length===0) {
-            return -38;
-        }
-        var input= {"x":point.x, "y":point.y};
-        var output= {"x":Number.NaN, "y":Number.NaN};
-        /* keep trying till we find a table that works */
-        var onlyMandatoryGrids= false;
-        for (var i= 0, l= srs.grids.length; i<l; i++) {
-            var gi= srs.grids[i];
-            onlyMandatoryGrids= gi.mandatory;
-            var ct= gi.grid;
-            if (ct===null) {
-                if (gi.mandatory) {
-                    this.reportError("unable to find '"+gi.name+"' grid.");
-                    return -48;
-                }
-                continue;//optional grid
-            } 
-            /* skip tables that don't match our point at all.  */
-            var epsilon= (Math.abs(ct.del[1])+Math.abs(ct.del[0]))/10000.0;
-            if( ct.ll[1]-epsilon>input.y || ct.ll[0]-epsilon>input.x || ct.ll[1]+(ct.lim[1]-1)*ct.del[1]+epsilon<input.y || ct.ll[0]+(ct.lim[0]-1)*ct.del[0]+epsilon<input.x ) {
-                continue;
-            }
-            /* If we have child nodes, check to see if any of them apply. */
-            /* TODO : only plain grid has been implemented ... */
-            /* we found a more refined child node to use */
-            /* load the grid shift info if we don't have it. */
-            /* TODO : proj4.grids pre-loaded (as they can be huge ...) */
-            /* skip numerical computing error when "null" grid (identity grid): */
-            if (gi.name==="null") {
-                output.x= input.x;
-                output.y= input.y;
-            } else {
-                output= proj4.common.nad_cvt(input, inverse, ct);
-            }
-            if (!isNaN(output.x)) {
-                break;
-            }
-        }
-        if (isNaN(output.x)) {
-            if (!onlyMandatoryGrids) {
-                this.reportError("failed to find a grid shift table for location '"+
-                    input.x*proj4.common.R2D+" "+input.y*proj4.common.R2D+
-                    " tried: '"+srs.nadgrids+"'");
-                return -48;
-            }
-            return -1;//FIXME: no shift applied ...
-        }
-        point.x= output.x;
-        point.y= output.y;
-        return 0;
-    };
+  var i,l,gi,ct,epsilon;
+  if (srs.grids===null || srs.grids.length===0) {
+    return -38;//are these error codes?
+  }
+  var input= {"x":point.x, "y":point.y};
+  var output= {"x":Number.NaN, "y":Number.NaN};
+  /* keep trying till we find a table that works */
+  var onlyMandatoryGrids= false;
+  for (i = 0, l = srs.grids.length; i<l; i++) {
+    gi= srs.grids[i];
+    onlyMandatoryGrids= gi.mandatory;
+    ct= gi.grid;
+    if (ct===null) {
+      if (gi.mandatory) {
+        this.reportError("unable to find '"+gi.name+"' grid.");
+          return -48;//are these error codes?
+      }
+      continue;//optional grid
+    }
+    /* skip tables that don't match our point at all.  */
+    epsilon= (Math.abs(ct.del[1])+Math.abs(ct.del[0]))/10000;
+    if( ct.ll[1]-epsilon>input.y || ct.ll[0]-epsilon>input.x || ct.ll[1]+(ct.lim[1]-1)*ct.del[1]+epsilon<input.y || ct.ll[0]+(ct.lim[0]-1)*ct.del[0]+epsilon<input.x ) {
+      continue;
+    }
+    /* If we have child nodes, check to see if any of them apply. */
+    /* TODO : only plain grid has been implemented ... */
+    /* we found a more refined child node to use */
+    /* load the grid shift info if we don't have it. */
+    /* TODO : proj4.grids pre-loaded (as they can be huge ...) */
+    /* skip numerical computing error when "null" grid (identity grid): */
+    if (gi.name==="null") {
+      output.x= input.x;
+      output.y= input.y;
+    } else {
+      output= proj4.common.nad_cvt(input, inverse, ct);
+    }
+    if (!isNaN(output.x)) {
+      break;
+    }
+  }
+  if (isNaN(output.x)) {
+    if (!onlyMandatoryGrids) {
+      this.reportError("failed to find a grid shift table for location '"+
+        input.x*proj4.common.R2D+" "+input.y*proj4.common.R2D+
+        " tried: '"+srs.nadgrids+"'");
+      return -48;
+    }
+    return -1;//FIXME: no shift applied ...
+  }
+  point.x= output.x;
+  point.y= output.y;
+  return 0;
+};
 
     /**
      * Function: adjust_axis
@@ -297,39 +296,51 @@ proj4.apply_gridshift = function(srs,inverse,point) {
      * point {Object} the coordinates to adjust
      */
 proj4.adjust_axis = function(crs, denorm, point) {
-        var xin= point.x, yin= point.y, zin= point.z || 0.0;
-        var v, t;
-        for (var i= 0; i<3; i++) {
-            if (denorm && i===2 && point.z===undefined) { continue; }
-                 if (i===0) { v= xin; t= 'x'; }
-            else if (i===1) { v= yin; t= 'y'; }
-            else           { v= zin; t= 'z'; }
-            switch(crs.axis[i]) {
-            case 'e':
-                point[t]= v;
-                break;
-            case 'w':
-                point[t]= -v;
-                break;
-            case 'n':
-                point[t]= v;
-                break;
-            case 's':
-                point[t]= -v;
-                break;
-            case 'u':
-                if (point[t]!==undefined) { point.z= v; }
-                break;
-            case 'd':
-                if (point[t]!==undefined) { point.z= -v; }
-                break;
-            default :
-                alert("ERROR: unknow axis ("+crs.axis[i]+") - check definition of "+crs.projName);
-                return null;
-            }
+  var xin= point.x, yin= point.y, zin= point.z || 0.0;
+  var v, t, i;
+  for (i= 0; i<3; i++) {
+    if (denorm && i===2 && point.z===undefined) {
+      continue;
+    }
+    if (i===0) {
+      v= xin;
+      t= 'x';
+    } else if (i===1) {
+      v= yin; t= 'y';
+    } else {
+      v= zin;
+      t= 'z';
+    }
+    switch(crs.axis[i]) {
+      case 'e':
+        point[t]= v;
+        break;
+      case 'w':
+        point[t]= -v;
+        break;
+      case 'n':
+        point[t]= v;
+        break;
+      case 's':
+        point[t]= -v;
+        break;
+      case 'u':
+        if (point[t]!==undefined) {
+          point.z= v;
         }
-        return point;
-    };
+        break;
+      case 'd':
+        if (point[t]!==undefined) {
+          point.z= -v;
+        }
+        break;
+      default :
+        alert("ERROR: unknow axis ("+crs.axis[i]+") - check definition of "+crs.projName);
+        return null;
+    }
+  }
+  return point;
+};
 
     /**
      * Function: reportError
@@ -337,8 +348,8 @@ proj4.adjust_axis = function(crs, denorm, point) {
      * Override this in applications to report error messages or throw exceptions.
      */
 proj4.reportError = function(msg) {
-      //console.log(msg);
-    };
+  //console.log(msg);
+};
 
 /**
  *
@@ -364,17 +375,19 @@ proj4.reportError = function(msg) {
  * {Object} The destination object.
  */
 proj4.extend = function(destination, source) {
-      destination = destination || {};
-      if(source) {
-          for(var property in source) {
-              var value = source[property];
-              if(value !== undefined) {
-                  destination[property] = value;
-              }
-          }
-      }
-      return destination;
-    };
+  destination = destination || {};
+  var value,property;
+  if(!source) {
+    return destination;
+  }
+  for(property in source) {
+    value = source[property];
+    if(value !== undefined) {
+      destination[property] = value;
+    }
+  }
+  return destination;
+};
 
 /**
  * Constructor: Class
@@ -383,23 +396,22 @@ proj4.extend = function(destination, source) {
  *  
  */
 proj4.Class = function() {
-      var Class = function() {
-          this.initialize.apply(this, arguments);
-      };
-  
-      var extended = {};
-      var parent;
-      for(var i=0; i<arguments.length; ++i) {
-          if(typeof arguments[i] == "function") {
-              // get the prototype of the superclass
-              parent = arguments[i].prototype;
-          } else {
-              // in this case we're extending with the prototype
-              parent = arguments[i];
-          }
-          proj4.extend(extended, parent);
-      }
-      Class.prototype = extended;
+  var Class = function() {
+    this.initialize.apply(this, arguments);
+  };
+  var extended = {};
+  var parent,i;
+  for(i=0; i<arguments.length; ++i) {
+    if(typeof arguments[i] == "function") {
+      // get the prototype of the superclass
+      parent = arguments[i].prototype;
+    } else {
+      // in this case we're extending with the prototype
+      parent = arguments[i];
+    }
+    proj4.extend(extended, parent);
+  }
+  Class.prototype = extended;
       
-      return Class;
-    };
+ return Class;
+};
