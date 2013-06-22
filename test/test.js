@@ -88,6 +88,24 @@ describe('proj4', function () {
                 assert.closeTo(ll[1], testPoint.ll[1],llEPSLN, 'y is close');
               });
             });
+            describe('proj object',function(){
+            	it('should work with a 2 element array', function(){
+                    var xy = proj4(new proj4.Proj(testPoint.code),testPoint.ll);
+                    assert.closeTo(xy[0], testPoint.xy[0],xyEPSLN, 'x is close');
+  		            assert.closeTo(xy[1], testPoint.xy[1],xyEPSLN, 'y is close');
+                });
+                it('should work on element',function(){
+                var xy = proj4(new proj4.Proj(testPoint.code)).forward(testPoint.ll);
+                assert.closeTo(xy[0], testPoint.xy[0],xyEPSLN, 'x is close');
+                assert.closeTo(xy[1], testPoint.xy[1],xyEPSLN, 'y is close');
+              });
+               it('should work 3 element ponit object', function(){
+                    var pt = new proj4.Point(testPoint.xy);
+                    var ll = proj4(new proj4.Proj(testPoint.code),proj4.WGS84,pt);
+                    assert.closeTo(ll.x, testPoint.ll[0],llEPSLN, 'x is close');
+                    assert.closeTo(ll.y, testPoint.ll[1],llEPSLN, 'y is close');
+                });
+            });
 	    });
 	});
 	});
