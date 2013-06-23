@@ -45,9 +45,9 @@ function proj4(fromProj,toProj,coord){
     if(Array.isArray(c)){
       transformedArray = proj4.transform(f,t,new proj4.Point(c));
       if(c.length === 3){
-        return [transformedArray.x,transformedArray.y,transformedArray.z];
+        return [transformedArray.x, transformedArray.y, transformedArray.z];
       }else{
-        return [transformedArray.x,transformedArrayy];
+        return [transformedArray.x, transformedArray.y];
       }
     }else{
       return proj4.transform(fromProj,toProj,c);
@@ -442,6 +442,9 @@ proj4.Class = function() {
   return Class;
 };
 
-if(typeof module !== 'undefined'){
-	module.exports = proj4;
-}
+(function(){
+	/*global module*/
+	if(typeof module !== 'undefined'){
+		module.exports = proj4;
+	}
+})();
