@@ -40,14 +40,14 @@ $Id: Proj.js 2956 2007-07-09 12:17:52Z steven $
  * Global namespace object for proj4 library
  */
 function proj4(fromProj,toProj,coord){
-  var trnc = function(f,t,c){
-    var tc;
+  var transformer = function(f,t,c){
+    var transformedArray;
     if(Array.isArray(c)){
-      tc = proj4.transform(f,t,new proj4.Point(c));
+      transformedArray = proj4.transform(f,t,new proj4.Point(c));
       if(c.length === 3){
-        return [tc.x,tc.y,tc.z];
+        return [transformedArray.x,transformedArray.y,transformedArray.z];
       }else{
-        return [tc.x,tc.y];
+        return [transformedArray.x,transformedArrayy];
       }
     }else{
       return proj4.transform(fromProj,toProj,c);
@@ -68,14 +68,14 @@ function proj4(fromProj,toProj,coord){
     toProj = toProj instanceof proj4.Proj ? toProj : new proj4.Proj(toProj);
   }
   if(coord){
-    return trnc(fromProj,toProj,coord);
+    return transformer(fromProj,toProj,coord);
   } else {
     return {
       forward: function(coords){
-        return trnc(fromProj,toProj,coords);
+        return transformer(fromProj,toProj,coords);
       },
       inverse: function(coords){
-        return trnc(toProj,fromProj,coords);
+        return transformer(toProj,fromProj,coords);
       }
     };
   }
