@@ -39,8 +39,47 @@ $Id: Proj.js 2956 2007-07-09 12:17:52Z steven $
 /**
  * Global namespace object for proj4 library
  */
-var proj4 = {};
-
+function proj4(fromProj,toProj,coord){
+  var transformer = function(f,t,c){
+    var transformedArray;
+    if(Array.isArray(c)){
+      transformedArray = proj4.transform(f,t,new proj4.Point(c));
+      if(c.length === 3){
+        return [transformedArray.x, transformedArray.y, transformedArray.z];
+      }else{
+        return [transformedArray.x, transformedArray.y];
+      }
+    }else{
+      return proj4.transform(fromProj,toProj,c);
+    }
+  };
+  
+  fromProj = fromProj instanceof proj4.Proj ? fromProj : new proj4.Proj(fromProj);
+  if(typeof toProj === 'undefined'){
+    toProj = fromProj;
+    fromProj = proj4.WGS84;
+  }else if(typeof toProj === 'string'){
+    toProj = new proj4.Proj(toProj);
+  }else if(toProj.x||Array.isArray(toProj)){
+    coord = toProj;
+    toProj = fromProj;
+    fromProj = proj4.WGS84;
+  }else{
+    toProj = toProj instanceof proj4.Proj ? toProj : new proj4.Proj(toProj);
+  }
+  if(coord){
+    return transformer(fromProj,toProj,coord);
+  } else {
+    return {
+      forward: function(coords){
+        return transformer(fromProj,toProj,coords);
+      },
+      inverse: function(coords){
+        return transformer(toProj,fromProj,coords);
+      }
+    };
+  }
+}
     /**
      * Property: defaultDatum
      * The datum to use when no others a specified
@@ -402,3 +441,10 @@ proj4.Class = function() {
   Class.prototype = extended;
   return Class;
 };
+
+(function(){
+  /*global module*/
+  if(typeof module !== 'undefined'){
+    module.exports = proj4;
+  }
+})();
