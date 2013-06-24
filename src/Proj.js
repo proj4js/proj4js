@@ -423,7 +423,7 @@ proj4.Proj = proj4.Class({
         self.utmSouth = true;
       },
       towgs84:function(v){
-        self.datum_params = v.split(",").map(function(a){return parseFloat(a,10)});
+        self.datum_params = v.split(",").map(function(a){return parseFloat(a,10);});
       },
       to_meter:function(v){
         self.to_meter = parseFloat(v,10);
