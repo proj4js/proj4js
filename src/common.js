@@ -1,4 +1,4 @@
-Proj4js.common = {
+proj4.common = {
   PI : 3.141592653589793238, //Math.PI,
   HALF_PI : 1.570796326794896619, //Math.PI*0.5,
   TWO_PI : 6.283185307179586477, //Math.PI*2,
@@ -19,22 +19,22 @@ Proj4js.common = {
   PJD_GRIDSHIFT: 3,
   PJD_WGS84    : 4,   // WGS84 or equivalent
   PJD_NODATUM  : 5,   // WGS84 or equivalent
-  SRS_WGS84_SEMIMAJOR : 6378137.0,  // only used in grid shift transforms
+  SRS_WGS84_SEMIMAJOR : 6378137,  // only used in grid shift transforms
   SRS_WGS84_ESQUARED : 0.006694379990141316, //DGR: 2012-07-29
 
   // ellipoid pj_set_ell.c
-  SIXTH : .1666666666666666667, /* 1/6 */
-  RA4   : .04722222222222222222, /* 17/360 */
-  RA6   : .02215608465608465608, /* 67/3024 */
-  RV4   : .06944444444444444444, /* 5/72 */
-  RV6   : .04243827160493827160, /* 55/1296 */
+  SIXTH : 0.1666666666666666667, /* 1/6 */
+  RA4   : 0.04722222222222222222, /* 17/360 */
+  RA6   : 0.02215608465608465608, /* 67/3024 */
+  RV4   : 0.06944444444444444444, /* 5/72 */
+  RV6   : 0.04243827160493827160, /* 55/1296 */
 
 // Function to compute the constant small m which is the radius of
 //   a parallel of latitude, phi, divided by the semimajor axis.
 // -----------------------------------------------------------------
   msfnz : function(eccent, sinphi, cosphi) {
-      var con = eccent * sinphi;
-      return cosphi/(Math.sqrt(1.0 - con * con));
+    var con = eccent * sinphi;
+    return cosphi/(Math.sqrt(1 - con * con));
   },
 
 // Function to compute the constant small t for use in the forward
@@ -43,26 +43,28 @@ Proj4js.common = {
 // -----------------------------------------------------------------
   tsfnz : function(eccent, phi, sinphi) {
     var con = eccent * sinphi;
-    var com = .5 * eccent;
-    con = Math.pow(((1.0 - con) / (1.0 + con)), com);
-    return (Math.tan(.5 * (this.HALF_PI - phi))/con);
+    var com = 0.5 * eccent;
+    con = Math.pow(((1 - con) / (1 + con)), com);
+    return (Math.tan(0.5 * (this.HALF_PI - phi))/con);
   },
 
 // Function to compute the latitude angle, phi2, for the inverse of the
 //   Lambert Conformal Conic and Polar Stereographic projections.
 // ----------------------------------------------------------------
   phi2z : function(eccent, ts) {
-    var eccnth = .5 * eccent;
+    var eccnth = 0.5 * eccent;
     var con, dphi;
     var phi = this.HALF_PI - 2 * Math.atan(ts);
     for (var i = 0; i <= 15; i++) {
       con = eccent * Math.sin(phi);
-      dphi = this.HALF_PI - 2 * Math.atan(ts *(Math.pow(((1.0 - con)/(1.0 + con)),eccnth))) - phi;
+      dphi = this.HALF_PI - 2 * Math.atan(ts *(Math.pow(((1 - con)/(1 + con)),eccnth))) - phi;
       phi += dphi;
-      if (Math.abs(dphi) <= .0000000001) return phi;
+      if (Math.abs(dphi) <= 0.0000000001){
+        return phi;
+      }
     }
-    alert("phi2z has NoConvergence");
-    return (-9999);
+    //console.log("phi2z has NoConvergence");
+    return -9999;
   },
 
 /* Function to compute constant small q which is the radius of a 
@@ -72,21 +74,21 @@ Proj4js.common = {
     var con;
     if (eccent > 1.0e-7) {
       con = eccent * sinphi;
-      return (( 1.0- eccent * eccent) * (sinphi /(1.0 - con * con) - (.5/eccent)*Math.log((1.0 - con)/(1.0 + con))));
+      return (( 1- eccent * eccent) * (sinphi /(1 - con * con) - (0.5/eccent)*Math.log((1 - con)/(1 + con))));
     } else {
-      return(2.0 * sinphi);
+      return(2 * sinphi);
     }
   },
 
 /* Function to compute the inverse of qsfnz
 ------------------------------------------------------------*/
   iqsfnz : function (eccent, q) {
-    var temp = 1.0-(1.0-eccent*eccent)/(2.0*eccent)*Math.log((1-eccent)/(1+eccent));
+    var temp = 1-(1-eccent*eccent)/(2*eccent)*Math.log((1-eccent)/(1+eccent));
     if (Math.abs(Math.abs(q)-temp)<1.0E-6) {
-      if (q<0.0) {
-        return (-1.0*Proj4js.common.HALF_PI);
+      if (q<0) {
+        return (-1*proj4.common.HALF_PI);
       } else {
-        return Proj4js.common.HALF_PI;
+        return proj4.common.HALF_PI;
       }
     }
     //var phi = 0.5* q/(1-eccent*eccent);
@@ -99,55 +101,61 @@ Proj4js.common = {
       sin_phi = Math.sin(phi);
       cos_phi = Math.cos(phi);
       con = eccent*sin_phi;
-      dphi=Math.pow(1.0-con*con,2.0)/(2.0*cos_phi)*(q/(1-eccent*eccent)-sin_phi/(1.0-con*con)+0.5/eccent*Math.log((1.0-con)/(1.0+con)));
+      dphi=Math.pow(1-con*con,2)/(2*cos_phi)*(q/(1-eccent*eccent)-sin_phi/(1-con*con)+0.5/eccent*Math.log((1-con)/(1+con)));
       phi+=dphi;
-      if (Math.abs(dphi) <= .0000000001) {
+      if (Math.abs(dphi) <= 0.0000000001) {
         return phi;
       }
     }
 
-    alert("IQSFN-CONV:Latitude failed to converge after 30 iterations");
-    return (NaN);
+    //console.log("IQSFN-CONV:Latitude failed to converge after 30 iterations");
+    return NaN;
   },
 
 /* Function to eliminate roundoff errors in asin
 ----------------------------------------------*/
   asinz : function(x) {
-    if (Math.abs(x)>1.0) {
-      x=(x>1.0)?1.0:-1.0;
+    if (Math.abs(x)>1) {
+      x=(x>1)?1:-1;
     }
     return Math.asin(x);
   },
 
 // following functions from gctpc cproj.c for transverse mercator projections
-  e0fn : function(x) {return(1.0-0.25*x*(1.0+x/16.0*(3.0+1.25*x)));},
-  e1fn : function(x) {return(0.375*x*(1.0+0.25*x*(1.0+0.46875*x)));},
-  e2fn : function(x) {return(0.05859375*x*x*(1.0+0.75*x));},
-  e3fn : function(x) {return(x*x*x*(35.0/3072.0));},
-  mlfn : function(e0,e1,e2,e3,phi) {return(e0*phi-e1*Math.sin(2.0*phi)+e2*Math.sin(4.0*phi)-e3*Math.sin(6.0*phi));},
+  e0fn : function(x) {return(1-0.25*x*(1+x/16*(3+1.25*x)));},
+  e1fn : function(x) {return(0.375*x*(1+0.25*x*(1+0.46875*x)));},
+  e2fn : function(x) {return(0.05859375*x*x*(1+0.75*x));},
+  e3fn : function(x) {return(x*x*x*(35/3072));},
+  mlfn : function(e0,e1,e2,e3,phi) {return(e0*phi-e1*Math.sin(2*phi)+e2*Math.sin(4*phi)-e3*Math.sin(6*phi));},
   imlfn : function(ml, e0, e1, e2, e3) {
     var phi;
     var dphi;
 
     phi=ml/e0;
     for (var i=0;i<15;i++){
-      dphi=(ml-(e0*phi-e1*Math.sin(2.0*phi)+e2*Math.sin(4.0*phi)-e3*Math.sin(6.0*phi)))/(e0-2.0*e1*Math.cos(2.0*phi)+4.0*e2*Math.cos(4.0*phi)-6.0*e3*Math.cos(6.0*phi));
+      dphi=(ml-(e0*phi-e1*Math.sin(2*phi)+e2*Math.sin(4*phi)-e3*Math.sin(6*phi)))/(e0-2*e1*Math.cos(2*phi)+4*e2*Math.cos(4*phi)-6*e3*Math.cos(6*phi));
       phi+=dphi;
-      if (Math.abs(dphi) <= .0000000001) {
+      if (Math.abs(dphi) <= 0.0000000001) {
         return phi;
       }
     }
 
-    Proj4js.reportError("IMLFN-CONV:Latitude failed to converge after 15 iterations");
+    proj4.reportError("IMLFN-CONV:Latitude failed to converge after 15 iterations");
     return NaN;
   },
 
   srat : function(esinp, exp) {
-    return(Math.pow((1.0-esinp)/(1.0+esinp), exp));
+    return(Math.pow((1-esinp)/(1+esinp), exp));
   },
 
 // Function to return the sign of an argument
-  sign : function(x) { if (x < 0.0) return(-1); else return(1);},
+  sign : function(x) {
+    if (x < 0){
+      return(-1);
+    } else {
+      return(1);
+    }
+  },
 
 // Function to adjust longitude to -180 to 180; input in radians
   adjust_lon : function(x) {
@@ -165,27 +173,33 @@ Proj4js.common = {
 
 // Latitude Isometrique - close to tsfnz ...
   latiso : function(eccent, phi, sinphi) {
-    if (Math.abs(phi) > this.HALF_PI) return +Number.NaN;
-    if (phi==this.HALF_PI) return Number.POSITIVE_INFINITY;
-    if (phi==-1.0*this.HALF_PI) return -1.0*Number.POSITIVE_INFINITY;
+    if (Math.abs(phi) > this.HALF_PI){
+      return Number.NaN;
+    }
+    if (phi===this.HALF_PI) {
+      return Number.POSITIVE_INFINITY;
+    }
+    if (phi===-1*this.HALF_PI) {
+      return Number.NEGATIVE_INFINITY;
+    }
 
-    var con= eccent*sinphi;
-    return Math.log(Math.tan((this.HALF_PI+phi)/2.0))+eccent*Math.log((1.0-con)/(1.0+con))/2.0;
+    var con = eccent*sinphi;
+    return Math.log(Math.tan((this.HALF_PI+phi)/2))+eccent*Math.log((1-con)/(1+con))/2;
   },
 
   fL : function(x,L) {
-    return 2.0*Math.atan(x*Math.exp(L)) - this.HALF_PI;
+    return 2*Math.atan(x*Math.exp(L)) - this.HALF_PI;
   },
 
 // Inverse Latitude Isometrique - close to ph2z
   invlatiso : function(eccent, ts) {
-    var phi= this.fL(1.0,ts);
-    var Iphi= 0.0;
-    var con= 0.0;
+    var phi= this.fL(1,ts);
+    var Iphi= 0;
+    var con= 0;
     do {
       Iphi= phi;
       con= eccent*Math.sin(Iphi);
-      phi= this.fL(Math.exp(eccent*Math.log((1.0+con)/(1.0-con))/2.0),ts);
+      phi= this.fL(Math.exp(eccent*Math.log((1+con)/(1-con))/2),ts);
     } while (Math.abs(phi-Iphi)>1.0e-12);
     return phi;
   },
@@ -196,50 +210,50 @@ Proj4js.common = {
   sinh : function(x)
   {
     var r= Math.exp(x);
-    r= (r-1.0/r)/2.0;
+    r= (r-1/r)/2;
     return r;
   },
 
   cosh : function(x)
   {
     var r= Math.exp(x);
-    r= (r+1.0/r)/2.0;
+    r= (r+1/r)/2;
     return r;
   },
 
   tanh : function(x)
   {
     var r= Math.exp(x);
-    r= (r-1.0/r)/(r+1.0/r);
+    r= (r-1/r)/(r+1/r);
     return r;
   },
 
   asinh : function(x)
   {
-    var s= (x>= 0? 1.0:-1.0);
-    return s*(Math.log( Math.abs(x) + Math.sqrt(x*x+1.0) ));
+    var s= (x>= 0? 1:-1);
+    return s*(Math.log( Math.abs(x) + Math.sqrt(x*x+1) ));
   },
 
   acosh : function(x)
   {
-    return 2.0*Math.log(Math.sqrt((x+1.0)/2.0) + Math.sqrt((x-1.0)/2.0));
+    return 2*Math.log(Math.sqrt((x+1)/2) + Math.sqrt((x-1)/2));
   },
 
   atanh : function(x)
   {
-    return Math.log((x-1.0)/(x+1.0))/2.0;
+    return Math.log((x-1)/(x+1))/2;
   },
 
 // Grande Normale
   gN : function(a,e,sinphi)
   {
     var temp= e*sinphi;
-    return a/Math.sqrt(1.0 - temp*temp);
+    return a/Math.sqrt(1 - temp*temp);
   },
   
   //code from the PROJ.4 pj_mlfn.c file;  this may be useful for other projections
   pj_enfn: function(es) {
-    var en = new Array();
+    var en = [];
     en[0] = this.C00 - es * (this.C02 + es * (this.C04 + es * (this.C06 + es * this.C08)));
     en[1] = es * (this.C22 - es * (this.C04 + es * (this.C06 + es * this.C08)));
     var t = es * es;
@@ -257,19 +271,20 @@ Proj4js.common = {
   },
   
   pj_inv_mlfn: function(arg, es, en) {
-    var k = 1./(1.-es);
+    var k = 1/(1-es);
     var phi = arg;
-    for (var i = Proj4js.common.MAX_ITER; i ; --i) { /* rarely goes over 2 iterations */
+    for (var i = proj4.common.MAX_ITER; i ; --i) { /* rarely goes over 2 iterations */
       var s = Math.sin(phi);
-      var t = 1. - es * s * s;
+      var t = 1 - es * s * s;
       //t = this.pj_mlfn(phi, s, Math.cos(phi), en) - arg;
       //phi -= t * (t * Math.sqrt(t)) * k;
       t = (this.pj_mlfn(phi, s, Math.cos(phi), en) - arg) * (t * Math.sqrt(t)) * k;
       phi -= t;
-      if (Math.abs(t) < Proj4js.common.EPSLN)
+      if (Math.abs(t) < proj4.common.EPSLN) {
         return phi;
+      }
     }
-    Proj4js.reportError("cass:pj_inv_mlfn: Convergence error");
+    proj4.reportError("cass:pj_inv_mlfn: Convergence error");
     return phi;
   },
 
@@ -280,53 +295,79 @@ Proj4js.common = {
   nad_intr: function(pin,ct) {
     // force computation by decreasing by 1e-7 to be as closed as possible
     // from computation under C:C++ by leveraging rounding problems ...
-    var t= {"x":(pin.x-1.e-7)/ct.del[0],"y":(pin.y-1e-7)/ct.del[1]};
-    var indx= {"x":Math.floor(t.x),"y":Math.floor(t.y)};
-    var frct= {"x":t.x-1.0*indx.x,"y":t.y-1.0*indx.y};
-    var val= {"x":Number.NaN,"y":Number.NaN};
+    var t= {
+      x:(pin.x-1.e-7)/ct.del[0],
+      y:(pin.y-1e-7)/ct.del[1]
+    };
+    var indx= {
+      x:Math.floor(t.x),
+      y:Math.floor(t.y)
+    };
+    var frct= {
+      x:t.x-1*indx.x,
+      y:t.y-1*indx.y
+    };
+    var val= {
+      x:Number.NaN,
+      y:Number.NaN
+    };
     var inx;
     if (indx.x<0) {
-      if (!(indx.x==-1 && frct.x>0.99999999999)) {
+      if (!(indx.x===-1 && frct.x>0.99999999999)) {
         return val;
       }
       ++indx.x;
-      frct.x= 0.0;
+      frct.x= 0;
     } else {
       inx= indx.x+1;
       if (inx>=ct.lim[0]) {
-        if (!(inx==ct.lim[0] && frct.x<1e-11)) {
+        if (!(inx===ct.lim[0] && frct.x<1e-11)) {
           return val;
         }
         --indx.x;
-        frct.x= 1.0;
+        frct.x= 1;
       }
     }
     if (indx.y<0) {
-      if (!(indx.y==-1 && frct.y>0.99999999999)) {
+      if (!(indx.y===-1 && frct.y>0.99999999999)) {
         return val;
       }
       ++indx.y;
-      frct.y= 0.0;
+      frct.y= 0;
     } else {
-      inx= indx.y+1;
+      inx = indx.y+1;
       if (inx>=ct.lim[1]) {
-        if (!(inx==ct.lim[1] && frct.y<1e-11)) {
+        if (!(inx === ct.lim[1] && frct.y<1e-11)) {
           return val;
         }
         --indx.y;
-        frct.y= 1.0;
+        frct.y= 1;
       }
     }
     inx= (indx.y*ct.lim[0])+indx.x;
-    var f00= {"x":ct.cvs[inx][0], "y":ct.cvs[inx][1]};
+    var f00= {
+      x:ct.cvs[inx][0],
+      y:ct.cvs[inx][1]
+    };
     inx++;
-    var f10= {"x":ct.cvs[inx][0], "y":ct.cvs[inx][1]};
+    var f10= {
+      x:ct.cvs[inx][0],
+      y:ct.cvs[inx][1]
+    };
     inx+= ct.lim[0];
-    var f11= {"x":ct.cvs[inx][0], "y":ct.cvs[inx][1]};
+    var f11= {
+      x:ct.cvs[inx][0],
+      y:ct.cvs[inx][1]
+    };
     inx--;
-    var f01= {"x":ct.cvs[inx][0], "y":ct.cvs[inx][1]};
-    var m11= frct.x*frct.y,             m10= frct.x*(1.0-frct.y),
-        m00= (1.0-frct.x)*(1.0-frct.y), m01= (1.0-frct.x)*frct.y;
+    var f01= {
+      x:ct.cvs[inx][0],
+      y:ct.cvs[inx][1]
+    };
+    var m11= frct.x*frct.y,
+      m10= frct.x*(1-frct.y),
+      m00= (1-frct.x)*(1-frct.y),
+      m01= (1-frct.x)*frct.y;
     val.x= (m00*f00.x + m10*f10.x + m01*f01.x + m11*f11.x);
     val.y= (m00*f00.y + m10*f10.y + m01*f01.y + m11*f11.y);
     return val;
@@ -342,8 +383,8 @@ Proj4js.common = {
     var tb= {"x":pin.x, "y":pin.y};
     tb.x-= ct.ll[0];
     tb.y-= ct.ll[1];
-    tb.x= Proj4js.common.adjust_lon(tb.x - Proj4js.common.PI) + Proj4js.common.PI;
-    var t= Proj4js.common.nad_intr(tb,ct);
+    tb.x= proj4.common.adjust_lon(tb.x - proj4.common.PI) + proj4.common.PI;
+    var t= proj4.common.nad_intr(tb,ct);
     if (inverse) {
       if (isNaN(t.x)) {
         return val;
@@ -353,7 +394,7 @@ Proj4js.common = {
       var i= 9, tol= 1e-12;
       var dif, del;
       do {
-        del= Proj4js.common.nad_intr(t,ct);
+        del= proj4.common.nad_intr(t,ct);
         if (isNaN(del.x)) {
           this.reportError("Inverse grid shift iteration failed, presumably at grid edge.  Using first approximation.");
           break;
@@ -366,12 +407,12 @@ Proj4js.common = {
         this.reportError("Inverse grid shift iterator failed to converge.");
         return val;
       }
-      val.x= Proj4js.common.adjust_lon(t.x+ct.ll[0]);
+      val.x= proj4.common.adjust_lon(t.x+ct.ll[0]);
       val.y= t.y+ct.ll[1];
     } else {
       if (!isNaN(t.x)) {
-          val.x= pin.x - t.x;
-          val.y= pin.y + t.y;
+        val.x= pin.x - t.x;
+        val.y= pin.y + t.y;
       }
     }
     return val;
@@ -382,17 +423,17 @@ Proj4js.common = {
 **		with typical major axis values.
 **	Inverse determines phi to EPS (1e-11) radians, about 1e-6 seconds.
 */
-  C00: 1.0,
-  C02: .25,
-  C04: .046875,
-  C06: .01953125,
-  C08: .01068115234375,
-  C22: .75,
-  C44: .46875,
-  C46: .01302083333333333333,
-  C48: .00712076822916666666,
-  C66: .36458333333333333333,
-  C68: .00569661458333333333,
-  C88: .3076171875  
+  C00: 1,
+  C02: 0.25,
+  C04: 0.046875,
+  C06: 0.01953125,
+  C08: 0.01068115234375,
+  C22: 0.75,
+  C44: 0.46875,
+  C46: 0.01302083333333333333,
+  C48: 0.00712076822916666666,
+  C66: 0.36458333333333333333,
+  C68: 0.00569661458333333333,
+  C88: 0.3076171875
 
 };

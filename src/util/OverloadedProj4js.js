@@ -9,22 +9,22 @@
  */
 
 /**
- * Namespace: Proj4js
- * Proj4js extensions : uses Ajax for loading scripts.
+ * Namespace: proj4
+ * proj4 extensions : uses Ajax for loading scripts.
  */
 
     /**
      * Property: ProxyHost
      * Proxy host url.
      */
-    Proj4js.ProxyHost= "";
+    proj4.ProxyHost= "";
 
     /**
      * Property: ProxyHostFQDN
      * Fully Qualified Domain Name of proxy host url. It also
      * contains the port.
      */
-    Proj4js.ProxyHostFQDN= null;
+    proj4.ProxyHostFQDN= null;
 
     /**
      * APIFunction: getFQDNForUrl
@@ -36,7 +36,7 @@
      * Returns:
      * [String} the FQDN.
      */
-    Proj4js.getFQDNForUrl= function(url) {
+    proj4.getFQDNForUrl= function(url) {
         if (url) {
             var pdn= url.match(/^[a-z]+:\/\/([^\/]+)\/?/i);
             if (pdn) {
@@ -57,9 +57,9 @@
      * Parameters:
      * url - {String}
      */
-    Proj4js.setProxyUrl= function(url) {
-        Proj4js.ProxyHost= url;
-        Proj4js.ProxyHostFQDN= this.getFQDNForUrl(url);
+    proj4.setProxyUrl= function(url) {
+        proj4.ProxyHost= url;
+        proj4.ProxyHostFQDN= this.getFQDNForUrl(url);
     };
 
     /**
@@ -76,7 +76,7 @@
      * Returns:
      * {*} The value returned by the first successfully executed function.
      */
-    Proj4js.Try= function() {
+    proj4.Try= function() {
         var returnValue = null;
 
         for (var i= 0, len=arguments.length; i<len; i++) {
@@ -102,14 +102,14 @@
      *            has loaded.  Typically this just checks for the existance of
      *            an object in the file just loaded.
      */
-    Proj4js.loadScript= function(url, onload, onfail, loadCheck) {
+    proj4.loadScript= function(url, onload, onfail, loadCheck) {
       // new transport to prevent IE caching ...
       var request= {
         loaded: false,
         onload: onload,
         onfail: onfail,
         loadCheck: loadCheck,
-        transport: Proj4js.Try(
+        transport: proj4.Try(
           function() {return new XMLHttpRequest();},
           function() {return new ActiveXObject('Msxml2.XMLHTTP');},
           function() {return new ActiveXObject('Microsoft.XMLHTTP');}
@@ -124,26 +124,26 @@
       // pollute cache
       var tick= "_tick_=" + new Date().getTime();
       url += (url.indexOf("?")+1 ? "&" : "?") + tick;
-      if (Proj4js.ProxyHost) {
-        if (url.indexOf(Proj4js.ProxyHost)!=0) {
+      if (proj4.ProxyHost) {
+        if (url.indexOf(proj4.ProxyHost)!=0) {
           if (url.search(/^[a-z]+:\/\//i)!=-1) {
             var udn= url.match(/^[a-z]+:\/\/([^\/]*)\/?/i); // file:///...
             if (udn) {
               udn= udn[1];
             }
-            if (Proj4js.ProxyHostFQDN!=udn) {
+            if (proj4.ProxyHostFQDN!=udn) {
               // try not to proxy on same domain, this cause errors
-              url= Proj4js.ProxyHost + encodeURIComponent(url);
+              url= proj4.ProxyHost + encodeURIComponent(url);
             }
           }
         }
       }
       request.transport.open("GET",url,false);// synchronous transport
-      request.transport.onreadystatechange = Proj4js.bind(this.onStateChange,this,request);
+      request.transport.onreadystatechange = proj4.bind(this.onStateChange,this,request);
       var headers= {
         'X-Requested-With': 'XMLHttpRequest',
         'Accept': 'text/javascript, text/html, application/xml, text/xml, */*',
-        'Proj4js': true
+        'proj4': true
       };
       for (var name in headers) {
         request.transport.setRequestHeader(name, headers[name]);
@@ -162,7 +162,7 @@
      * Parameters:
      * request - {Object} the current AJAX request.
      */
-    Proj4js.onStateChange= function (request) {
+    proj4.onStateChange= function (request) {
       if (request.transport.readyState>1 && !(request.transport.readyState==4 && request.loaded)) {
         var state= 0;
         try {
@@ -198,4 +198,4 @@
      * APIFunction: checkReadyState
      * Does nothing.
      */
-    Proj4js.checkReadyState= function() {};
+    proj4.checkReadyState= function() {};
