@@ -443,8 +443,8 @@ proj4.Class = function() {
 };
 
 (function(){
-	/*global module*/
-	if(typeof module !== 'undefined'){
-		module.exports = proj4;
-	}
+  /*global module*/
+  if(typeof module !== 'undefined'){
+    module.exports = proj4;
+  }
 })();
