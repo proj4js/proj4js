@@ -349,144 +349,14 @@ proj4.Proj = proj4.Class({
    *
    */
   parseDefs: function() {
-    var re = new RegExp('(title|proj|units|datum|nadgrids|' + 'ellps|a|b|rf|' + 'lat_0|lat_1|lat_2|lat_ts|lon_0|lon_1|lon_2|alpha|lonc|' + 'x_0|y_0|k_0|k|r_a|zone|south|' + 'towgs84|to_meter|from_greenwich|pm|axis|czech|' + 'wktext|no_rot|no_off|no_defs)');
     this.defData = proj4.defs[this.srsCode];
-    var paramName, paramVal;
     if (!this.defData) {
       return;
     }
-    var paramArray = this.defData.split("+");
-
-    for (var prop = 0; prop < paramArray.length; prop++) {
-      var property = paramArray[prop].split("=");
-      paramName = property[0].toLowerCase();
-      paramVal = property[1];
-
-      switch (paramName.replace(/\s/gi, "")) { // trim out spaces
-      case "":
-        break; // throw away nameless parameter
-        // DGR 2012-10-13 : + in title (EPSG:2056: CH1903+ / LV95)
-      case "title":
-        this.title = paramVal;
-        while (!paramArray[prop + 1].match(re)) {
-          this.title += '+' + paramArray[++prop];
-        }
-        break;
-      case "proj":
-        this.projName = paramVal.replace(/\s/gi, "");
-        break;
-      case "units":
-        this.units = paramVal.replace(/\s/gi, "");
-        break;
-      case "datum":
-        this.datumCode = paramVal.replace(/\s/gi, "");
-        break;
-        // DGR 2011-03-20 : nagrids -> nadgrids
-      case "nadgrids":
-        this.nadgrids = paramVal.replace(/\s/gi, "");
-        break; // DGR 2012-07-29
-      case "ellps":
-        this.ellps = paramVal.replace(/\s/gi, "");
-        break;
-      case "a":
-        this.a = parseFloat(paramVal);
-        break; // semi-major radius
-      case "b":
-        this.b = parseFloat(paramVal);
-        break; // semi-minor radius
-        // DGR 2007-11-20
-      case "rf":
-        this.rf = parseFloat(paramVal);
-        break; // inverse flattening rf= a/(a-b)
-      case "lat_0":
-        this.lat0 = paramVal * proj4.common.D2R;
-        break; // phi0, central latitude
-      case "lat_1":
-        this.lat1 = paramVal * proj4.common.D2R;
-        break; //standard parallel 1
-      case "lat_2":
-        this.lat2 = paramVal * proj4.common.D2R;
-        break; //standard parallel 2
-      case "lat_ts":
-        this.lat_ts = paramVal * proj4.common.D2R;
-        break; // used in merc and eqc
-      case "lon_0":
-        this.long0 = paramVal * proj4.common.D2R;
-        break; // lam0, central longitude
-      case "lon_1":
-        this.long1 = paramVal * proj4.common.D2R;
-        break;
-      case "lon_2":
-        this.long2 = paramVal * proj4.common.D2R;
-        break;
-      case "no_rot":
-        this.no_rot = true;
-        break;
-      case "no_off":
-        this.no_off = true;
-        break;
-      case "alpha":
-        this.alpha = parseFloat(paramVal) * proj4.common.D2R;
-        break; //for somerc projection
-      case "lonc":
-        this.longc = paramVal * proj4.common.D2R;
-        break; //for somerc projection
-      case "x_0":
-        this.x0 = parseFloat(paramVal);
-        break; // false easting
-      case "y_0":
-        this.y0 = parseFloat(paramVal);
-        break; // false northing
-      case "k_0":
-        this.k0 = parseFloat(paramVal);
-        break; // projection scale factor
-      case "k":
-        this.k0 = parseFloat(paramVal);
-        break; // both forms returned
-      case "r_a":
-        this.R_A = true;
-        break; // sphere--area of ellipsoid
-      case "zone":
-        this.zone = parseInt(paramVal, 10);
-        break; // UTM Zone
-      case "south":
-        this.utmSouth = true;
-        break; // UTM north/south
-      case "towgs84":
-        this.datum_params = paramVal.split(",");
-        break;
-      case "to_meter":
-        this.to_meter = parseFloat(paramVal);
-        break; // cartesian scaling
-      case "from_greenwich":
-        this.from_greenwich = paramVal * proj4.common.D2R;
-        break;
-      case "czech":
-        this.czech = true;
-        break;
-        // DGR 2008-07-09 : if pm is not a well-known prime meridian take
-        // the value instead of 0.0, then convert to radians
-      case "pm":
-        paramVal = paramVal.replace(/\s/gi, "");
-        this.from_greenwich = proj4.PrimeMeridian[paramVal] ? proj4.PrimeMeridian[paramVal] : parseFloat(paramVal);
-        this.from_greenwich *= proj4.common.D2R;
-        break;
-        // DGR 2010-11-12: axis
-      case "axis":
-        paramVal = paramVal.replace(/\s/gi, "");
-        var legalAxis = "ewnsud";
-        if (paramVal.length === 3 && legalAxis.indexOf(paramVal.substr(0, 1)) !== -1 && legalAxis.indexOf(paramVal.substr(1, 1)) !== -1 && legalAxis.indexOf(paramVal.substr(2, 1)) !== -1) {
-          this.axis = paramVal;
-        } //FIXME: be silent ?
-        break;
-      case "wktext":
-        break; //DGR 2012-07-29
-      case "no_defs":
-        break;
-      default:
-        //alert("Unrecognized parameter: " + paramName);
-      } // switch()
-    } // for paramArray
+    var key;
+    for(key in this.defData){
+      this[key]=this.defData[key];
+    }
     this.deriveConstants();
   },
 

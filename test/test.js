@@ -112,7 +112,7 @@ describe('proj4', function () {
 	describe('errors',function(){
 		it('should throw an error for an unknown ref',function(){
 			assert.throws(function(){
-				new proj4.Proj('EPSG:23030');
+				new proj4.Proj('fake one');
 			},'unknown projection','should work');
 		});
 	})

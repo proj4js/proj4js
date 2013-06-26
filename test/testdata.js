@@ -1,19 +1,11 @@
 // a set of points in map XY and Lon/Lat that are supposed to correspond between
 // forward and invers transforms
-proj4.defs["EPSG:54003"] = "+proj=mill +lat_0=0 +lon_0=0 +x_0=0 +y_0=0 +R_A +ellps=WGS84 +datum=WGS84 +units=m +no_defs";
-proj4.defs["EPSG:54008"] = "+proj=sinu +lon_0=0 +x_0=0 +y_0=0 +ellps=WGS84 +datum=WGS84 +units=m  no_defs";
-proj4.defs["EPSG:54029"] = "+proj=vandg +lon_0=0 +x_0=0 +y_0=0 +R_A +ellps=WGS84 +datum=WGS84 +units=m +no_defs";
-proj4.defs["EPSG:2303X"] = "+proj=utm +zone=30 +ellps=intl +units=m +towgs84=-157.89,-17.16,-78.41,2.118,2.697,-1.434,-1.1097046576093785 +no_defs ";
-proj4.defs["EPSG:3035"] = "+proj=laea +lat_0=52 +lon_0=10 +x_0=4321000 +y_0=3210000 +ellps=GRS80 +units=m +no_defs";
-proj4.defs["EPSG:54009"] = "+proj=moll +lon_0=0 +units=m";
-proj4.defs["EPSG:28191"] = "+proj=cass +lat_0=31.73409694444445 +lon_0=35.21208055555556 +x_0=170251.555 +y_0=126867.909 +a=6378300.789 +b=6356566.435 +towgs84=-275.722,94.7824,340.894,-8.001,-4.42,-11.821,1 +units=m +no_defs";
-proj4.defs["EPSG:2958"] = "+proj=utm +zone=17 +ellps=GRS80 +units=m +no_defs";
-proj4.defs["EPSG:102018"] = "+proj=gnom +lat_0=90 +lon_0=0 +x_0=6300000 +y_0=6300000 +ellps=WGS84 +datum=WGS84 +units=m +no_defs";
-proj4.defs["ESRI:102026"] = "+proj=eqdc +lat_0=0 +lon_0=0 +lat_1=15 +lat_2=65 +x_0=0 +y_0=0 +ellps=WGS84 +datum=WGS84 +units=m +no_defs";
-proj4.defs["EPSG:26986"] = "+proj=lcc +lat_1=42.68333333333333 +lat_2=41.71666666666667 +lat_0=41 +lon_0=-71.5 +x_0=200000 +y_0=750000 +ellps=GRS80 +datum=NAD83 +units=m +no_defs";
-proj4.defs["EPSG:102067"] = "+title=Krovak +proj=krovak +lat_0=49.5 +lon_0=42.5 +alpha=30.28813972222222 +k=0.9999 +x_0=0 +y_0=0 +ellps=bessel +pm=ferro +units=m +towgs84=570.8,85.7,462.8,4.998,1.587,5.261,3.56 +czech +no_defs";
-proj4.defs["EPSG:21781"] = "+proj=somerc +lat_0=46.95240555555556 +lon_0=7.439583333333333 +k_0=1 +x_0=600000 +y_0=200000 +ellps=bessel +towgs84=674.374,15.056,405.346,0,0,0,0 +units=m +no_defs";
-/*
+proj4.defs([
+  ["EPSG:54008","+proj=sinu +lon_0=0 +x_0=0 +y_0=0 +ellps=WGS84 +datum=WGS84 +units=m  no_defs"],
+  ["EPSG:54009", "+proj=moll +lon_0=0 +units=m"],
+  ["EPSG:102018", "+proj=gnom +lat_0=90 +lon_0=0 +x_0=6300000 +y_0=6300000 +ellps=WGS84 +datum=WGS84 +units=m +no_defs"],
+  ["ESRI:102026", "+proj=eqdc +lat_0=0 +lon_0=0 +lat_1=15 +lat_2=65 +x_0=0 +y_0=0 +ellps=WGS84 +datum=WGS84 +units=m +no_defs"]
+]);/*
 proj4.defs["WKT0"] = 'PROJCS["HARN/WI.SheboyganWI-M",GEOGCS["HARN/WI.LL",DATUM["HARN/WI",SPHEROID["GRS1980",6378137.000,298.25722210],TOWGS84[0.0000,0.0000,0.0000,0.000000,0.000000,0.000000,0.00000000]],PRIMEM["Greenwich",0],UNIT["Degree",0.017453292519943295]],PROJECTION["Transverse Mercator, Wisconsin County Variation"],PARAMETER["false_easting",79857.760],PARAMETER["false_northing",0.000],PARAMETER["scale_factor",1.000000000000],PARAMETER["central_meridian",-87.55000000000000],PARAMETER["latitude_of_origin",43.26666666670000],PARAMETER["Average Geoid Height (meters)",-34.0200],PARAMETER["Average Elevation (system unit)",182.8800],UNIT["Meter",1.00000000000000]]';
 proj4.defs["WKT1"] = 'GEOGCS["WGS84 Lat/Long Degrees -180 ==> +180",DATUM["D_WGS_1984",SPHEROID["World_Geodetic_System_of_1984",6378137,298.257222932867]],PRIMEM["Greenwich",0],UNIT["Degree",0.017453292519943295]]',
 proj4.defs["WKT2"] = 'PROJCS["ALG-S-AN",GEOGCS["VOIR1875",DATUM["VOIR1875",SPHEROID["CLRK-IGN",6378249.200,293.46602129],TOWGS84[-73.0000,-247.0000,227.0000,0.000000,0.000000,0.000000,0.00000000]],PRIMEM["Greenwich",0],UNIT["Degree",0.017453292519943295]],PROJECTION["Lambert Tangential Conformal Conic Projection"],PARAMETER["false_easting",500000.000],PARAMETER["false_northing",300000.000],PARAMETER["scale_factor",0.999625800000],PARAMETER["central_meridian",2.70000000000000],PARAMETER["latitude_of_origin",33.30000000000000],UNIT["Meter",1.00000000000000]]',
@@ -24,7 +16,7 @@ proj4.defs["WKT5"] = 'PROJCS["SVY21",GEOGCS["SVY21[WGS84]",DATUM["D_WGS_1984",SP
 
 var testPoints = [
   {code: 'EPSG:21781',
-    xy: [660389.515487, 185731.630396],
+    xy: [660389.4751110513, 185731.68482649108],
     ll: [8.23, 46.82]
   },
   {code: 'EPSG:26986',
