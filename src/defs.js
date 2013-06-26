@@ -12,6 +12,8 @@ proj4.defs = function(name) {
           proj4.defs(v);
         }
       });
+    }else if(typeof name === 'string'){
+      
     }else if('EPSG' in name){
       proj4.defs['EPSG:'+name.EPSG]=name;
     }else{
@@ -131,6 +133,6 @@ proj4.defs = function(name) {
   }
   proj4.defs[name] = self;
 };
-// These are so widely used, we'll go ahead and throw them in
-// without requiring a separate .js file
-
+proj4.defToJson = function(str){
+  return JSON.stringify(proj4.defs[str]);
+};
