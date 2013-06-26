@@ -3,21 +3,21 @@ module.exports = function(grunt) {
 		pkg: grunt.file.readJSON('package.json'),
 		concat:{
 			full:{
-				src:[ './src/Proj4.js','./src/Proj.js','./src/defs.js','./src/common.js','./src/datum.js','./src/Point.js','./src/constants.js','./src/projCode/*.js','./src/defs/*.js','./src/util/MGRS.js'],
+				src:[ './src/Proj4.js','./src/common.js','./src/Proj.js','./src/defs.js','src/defs/bigDefs.js','src/defs/smallDefs.js','./src/datum.js','./src/Point.js','./src/constants.js','./src/projCode/*.js','./src/util/MGRS.js'],
 				dest:'./dist/proj4.js'
 			},
 			noDefs:{
-				src:[ './src/Proj4.js','./src/Proj.js','./src/defs.js','./src/common.js','./src/datum.js','./src/Point.js','./src/constants.js','./src/projCode/*.js','./src/defs/GOOGLE.js'],
+				src:[ './src/Proj4.js','./src/common.js','./src/Proj.js','./src/defs.js','src/defs/smallDefs.js','./src/datum.js','./src/Point.js','./src/constants.js','./src/projCode/*.js','./src/defs/GOOGLE.js'],
 				dest:'./dist/proj4-noDefs.js'
 			}
 		},
 		uglify:{
 			full:{
-				src:[ './src/Proj4.js','./src/Proj.js','./src/defs.js','./src/common.js','./src/datum.js','./src/Point.js','./src/constants.js','./src/projCode/*.js','./src/defs/*.js','./src/util/MGRS.js'],
+				src:[ './src/Proj4.js','./src/common.js','./src/Proj.js','./src/defs.js','src/defs/bigDefs.js','src/defs/smallDefs.js','./src/datum.js','./src/Point.js','./src/constants.js','./src/projCode/*.js','./src/util/MGRS.js'],
 				dest:'./dist/proj4.min.js'
 			},
 			noDefs:{
-				src:[ './src/Proj4.js','./src/Proj.js','./src/defs.js','./src/common.js','./src/datum.js','./src/Point.js','./src/constants.js','./src/projCode/*.js','./src/defs/GOOGLE.js'],
+				src:[ './src/Proj4.js','./src/common.js','./src/Proj.js','./src/defs.js','src/defs/smallDefs.js','./src/datum.js','./src/Point.js','./src/constants.js','./src/projCode/*.js','./src/defs/GOOGLE.js'],
 				dest:'./dist/proj4-noDefs.min.js'
 			}
 		},
@@ -52,7 +52,7 @@ module.exports = function(grunt) {
           proj4: true
         }
 			},
-			before: [ './src/Proj4.js','./src/Proj.js','./src/defs.js','./src/common.js','./src/datum.js','./src/Point.js','./src/constants.js','./src/projCode/*.js','./src/defs/*.js','./src/util/MGRS.js'],
+			before: [ './src/Proj4.js','./src/Proj.js','./src/defs.js','./src/common.js','./src/datum.js','./src/Point.js','./src/constants.js','./src/projCode/*.js','./src/util/MGRS.js'],
       after: [ './dist/proj4.js']
 		}
 	});
