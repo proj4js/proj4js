@@ -3,7 +3,7 @@ var xyEPSLN = 1.0e-2;
   var llEPSLN = 1.0e-6;
 describe('proj4', function () {
     describe('core',function(){
-	testPoints.forEach(function(testPoint){
+  testPoints.forEach(function(testPoint){
         describe(testPoint.code,function(){
             describe('traditional',function(){
 		        it('should work with forwards', function () {
@@ -160,12 +160,20 @@ describe('proj4', function () {
 	});
 	describe('wkt',function(){
 		aWKT.forEach(function(wkt){
-			it('should work with '+wkt.name,function(){
+      describe(wkt.name,function(){
+			it('should work with ',function(){
 				var testProj = new proj4.Proj(wkt.wkt);
 				assert.equal(testProj.srsCode,wkt.name,'correct name');
 				assert.equal(testProj.units,wkt.units,'correct units');
 				assert.equal(testProj.projName,wkt.proj,'correct type')
 			});
+      if(wkt.code){
+        it('should work with to project'+wkt.name,function(){
+          assert.equal(proj4(wkt.code,[0,0])[0],proj4(wkt.wkt,[0,0])[0],'work with x');
+          assert.equal(proj4(wkt.code,[0,0])[1],proj4(wkt.wkt,[0,0])[1],'work with y');
+        });
+      }
+      });
 		});
 	});
 });
