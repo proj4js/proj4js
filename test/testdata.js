@@ -3,8 +3,7 @@
 proj4.defs([
   ["EPSG:54008","+proj=sinu +lon_0=0 +x_0=0 +y_0=0 +ellps=WGS84 +datum=WGS84 +units=m  no_defs"],
   ["EPSG:54009", "+proj=moll +lon_0=0 +units=m"],
-  ["EPSG:102018", "+proj=gnom +lat_0=90 +lon_0=0 +x_0=6300000 +y_0=6300000 +ellps=WGS84 +datum=WGS84 +units=m +no_defs"],
-  ["ESRI:102026", "+proj=eqdc +lat_0=0 +lon_0=0 +lat_1=15 +lat_2=65 +x_0=0 +y_0=0 +ellps=WGS84 +datum=WGS84 +units=m +no_defs"]
+  ["EPSG:102018", "+proj=gnom +lat_0=90 +lon_0=0 +x_0=6300000 +y_0=6300000 +ellps=WGS84 +datum=WGS84 +units=m +no_defs"]//,
 ]);/*
 proj4.defs["WKT0"] = 'PROJCS["HARN/WI.SheboyganWI-M",GEOGCS["HARN/WI.LL",DATUM["HARN/WI",SPHEROID["GRS1980",6378137.000,298.25722210],TOWGS84[0.0000,0.0000,0.0000,0.000000,0.000000,0.000000,0.00000000]],PRIMEM["Greenwich",0],UNIT["Degree",0.017453292519943295]],PROJECTION["Transverse Mercator, Wisconsin County Variation"],PARAMETER["false_easting",79857.760],PARAMETER["false_northing",0.000],PARAMETER["scale_factor",1.000000000000],PARAMETER["central_meridian",-87.55000000000000],PARAMETER["latitude_of_origin",43.26666666670000],PARAMETER["Average Geoid Height (meters)",-34.0200],PARAMETER["Average Elevation (system unit)",182.8800],UNIT["Meter",1.00000000000000]]';
 proj4.defs["WKT1"] = 'GEOGCS["WGS84 Lat/Long Degrees -180 ==> +180",DATUM["D_WGS_1984",SPHEROID["World_Geodetic_System_of_1984",6378137,298.257222932867]],PRIMEM["Greenwich",0],UNIT["Degree",0.017453292519943295]]',
