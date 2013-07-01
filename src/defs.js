@@ -16,6 +16,10 @@ proj4.defs = function(name) {
       
     }else if('EPSG' in name){
       proj4.defs['EPSG:'+name.EPSG]=name;
+    }else if('ESRI' in name){
+      proj4.defs['ESRI:'+name.ESRI]=name;
+    }else if('IAU2000' in name){
+      proj4.defs['IAU2000:'+name.IAU2000]=name;
     }else{
       console.log(name);
     }
