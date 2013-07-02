@@ -69,32 +69,10 @@ proj4.Proj = proj4.Class({
    * srsCode - a code for map projection definition parameters.  These are usually
    * (but not always) EPSG codes.
    */
-  initialize: function(srsCode, callback) {
+  initialize: function(srsCode) {
     this.srsCodeInput = srsCode;
 
-    //Register callbacks prior to attempting to process definition
-    this.queue = [];
-    if (callback) {
-      this.queue.push(callback);
-    }
-
-    //check to see if this is a WKT string
-    if ((srsCode.indexOf('GEOGCS') >= 0) || (srsCode.indexOf('GEOCCS') >= 0) || (srsCode.indexOf('PROJCS') >= 0) || (srsCode.indexOf('LOCAL_CS') >= 0)) {
-      proj4.extend(this, this.parseWKT(srsCode));
-      this.deriveConstants();
-      //this.loadProjCode(this.projName);
-
-    }
-    else {
-
-      // DGR 2008-08-03 : support urn and url
-      if (srsCode.indexOf('urn:') === 0) {
-        //urn:ORIGINATOR:def:crs:CODESPACE:VERSION:ID
-        var urn = srsCode.split(':');
-        if ((urn[1] === 'ogc' || urn[1] === 'x-ogc') && (urn[2] === 'def') && (urn[3] === 'crs')) {
-          srsCode = urn[4] + ':' + urn[urn.length - 1];
-        }
-      }
+    if(srsCode in proj4.defs){
       this.srsCode = srsCode.toUpperCase();
       if (this.srsCode.indexOf("EPSG") === 0) {
         this.srsCode = this.srsCode;
@@ -113,13 +91,22 @@ proj4.Proj = proj4.Class({
         this.srsAuth = 'CRS';
         this.srsProjNumber = this.srsCode.substring(4);
       }
-      else {
-        this.srsAuth = '';
-        this.srsProjNumber = this.srsCode;
-      }
+    }else if ((srsCode.indexOf('GEOGCS') >= 0) || (srsCode.indexOf('GEOCCS') >= 0) || (srsCode.indexOf('PROJCS') >= 0) || (srsCode.indexOf('LOCAL_CS') >= 0)) {
+      proj4.extend(this, this.parseWKT(srsCode));
+      this.deriveConstants();
+      //this.loadProjCode(this.projName);
 
-      this.parseDefs();
+    } else {
+      // DGR 2008-08-03 : support urn and url
+      if (srsCode.indexOf('urn:') === 0) {
+        //urn:ORIGINATOR:def:crs:CODESPACE:VERSION:ID
+        var urn = srsCode.split(':');
+        if ((urn[1] === 'ogc' || urn[1] === 'x-ogc') && (urn[2] === 'def') && (urn[3] === 'crs')) {
+          srsCode = urn[4] + ':' + urn[urn.length - 1];
+        }
+      }
     }
+    this.parseDefs();
     this.initTransforms();
   },
 
@@ -147,7 +134,7 @@ proj4.Proj = proj4.Class({
    * Parses a WKT string to get initialization parameters
    *
    */
-  parseWKT: function(wkt,self) {
+  wktToObj:function(wkt,self){
     var wktMatch = wkt.match(/^(\w+)\[(.*)\]$/);
     self = self || {};
     if (!wktMatch){
@@ -200,83 +187,13 @@ proj4.Proj = proj4.Class({
     //self is grotesque -cwm
     var name, value;
     switch (wktObject) {
-    case 'LOCAL_CS':
-      self.projName = 'identity';
-      self.localCS = true;
-      self.srsCode = wktName;
-      break;
-    case 'GEOGCS':
-      self.projName = 'longlat';
-      self.geocsCode = wktName;
-      if (!self.srsCode){
-        self.srsCode = wktName;
-      }
-      break;
-    case 'PROJCS':
-      self.srsCode = wktName;
-      break;
-    case 'GEOCCS':
-      break;
-    case 'PROJECTION':
-      self.projName = proj4.wktProjections[wktName];
-      break;
-    case 'DATUM':
-      self.datumName = wktName;
-      break;
-    case 'LOCAL_DATUM':
-      self.datumCode = 'none';
-      break;
-    case 'SPHEROID':
-      self.ellps = wktName;
-      self.a = parseFloat(wktArray.shift());
-      self.rf = parseFloat(wktArray.shift());
-      break;
-    case 'PRIMEM':
-      self.from_greenwich = parseFloat(wktArray.shift()); //to radians?
-      break;
-    case 'UNIT':
-      self.units = wktName;
-      self.unitsPerMeter = parseFloat(wktArray.shift());
-      break;
     case 'PARAMETER':
       name = wktName.toLowerCase();
       value = parseFloat(wktArray.shift());
       //there may be many variations on the wktName values, add in case
       //statements as required
-      switch (name) {
-      case 'false_easting':
-        self.x0 = value;
-        break;
-      case 'false_northing':
-        self.y0 = value;
-        break;
-      case 'scale_factor':
-        self.k0 = value;
-        break;
-      case 'central_meridian':
-        self.long0 = value * proj4.common.D2R;
-        break;
-      case 'longitude_of_center':
-        self.long0 = value * proj4.common.D2R;
-        break;
-      case 'latitude_of_origin':
-        self.lat0 = value * proj4.common.D2R;
-        break;
-      case 'latitude_of_center':
-        self.lat0 = value * proj4.common.D2R;
-        break;
-      case 'standard_parallel_1':
-        self.lat1 = value * proj4.common.D2R;
-        break;
-      case 'standard_parallel_2':
-        self.lat2 = value * proj4.common.D2R;
-        break;
-      }
+      self[name]=value;
       break;
-    case 'TOWGS84':
-      self.datum_params = wktArray;
-      break;
-      //DGR 2010-11-12: AXIS
     case 'AXIS':
       name = wktName.toLowerCase();
       value = wktArray.shift();
@@ -315,11 +232,16 @@ proj4.Proj = proj4.Class({
         break;
       }
       break;
+    default:
+      self[wktObject] = wktName;
     }
     for (var j = 0; j < wktArray.length; ++j) {
       this.parseWKT(wktArray[j],self);
     }
     return self;
+  },
+  parseWKT: function(wkt,self) {
+    return this.wktToObj(wkt,self);
   },
 
   /**
