@@ -294,7 +294,8 @@ proj4.wktProjections = {
   "Transverse_Mercator": "tmerc",
   "Transverse Mercator": "tmerc",
   "Lambert Azimuthal Equal Area": "laea",
-  "Universal Transverse Mercator System": "utm"
+  "Universal Transverse Mercator System": "utm",
+  "Hotine_Oblique_Mercator_Azimuth_Center":"somerc"
 };
 
 // Based on proj4 CTABLE  structure :

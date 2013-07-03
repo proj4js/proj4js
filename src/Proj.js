@@ -69,52 +69,10 @@ proj4.Proj = proj4.Class({
    * srsCode - a code for map projection definition parameters.  These are usually
    * (but not always) EPSG codes.
    */
-  initialize: function(srsCode, callback) {
+  initialize: function(srsCode) {
     this.srsCodeInput = srsCode;
 
-    //Register callbacks prior to attempting to process definition
-    this.queue = [];
-    if (callback) {
-      this.queue.push(callback);
-    }
-
-    //check to see if this is a WKT string
-    if ((srsCode.indexOf('GEOGCS') >= 0) || (srsCode.indexOf('GEOCCS') >= 0) || (srsCode.indexOf('PROJCS') >= 0) || (srsCode.indexOf('LOCAL_CS') >= 0)) {
-      this.parseWKT(srsCode);
-      this.deriveConstants();
-      //this.loadProjCode(this.projName);
-
-    }
-    else {
-
-      // DGR 2008-08-03 : support urn and url
-      if (srsCode.indexOf('urn:') === 0) {
-        //urn:ORIGINATOR:def:crs:CODESPACE:VERSION:ID
-        var urn = srsCode.split(':');
-        if ((urn[1] === 'ogc' || urn[1] === 'x-ogc') && (urn[2] === 'def') && (urn[3] === 'crs')) {
-          srsCode = urn[4] + ':' + urn[urn.length - 1];
-        }
-      }
-      else if (srsCode.indexOf('http://') === 0) {
-        //url#ID
-        var url = srsCode.split('#');
-        if (url[0].match(/epsg.org/)) {
-          // http://www.epsg.org/#
-          srsCode = 'EPSG:' + url[1];
-        }
-        else if (url[0].match(/RIG.xml/)) {
-          //http://librairies.ign.fr/geoportail/resources/RIG.xml#
-          //http://interop.ign.fr/registers/ign/RIG.xml#
-          srsCode = 'IGNF:' + url[1];
-        }
-        else if (url[0].indexOf('/def/crs/') !== -1) {
-          // http://www.opengis.net/def/crs/EPSG/0/code
-          url = srsCode.split('/');
-          srsCode = url.pop(); //code
-          url.pop(); //version FIXME
-          srsCode = url.pop() + ':' + srsCode; //authority
-        }
-      }
+    if(srsCode in proj4.defs){
       this.srsCode = srsCode.toUpperCase();
       if (this.srsCode.indexOf("EPSG") === 0) {
         this.srsCode = this.srsCode;
@@ -133,13 +91,22 @@ proj4.Proj = proj4.Class({
         this.srsAuth = 'CRS';
         this.srsProjNumber = this.srsCode.substring(4);
       }
-      else {
-        this.srsAuth = '';
-        this.srsProjNumber = this.srsCode;
-      }
+    }else if ((srsCode.indexOf('GEOGCS') >= 0) || (srsCode.indexOf('GEOCCS') >= 0) || (srsCode.indexOf('PROJCS') >= 0) || (srsCode.indexOf('LOCAL_CS') >= 0)) {
+      proj4.extend(this, this.parseWKT(srsCode));
+      this.deriveConstants();
+      //this.loadProjCode(this.projName);
 
-      this.parseDefs();
+    } else {
+      // DGR 2008-08-03 : support urn and url
+      if (srsCode.indexOf('urn:') === 0) {
+        //urn:ORIGINATOR:def:crs:CODESPACE:VERSION:ID
+        var urn = srsCode.split(':');
+        if ((urn[1] === 'ogc' || urn[1] === 'x-ogc') && (urn[2] === 'def') && (urn[3] === 'crs')) {
+          srsCode = urn[4] + ':' + urn[urn.length - 1];
+        }
+      }
     }
+    this.parseDefs();
     this.initTransforms();
   },
 
@@ -167,180 +134,90 @@ proj4.Proj = proj4.Class({
    * Parses a WKT string to get initialization parameters
    *
    */
-  wktRE: /^(\w+)\[(.*)\]$/,
+  wktToObj:function(wkt){
+    function flatten(a){
+      var out = [];
+      a.forEach(function(v){
+        if(Array.isArray(v)){
+          out = out.concat(v);
+        }else{
+          out.push(v);
+        }
+      });
+      if(out.every(function(aa){
+        return !Array.isArray(aa);
+      })){
+        return out;
+      }
+      return flatten(out);
+    }
+    function mapit(obj,key,v){
+      obj[key]=v.map(function(aa){
+              var o = {};
+              fromLisp(aa,o);
+              return o;
+            }).reduce(function(a,b){
+              return proj4.extend(a,b);
+            },{});
+    }
+    function fromLisp(v,obj){
+      var key;
+      if(!Array.isArray(v)){
+        obj[v]=true;
+        return;
+      }else{
+        key = v.shift();
+        if(key === 'PARAMETER'){
+          key = v.shift();
+        }
+        if(v.length === 1){
+          if(Array.isArray(v[0])){
+            obj[key]={};
+            fromLisp(v[0],obj[key]);
+          }else{
+            obj[key]=v[0];
+          }
+        }else if(!v.length){
+          obj[key]=true;
+        }else if(key === 'TOWGS84'){
+          obj[key]=v;
+        }else{
+          obj[key]={};
+          if(['UNIT','PRIMEM','VERT_DATUM'].indexOf(key)>-1){
+            obj[key]={name:v[0],convert:v[1]};
+            if(v.length===3){
+              obj[key].auth = v[2];
+            }
+          }else if(key==='SPHEROID'){
+            obj[key]={name:v[0],a:v[1],rf:v[2]};
+            if(v.length===4){
+              obj[key].auth = v[3];
+            }
+          }else if(['GEOGCS','GEOCCS','DATUM','VERT_CS','COMPD_CS','LOCAL_CS','FITTED_CS','LOCAL_DATUM'].indexOf(key)>-1){
+            v[0]=['name',v[0]];
+            mapit(obj,key,v);
+          }else if(v.every(function(aa){return Array.isArray(aa);})){
+            mapit(obj,key,v);
+          }else{
+            fromLisp(v,obj[key]);
+          }
+        }
+      }
+    }
+    //this causes cancer
+    flatten([]);
+    var lisp = JSON.parse((","+wkt).replace(/\,([A-Z_]+?)(\[)/g,',["$1",').slice(1).replace(/\,([A-Z_]+?)\]/g,',"$1"]'));
+    var type = lisp.shift();
+    var name = lisp.shift();
+    lisp.unshift(['name',name]);
+    lisp.unshift(['type',type]);
+    lisp.unshift('stuff');
+    var obj = {};
+    fromLisp(lisp,obj);
+    return obj.stuff;
+  },
   parseWKT: function(wkt) {
-    var wktMatch = wkt.match(this.wktRE);
-    if (!wktMatch){
-      return;
-    }
-    var wktObject = wktMatch[1];
-    var wktContent = wktMatch[2];
-    var wktTemp = wktContent.split(",");
-    var wktName;
-    if (wktObject.toUpperCase() === "TOWGS84") {
-      wktName = wktObject; //no name supplied for the TOWGS84 array
-    }
-    else {
-      wktName = wktTemp.shift();
-    }
-    wktName = wktName.replace(/^\"/, "");
-    wktName = wktName.replace(/\"$/, "");
-
-    /*
-    wktContent = wktTemp.join(",");
-    var wktArray = wktContent.split("],");
-    for (var i=0; i<wktArray.length-1; ++i) {
-      wktArray[i] += "]";
-    }
-    */
-
-    var wktArray = [];
-    var bkCount = 0;
-    var obj = "";
-    for (var i = 0; i < wktTemp.length; ++i) {
-      var token = wktTemp[i];
-      for (var j2 = 0; j2 < token.length; ++j2) {
-        if (token.charAt(j2) === "["){
-          ++bkCount;
-        }
-        if (token.charAt(j2) === "]"){
-          --bkCount;
-        }
-      }
-      obj += token;
-      if (bkCount === 0) {
-        wktArray.push(obj);
-        obj = "";
-      }
-      else {
-        obj += ",";
-      }
-    }
-
-    //this is grotesque -cwm
-    var name, value;
-    switch (wktObject) {
-    case 'LOCAL_CS':
-      this.projName = 'identity';
-      this.localCS = true;
-      this.srsCode = wktName;
-      break;
-    case 'GEOGCS':
-      this.projName = 'longlat';
-      this.geocsCode = wktName;
-      if (!this.srsCode){
-        this.srsCode = wktName;
-      }
-      break;
-    case 'PROJCS':
-      this.srsCode = wktName;
-      break;
-    case 'GEOCCS':
-      break;
-    case 'PROJECTION':
-      this.projName = proj4.wktProjections[wktName];
-      break;
-    case 'DATUM':
-      this.datumName = wktName;
-      break;
-    case 'LOCAL_DATUM':
-      this.datumCode = 'none';
-      break;
-    case 'SPHEROID':
-      this.ellps = wktName;
-      this.a = parseFloat(wktArray.shift());
-      this.rf = parseFloat(wktArray.shift());
-      break;
-    case 'PRIMEM':
-      this.from_greenwich = parseFloat(wktArray.shift()); //to radians?
-      break;
-    case 'UNIT':
-      this.units = wktName;
-      this.unitsPerMeter = parseFloat(wktArray.shift());
-      break;
-    case 'PARAMETER':
-      name = wktName.toLowerCase();
-      value = parseFloat(wktArray.shift());
-      //there may be many variations on the wktName values, add in case
-      //statements as required
-      switch (name) {
-      case 'false_easting':
-        this.x0 = value;
-        break;
-      case 'false_northing':
-        this.y0 = value;
-        break;
-      case 'scale_factor':
-        this.k0 = value;
-        break;
-      case 'central_meridian':
-        this.long0 = value * proj4.common.D2R;
-        break;
-      case 'latitude_of_origin':
-        this.lat0 = value * proj4.common.D2R;
-        break;
-      case 'more_here':
-        break;
-      default:
-        break;
-      }
-      break;
-    case 'TOWGS84':
-      this.datum_params = wktArray;
-      break;
-      //DGR 2010-11-12: AXIS
-    case 'AXIS':
-      name = wktName.toLowerCase();
-      value = wktArray.shift();
-      switch (value) {
-      case 'EAST':
-        value = 'e';
-        break;
-      case 'WEST':
-        value = 'w';
-        break;
-      case 'NORTH':
-        value = 'n';
-        break;
-      case 'SOUTH':
-        value = 's';
-        break;
-      case 'UP':
-        value = 'u';
-        break;
-      case 'DOWN':
-        value = 'd';
-        break;
-        //case 'OTHER': 
-      default:
-        value = ' ';
-        break; //FIXME
-      }
-      if (!this.axis) {
-        this.axis = "enu";
-      }
-      switch (name) {
-      case 'x':
-        this.axis = value + this.axis.substr(1, 2);
-        break;
-      case 'y':
-        this.axis = this.axis.substr(0, 1) + value + this.axis.substr(2, 1);
-        break;
-      case 'z':
-        this.axis = this.axis.substr(0, 2) + value;
-        break;
-      default:
-        break;
-      }
-      break;
-    case 'MORE_HERE':
-      break;
-    default:
-      break;
-    }
-    for (var j = 0; j < wktArray.length; ++j) {
-      this.parseWKT(wktArray[j]);
-    }
+    return this.wktToObj(wkt);
   },
 
   /**
@@ -353,10 +230,7 @@ proj4.Proj = proj4.Class({
     if (!this.defData) {
       return;
     }
-    var key;
-    for(key in this.defData){
-      this[key]=this.defData[key];
-    }
+    proj4.extend(this, this.defData);
     this.deriveConstants();
   },
 

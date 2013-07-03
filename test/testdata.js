@@ -67,7 +67,7 @@ var testPoints = [
     ll: [-32, 48, 0]
   },
   {code: 'EPSG:2403',
-    xy: [27500000.00,	4198690.08, -109.02],
+    xy: [27500000.00,  4198690.08, -109.02],
     ll: [81, 37.92, 0] 
   },
   {code: 'EPSG:21781',
@@ -140,7 +140,7 @@ var testPoints = [
     ll: [13.33333333333, 47.5]
   },
   {code: 'EPSG:2736',
-    xy: [603933.40,	7677505.64],
+    xy: [603933.40,  7677505.64],
     ll: [34.0, -21.0]
   },
   {code: 'EPSG:42304',
@@ -196,5 +196,12 @@ var aWKT = [
 	units:"Foot_US",
 	proj:'lcc',
 	wkt:'PROJCS["NAD_1983_StatePlane_Massachusetts_Mainland_FIPS_2001_Feet",GEOGCS["GCS_North_American_1983",DATUM["D_North_American_1983",SPHEROID["GRS_1980",6378137.0,298.257222101]],PRIMEM["Greenwich",0.0],UNIT["Degree",0.0174532925199433]],PROJECTION["Lambert_Conformal_Conic"],PARAMETER["False_Easting",656166.6666666665],PARAMETER["False_Northing",2460625.0],PARAMETER["Central_Meridian",-71.5],PARAMETER["Standard_Parallel_1",41.71666666666667],PARAMETER["Standard_Parallel_2",42.68333333333333],PARAMETER["Latitude_Of_Origin",41.0],UNIT["Foot_US",0.3048006096012192]]'
+},
+{
+  name : 'CH1903 / LV03',
+  units:'Degree',
+  proj:'somerc',
+  code:'epsg:21781',
+  wkt:'PROJCS["CH1903 / LV03",GEOGCS["CH1903",DATUM["D_CH1903",SPHEROID["Bessel_1841",6377397.155,299.1528128]],PRIMEM["Greenwich",0],UNIT["Degree",0.017453292519943295]],PROJECTION["Hotine_Oblique_Mercator_Azimuth_Center"],PARAMETER["latitude_of_center",46.95240555555556],PARAMETER["longitude_of_center",7.439583333333333],PARAMETER["azimuth",90],PARAMETER["scale_factor",1],PARAMETER["false_easting",600000],PARAMETER["false_northing",200000]]'
 }
 ];
