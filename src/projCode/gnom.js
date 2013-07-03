@@ -1,4 +1,4 @@
-/*****************************************************************************
+define(function (require, exports, module) {/*****************************************************************************
 NAME                             GNOMONIC
 
 PURPOSE:  Transforms input longitude and latitude to Easting and
@@ -20,7 +20,9 @@ ALGORITHM REFERENCES
     Accessed: 12th November 2009
 ******************************************************************************/
 
-proj4.Proj.gnom = {
+var common = require('../common');
+
+module.exports = {
 
   /* Initialize the Gnomonic projection
     -------------------------------------*/
@@ -49,7 +51,7 @@ proj4.Proj.gnom = {
     var lat = p.y;
     /* Forward equations
       -----------------*/
-    dlon = proj4.common.adjust_lon(lon - this.long0);
+    dlon = common.adjust_lon(lon - this.long0);
 
     sinphi = Math.sin(lat);
     cosphi = Math.cos(lat);
@@ -57,12 +59,12 @@ proj4.Proj.gnom = {
     coslon = Math.cos(dlon);
     g = this.sin_p14 * sinphi + this.cos_p14 * cosphi * coslon;
     ksp = 1;
-    if ((g > 0) || (Math.abs(g) <= proj4.common.EPSLN)) {
+    if ((g > 0) || (Math.abs(g) <= common.EPSLN)) {
       x = this.x0 + this.a * ksp * cosphi * Math.sin(dlon) / g;
       y = this.y0 + this.a * ksp * (this.cos_p14 * sinphi - this.sin_p14 * cosphi * coslon) / g;
     }
     else {
-      proj4.reportError("orthoFwdPointError");
+      //proj4.reportError("orthoFwdPointError");
 
       // Point is in the opposing hemisphere and is unprojectable
       // We still need to return a reasonable point, so we project 
@@ -100,9 +102,9 @@ proj4.Proj.gnom = {
       sinc = Math.sin(c);
       cosc = Math.cos(c);
 
-      lat = proj4.common.asinz(cosc * this.sin_p14 + (p.y * sinc * this.cos_p14) / rh);
+      lat = common.asinz(cosc * this.sin_p14 + (p.y * sinc * this.cos_p14) / rh);
       lon = Math.atan2(p.x * sinc, rh * this.cos_p14 * cosc - p.y * this.sin_p14 * sinc);
-      lon = proj4.common.adjust_lon(this.long0 + lon);
+      lon = common.adjust_lon(this.long0 + lon);
     }
     else {
       lat = this.phic0;
@@ -114,3 +116,5 @@ proj4.Proj.gnom = {
     return p;
   }
 };
+
+});

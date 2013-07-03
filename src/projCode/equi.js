@@ -1,4 +1,4 @@
-/*******************************************************************************
+define(function (require, exports, module) {/*******************************************************************************
 NAME                             EQUIRECTANGULAR 
 
 PURPOSE:  Transforms input longitude and latitude to Easting and
@@ -20,7 +20,9 @@ ALGORITHM REFERENCES
     U.S. Geological Survey Professional Paper 1453 , United State Government
     Printing Office, Washington D.C., 1989.
 *******************************************************************************/
-proj4.Proj.equi = {
+var common = require('../common');
+
+module.exports = {
 
   init: function() {
     this.x0 = this.x0||0;
@@ -39,7 +41,7 @@ proj4.Proj.equi = {
     var lon = p.x;
     var lat = p.y;
 
-    var dlon = proj4.common.adjust_lon(lon - this.long0);
+    var dlon = common.adjust_lon(lon - this.long0);
     var x = this.x0 + this.a * dlon * Math.cos(this.lat0);
     var y = this.y0 + this.a * lat;
 
@@ -60,11 +62,13 @@ proj4.Proj.equi = {
     p.y -= this.y0;
     var lat = p.y / this.a;
 
-    if (Math.abs(lat) > proj4.common.HALF_PI) {
-      proj4.reportError("equi:Inv:DataError");
+    if (Math.abs(lat) > common.HALF_PI) {
+      //proj4.reportError("equi:Inv:DataError");
     }
-    var lon = proj4.common.adjust_lon(this.long0 + p.x / (this.a * Math.cos(this.lat0)));
+    var lon = common.adjust_lon(this.long0 + p.x / (this.a * Math.cos(this.lat0)));
     p.x = lon;
     p.y = lat;
   } //equiInv()
 };
+
+});

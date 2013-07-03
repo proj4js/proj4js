@@ -1,11 +1,12 @@
-
-proj4.Proj.sterea = {
-  dependsOn : 'gauss',
+define(function (require, exports, module) {
+var common = require('../common');
+var gauss = require('./gauss');
+module.exports = {
 
   init : function() {
-    proj4.Proj.gauss.init.apply(this);
+    gauss.init.apply(this);
     if (!this.rc) {
-      proj4.reportError("sterea:init:E_ERROR_0");
+      //proj4.reportError("sterea:init:E_ERROR_0");
       return;
     }
     this.sinc0 = Math.sin(this.phic0);
@@ -18,8 +19,8 @@ proj4.Proj.sterea = {
 
   forward : function(p) {
     var sinc, cosc, cosl, k;
-    p.x = proj4.common.adjust_lon(p.x-this.long0); /* adjust del longitude */
-    proj4.Proj.gauss.forward.apply(this, [p]);
+    p.x = common.adjust_lon(p.x-this.long0); /* adjust del longitude */
+    gauss.forward.apply(this, [p]);
     sinc = Math.sin(p.y);
     cosc = Math.cos(p.y);
     cosl = Math.cos(p.x);
@@ -51,9 +52,11 @@ proj4.Proj.sterea = {
 
     p.x = lon;
     p.y = lat;
-    proj4.Proj.gauss.inverse.apply(this,[p]);
-    p.x = proj4.common.adjust_lon(p.x + this.long0); /* adjust longitude to CM */
+    gauss.inverse.apply(this,[p]);
+    p.x = common.adjust_lon(p.x + this.long0); /* adjust longitude to CM */
     return p;
   }
 };
 
+
+});

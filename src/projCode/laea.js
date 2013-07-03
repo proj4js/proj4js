@@ -1,4 +1,4 @@
-/*******************************************************************************
+define(function (require, exports, module) {/*******************************************************************************
 NAME                  LAMBERT AZIMUTHAL EQUAL-AREA
  
 PURPOSE:  Transforms input longitude and latitude to Easting and
@@ -27,7 +27,9 @@ ALGORITHM REFERENCES
     Package", U.S. Geological Survey National Mapping Division, May 1982.
 *******************************************************************************/
 
-proj4.Proj.laea = {
+var common = require('../common');
+
+module.exports = {
   S_POLE: 1,
   N_POLE: 2,
   EQUIT: 3,
@@ -38,10 +40,10 @@ proj4.Proj.laea = {
   ------------------------------------------------------*/
   init: function() {
     var t = Math.abs(this.lat0);
-    if (Math.abs(t - proj4.common.HALF_PI) < proj4.common.EPSLN) {
+    if (Math.abs(t - common.HALF_PI) < common.EPSLN) {
       this.mode = this.lat0 < 0 ? this.S_POLE : this.N_POLE;
     }
-    else if (Math.abs(t) < proj4.common.EPSLN) {
+    else if (Math.abs(t) < common.EPSLN) {
       this.mode = this.EQUIT;
     }
     else {
@@ -50,7 +52,7 @@ proj4.Proj.laea = {
     if (this.es > 0) {
       var sinphi;
 
-      this.qp = proj4.common.qsfnz(this.e, 1);
+      this.qp = common.qsfnz(this.e, 1);
       this.mmf = 0.5 / (1 - this.es);
       this.apa = this.authset(this.es);
       switch (this.mode) {
@@ -69,7 +71,7 @@ proj4.Proj.laea = {
       case this.OBLIQ:
         this.rq = Math.sqrt(0.5 * this.qp);
         sinphi = Math.sin(this.lat0);
-        this.sinb1 = proj4.common.qsfnz(this.e, sinphi) / this.qp;
+        this.sinb1 = common.qsfnz(this.e, sinphi) / this.qp;
         this.cosb1 = Math.sqrt(1 - this.sinb1 * this.sinb1);
         this.dd = Math.cos(this.lat0) / (Math.sqrt(1 - this.es * sinphi * sinphi) * this.rq * this.cosb1);
         this.ymf = (this.xmf = this.rq) / this.dd;
@@ -95,7 +97,7 @@ proj4.Proj.laea = {
     var lam = p.x;
     var phi = p.y;
     
-    lam = proj4.common.adjust_lon(lam - this.long0);
+    lam = common.adjust_lon(lam - this.long0);
 
     if (this.sphere) {
       sinphi = Math.sin(phi);
@@ -103,8 +105,8 @@ proj4.Proj.laea = {
       coslam = Math.cos(lam);
       if(this.mode === this.OBLIQ || this.mode === this.EQUIT){
         y = (this.mode === this.EQUIT) ? 1 + cosphi * coslam : 1 + this.sinph0 * sinphi + this.cosph0 * cosphi * coslam;
-        if (y <= proj4.common.EPSLN) {
-          proj4.reportError("laea:fwd:y less than eps");
+        if (y <= common.EPSLN) {
+          //proj4.reportError("laea:fwd:y less than eps");
           return null;
         }
         y = Math.sqrt(2 / y);
@@ -114,11 +116,11 @@ proj4.Proj.laea = {
         if(this.mode === this.N_POLE){
           coslam = -coslam;
         }
-        if (Math.abs(phi + this.phi0) < proj4.common.EPSLN) {
-          proj4.reportError("laea:fwd:phi < eps");
+        if (Math.abs(phi + this.phi0) < common.EPSLN) {
+          //proj4.reportError("laea:fwd:phi < eps");
           return null;
         }
-        y = proj4.common.FORTPI - phi * 0.5;
+        y = common.FORTPI - phi * 0.5;
         y = 2 * ((this.mode === this.S_POLE) ? Math.cos(y) : Math.sin(y));
         x = y * Math.sin(lam);
         y *= coslam;
@@ -131,7 +133,7 @@ proj4.Proj.laea = {
       coslam = Math.cos(lam);
       sinlam = Math.sin(lam);
       sinphi = Math.sin(phi);
-      q = proj4.common.qsfnz(this.e, sinphi);
+      q = common.qsfnz(this.e, sinphi);
       if (this.mode === this.OBLIQ || this.mode === this.EQUIT) {
         sinb = q / this.qp;
         cosb = Math.sqrt(1 - sinb * sinb);
@@ -144,16 +146,16 @@ proj4.Proj.laea = {
         b = 1 + cosb * coslam;
         break;
       case this.N_POLE:
-        b = proj4.common.HALF_PI + phi;
+        b = common.HALF_PI + phi;
         q = this.qp - q;
         break;
       case this.S_POLE:
-        b = phi - proj4.common.HALF_PI;
+        b = phi - common.HALF_PI;
         q = this.qp + q;
         break;
       }
-      if (Math.abs(b) < proj4.common.EPSLN) {
-        proj4.reportError("laea:fwd:b < eps");
+      if (Math.abs(b) < common.EPSLN) {
+        //proj4.reportError("laea:fwd:b < eps");
         return null;
       }
       switch (this.mode) {
@@ -191,7 +193,7 @@ proj4.Proj.laea = {
 
     var g =this.sin_lat_o * sin_lat +this.cos_lat_o * cos_lat * cos_delta_lon;
     if (g == -1) {
-      proj4.reportError("laea:fwd:Point projects to a circle of radius "+ 2 * R);
+      //proj4.reportError("laea:fwd:Point projects to a circle of radius "+ 2 * R);
       return null;
     }
     var ksp = this.a * Math.sqrt(2 / (1 + g));
@@ -229,21 +231,21 @@ proj4.Proj.laea = {
       }
       switch (this.mode) {
       case this.EQUIT:
-        phi = (Math.abs(rh) <= proj4.common.EPSLN) ? 0 : Math.asin(y * sinz / rh);
+        phi = (Math.abs(rh) <= common.EPSLN) ? 0 : Math.asin(y * sinz / rh);
         x *= sinz;
         y = cosz * rh;
         break;
       case this.OBLIQ:
-        phi = (Math.abs(rh) <= proj4.common.EPSLN) ? this.phi0 : Math.asin(cosz * this.sinph0 + y * sinz * this.cosph0 / rh);
+        phi = (Math.abs(rh) <= common.EPSLN) ? this.phi0 : Math.asin(cosz * this.sinph0 + y * sinz * this.cosph0 / rh);
         x *= sinz * this.cosph0;
         y = (cosz - Math.sin(phi) * this.sinph0) * rh;
         break;
       case this.N_POLE:
         y = -y;
-        phi = proj4.common.HALF_PI - phi;
+        phi = common.HALF_PI - phi;
         break;
       case this.S_POLE:
-        phi -= proj4.common.HALF_PI;
+        phi -= common.HALF_PI;
         break;
       }
       lam = (y === 0 && (this.mode === this.EQUIT || this.mode === this.OBLIQ)) ? 0 : Math.atan2(x, y);
@@ -254,7 +256,7 @@ proj4.Proj.laea = {
         x /= this.dd;
         y *= this.dd;
         rho = Math.sqrt(x * x + y * y);
-        if (rho < proj4.common.EPSLN) {
+        if (rho < common.EPSLN) {
           p.x = 0;
           p.y = this.phi0;
           return p;
@@ -303,28 +305,28 @@ proj4.Proj.laea = {
       return null;
     }
 
-    var z = 2 * proj4.common.asinz(temp);
+    var z = 2 * common.asinz(temp);
     var sin_z=Math.sin(z);
     var cos_z=Math.cos(z);
 
     var lon =this.long0;
-    if (Math.abs(Rh) > proj4.common.EPSLN) {
-       var lat = proj4.common.asinz(this.sin_lat_o * cos_z +this. cos_lat_o * sin_z *p.y / Rh);
-       var temp =Math.abs(this.lat0) - proj4.common.HALF_PI;
-       if (Math.abs(temp) > proj4.common.EPSLN) {
+    if (Math.abs(Rh) > common.EPSLN) {
+       var lat = common.asinz(this.sin_lat_o * cos_z +this. cos_lat_o * sin_z *p.y / Rh);
+       var temp =Math.abs(this.lat0) - common.HALF_PI;
+       if (Math.abs(temp) > common.EPSLN) {
           temp = cos_z -this.sin_lat_o * Math.sin(lat);
-          if(temp!=0) lon=proj4.common.adjust_lon(this.long0+Math.atan2(p.x*sin_z*this.cos_lat_o,temp*Rh));
+          if(temp!=0) lon=common.adjust_lon(this.long0+Math.atan2(p.x*sin_z*this.cos_lat_o,temp*Rh));
        } else if (this.lat0 < 0) {
-          lon = proj4.common.adjust_lon(this.long0 - Math.atan2(-p.x,p.y));
+          lon = common.adjust_lon(this.long0 - Math.atan2(-p.x,p.y));
        } else {
-          lon = proj4.common.adjust_lon(this.long0 + Math.atan2(p.x, -p.y));
+          lon = common.adjust_lon(this.long0 + Math.atan2(p.x, -p.y));
        }
     } else {
       lat = this.lat0;
     }
     */
     //return(OK);
-    p.x = proj4.common.adjust_lon(this.long0 + lam);
+    p.x = common.adjust_lon(this.long0 + lam);
     p.y = phi;
     return p;
   }, //lamazInv()
@@ -357,3 +359,5 @@ proj4.Proj.laea = {
   }
 
 };
+
+});

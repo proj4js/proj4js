@@ -1,4 +1,4 @@
-/*******************************************************************************
+define(function (require, exports, module) {/*******************************************************************************
 NAME                     ALBERS CONICAL EQUAL AREA 
 
 PURPOSE:  Transforms input longitude and latitude to Easting and Northing
@@ -20,13 +20,13 @@ ALGORITHM REFERENCES
     U.S. Geological Survey Professional Paper 1453 , United State Government
     Printing Office, Washington D.C., 1989.
 *******************************************************************************/
+var common = require('../common');
 
-
-proj4.Proj.aea = {
+module.exports = {
   init: function() {
 
-    if (Math.abs(this.lat1 + this.lat2) < proj4.common.EPSLN) {
-      proj4.reportError("aeaInitEqualLatitudes");
+    if (Math.abs(this.lat1 + this.lat2) < common.EPSLN) {
+      //proj4.reportError("aeaInitEqualLatitudes");
       return;
     }
     this.temp = this.b / this.a;
@@ -37,21 +37,21 @@ proj4.Proj.aea = {
     this.cos_po = Math.cos(this.lat1);
     this.t1 = this.sin_po;
     this.con = this.sin_po;
-    this.ms1 = proj4.common.msfnz(this.e3, this.sin_po, this.cos_po);
-    this.qs1 = proj4.common.qsfnz(this.e3, this.sin_po, this.cos_po);
+    this.ms1 = common.msfnz(this.e3, this.sin_po, this.cos_po);
+    this.qs1 = common.qsfnz(this.e3, this.sin_po, this.cos_po);
 
     this.sin_po = Math.sin(this.lat2);
     this.cos_po = Math.cos(this.lat2);
     this.t2 = this.sin_po;
-    this.ms2 = proj4.common.msfnz(this.e3, this.sin_po, this.cos_po);
-    this.qs2 = proj4.common.qsfnz(this.e3, this.sin_po, this.cos_po);
+    this.ms2 = common.msfnz(this.e3, this.sin_po, this.cos_po);
+    this.qs2 = common.qsfnz(this.e3, this.sin_po, this.cos_po);
 
     this.sin_po = Math.sin(this.lat0);
     this.cos_po = Math.cos(this.lat0);
     this.t3 = this.sin_po;
-    this.qs0 = proj4.common.qsfnz(this.e3, this.sin_po, this.cos_po);
+    this.qs0 = common.qsfnz(this.e3, this.sin_po, this.cos_po);
 
-    if (Math.abs(this.lat1 - this.lat2) > proj4.common.EPSLN) {
+    if (Math.abs(this.lat1 - this.lat2) > common.EPSLN) {
       this.ns0 = (this.ms1 * this.ms1 - this.ms2 * this.ms2) / (this.qs2 - this.qs1);
     }
     else {
@@ -71,9 +71,9 @@ proj4.Proj.aea = {
     this.sin_phi = Math.sin(lat);
     this.cos_phi = Math.cos(lat);
 
-    var qs = proj4.common.qsfnz(this.e3, this.sin_phi, this.cos_phi);
+    var qs = common.qsfnz(this.e3, this.sin_phi, this.cos_phi);
     var rh1 = this.a * Math.sqrt(this.c - this.ns0 * qs) / this.ns0;
-    var theta = this.ns0 * proj4.common.adjust_lon(lon - this.long0);
+    var theta = this.ns0 * common.adjust_lon(lon - this.long0);
     var x = rh1 * Math.sin(theta) + this.x0;
     var y = this.rh - rh1 * Math.cos(theta) + this.y0;
 
@@ -109,7 +109,7 @@ proj4.Proj.aea = {
       lat = this.phi1z(this.e3, qs);
     }
 
-    lon = proj4.common.adjust_lon(theta / this.ns0 + this.long0);
+    lon = common.adjust_lon(theta / this.ns0 + this.long0);
     p.x = lon;
     p.y = lat;
     return p;
@@ -120,8 +120,8 @@ proj4.Proj.aea = {
 -------------------------------------------*/
   phi1z: function(eccent, qs) {
     var sinphi, cosphi, con, com, dphi;
-    var phi = proj4.common.asinz(0.5 * qs);
-    if (eccent < proj4.common.EPSLN){
+    var phi = common.asinz(0.5 * qs);
+    if (eccent < common.EPSLN){
       return phi;
     }
 
@@ -137,8 +137,10 @@ proj4.Proj.aea = {
         return phi;
       }
     }
-    proj4.reportError("aea:phi1z:Convergence error");
+    //proj4.reportError("aea:phi1z:Convergence error");
     return null;
   }
 
 };
+
+});

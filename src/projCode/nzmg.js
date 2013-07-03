@@ -1,4 +1,4 @@
-/*******************************************************************************
+define(function (require, exports, module) {/*******************************************************************************
 NAME                            NEW ZEALAND MAP GRID
 
 PURPOSE:  Transforms input longitude and latitude to Easting and
@@ -113,7 +113,8 @@ LICENSE
   Initialize New Zealand Map Grip projection
 */
 
-proj4.Proj.nzmg = {
+var common = require('../common');
+module.exports = {
 
   /**
    * iterations: Number of iterations to refine inverse transform.
@@ -192,7 +193,7 @@ proj4.Proj.nzmg = {
 
     // 1. Calculate d_phi and d_psi    ...                          // and d_lambda
     // For this algorithm, delta_latitude is in seconds of arc x 10-5, so we need to scale to those units. Longitude is radians.
-    var d_phi = delta_lat / proj4.common.SEC_TO_RAD * 1E-5;
+    var d_phi = delta_lat / common.SEC_TO_RAD * 1E-5;
     var d_lambda = delta_lon;
     var d_phi_n = 1; // d_phi^0
 
@@ -316,7 +317,7 @@ proj4.Proj.nzmg = {
 
     // 4. Calculate latitude and longitude
     // d_phi is calcuated in second of arc * 10^-5, so we need to scale back to radians. d_lambda is in radians.
-    var lat = this.lat0 + (d_phi * proj4.common.SEC_TO_RAD * 1E5);
+    var lat = this.lat0 + (d_phi * common.SEC_TO_RAD * 1E5);
     var lon = this.long0 + d_lambda;
 
     p.x = lon;
@@ -325,3 +326,5 @@ proj4.Proj.nzmg = {
     return p;
   }
 };
+
+});

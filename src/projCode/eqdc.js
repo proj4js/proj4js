@@ -1,4 +1,4 @@
-/*******************************************************************************
+define(function (require, exports, module) {/*******************************************************************************
 NAME                            EQUIDISTANT CONIC 
 
 PURPOSE:  Transforms input longitude and latitude to Easting and Northing
@@ -24,7 +24,9 @@ ALGORITHM REFERENCES
 /* Variables common to all subroutines in this code file
   -----------------------------------------------------*/
 
-proj4.Proj.eqdc = {
+var common = require('../common');
+
+module.exports = {
 
   /* Initialize the Equidistant Conic projection
   ------------------------------------------*/
@@ -33,38 +35,38 @@ proj4.Proj.eqdc = {
     /* Place parameters in static storage for common use
       -------------------------------------------------*/
     // Standard Parallels cannot be equal and on opposite sides of the equator
-    if (Math.abs(this.lat1 + this.lat2) < proj4.common.EPSLN) {
-      proj4.common.reportError("eqdc:init: Equal Latitudes");
+    if (Math.abs(this.lat1 + this.lat2) < common.EPSLN) {
+      common.reportError("eqdc:init: Equal Latitudes");
       return;
     }
     this.lat2 = this.lat2||this.lat1;
     this.temp = this.b / this.a;
     this.es = 1 - Math.pow(this.temp, 2);
     this.e = Math.sqrt(this.es);
-    this.e0 = proj4.common.e0fn(this.es);
-    this.e1 = proj4.common.e1fn(this.es);
-    this.e2 = proj4.common.e2fn(this.es);
-    this.e3 = proj4.common.e3fn(this.es);
+    this.e0 = common.e0fn(this.es);
+    this.e1 = common.e1fn(this.es);
+    this.e2 = common.e2fn(this.es);
+    this.e3 = common.e3fn(this.es);
 
     this.sinphi = Math.sin(this.lat1);
     this.cosphi = Math.cos(this.lat1);
 
-    this.ms1 = proj4.common.msfnz(this.e, this.sinphi, this.cosphi);
-    this.ml1 = proj4.common.mlfn(this.e0, this.e1, this.e2, this.e3, this.lat1);
+    this.ms1 = common.msfnz(this.e, this.sinphi, this.cosphi);
+    this.ml1 = common.mlfn(this.e0, this.e1, this.e2, this.e3, this.lat1);
 
-    if (Math.abs(this.lat1 - this.lat2) < proj4.common.EPSLN) {
+    if (Math.abs(this.lat1 - this.lat2) < common.EPSLN) {
       this.ns = this.sinphi;
-      proj4.reportError("eqdc:Init:EqualLatitudes");
+      //proj4.reportError("eqdc:Init:EqualLatitudes");
     }
     else {
       this.sinphi = Math.sin(this.lat2);
       this.cosphi = Math.cos(this.lat2);
-      this.ms2 = proj4.common.msfnz(this.e, this.sinphi, this.cosphi);
-      this.ml2 = proj4.common.mlfn(this.e0, this.e1, this.e2, this.e3, this.lat2);
+      this.ms2 = common.msfnz(this.e, this.sinphi, this.cosphi);
+      this.ml2 = common.mlfn(this.e0, this.e1, this.e2, this.e3, this.lat2);
       this.ns = (this.ms1 - this.ms2) / (this.ml2 - this.ml1);
     }
     this.g = this.ml1 + this.ms1 / this.ns;
-    this.ml0 = proj4.common.mlfn(this.e0, this.e1, this.e2, this.e3, this.lat0);
+    this.ml0 = common.mlfn(this.e0, this.e1, this.e2, this.e3, this.lat0);
     this.rh = this.a * (this.g - this.ml0);
   },
 
@@ -82,10 +84,10 @@ proj4.Proj.eqdc = {
       rh1 = this.a * (this.g - lat);
     }
     else {
-      var ml = proj4.common.mlfn(this.e0, this.e1, this.e2, this.e3, lat);
+      var ml = common.mlfn(this.e0, this.e1, this.e2, this.e3, lat);
       rh1 = this.a * (this.g - ml);
     }
-    var theta = this.ns * proj4.common.adjust_lon(lon - this.long0);
+    var theta = this.ns * common.adjust_lon(lon - this.long0);
     var x = this.x0 + rh1 * Math.sin(theta);
     var y = this.y0 + this.rh - rh1 * Math.cos(theta);
     p.x = x;
@@ -113,16 +115,16 @@ proj4.Proj.eqdc = {
     }
 
     if (this.sphere) {
-      lon = proj4.common.adjust_lon(this.long0 + theta / this.ns);
-      lat = proj4.common.adjust_lat(this.g - rh1 / this.a);
+      lon = common.adjust_lon(this.long0 + theta / this.ns);
+      lat = common.adjust_lat(this.g - rh1 / this.a);
       p.x = lon;
       p.y = lat;
       return p;
     }
     else {
       var ml = this.g - rh1 / this.a;
-      lat = proj4.common.imlfn(ml, this.e0, this.e1, this.e2, this.e3);
-      lon = proj4.common.adjust_lon(this.long0 + theta / this.ns);
+      lat = common.imlfn(ml, this.e0, this.e1, this.e2, this.e3);
+      lon = common.adjust_lon(this.long0 + theta / this.ns);
       p.x = lon;
       p.y = lat;
       return p;
@@ -134,3 +136,4 @@ proj4.Proj.eqdc = {
 
 
 };
+});

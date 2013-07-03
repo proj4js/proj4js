@@ -1,4 +1,4 @@
-/*******************************************************************************
+define(function (require, exports, module) {/*******************************************************************************
 NAME                       SWISS OBLIQUE MERCATOR
 
 PURPOSE:  Swiss projection.
@@ -13,7 +13,9 @@ ALGORITHM REFERENCES
 
 *******************************************************************************/
 
-proj4.Proj.somerc = {
+var common = require('../common');
+
+module.exports = {
 
   init: function() {
     var phy0 = this.lat0;
@@ -73,7 +75,7 @@ proj4.Proj.somerc = {
     var iteration = 0;
     while (Math.abs(phy - prevPhy) > 0.0000001) {
       if (++iteration > 20) {
-        proj4.reportError("omercFwdInfinity");
+        //proj4.reportError("omercFwdInfinity");
         return;
       }
       //S = Math.log(Math.tan(Math.PI / 4 + phy / 2));
@@ -87,3 +89,5 @@ proj4.Proj.somerc = {
     return p;
   }
 };
+
+});

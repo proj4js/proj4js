@@ -54,8 +54,26 @@ module.exports = function(grunt) {
 			},
 			before: [ './src/Proj4.js','./src/Proj.js','./src/defs.js','./src/common.js','./src/datum.js','./src/Point.js','./src/constants.js','./src/projCode/*.js','./src/util/MGRS.js'],
       after: [ './dist/proj4.js']
-		}
+		},
+    requirejs: {
+      compile: {
+        options: {
+          baseUrl: "./src",
+          //name: "proj4",
+          out: "./dist/proj4.amd.js",
+          wrap: {
+            startFile: 'almond/top.frag',
+            endFile: 'almond/end.frag'
+          },
+          name: '../almond/almond',
+          include: ['proj4'],
+          insertRequire: ['proj4'],
+          optimize:'none'
+        }
+    }
+    }
 	});
+  grunt.loadNpmTasks('grunt-contrib-requirejs');
 	grunt.loadNpmTasks('grunt-contrib-jshint');
 	grunt.loadNpmTasks('grunt-contrib-concat');
 	grunt.loadNpmTasks('grunt-contrib-uglify');
@@ -64,5 +82,6 @@ module.exports = function(grunt) {
 	grunt.registerTask('full', ['concat:full','uglify:full']);
 	grunt.registerTask('noDefs', ['concat:noDefs','uglify:noDefs']);
 	grunt.registerTask('test', ['connect', 'mocha_phantomjs']);
+  grunt.registerTask('r', ['requirejs']);
 	grunt.registerTask('default', ['jshint:before','full','noDefs','jshint:after','test']);
 }

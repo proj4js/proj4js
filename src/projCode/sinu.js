@@ -1,4 +1,4 @@
-/*******************************************************************************
+define(function (require, exports, module) {/*******************************************************************************
 NAME                      SINUSOIDAL
 
 PURPOSE:  Transforms input longitude and latitude to Easting and
@@ -24,7 +24,9 @@ ALGORITHM REFERENCES
     Package", U.S. Geological Survey National Mapping Division, May 1982.
 *******************************************************************************/
 
-proj4.Proj.sinu = {
+var common = require('../common');
+
+module.exports = {
 
   /* Initialize the Sinusoidal projection
     ------------------------------------*/
@@ -34,7 +36,7 @@ proj4.Proj.sinu = {
 
 
     if (!this.sphere) {
-      this.en = proj4.common.pj_enfn(this.es);
+      this.en = common.pj_enfn(this.es);
     }
     else {
       this.n = 1;
@@ -54,7 +56,7 @@ proj4.Proj.sinu = {
     var lat = p.y;
     /* Forward equations
     -----------------*/
-    lon = proj4.common.adjust_lon(lon - this.long0);
+    lon = common.adjust_lon(lon - this.long0);
 
     if (this.sphere) {
       if (!this.m) {
@@ -62,10 +64,10 @@ proj4.Proj.sinu = {
       }
       else {
         var k = this.n * Math.sin(lat);
-        for (var i = proj4.common.MAX_ITER; i; --i) {
+        for (var i = common.MAX_ITER; i; --i) {
           var V = (this.m * lat + Math.sin(lat) - k) / (this.m + Math.cos(lat));
           lat -= V;
-          if (Math.abs(V) < proj4.common.EPSLN){
+          if (Math.abs(V) < common.EPSLN){
             break;
           }
         }
@@ -78,7 +80,7 @@ proj4.Proj.sinu = {
 
       var s = Math.sin(lat);
       var c = Math.cos(lat);
-      y = this.a * proj4.common.pj_mlfn(lat, s, c, this.en);
+      y = this.a * common.pj_mlfn(lat, s, c, this.en);
       x = this.a * lon * c / Math.sqrt(1 - this.es * s * s);
     }
 
@@ -104,15 +106,15 @@ proj4.Proj.sinu = {
 
     }
     else {
-      lat = proj4.common.pj_inv_mlfn(p.y / this.a, this.es, this.en);
+      lat = common.pj_inv_mlfn(p.y / this.a, this.es, this.en);
       var s = Math.abs(lat);
-      if (s < proj4.common.HALF_PI) {
+      if (s < common.HALF_PI) {
         s = Math.sin(lat);
         temp = this.long0 + p.x * Math.sqrt(1 - this.es * s * s) / (this.a * Math.cos(lat));
         //temp = this.long0 + p.x / (this.a * Math.cos(lat));
-        lon = proj4.common.adjust_lon(temp);
+        lon = common.adjust_lon(temp);
       }
-      else if ((s - proj4.common.EPSLN) < proj4.common.HALF_PI) {
+      else if ((s - common.EPSLN) < common.HALF_PI) {
         lon = this.long0;
       }
 
@@ -123,3 +125,5 @@ proj4.Proj.sinu = {
     return p;
   }
 };
+
+});

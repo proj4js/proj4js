@@ -1,4 +1,6 @@
-proj4.Proj.gauss = {
+define(function (require, exports, module) {var common = require('../common');
+
+module.exports = {
 
   init: function() {
     var sphi = Math.sin(this.lat0);
@@ -8,14 +10,14 @@ proj4.Proj.gauss = {
     this.C = Math.sqrt(1 + this.es * cphi * cphi / (1 - this.es));
     this.phic0 = Math.asin(sphi / this.C);
     this.ratexp = 0.5 * this.C * this.e;
-    this.K = Math.tan(0.5 * this.phic0 + proj4.common.FORTPI) / (Math.pow(Math.tan(0.5 * this.lat0 + proj4.common.FORTPI), this.C) * proj4.common.srat(this.e * sphi, this.ratexp));
+    this.K = Math.tan(0.5 * this.phic0 + common.FORTPI) / (Math.pow(Math.tan(0.5 * this.lat0 + common.FORTPI), this.C) * common.srat(this.e * sphi, this.ratexp));
   },
 
   forward: function(p) {
     var lon = p.x;
     var lat = p.y;
 
-    p.y = 2 * Math.atan(this.K * Math.pow(Math.tan(0.5 * lat + proj4.common.FORTPI), this.C) * proj4.common.srat(this.e * Math.sin(lat), this.ratexp)) - proj4.common.HALF_PI;
+    p.y = 2 * Math.atan(this.K * Math.pow(Math.tan(0.5 * lat + common.FORTPI), this.C) * common.srat(this.e * Math.sin(lat), this.ratexp)) - common.HALF_PI;
     p.x = this.C * lon;
     return p;
   },
@@ -24,9 +26,9 @@ proj4.Proj.gauss = {
     var DEL_TOL = 1e-14;
     var lon = p.x / this.C;
     var lat = p.y;
-    var num = Math.pow(Math.tan(0.5 * lat + proj4.common.FORTPI) / this.K, 1 / this.C);
-    for (var i = proj4.common.MAX_ITER; i > 0; --i) {
-      lat = 2 * Math.atan(num * proj4.common.srat(this.e * Math.sin(p.y), - 0.5 * this.e)) - proj4.common.HALF_PI;
+    var num = Math.pow(Math.tan(0.5 * lat + common.FORTPI) / this.K, 1 / this.C);
+    for (var i = common.MAX_ITER; i > 0; --i) {
+      lat = 2 * Math.atan(num * common.srat(this.e * Math.sin(p.y), - 0.5 * this.e)) - common.HALF_PI;
       if (Math.abs(lat - p.y) < DEL_TOL){
         break;
       }
@@ -34,7 +36,7 @@ proj4.Proj.gauss = {
     }
     /* convergence failed */
     if (!i) {
-      proj4.reportError("gauss:inverse:convergence failed");
+      //proj4.reportError("gauss:inverse:convergence failed");
       return null;
     }
     p.x = lon;
@@ -42,3 +44,5 @@ proj4.Proj.gauss = {
     return p;
   }
 };
+
+});

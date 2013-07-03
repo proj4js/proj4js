@@ -1,4 +1,6 @@
-proj4.Proj.gstmerc = {
+define(function (require, exports, module) {var common = require('../common');
+
+module.exports = {
   init: function() {
 
     // array of:  a, b, lon0, lat0, k0, x0, y0
@@ -9,7 +11,7 @@ proj4.Proj.gstmerc = {
     var sinz = Math.sin(this.lat0);
     var pc = Math.asin(sinz / this.rs);
     var sinzpc = Math.sin(pc);
-    this.cp = proj4.common.latiso(0, pc, sinzpc) - this.rs * proj4.common.latiso(this.e, this.lat0, sinz);
+    this.cp = common.latiso(0, pc, sinzpc) - this.rs * common.latiso(this.e, this.lat0, sinz);
     this.n2 = this.k0 * this.a * Math.sqrt(1 - this.e * this.e) / (1 - this.e * this.e * sinz * sinz);
     this.xs = this.x0;
     this.ys = this.y0 - this.n2 * pc;
@@ -28,11 +30,11 @@ proj4.Proj.gstmerc = {
     var lat = p.y;
 
     var L = this.rs * (lon - this.lc);
-    var Ls = this.cp + (this.rs * proj4.common.latiso(this.e, lat, Math.sin(lat)));
-    var lat1 = Math.asin(Math.sin(L) / proj4.common.cosh(Ls));
-    var Ls1 = proj4.common.latiso(0, lat1, Math.sin(lat1));
+    var Ls = this.cp + (this.rs * common.latiso(this.e, lat, Math.sin(lat)));
+    var lat1 = Math.asin(Math.sin(L) / common.cosh(Ls));
+    var Ls1 = common.latiso(0, lat1, Math.sin(lat1));
     p.x = this.xs + (this.n2 * Ls1);
-    p.y = this.ys + (this.n2 * Math.atan(proj4.common.sinh(Ls) / Math.cos(L)));
+    p.y = this.ys + (this.n2 * Math.atan(common.sinh(Ls) / Math.cos(L)));
     return p;
   },
 
@@ -43,12 +45,14 @@ proj4.Proj.gstmerc = {
     var x = p.x;
     var y = p.y;
 
-    var L = Math.atan(proj4.common.sinh((x - this.xs) / this.n2) / Math.cos((y - this.ys) / this.n2));
-    var lat1 = Math.asin(Math.sin((y - this.ys) / this.n2) / proj4.common.cosh((x - this.xs) / this.n2));
-    var LC = proj4.common.latiso(0, lat1, Math.sin(lat1));
+    var L = Math.atan(common.sinh((x - this.xs) / this.n2) / Math.cos((y - this.ys) / this.n2));
+    var lat1 = Math.asin(Math.sin((y - this.ys) / this.n2) / common.cosh((x - this.xs) / this.n2));
+    var LC = common.latiso(0, lat1, Math.sin(lat1));
     p.x = this.lc + L / this.rs;
-    p.y = proj4.common.invlatiso(this.e, (LC - this.cp) / this.rs);
+    p.y = common.invlatiso(this.e, (LC - this.cp) / this.rs);
     return p;
   }
 
 };
+
+});

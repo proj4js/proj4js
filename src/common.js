@@ -1,4 +1,4 @@
-proj4.common = {
+define(function (require, exports, module) {var common = {
   PI : 3.141592653589793238, //Math.PI,
   HALF_PI : 1.570796326794896619, //Math.PI*0.5,
   TWO_PI : 6.283185307179586477, //Math.PI*2,
@@ -86,9 +86,9 @@ proj4.common = {
     var temp = 1-(1-eccent*eccent)/(2*eccent)*Math.log((1-eccent)/(1+eccent));
     if (Math.abs(Math.abs(q)-temp)<1.0E-6) {
       if (q<0) {
-        return (-1*proj4.common.HALF_PI);
+        return (-1*common.HALF_PI);
       } else {
-        return proj4.common.HALF_PI;
+        return common.HALF_PI;
       }
     }
     //var phi = 0.5* q/(1-eccent*eccent);
@@ -140,7 +140,7 @@ proj4.common = {
       }
     }
 
-    proj4.reportError("IMLFN-CONV:Latitude failed to converge after 15 iterations");
+    //proj4.reportError("IMLFN-CONV:Latitude failed to converge after 15 iterations");
     return NaN;
   },
 
@@ -273,18 +273,18 @@ proj4.common = {
   pj_inv_mlfn: function(arg, es, en) {
     var k = 1/(1-es);
     var phi = arg;
-    for (var i = proj4.common.MAX_ITER; i ; --i) { /* rarely goes over 2 iterations */
+    for (var i = common.MAX_ITER; i ; --i) { /* rarely goes over 2 iterations */
       var s = Math.sin(phi);
       var t = 1 - es * s * s;
       //t = this.pj_mlfn(phi, s, Math.cos(phi), en) - arg;
       //phi -= t * (t * Math.sqrt(t)) * k;
       t = (this.pj_mlfn(phi, s, Math.cos(phi), en) - arg) * (t * Math.sqrt(t)) * k;
       phi -= t;
-      if (Math.abs(t) < proj4.common.EPSLN) {
+      if (Math.abs(t) < common.EPSLN) {
         return phi;
       }
     }
-    proj4.reportError("cass:pj_inv_mlfn: Convergence error");
+    //proj4.reportError("cass:pj_inv_mlfn: Convergence error");
     return phi;
   },
 
@@ -383,8 +383,8 @@ proj4.common = {
     var tb= {"x":pin.x, "y":pin.y};
     tb.x-= ct.ll[0];
     tb.y-= ct.ll[1];
-    tb.x= proj4.common.adjust_lon(tb.x - proj4.common.PI) + proj4.common.PI;
-    var t= proj4.common.nad_intr(tb,ct);
+    tb.x= common.adjust_lon(tb.x - common.PI) + common.PI;
+    var t= common.nad_intr(tb,ct);
     if (inverse) {
       if (isNaN(t.x)) {
         return val;
@@ -394,7 +394,7 @@ proj4.common = {
       var i= 9, tol= 1e-12;
       var dif, del;
       do {
-        del= proj4.common.nad_intr(t,ct);
+        del= common.nad_intr(t,ct);
         if (isNaN(del.x)) {
           this.reportError("Inverse grid shift iteration failed, presumably at grid edge.  Using first approximation.");
           break;
@@ -407,7 +407,7 @@ proj4.common = {
         this.reportError("Inverse grid shift iterator failed to converge.");
         return val;
       }
-      val.x= proj4.common.adjust_lon(t.x+ct.ll[0]);
+      val.x= common.adjust_lon(t.x+ct.ll[0]);
       val.y= t.y+ct.ll[1];
     } else {
       if (!isNaN(t.x)) {
@@ -437,3 +437,5 @@ proj4.common = {
   C88: 0.3076171875
 
 };
+module.exports = common;
+});

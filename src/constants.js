@@ -1,3 +1,6 @@
+define(function (require, exports, module) {
+  var proj4={};
+  //var Proj = require('./Proj');
 proj4.PrimeMeridian = {
   "greenwich": 0.0, //"0dE",
   "lisbon": -9.131906111111, //"9d07'54.862\"W",
@@ -280,7 +283,7 @@ proj4.Datum = {
   }
 };
 
-proj4.WGS84 = new proj4.Proj('WGS84');
+//proj4.WGS84 = Proj('WGS84');
 proj4.Datum.OSB36 = proj4.Datum.OSGB36; //as returned from spatialreference.org
 
 //lookup table to go from the projection name in WKT to the proj4 projection name
@@ -322,3 +325,5 @@ proj4.grids = {
     ]
   }
 };
+module.exports = proj4;
+});

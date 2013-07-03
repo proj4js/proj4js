@@ -1,4 +1,4 @@
-/*******************************************************************************
+define(function (require, exports, module) {/*******************************************************************************
 NAME                    VAN DER GRINTEN 
 
 PURPOSE:  Transforms input Easting and Northing to longitude and
@@ -27,7 +27,9 @@ ALGORITHM REFERENCES
     Package", U.S. Geological Survey National Mapping Division, May 1982.
 *******************************************************************************/
 
-proj4.Proj.vandg = {
+var common = require('../common');
+
+module.exports = {
 
 /* Initialize the Van Der Grinten projection
   ----------------------------------------*/
@@ -43,24 +45,24 @@ proj4.Proj.vandg = {
 
     /* Forward equations
     -----------------*/
-    var dlon = proj4.common.adjust_lon(lon - this.long0);
+    var dlon = common.adjust_lon(lon - this.long0);
     var x,y;
 
-    if (Math.abs(lat) <= proj4.common.EPSLN) {
+    if (Math.abs(lat) <= common.EPSLN) {
       x = this.x0  + this.R * dlon;
       y = this.y0;
     }
-    var theta = proj4.common.asinz(2 * Math.abs(lat / proj4.common.PI));
-    if ((Math.abs(dlon) <= proj4.common.EPSLN) || (Math.abs(Math.abs(lat) - proj4.common.HALF_PI) <= proj4.common.EPSLN)) {
+    var theta = common.asinz(2 * Math.abs(lat / common.PI));
+    if ((Math.abs(dlon) <= common.EPSLN) || (Math.abs(Math.abs(lat) - common.HALF_PI) <= common.EPSLN)) {
       x = this.x0;
       if (lat >= 0) {
-        y = this.y0 + proj4.common.PI * this.R * Math.tan(0.5 * theta);
+        y = this.y0 + common.PI * this.R * Math.tan(0.5 * theta);
       } else {
-        y = this.y0 + proj4.common.PI * this.R * - Math.tan(0.5 * theta);
+        y = this.y0 + common.PI * this.R * - Math.tan(0.5 * theta);
       }
       //  return(OK);
     }
-    var al = 0.5 * Math.abs((proj4.common.PI / dlon) - (dlon / proj4.common.PI));
+    var al = 0.5 * Math.abs((common.PI / dlon) - (dlon / common.PI));
     var asq = al * al;
     var sinth = Math.sin(theta);
     var costh = Math.cos(theta);
@@ -69,19 +71,19 @@ proj4.Proj.vandg = {
     var gsq = g * g;
     var m = g * (2 / sinth - 1);
     var msq = m * m;
-    var con = proj4.common.PI * this.R * (al * (g - msq) + Math.sqrt(asq * (g - msq) * (g - msq) - (msq + asq) * (gsq - msq))) / (msq + asq);
+    var con = common.PI * this.R * (al * (g - msq) + Math.sqrt(asq * (g - msq) * (g - msq) - (msq + asq) * (gsq - msq))) / (msq + asq);
     if (dlon < 0) {
       con = -con;
     }
     x = this.x0 + con;
-    //con = Math.abs(con / (proj4.common.PI * this.R));
+    //con = Math.abs(con / (common.PI * this.R));
     var q =asq+g;
-    con=proj4.common.PI*this.R*(m*q-al*Math.sqrt((msq+asq)*(asq+1)-q*q))/(msq+asq);
+    con=common.PI*this.R*(m*q-al*Math.sqrt((msq+asq)*(asq+1)-q*q))/(msq+asq);
     if (lat >= 0) {
-      //y = this.y0 + proj4.common.PI * this.R * Math.sqrt(1 - con * con - 2 * al * con);
+      //y = this.y0 + common.PI * this.R * Math.sqrt(1 - con * con - 2 * al * con);
       y=this.y0 + con;
     } else {
-      //y = this.y0 - proj4.common.PI * this.R * Math.sqrt(1 - con * con - 2 * al * con);
+      //y = this.y0 - common.PI * this.R * Math.sqrt(1 - con * con - 2 * al * con);
       y=this.y0 - con;
     }
     p.x = x;
@@ -104,7 +106,7 @@ proj4.Proj.vandg = {
     -----------------*/
     p.x -= this.x0;
     p.y -= this.y0;
-    con = proj4.common.PI * this.R;
+    con = common.PI * this.R;
     xx = p.x / con;
     yy =p.y / con;
     xys = xx * xx + yy * yy;
@@ -124,15 +126,15 @@ proj4.Proj.vandg = {
     }
     th1 = Math.acos(con) / 3;
     if (p.y >= 0) {
-      lat = (-m1 *Math.cos(th1 + proj4.common.PI / 3) - c2 / 3 / c3) * proj4.common.PI;
+      lat = (-m1 *Math.cos(th1 + common.PI / 3) - c2 / 3 / c3) * common.PI;
     } else {
-      lat = -(-m1 * Math.cos(th1 + proj4.common.PI / 3) - c2 / 3 / c3) * proj4.common.PI;
+      lat = -(-m1 * Math.cos(th1 + common.PI / 3) - c2 / 3 / c3) * common.PI;
     }
 
-    if (Math.abs(xx) < proj4.common.EPSLN) {
+    if (Math.abs(xx) < common.EPSLN) {
       lon = this.long0;
     } else {
-      lon = proj4.common.adjust_lon(this.long0 + proj4.common.PI * (xys - 1 + Math.sqrt(1 + 2 * (xx * xx - yy * yy) + xys * xys)) / 2 / xx);
+      lon = common.adjust_lon(this.long0 + common.PI * (xys - 1 + Math.sqrt(1 + 2 * (xx * xx - yy * yy) + xys * xys)) / 2 / xx);
     }
 
     p.x=lon;
@@ -140,3 +142,5 @@ proj4.Proj.vandg = {
     return p;
   }
 };
+
+});

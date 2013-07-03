@@ -1,4 +1,4 @@
-/*******************************************************************************
+define(function (require, exports, module) {/*******************************************************************************
 NAME                            CASSINI
 
 PURPOSE:  Transforms input longitude and latitude to Easting and
@@ -24,14 +24,16 @@ ALGORITHM REFERENCES
 // Initialize the Cassini projection
 // -----------------------------------------------------------------
 
-proj4.Proj.cass = {
+var common = require('../common');
+
+module.exports = {
   init: function() {
     if (!this.sphere) {
-      this.e0 = proj4.common.e0fn(this.es);
-      this.e1 = proj4.common.e1fn(this.es);
-      this.e2 = proj4.common.e2fn(this.es);
-      this.e3 = proj4.common.e3fn(this.es);
-      this.ml0 = this.a * proj4.common.mlfn(this.e0, this.e1, this.e2, this.e3, this.lat0);
+      this.e0 = common.e0fn(this.es);
+      this.e1 = common.e1fn(this.es);
+      this.e2 = common.e2fn(this.es);
+      this.e3 = common.e3fn(this.es);
+      this.ml0 = this.a * common.mlfn(this.e0, this.e1, this.e2, this.e3, this.lat0);
     }
   },
 
@@ -46,7 +48,7 @@ proj4.Proj.cass = {
     var x, y;
     var lam = p.x;
     var phi = p.y;
-    lam = proj4.common.adjust_lon(lam - this.long0);
+    lam = common.adjust_lon(lam - this.long0);
 
     if (this.sphere) {
       x = this.a * Math.asin(Math.cos(phi) * Math.sin(lam));
@@ -56,12 +58,12 @@ proj4.Proj.cass = {
       //ellipsoid
       var sinphi = Math.sin(phi);
       var cosphi = Math.cos(phi);
-      var nl = proj4.common.gN(this.a, this.e, sinphi);
+      var nl = common.gN(this.a, this.e, sinphi);
       var tl = Math.tan(phi) * Math.tan(phi);
       var al = lam * Math.cos(phi);
       var asq = al * al;
       var cl = this.es * cosphi * cosphi / (1 - this.es);
-      var ml = this.a * proj4.common.mlfn(this.e0, this.e1, this.e2, this.e3, phi);
+      var ml = this.a * common.mlfn(this.e0, this.e1, this.e2, this.e3, phi);
 
       x = nl * al * (1 - asq * tl * (1 / 6 - (8 - tl + 8 * cl) * asq / 120));
       y = ml - this.ml0 + nl * sinphi / cosphi * asq * (0.5 + (5 - tl + 6 * cl) * asq / 24);
@@ -91,16 +93,16 @@ proj4.Proj.cass = {
     else {
       /* ellipsoid */
       var ml1 = this.ml0 / this.a + y;
-      var phi1 = proj4.common.imlfn(ml1, this.e0, this.e1, this.e2, this.e3);
-      if (Math.abs(Math.abs(phi1) - proj4.common.HALF_PI) <= proj4.common.EPSLN) {
+      var phi1 = common.imlfn(ml1, this.e0, this.e1, this.e2, this.e3);
+      if (Math.abs(Math.abs(phi1) - common.HALF_PI) <= common.EPSLN) {
         p.x = this.long0;
-        p.y = proj4.common.HALF_PI;
+        p.y = common.HALF_PI;
         if (y < 0) {
           p.y *= -1;
         }
         return p;
       }
-      var nl1 = proj4.common.gN(this.a, this.e, Math.sin(phi1));
+      var nl1 = common.gN(this.a, this.e, Math.sin(phi1));
 
       var rl1 = nl1 * nl1 * nl1 / this.a / this.a * (1 - this.es);
       var tl1 = Math.pow(Math.tan(phi1), 2);
@@ -111,10 +113,12 @@ proj4.Proj.cass = {
 
     }
 
-    p.x = proj4.common.adjust_lon(lam + this.long0);
-    p.y = proj4.common.adjust_lat(phi);
+    p.x = common.adjust_lon(lam + this.long0);
+    p.y = common.adjust_lat(phi);
     return p;
 
   } //cassInv()
 
 };
+
+});

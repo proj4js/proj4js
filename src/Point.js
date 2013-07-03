@@ -1,4 +1,6 @@
-proj4.Point = proj4.Class({
+define(function (require, exports, module) {var Class = require('./class');
+var mgrs = require('./mgrs');
+var Point = Class({
 
   /**
    * Constructor: proj4.Point
@@ -33,7 +35,7 @@ proj4.Point = proj4.Class({
    * {proj4}.Point the cloned point.
    */
   clone : function() {
-    return new proj4.Point(this.x, this.y, this.z);
+    return new Point(this.x, this.y, this.z);
   },
     /**
    * APIMethod: toString
@@ -57,4 +59,26 @@ proj4.Point = proj4.Class({
   toShortString : function() {
     return (this.x + ", " + this.y);
   }
+});
+Point.fromMGRS = function(mgrsStr) {
+  var llbbox = mgrs.inverse(mgrsStr);
+  return new Point((llbbox[2] + llbbox[0]) / 2, (llbbox[3] + llbbox[1]) / 2);
+};
+
+  /**
+   * Converts a proj4.Point instance to a MGRS reference. The point
+   * coordinates are expected to be in WGS84 longitude and latitude.
+   *
+   * Only available if proj4 is loaded.
+   *
+   * @param accuracy {int} The accuracy for the MGRS reference in digits (5
+   *     for 1 m, 4 for 10 m, 3 for 100 m, 4 for 1000 m or 5 for 10000 m) 
+   */
+Point.prototype.toMGRS = function(accuracy) {
+  return mgrs.forward({
+    lon: this.x,
+    lat: this.y
+  }, accuracy);
+};
+module.exports = Point;
 });

@@ -1,4 +1,4 @@
-/*******************************************************************************
+define(function (require, exports, module) {/*******************************************************************************
 NAME                       OBLIQUE MERCATOR (HOTINE) 
 
 PURPOSE:  Transforms input longitude and latitude to Easting and
@@ -21,7 +21,9 @@ ALGORITHM REFERENCES
     Printing Office, Washington D.C., 1989.
 *******************************************************************************/
 
-proj4.Proj.omerc = {
+var common = require('../common');
+
+module.exports = {
 
   /* Initialize the Oblique Mercator  projection
     ------------------------------------------*/
@@ -38,7 +40,7 @@ proj4.Proj.omerc = {
 
     this.bl = Math.sqrt(1 + this.es / (1 - this.es) * Math.pow(coslat, 4));
     this.al = this.a * this.bl * this.k0 * Math.sqrt(1 - this.es) / (1 - con * con);
-    var t0 = proj4.common.tsfnz(this.e, this.lat0, sinlat);
+    var t0 = common.tsfnz(this.e, this.lat0, sinlat);
     var dl = this.bl / coslat * Math.sqrt((1 - this.es) / (1 - con * con));
     if (dl * dl < 1){
       dl = 1;
@@ -62,8 +64,8 @@ proj4.Proj.omerc = {
     }
     else {
       //2 points method
-      var t1 = proj4.common.tsfnz(this.e, this.lat1, Math.sin(this.lat1));
-      var t2 = proj4.common.tsfnz(this.e, this.lat2, Math.sin(this.lat2));
+      var t1 = common.tsfnz(this.e, this.lat1, Math.sin(this.lat1));
+      var t2 = common.tsfnz(this.e, this.lat2, Math.sin(this.lat2));
       if (this.lat0 >= 0) {
         this.el = (dl + Math.sqrt(dl * dl - 1)) * Math.pow(t0, this.bl);
       }
@@ -76,10 +78,10 @@ proj4.Proj.omerc = {
       gl = 0.5 * (fl - 1 / fl);
       var jl = (this.el * this.el - ll * hl) / (this.el * this.el + ll * hl);
       var pl = (ll - hl) / (ll + hl);
-      var dlon12 = proj4.common.adjust_lon(this.long1 - this.long2);
+      var dlon12 = common.adjust_lon(this.long1 - this.long2);
       this.long0 = 0.5 * (this.long1 + this.long2) - Math.atan(jl * Math.tan(0.5 * this.bl * (dlon12)) / pl) / this.bl;
-      this.long0 = proj4.common.adjust_lon(this.long0);
-      var dlon10 = proj4.common.adjust_lon(this.long1 - this.long0);
+      this.long0 = common.adjust_lon(this.long0);
+      var dlon10 = common.adjust_lon(this.long1 - this.long0);
       this.gamma0 = Math.atan(Math.sin(this.bl * (dlon10)) / gl);
       this.alpha = Math.asin(dl * Math.sin(this.gamma0));
     }
@@ -104,33 +106,33 @@ proj4.Proj.omerc = {
   forward: function(p) {
     var lon = p.x;
     var lat = p.y;
-    var dlon = proj4.common.adjust_lon(lon - this.long0);
+    var dlon = common.adjust_lon(lon - this.long0);
     var us, vs;
     var con;
-    if (Math.abs(Math.abs(lat) - proj4.common.HALF_PI) <= proj4.common.EPSLN) {
+    if (Math.abs(Math.abs(lat) - common.HALF_PI) <= common.EPSLN) {
       if (lat > 0) {
         con = -1;
       }
       else {
         con = 1;
       }
-      vs = this.al / this.bl * Math.log(Math.tan(proj4.common.FORTPI + con * this.gamma0 * 0.5));
-      us = -1 * con * proj4.common.HALF_PI * this.al / this.bl;
+      vs = this.al / this.bl * Math.log(Math.tan(common.FORTPI + con * this.gamma0 * 0.5));
+      us = -1 * con * common.HALF_PI * this.al / this.bl;
     }
     else {
-      var t = proj4.common.tsfnz(this.e, lat, Math.sin(lat));
+      var t = common.tsfnz(this.e, lat, Math.sin(lat));
       var ql = this.el / Math.pow(t, this.bl);
       var sl = 0.5 * (ql - 1 / ql);
       var tl = 0.5 * (ql + 1 / ql);
       var vl = Math.sin(this.bl * (dlon));
       var ul = (sl * Math.sin(this.gamma0) - vl * Math.cos(this.gamma0)) / tl;
-      if (Math.abs(Math.abs(ul) - 1) <= proj4.common.EPSLN) {
+      if (Math.abs(Math.abs(ul) - 1) <= common.EPSLN) {
         vs = Number.POSITIVE_INFINITY;
       }
       else {
         vs = 0.5 * this.al * Math.log((1 - ul) / (1 + ul)) / this.bl;
       }
-      if (Math.abs(Math.cos(this.bl * (dlon))) <= proj4.common.EPSLN) {
+      if (Math.abs(Math.cos(this.bl * (dlon))) <= common.EPSLN) {
         us = this.al * this.bl * (dlon);
       }
       else {
@@ -168,18 +170,20 @@ proj4.Proj.omerc = {
     var vp = Math.sin(this.bl * us / this.al);
     var up = (vp * Math.cos(this.gamma0) + sp * Math.sin(this.gamma0)) / tp;
     var ts = Math.pow(this.el / Math.sqrt((1 + up) / (1 - up)), 1 / this.bl);
-    if (Math.abs(up - 1) < proj4.common.EPSLN) {
+    if (Math.abs(up - 1) < common.EPSLN) {
       p.x = this.long0;
-      p.y = proj4.common.HALF_PI;
+      p.y = common.HALF_PI;
     }
-    else if (Math.abs(up + 1) < proj4.common.EPSLN) {
+    else if (Math.abs(up + 1) < common.EPSLN) {
       p.x = this.long0;
-      p.y = -1 * proj4.common.HALF_PI;
+      p.y = -1 * common.HALF_PI;
     }
     else {
-      p.y = proj4.common.phi2z(this.e, ts);
-      p.x = proj4.common.adjust_lon(this.long0 - Math.atan2(sp * Math.cos(this.gamma0) - vp * Math.sin(this.gamma0), Math.cos(this.bl * us / this.al)) / this.bl);
+      p.y = common.phi2z(this.e, ts);
+      p.x = common.adjust_lon(this.long0 - Math.atan2(sp * Math.cos(this.gamma0) - vp * Math.sin(this.gamma0), Math.cos(this.bl * us / this.al)) / this.bl);
     }
     return p;
   }
 };
+
+});

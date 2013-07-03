@@ -1,4 +1,4 @@
-/*******************************************************************************
+define(function (require, exports, module) {/*******************************************************************************
 NAME                            MERCATOR
 
 PURPOSE:  Transforms input longitude and latitude to Easting and
@@ -32,7 +32,9 @@ ALGORITHM REFERENCES
 //static double false_easting = x0;     /* x offset in meters      */
 //scale_fact = k0 
 
-proj4.Proj.merc = {
+var common = require('../common');
+
+module.exports = {
   init: function() {
     var con = this.b / this.a;
     this.es = 1 - con * con;
@@ -42,7 +44,7 @@ proj4.Proj.merc = {
         this.k0 = Math.cos(this.lat_ts);
       }
       else {
-        this.k0 = proj4.common.msfnz(this.e, Math.sin(this.lat_ts), Math.cos(this.lat_ts));
+        this.k0 = common.msfnz(this.e, Math.sin(this.lat_ts), Math.cos(this.lat_ts));
       }
     }
     else {
@@ -65,25 +67,25 @@ proj4.Proj.merc = {
     var lon = p.x;
     var lat = p.y;
     // convert to radians
-    if (lat * proj4.common.R2D > 90 && lat * proj4.common.R2D < -90 && lon * proj4.common.R2D > 180 && lon * proj4.common.R2D < -180) {
-      proj4.reportError("merc:forward: llInputOutOfRange: " + lon + " : " + lat);
+    if (lat * common.R2D > 90 && lat * common.R2D < -90 && lon * common.R2D > 180 && lon * common.R2D < -180) {
+      //proj4.reportError("merc:forward: llInputOutOfRange: " + lon + " : " + lat);
       return null;
     }
 
     var x, y;
-    if (Math.abs(Math.abs(lat) - proj4.common.HALF_PI) <= proj4.common.EPSLN) {
-      proj4.reportError("merc:forward: ll2mAtPoles");
+    if (Math.abs(Math.abs(lat) - common.HALF_PI) <= common.EPSLN) {
+      //proj4.reportError("merc:forward: ll2mAtPoles");
       return null;
     }
     else {
       if (this.sphere) {
-        x = this.x0 + this.a * this.k0 * proj4.common.adjust_lon(lon - this.long0);
-        y = this.y0 + this.a * this.k0 * Math.log(Math.tan(proj4.common.FORTPI + 0.5 * lat));
+        x = this.x0 + this.a * this.k0 * common.adjust_lon(lon - this.long0);
+        y = this.y0 + this.a * this.k0 * Math.log(Math.tan(common.FORTPI + 0.5 * lat));
       }
       else {
         var sinphi = Math.sin(lat);
-        var ts = proj4.common.tsfnz(this.e, lat, sinphi);
-        x = this.x0 + this.a * this.k0 * proj4.common.adjust_lon(lon - this.long0);
+        var ts = common.tsfnz(this.e, lat, sinphi);
+        x = this.x0 + this.a * this.k0 * common.adjust_lon(lon - this.long0);
         y = this.y0 - this.a * this.k0 * Math.log(ts);
       }
       p.x = x;
@@ -102,20 +104,22 @@ proj4.Proj.merc = {
     var lon, lat;
 
     if (this.sphere) {
-      lat = proj4.common.HALF_PI - 2 * Math.atan(Math.exp(-y / (this.a * this.k0)));
+      lat = common.HALF_PI - 2 * Math.atan(Math.exp(-y / (this.a * this.k0)));
     }
     else {
       var ts = Math.exp(-y / (this.a * this.k0));
-      lat = proj4.common.phi2z(this.e, ts);
+      lat = common.phi2z(this.e, ts);
       if (lat === -9999) {
-        proj4.reportError("merc:inverse: lat = -9999");
+        //proj4.reportError("merc:inverse: lat = -9999");
         return null;
       }
     }
-    lon = proj4.common.adjust_lon(this.long0 + x / (this.a * this.k0));
+    lon = common.adjust_lon(this.long0 + x / (this.a * this.k0));
 
     p.x = lon;
     p.y = lat;
     return p;
   }
 };
+
+});

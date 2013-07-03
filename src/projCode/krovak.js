@@ -1,4 +1,4 @@
-/**
+define(function (require, exports, module) {/**
    NOTES: According to EPSG the full Krovak projection method should have
           the following parameters.  Within PROJ.4 the azimuth, and pseudo
           standard parallel are hardcoded in the algorithm and can't be 
@@ -21,7 +21,9 @@
 
  **/
 
-proj4.Proj.krovak = {
+var common = require('../common');
+
+module.exports = {
 
   init: function() {
     /* we want Bessel as fixed ellipsoid */
@@ -67,7 +69,7 @@ proj4.Proj.krovak = {
     var gfi, u, deltav, s, d, eps, ro;
     var lon = p.x;
     var lat = p.y;
-    var delta_lon = proj4.common.adjust_lon(lon - this.long0); // Delta longitude
+    var delta_lon = common.adjust_lon(lon - this.long0); // Delta longitude
     /* Transformation */
     gfi = Math.pow(((1 + this.e * Math.sin(lat)) / (1 - this.e * Math.sin(lat))), (this.alfa * this.e / 2));
     u = 2 * (Math.atan(this.k * Math.pow(Math.tan(lat / 2 + this.s45), this.alfa) / gfi) - this.s45);
@@ -124,7 +126,7 @@ proj4.Proj.krovak = {
       iter += 1;
     } while (ok === 0 && iter < 15);
     if (iter >= 15) {
-      proj4.reportError("PHI3Z-CONV:Latitude failed to converge after 15 iterations");
+      //proj4.reportError("PHI3Z-CONV:Latitude failed to converge after 15 iterations");
       //console.log('iter:', iter);
       return null;
     }
@@ -132,3 +134,5 @@ proj4.Proj.krovak = {
     return (p);
   }
 };
+
+});

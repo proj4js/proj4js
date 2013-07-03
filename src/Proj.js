@@ -1,5 +1,5 @@
-/**
- * Class: proj4.Proj
+define(function (require, exports, module) {/**
+ * Class: proj
  *
  * Proj objects provide transformation methods for point coordinates
  * between geodetic latitude/longitude and a projected coordinate system. 
@@ -13,7 +13,56 @@
  *
  * A projection object has properties for units and title strings.
  */
-proj4.Proj = proj4.Class({
+var Class = require('./class');
+var extend = require('./extend');
+var common = require('./common');
+var defs = require('./defs');
+var constants=require('./constants');
+var datum = require('./datum');
+var projections = {};
+projections.aea = require('./projCode/aea');
+projections.equi = require('./projCode/equi');
+projections.lcc = require('./projCode/lcc');
+projections.utm = require('./projCode/utm');
+projections.aeqd = require('./projCode/aeqd');
+projections.eqdc = require('./projCode/eqdc');
+projections.gauss = require('./projCode/gauss');
+projections.merc = require('./projCode/merc');
+projections.poly = require('./projCode/poly');
+projections.mill = require('./projCode/mill');
+projections.cea = require('./projCode/cea');
+projections.krovak = require('./projCode/krovak');
+projections.sterea = require('./projCode/sterea');
+projections.ortho = require('./projCode/ortho');
+projections.laea = require('./projCode/laea');
+projections.cass = require('./projCode/cass');
+projections.eqc = require('./projCode/eqc');
+projections.tmerc = require('./projCode/tmerc');
+projections.gstmerc = require('./projCode/gstmerc');
+projections.somerc = require('./projCode/somerc');
+projections.sinu = require('./projCode/sinu');
+projections.stere = require('./projCode/stere');
+projections.gnom = require('./projCode/gnom');
+projections.omerc = require('./projCode/omerc');
+projections.nzmg = require('./projCode/nzmg');
+projections.moll = require('./projCode/moll');
+projections.vandg = require('./projCode/vandg');
+projections.longlat = {
+  init: function() {
+    //no-op for longlat
+  },
+  forward: function(pt) {
+    //identity transform
+    return pt;
+  },
+  inverse: function(pt) {
+    //identity transform
+    return pt;
+  }
+};
+projections.identity = projections.longlat;
+
+var proj = Class({
 
   /**
    * Property: title
@@ -63,7 +112,7 @@ proj4.Proj = proj4.Class({
 
   /**
    * Constructor: initialize
-   * Constructor for proj4.Proj objects
+   * Constructor for proj objects
    *
    * Parameters:
    * srsCode - a code for map projection definition parameters.  These are usually
@@ -140,7 +189,7 @@ proj4.Proj = proj4.Class({
 
       this.parseDefs();
     }
-    this.initTransforms();
+    this.initTransforms(this.projName);
   },
 
   /**
@@ -148,18 +197,12 @@ proj4.Proj = proj4.Class({
    *    Finalize the initialization of the Proj object
    *
    */
-  initTransforms: function() {
-    if (!(this.projName in proj4.Proj)) {
-      throw ("unknown projection");
+  initTransforms: function(projName) {
+    if (!(projName in projections)) {
+      throw ("unknown projection "+projName);
     }
-    proj4.extend(this, proj4.Proj[this.projName]);
+    extend(this, projections[projName]);
     this.init();
-    if (this.queue) {
-      var item;
-      while ((item = this.queue.shift())) {
-        item.call(this, this);
-      }
-    }
   },
 
   /**
@@ -238,7 +281,7 @@ proj4.Proj = proj4.Class({
     case 'GEOCCS':
       break;
     case 'PROJECTION':
-      this.projName = proj4.wktProjections[wktName];
+      this.projName = constants.wktProjections[wktName];
       break;
     case 'DATUM':
       this.datumName = wktName;
@@ -274,10 +317,10 @@ proj4.Proj = proj4.Class({
         this.k0 = value;
         break;
       case 'central_meridian':
-        this.long0 = value * proj4.common.D2R;
+        this.long0 = value * common.D2R;
         break;
       case 'latitude_of_origin':
-        this.lat0 = value * proj4.common.D2R;
+        this.lat0 = value * common.D2R;
         break;
       case 'more_here':
         break;
@@ -349,7 +392,7 @@ proj4.Proj = proj4.Class({
    *
    */
   parseDefs: function() {
-    this.defData = proj4.defs[this.srsCode];
+    this.defData = defs[this.srsCode];
     if (!this.defData) {
       return;
     }
@@ -380,16 +423,16 @@ proj4.Proj = proj4.Class({
           g = this.grids[i];
           var fg = g.split("@");
           if (fg[fg.length - 1] === "") {
-            proj4.reportError("nadgrids syntax error '" + this.nadgrids + "' : empty grid found");
+            //proj4.reportError("nadgrids syntax error '" + this.nadgrids + "' : empty grid found");
             continue;
           }
           this.grids[i] = {
             mandatory: fg.length === 1, //@=> optional grid (no error if not found)
             name: fg[fg.length - 1],
-            grid: proj4.grids[fg[fg.length - 1]] //FIXME: grids loading ...
+            grid: constants.grids[fg[fg.length - 1]] //FIXME: grids loading ...
           };
           if (this.grids[i].mandatory && !this.grids[i].grid) {
-            proj4.reportError("Missing '" + this.grids[i].name + "'");
+            //proj4.reportError("Missing '" + this.grids[i].name + "'");
           }
         }
       }
@@ -397,7 +440,7 @@ proj4.Proj = proj4.Class({
       // the loaded grids, its name and the mandatory informations of it.
     }
     if (this.datumCode && this.datumCode !== 'none') {
-      var datumDef = proj4.Datum[this.datumCode];
+      var datumDef = constants.Datum[this.datumCode];
       if (datumDef) {
         this.datum_params = datumDef.towgs84 ? datumDef.towgs84.split(',') : null;
         this.ellps = datumDef.ellipse;
@@ -405,13 +448,13 @@ proj4.Proj = proj4.Class({
       }
     }
     if (!this.a) { // do we have an ellipsoid?
-      var ellipse = proj4.Ellipsoid[this.ellps] ? proj4.Ellipsoid[this.ellps] : proj4.Ellipsoid.WGS84;
-      proj4.extend(this, ellipse);
+      var ellipse = constants.Ellipsoid[this.ellps] ? constants.Ellipsoid[this.ellps] : constants.Ellipsoid.WGS84;
+      extend(this, ellipse);
     }
     if (this.rf && !this.b){
       this.b = (1.0 - 1.0 / this.rf) * this.a;
     }
-    if (this.rf === 0 || Math.abs(this.a - this.b) < proj4.common.EPSLN) {
+    if (this.rf === 0 || Math.abs(this.a - this.b) < common.EPSLN) {
       this.sphere = true;
       this.b = this.a;
     }
@@ -420,7 +463,7 @@ proj4.Proj = proj4.Class({
     this.es = (this.a2 - this.b2) / this.a2; // e ^ 2
     this.e = Math.sqrt(this.es); // eccentricity
     if (this.R_A) {
-      this.a *= 1 - this.es * (proj4.common.SIXTH + this.es * (proj4.common.RA4 + this.es * proj4.common.RA6));
+      this.a *= 1 - this.es * (common.SIXTH + this.es * (common.RA4 + this.es * common.RA6));
       this.a2 = this.a * this.a;
       this.b2 = this.b * this.b;
       this.es = 0;
@@ -434,36 +477,10 @@ proj4.Proj = proj4.Class({
       this.axis = "enu";
     }
 
-    this.datum = new proj4.datum(this);
+    this.datum = new datum(this);
   }
 });
 
-proj4.Proj.longlat = {
-  init: function() {
-    //no-op for longlat
-  },
-  forward: function(pt) {
-    //identity transform
-    return pt;
-  },
-  inverse: function(pt) {
-    //identity transform
-    return pt;
-  }
-};
-proj4.Proj.identity = proj4.Proj.longlat;
+module.exports=proj;
 
-/**
-  proj4.defs is a collection of coordinate system definition objects in the 
-  PROJ.4 command line format.
-  Generally a def is added by means of a separate .js file for example:
-
-    <SCRIPT type="text/javascript" src="defs/EPSG26912.js"></SCRIPT>
-
-  def is a CS definition in PROJ.4 WKT format, for example:
-    +proj="tmerc"   //longlat, etc.
-    +a=majorRadius
-    +b=minorRadius
-    +lat0=somenumber
-    +long=somenumber
-*/
+});
