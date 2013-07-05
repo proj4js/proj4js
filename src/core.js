@@ -28,7 +28,7 @@ define(function(require, exports, module) {
     else if (typeof toProj === 'string') {
       toProj = new Proj(toProj);
     }
-    else if (toProj.x || Array.isArray(toProj)) {
+    else if (('x' in toProj) || Array.isArray(toProj)) {
       coord = toProj;
       toProj = fromProj;
       fromProj = wgs84;

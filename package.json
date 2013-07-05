@@ -1,6 +1,6 @@
 {
   "name": "proj4js",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "Proj4js is a JavaScript library to transform point coordinates from one coordinate system to another, including datum transformations.",
   "main": "./dist/proj4.js",
   "directories": {
@@ -17,12 +17,12 @@
   "author": "",
   "license": "MIT",
   "devDependencies": {
-    "grunt-contrib-concat": "~0.3.0",
-    "grunt-contrib-uglify": "~0.2.2",
     "grunt-cli": "~0.1.9",
     "grunt": "~0.4.1",
     "grunt-contrib-connect": "~0.3.0",
     "grunt-mocha-phantomjs": "~0.2.8",
-    "grunt-contrib-jshint": "~0.6.0"
+    "grunt-contrib-jshint": "~0.6.0",
+    "requirejs": "~2.1.7",
+    "grunt-contrib-requirejs": "~0.4.1"
   }
 }

@@ -12,10 +12,13 @@ requirejs.config({
     //config is relative to the baseUrl, and
     //never includes a ".js" extension since
     //the paths config could be for a directory.
-   
+   waitSeconds:15,
     use: {
         mocha: {
             attach: 'mocha'
+        },
+        mochaPhantomJS: {
+            attach: 'mochaPhantomJS'
         }
     }
 });
@@ -32,9 +35,7 @@ function   (        chai,   proj4) {
     
     var assert = chai.assert;
     proj4.defs([
-  ["EPSG:54008","+proj=sinu +lon_0=0 +x_0=0 +y_0=0 +ellps=WGS84 +datum=WGS84 +units=m  no_defs"],
-  ["EPSG:54009", "+proj=moll +lon_0=0 +units=m"],
-  ["EPSG:102018", "+proj=gnom +lat_0=90 +lon_0=0 +x_0=6300000 +y_0=6300000 +ellps=WGS84 +datum=WGS84 +units=m +no_defs"]//,
+   ["EPSG:102018", "+proj=gnom +lat_0=90 +lon_0=0 +x_0=6300000 +y_0=6300000 +ellps=WGS84 +datum=WGS84 +units=m +no_defs"]//,
 ]);
 
 var testPoints = [
@@ -49,12 +50,8 @@ var testPoints = [
   {code: 'ESRI:102026',
     xy: [3257939.781874, 5459865.918947],
     ll: [45.17578125, 41.923828125]
-  }/* reactivate once were done with tests,
-  {code: 'EPSG:54029',
-    xy: [2359523.653024, 3280192.180346],
-    ll: [21.796875, 28.828125]
-  }*/,
-  {code: 'EPSG:54008',
+  },
+  {code: 'ESRI:54008',
     xy: [738509.49,5874620.38],
     ll: [11.0, 53.0]
   },
@@ -70,16 +67,100 @@ var testPoints = [
     xy: [411461.807497, 4700123.744402],
     ll: [-82.07666015625, 42.448388671875]
   },
-  {code: 'EPSG:54009',
+  {code: 'ESRI:54009',
     xy: [3891383.58309223, 6876758.9933288],
     ll: [60,60]
+  },
+  {
+    code:'EPSG:3005',
+    ll:[-126.54, 54.15],
+    xy:[964813.103719, 1016486.305862]
+  },
+  {
+    code:'ESRI:102016',
+    ll:[50.977303830208, 30.915260093747],
+    xy:[5112279.911077, -4143196.76625]
+  },
+  {
+    code:'EPSG:2066',
+    ll:[-60.64, 11.23399779],
+    xy:[212475.897033, 170556.426787]
+  },
+    {
+    code:'EPSG:3975',
+    ll:[-9.764450683, 25.751953],
+    xy:[-942135.525095996, 3178441.8667094777]
+  },
+   {
+    code:'EPSG:3786',
+    ll:[-1.7539371169976, 12.632997701986],
+    xy:[-195029.12334755991, 1395621.9368162225],
+    acc:{
+      ll:2
+    }
+  },
+  {
+    code:'EPSG:2934',
+    ll:[116.65547897884308 , -0.6595605286983485],
+    xy:[-7214213.515517, 827245.259088]
+  },
+  {
+    code:'EPSG:2931',
+    ll:[5, 25],
+    xy:[-308919.1462828873, 2788738.252386554],
+    acc:{
+      ll:5
+    }
   }
+  ,{
+    code:'EPSG:2065',
+    ll:[17.323583231075897, 49.39440725405376],
+    xy:[-544115.474379, -1144058.330762]
+  },{
+    code:'ESRI:53003',
+    ll:[-1.3973289073953, 12.649176474268513  ],
+    xy:[-155375.88535614178, 1404635.2633403721],
+    acc:{
+      ll:3
+    }
+  },{
+    code:'EPSG:27200',
+    ll:[172.465, -40.7],
+    xy:[2464770.343667, 6056137.861919]
+  },{
+    code:'EPSG:2057',
+    ll:[52.6, 27.5],
+    xy:[658017.25458, 3043003.058818]
+  },{
+    code:'EPSG:29101',
+    ll:[-49.221772553812, -0.34551739237581],
+    xy:[5531902.134932, 9961660.779347],
+    acc:{
+      ll:3,
+      xy:-2
+    }
+  },{
+    code:'EPSG:32661',
+    ll:[0, 75],
+    xy:[2000000, 325449.806286]
+  },{
+    code:'EPSG:2036',
+    ll:[-66.415, 46.34],
+    xy:[2506543.370459, 7482219.546176]
+  },{
+    code:'ESRI:53029',
+    ll:[-1.41160801956, 67.40891366748],
+    xy:[-125108.675828, 9016899.042114],
+    acc:{
+      ll:0,
+      xy:-5
+    }
 ];
 var aWKT = [
 {
   name:'WGS84 Lat/Long Degrees -180 ==> +180',
-	units:'Degree',
-	proj:'longlat',
+  units:'Degree',
+  proj:'longlat',
 	wkt:'GEOGCS["WGS84 Lat/Long Degrees -180 ==> +180",DATUM["D_WGS_1984",SPHEROID["World_Geodetic_System_of_1984",6378137,298.257222932867]],PRIMEM["Greenwich",0],UNIT["Degree",0.017453292519943295]]'
 },
 {
@@ -113,12 +194,21 @@ var aWKT = [
 	wkt:'PROJCS["NAD_1983_StatePlane_Massachusetts_Mainland_FIPS_2001_Feet",GEOGCS["GCS_North_American_1983",DATUM["D_North_American_1983",SPHEROID["GRS_1980",6378137.0,298.257222101]],PRIMEM["Greenwich",0.0],UNIT["Degree",0.0174532925199433]],PROJECTION["Lambert_Conformal_Conic"],PARAMETER["False_Easting",656166.6666666665],PARAMETER["False_Northing",2460625.0],PARAMETER["Central_Meridian",-71.5],PARAMETER["Standard_Parallel_1",41.71666666666667],PARAMETER["Standard_Parallel_2",42.68333333333333],PARAMETER["Latitude_Of_Origin",41.0],UNIT["Foot_US",0.3048006096012192]]'
 }
 ];
-var xyEPSLN = 1.0e-2;
-  var llEPSLN = 1.0e-6;
 describe('proj4', function () {
     describe('core',function(){
 	testPoints.forEach(function(testPoint){
         describe(testPoint.code,function(){
+          var xyAcc=2,llAcc=6;
+          if('acc' in testPoint){
+            if('xy' in testPoint.acc){
+              xyAcc = testPoint.acc.xy;
+            }
+            if('ll' in testPoint.acc){
+              llAcc = testPoint.acc.ll;
+            }
+          }
+          var xyEPSLN = Math.pow(10,-1*xyAcc);
+           var llEPSLN = Math.pow(10,-1*llAcc);
             describe('traditional',function(){
 		        it('should work with forwards', function () {
 			        var proj = new proj4.Proj(testPoint.code);
@@ -231,6 +321,9 @@ describe('proj4', function () {
 		});
 	})
 	describe('utility',function(){
+      it('should have MGRS available in the proj4.util namespace',function(){
+			assert.typeOf(proj4.mgrs, "object", "MGRS available in the proj4.util namespace");
+		});
 	 	it('should have fromMGRS method added to proj4.Point prototype',function(){
 			assert.typeOf(proj4.Point.fromMGRS, "function", "fromMGRS method added to proj4.Point prototype");
 		});
@@ -280,5 +373,6 @@ describe('proj4', function () {
 		});
 	});
 });
-   mocha.run(); 
+    if (window.mochaPhantomJS) { mochaPhantomJS.run(); }
+      else { mocha.run(); }
 });

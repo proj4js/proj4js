@@ -1,4 +1,5 @@
-define(function (require, exports, module) {/*******************************************************************************
+define(function(require, exports, module) {
+  /*******************************************************************************
 NAME                    MILLER CYLINDRICAL 
 
 PURPOSE:  Transforms input longitude and latitude to Easting and
@@ -27,46 +28,46 @@ ALGORITHM REFERENCES
     Package", U.S. Geological Survey National Mapping Division, May 1982.
 *******************************************************************************/
 
-var common = require('../common');
+  var common = require('../common');
 
-module.exports = {
+  module.exports = {
 
-  /* Initialize the Miller Cylindrical projection
+    /* Initialize the Miller Cylindrical projection
   -------------------------------------------*/
-  init: function() {
-    //no-op
-  },
+    init: function() {
+      //no-op
+    },
 
 
-  /* Miller Cylindrical forward equations--mapping lat,long to x,y
+    /* Miller Cylindrical forward equations--mapping lat,long to x,y
     ------------------------------------------------------------*/
-  forward: function(p) {
-    var lon = p.x;
-    var lat = p.y;
-    /* Forward equations
+    forward: function(p) {
+      var lon = p.x;
+      var lat = p.y;
+      /* Forward equations
       -----------------*/
-    var dlon = common.adjust_lon(lon - this.long0);
-    var x = this.x0 + this.a * dlon;
-    var y = this.y0 + this.a * Math.log(Math.tan((common.PI / 4) + (lat / 2.5))) * 1.25;
+      var dlon = common.adjust_lon(lon - this.long0);
+      var x = this.x0 + this.a * dlon;
+      var y = this.y0 + this.a * Math.log(Math.tan((common.PI / 4) + (lat / 2.5))) * 1.25;
 
-    p.x = x;
-    p.y = y;
-    return p;
-  }, //millFwd()
+      p.x = x;
+      p.y = y;
+      return p;
+    }, //millFwd()
 
-  /* Miller Cylindrical inverse equations--mapping x,y to lat/long
+    /* Miller Cylindrical inverse equations--mapping x,y to lat/long
     ------------------------------------------------------------*/
-  inverse: function(p) {
-    p.x -= this.x0;
-    p.y -= this.y0;
+    inverse: function(p) {
+      p.x -= this.x0;
+      p.y -= this.y0;
 
-    var lon = common.adjust_lon(this.long0 + p.x / this.a);
-    var lat = 2.5 * (Math.atan(Math.exp(0.8 * p.y / this.a)) - common.PI / 4);
+      var lon = common.adjust_lon(this.long0 + p.x / this.a);
+      var lat = 2.5 * (Math.atan(Math.exp(0.8 * p.y / this.a)) - common.PI / 4);
 
-    p.x = lon;
-    p.y = lat;
-    return p;
-  } //millInv()
-};
+      p.x = lon;
+      p.y = lat;
+      return p;
+    } //millInv()
+  };
 
 });
