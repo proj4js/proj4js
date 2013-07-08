@@ -4,11 +4,11 @@
   <title>Mocha Tests</title>
   <link rel="stylesheet" href="lib/mocha.css" />
 </head>
-<body><div id="mocha"></div>
+<body>
   <script src="lib/mocha.js"></script>
-  <script src="lib/chai.js"></script>
+  <div id="mocha"></div>
   <script src="testData.js"></script>
-  <script src="../dist/proj4.js"></script>
-  <script src="test.opt.js"></script>
+  <script data-main="test.amd.js" src="lib/require.js"></script>
+ 
 </body>
 </html>

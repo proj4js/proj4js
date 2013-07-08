@@ -20,20 +20,6 @@ define(function(require, exports, module) {
   var constants = require('./constants');
   var datum = require('./datum');
   var projections = require('./projections');
-  projections.longlat = {
-    init: function() {
-      //no-op for longlat
-    },
-    forward: function(pt) {
-      //identity transform
-      return pt;
-    },
-    inverse: function(pt) {
-      //identity transform
-      return pt;
-    }
-  };
-  projections.identity = projections.longlat;
 
   var proj = function(srsCode) {
     this.srsCodeInput = srsCode;
