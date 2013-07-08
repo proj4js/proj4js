@@ -52,9 +52,7 @@ module.exports = function(grunt) {
             endFile: 'almond/end.frag'
           },
           name: '../almond/almond',
-          include: ['proj4'],
-          insertRequire: ['proj4'],
-          optimize:'none'
+          include: ['proj4']
         }
     }
     }

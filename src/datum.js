@@ -1,11 +1,8 @@
 define(function(require, exports, module) {
   /** datum object
    */
-  var Class = require('./class');
   var common = require('./common');
-  module.exports = Class({
-
-    initialize: function(proj) {
+  var datum = function(proj) {
       this.datum_type = common.PJD_WGS84; //default setting
       if (!proj) {
         return;
@@ -41,7 +38,9 @@ define(function(require, exports, module) {
       if (this.datum_type === common.PJD_GRIDSHIFT) {
         this.grids = proj.grids;
       }
-    },
+    };
+  datum.prototype = {
+
 
     /****************************************************************/
     // cs_compare_datums()
@@ -387,12 +386,12 @@ define(function(require, exports, module) {
         p.z = Ry_BF * x_tmp - Rx_BF * y_tmp + z_tmp;
       } //cs_geocentric_from_wgs84()
     }
-  });
+  };
 
   /** point object, nothing fancy, just allows values to be
     passed back and forth by reference rather than by value.
     Other point classes may be used as long as they have
     x and y properties, which will get modified in the transform method.
 */
-
+  module.exports = datum;
 });

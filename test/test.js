@@ -155,6 +155,7 @@ var testPoints = [
       ll:0,
       xy:-5
     }
+  }
 ];
 var aWKT = [
 {

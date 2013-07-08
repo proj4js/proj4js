@@ -14,7 +14,6 @@ define(function(require, exports, module) {
    *
    * A projection object has properties for units and title strings.
    */
-  var Class = require('./class');
   var extend = require('./extend');
   var common = require('./common');
   var defs = require('./defs');
@@ -36,14 +35,80 @@ define(function(require, exports, module) {
   };
   projections.identity = projections.longlat;
 
-  var proj = Class({
-
+  var proj = function(srsCode) {
+    this.srsCodeInput = srsCode;
+  
+    //check to see if this is a WKT string
+    if ((srsCode.indexOf('GEOGCS') >= 0) || (srsCode.indexOf('GEOCCS') >= 0) || (srsCode.indexOf('PROJCS') >= 0) || (srsCode.indexOf('LOCAL_CS') >= 0)) {
+      this.parseWKT(srsCode);
+      this.deriveConstants();
+      //this.loadProjCode(this.projName);
+  
+    }
+    else {
+  
+      // DGR 2008-08-03 : support urn and url
+      if (srsCode.indexOf('urn:') === 0) {
+        //urn:ORIGINATOR:def:crs:CODESPACE:VERSION:ID
+        var urn = srsCode.split(':');
+        if ((urn[1] === 'ogc' || urn[1] === 'x-ogc') && (urn[2] === 'def') && (urn[3] === 'crs')) {
+          srsCode = urn[4] + ':' + urn[urn.length - 1];
+        }
+      }
+      else if (srsCode.indexOf('http://') === 0) {
+        //url#ID
+        var url = srsCode.split('#');
+        if (url[0].match(/epsg.org/)) {
+          // http://www.epsg.org/#
+          srsCode = 'EPSG:' + url[1];
+        }
+        else if (url[0].match(/RIG.xml/)) {
+          //http://librairies.ign.fr/geoportail/resources/RIG.xml#
+          //http://interop.ign.fr/registers/ign/RIG.xml#
+          srsCode = 'IGNF:' + url[1];
+        }
+        else if (url[0].indexOf('/def/crs/') !== -1) {
+          // http://www.opengis.net/def/crs/EPSG/0/code
+          url = srsCode.split('/');
+          srsCode = url.pop(); //code
+          url.pop(); //version FIXME
+          srsCode = url.pop() + ':' + srsCode; //authority
+        }
+      }
+      this.srsCode = srsCode.toUpperCase();
+      if (this.srsCode.indexOf("EPSG") === 0) {
+        this.srsCode = this.srsCode;
+        this.srsAuth = 'epsg';
+        this.srsProjNumber = this.srsCode.substring(5);
+        // DGR 2007-11-20 : authority IGNF
+      }
+      else if (this.srsCode.indexOf("IGNF") === 0) {
+        this.srsCode = this.srsCode;
+        this.srsAuth = 'IGNF';
+        this.srsProjNumber = this.srsCode.substring(5);
+        // DGR 2008-06-19 : pseudo-authority CRS for WMS
+      }
+      else if (this.srsCode.indexOf("CRS") === 0) {
+        this.srsCode = this.srsCode;
+        this.srsAuth = 'CRS';
+        this.srsProjNumber = this.srsCode.substring(4);
+      }
+      else {
+        this.srsAuth = '';
+        this.srsProjNumber = this.srsCode;
+      }
+  
+      this.parseDefs();
+    }
+    this.initTransforms(this.projName);
+  };
+  proj.prototype = {
+  
     /**
      * Property: title
      * The title to describe the projection
      */
     title: null,
-
     /**
      * Property: projName
      * The projection class for this projection, e.g. lcc (lambert conformal conic,
@@ -77,7 +142,7 @@ define(function(require, exports, module) {
      * are required.
      */
     localCS: false,
-
+  
     /**
      * Constructor: initialize
      * Constructor for proj objects
@@ -86,87 +151,20 @@ define(function(require, exports, module) {
      * srsCode - a code for map projection definition parameters.  These are usually
      * (but not always) EPSG codes.
      */
-    initialize: function(srsCode) {
-      this.srsCodeInput = srsCode;
-
-      //check to see if this is a WKT string
-      if ((srsCode.indexOf('GEOGCS') >= 0) || (srsCode.indexOf('GEOCCS') >= 0) || (srsCode.indexOf('PROJCS') >= 0) || (srsCode.indexOf('LOCAL_CS') >= 0)) {
-        this.parseWKT(srsCode);
-        this.deriveConstants();
-        //this.loadProjCode(this.projName);
-
-      }
-      else {
-
-        // DGR 2008-08-03 : support urn and url
-        if (srsCode.indexOf('urn:') === 0) {
-          //urn:ORIGINATOR:def:crs:CODESPACE:VERSION:ID
-          var urn = srsCode.split(':');
-          if ((urn[1] === 'ogc' || urn[1] === 'x-ogc') && (urn[2] === 'def') && (urn[3] === 'crs')) {
-            srsCode = urn[4] + ':' + urn[urn.length - 1];
-          }
-        }
-        else if (srsCode.indexOf('http://') === 0) {
-          //url#ID
-          var url = srsCode.split('#');
-          if (url[0].match(/epsg.org/)) {
-            // http://www.epsg.org/#
-            srsCode = 'EPSG:' + url[1];
-          }
-          else if (url[0].match(/RIG.xml/)) {
-            //http://librairies.ign.fr/geoportail/resources/RIG.xml#
-            //http://interop.ign.fr/registers/ign/RIG.xml#
-            srsCode = 'IGNF:' + url[1];
-          }
-          else if (url[0].indexOf('/def/crs/') !== -1) {
-            // http://www.opengis.net/def/crs/EPSG/0/code
-            url = srsCode.split('/');
-            srsCode = url.pop(); //code
-            url.pop(); //version FIXME
-            srsCode = url.pop() + ':' + srsCode; //authority
-          }
-        }
-        this.srsCode = srsCode.toUpperCase();
-        if (this.srsCode.indexOf("EPSG") === 0) {
-          this.srsCode = this.srsCode;
-          this.srsAuth = 'epsg';
-          this.srsProjNumber = this.srsCode.substring(5);
-          // DGR 2007-11-20 : authority IGNF
-        }
-        else if (this.srsCode.indexOf("IGNF") === 0) {
-          this.srsCode = this.srsCode;
-          this.srsAuth = 'IGNF';
-          this.srsProjNumber = this.srsCode.substring(5);
-          // DGR 2008-06-19 : pseudo-authority CRS for WMS
-        }
-        else if (this.srsCode.indexOf("CRS") === 0) {
-          this.srsCode = this.srsCode;
-          this.srsAuth = 'CRS';
-          this.srsProjNumber = this.srsCode.substring(4);
-        }
-        else {
-          this.srsAuth = '';
-          this.srsProjNumber = this.srsCode;
-        }
-
-        this.parseDefs();
-      }
-      this.initTransforms(this.projName);
-    },
-
+  
     /**
      * Function: initTransforms
      *    Finalize the initialization of the Proj object
      *
      */
     initTransforms: function(projName) {
-      if (!(projName in projections)) {
+      if (!(projName in proj.projections)) {
         throw ("unknown projection " + projName);
       }
-      extend(this, projections[projName]);
+      extend(this, proj.projections[projName]);
       this.init();
     },
-
+  
     /**
      * Function: parseWKT
      * Parses a WKT string to get initialization parameters
@@ -190,15 +188,15 @@ define(function(require, exports, module) {
       }
       wktName = wktName.replace(/^\"/, "");
       wktName = wktName.replace(/\"$/, "");
-
+  
       /*
-    wktContent = wktTemp.join(",");
-    var wktArray = wktContent.split("],");
-    for (var i=0; i<wktArray.length-1; ++i) {
-      wktArray[i] += "]";
-    }
-    */
-
+      wktContent = wktTemp.join(",");
+      var wktArray = wktContent.split("],");
+      for (var i=0; i<wktArray.length-1; ++i) {
+        wktArray[i] += "]";
+      }
+      */
+  
       var wktArray = [];
       var bkCount = 0;
       var obj = "";
@@ -221,7 +219,7 @@ define(function(require, exports, module) {
           obj += ",";
         }
       }
-
+  
       //this is grotesque -cwm
       var name, value;
       switch (wktObject) {
@@ -347,7 +345,7 @@ define(function(require, exports, module) {
         this.parseWKT(wktArray[j]);
       }
     },
-
+  
     /**
      * Function: parseDefs
      * Parses the PROJ.4 initialization string and sets the associated properties.
@@ -364,7 +362,7 @@ define(function(require, exports, module) {
       }
       this.deriveConstants();
     },
-
+  
     /**
      * Function: deriveConstants
      * Sets several derived constant values and initialization of datum and ellipse
@@ -438,11 +436,11 @@ define(function(require, exports, module) {
       if (!this.axis) {
         this.axis = "enu";
       }
-
+  
       this.datum = new datum(this);
     }
-  });
-
+  };
+  proj.projections = projections;
   module.exports = proj;
 
 });
