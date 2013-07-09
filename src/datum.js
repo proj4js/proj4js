@@ -3,42 +3,45 @@ define(function(require, exports, module) {
    */
   var common = require('./common');
   var datum = function(proj) {
-      this.datum_type = common.PJD_WGS84; //default setting
-      if (!proj) {
-        return;
+    if (!(this instanceof datum)) {
+      return new datum(proj);
+    }
+    this.datum_type = common.PJD_WGS84; //default setting
+    if (!proj) {
+      return;
+    }
+    if (proj.datumCode && proj.datumCode === 'none') {
+      this.datum_type = common.PJD_NODATUM;
+    }
+    if (proj.datum_params) {
+      for (var i = 0; i < proj.datum_params.length; i++) {
+        proj.datum_params[i] = parseFloat(proj.datum_params[i]);
       }
-      if (proj.datumCode && proj.datumCode === 'none') {
-        this.datum_type = common.PJD_NODATUM;
+      if (proj.datum_params[0] !== 0 || proj.datum_params[1] !== 0 || proj.datum_params[2] !== 0) {
+        this.datum_type = common.PJD_3PARAM;
       }
-      if (proj.datum_params) {
-        for (var i = 0; i < proj.datum_params.length; i++) {
-          proj.datum_params[i] = parseFloat(proj.datum_params[i]);
-        }
-        if (proj.datum_params[0] !== 0 || proj.datum_params[1] !== 0 || proj.datum_params[2] !== 0) {
-          this.datum_type = common.PJD_3PARAM;
-        }
-        if (proj.datum_params.length > 3) {
-          if (proj.datum_params[3] !== 0 || proj.datum_params[4] !== 0 || proj.datum_params[5] !== 0 || proj.datum_params[6] !== 0) {
-            this.datum_type = common.PJD_7PARAM;
-            proj.datum_params[3] *= common.SEC_TO_RAD;
-            proj.datum_params[4] *= common.SEC_TO_RAD;
-            proj.datum_params[5] *= common.SEC_TO_RAD;
-            proj.datum_params[6] = (proj.datum_params[6] / 1000000.0) + 1.0;
-          }
+      if (proj.datum_params.length > 3) {
+        if (proj.datum_params[3] !== 0 || proj.datum_params[4] !== 0 || proj.datum_params[5] !== 0 || proj.datum_params[6] !== 0) {
+          this.datum_type = common.PJD_7PARAM;
+          proj.datum_params[3] *= common.SEC_TO_RAD;
+          proj.datum_params[4] *= common.SEC_TO_RAD;
+          proj.datum_params[5] *= common.SEC_TO_RAD;
+          proj.datum_params[6] = (proj.datum_params[6] / 1000000.0) + 1.0;
         }
       }
-      // DGR 2011-03-21 : nadgrids support
-      this.datum_type = proj.grids ? common.PJD_GRIDSHIFT : this.datum_type;
+    }
+    // DGR 2011-03-21 : nadgrids support
+    this.datum_type = proj.grids ? common.PJD_GRIDSHIFT : this.datum_type;
 
-      this.a = proj.a; //datum object also uses these values
-      this.b = proj.b;
-      this.es = proj.es;
-      this.ep2 = proj.ep2;
-      this.datum_params = proj.datum_params;
-      if (this.datum_type === common.PJD_GRIDSHIFT) {
-        this.grids = proj.grids;
-      }
-    };
+    this.a = proj.a; //datum object also uses these values
+    this.b = proj.b;
+    this.es = proj.es;
+    this.ep2 = proj.ep2;
+    this.datum_params = proj.datum_params;
+    if (this.datum_type === common.PJD_GRIDSHIFT) {
+      this.grids = proj.grids;
+    }
+  };
   datum.prototype = {
 
 

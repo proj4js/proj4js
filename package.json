@@ -23,6 +23,7 @@
     "grunt-mocha-phantomjs": "~0.2.8",
     "grunt-contrib-jshint": "~0.6.0",
     "requirejs": "~2.1.7",
-    "grunt-contrib-requirejs": "~0.4.1"
+    "grunt-contrib-requirejs": "~0.4.1",
+    "almond": "~0.2.5"
   }
 }

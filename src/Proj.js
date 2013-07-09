@@ -21,7 +21,10 @@ define(function(require, exports, module) {
   var datum = require('./datum');
   var projections = require('./projections');
 
-  var proj = function(srsCode) {
+  var proj = function proj(srsCode) {
+    if (!(this instanceof proj)) {
+      return new proj(srsCode);
+    }
     this.srsCodeInput = srsCode;
   
     //check to see if this is a WKT string
@@ -423,7 +426,7 @@ define(function(require, exports, module) {
         this.axis = "enu";
       }
   
-      this.datum = new datum(this);
+      this.datum = datum(this);
     }
   };
   proj.projections = projections;

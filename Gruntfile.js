@@ -60,7 +60,7 @@ module.exports = function(grunt) {
             startFile: 'almond/top.frag',
             endFile: 'almond/end.frag'
           },
-          name: '../almond/almond',
+          name: '../node_modules/almond/almond',
           include: ['proj4'],
           optimize:'uglify2',
           uglify2:{
@@ -78,7 +78,7 @@ module.exports = function(grunt) {
             startFile: 'almond/top.frag',
             endFile: 'almond/end.frag'
           },
-          name: '../almond/almond',
+          name: '../node_modules/almond/almond',
           include: ['proj4'],
           optimize:'uglify2',
           uglify2:{

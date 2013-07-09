@@ -1,13 +1,13 @@
 define(function(require, exports, module) {
-  var Point = require('./Point');
-  var Proj = require('./Proj');
+  var point = require('./Point');
+  var proj = require('./Proj');
   var transform = require('transform');
-  var wgs84 = new Proj('WGS84');
+  var wgs84 = proj('WGS84');
   module.exports = function(fromProj, toProj, coord) {
     var transformer = function(f, t, c) {
       var transformedArray;
       if (Array.isArray(c)) {
-        transformedArray = transform(f, t, new Point(c));
+        transformedArray = transform(f, t, point(c));
         if (c.length === 3) {
           return [transformedArray.x, transformedArray.y, transformedArray.z];
         }
@@ -20,13 +20,13 @@ define(function(require, exports, module) {
       }
     };
 
-    fromProj = fromProj instanceof Proj ? fromProj : new Proj(fromProj);
+    fromProj = fromProj instanceof proj ? fromProj :proj(fromProj);
     if (typeof toProj === 'undefined') {
       toProj = fromProj;
       fromProj = wgs84;
     }
     else if (typeof toProj === 'string') {
-      toProj = new Proj(toProj);
+      toProj = proj(toProj);
     }
     else if (('x' in toProj) || Array.isArray(toProj)) {
       coord = toProj;
@@ -34,7 +34,7 @@ define(function(require, exports, module) {
       fromProj = wgs84;
     }
     else {
-      toProj = toProj instanceof Proj ? toProj : new Proj(toProj);
+      toProj = toProj instanceof proj ? toProj : proj(toProj);
     }
     if (coord) {
       return transformer(fromProj, toProj, coord);

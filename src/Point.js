@@ -1,6 +1,9 @@
 define(function(require, exports, module) {
   var mgrs = require('./mgrs');
-  var Point = function(x, y, z) {
+  function Point(x, y, z) {
+    if (!(this instanceof Point)) {
+      return new Point(x, y, z);
+    }
     if (typeof x === 'object') {
       this.x = x[0];
       this.y = x[1];
@@ -34,7 +37,7 @@ define(function(require, exports, module) {
     this.toShortString = function() {
       return (this.x + ", " + this.y);
     };
-  };
+  }
 
   Point.fromMGRS = function(mgrsStr) {
     var llbbox = mgrs.inverse(mgrsStr);
@@ -46,14 +49,5 @@ define(function(require, exports, module) {
         lat: this.y
       }, accuracy);
     };
-  /**
-   * Converts a proj4.Point instance to a MGRS reference. The point
-   * coordinates are expected to be in WGS84 longitude and latitude.
-   *
-   * Only available if proj4 is loaded.
-   *
-   * @param accuracy {int} The accuracy for the MGRS reference in digits (5
-   *     for 1 m, 4 for 10 m, 3 for 100 m, 4 for 1000 m or 5 for 10000 m) 
-   */
   module.exports = Point;
 });
