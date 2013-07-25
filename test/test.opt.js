@@ -1,34 +1,3 @@
-
-   
-
- 
-// You can do this in the grunt config for each mocha task, see the `options` config
-
-requirejs.config({
-    //By default load any module IDs from js/lib
-    baseUrl: '../src',
-    //except, if the module ID starts with "app",
-    //load it from the js/app directory. paths
-    //config is relative to the baseUrl, and
-    //never includes a ".js" extension since
-    //the paths config could be for a directory.
-   waitSeconds:15,
-    use: {
-        mocha: {
-            attach: 'mocha'
-        },
-        mochaPhantomJS: {
-            attach: 'mochaPhantomJS'
-        },
-        testPoints: {
-            attach: 'testPoints'
-        },
-        
-        aWKT: {
-            attach: 'aWKT'
-        }
-    }
-});
 mocha.setup({
       ui: "bdd",
       globals: ["console"],
@@ -36,8 +5,7 @@ mocha.setup({
        ignoreLeaks: true
     });
 // Start the main app logic.
-requirejs(['../test/lib/chai.js', 'proj4'],
-function   (        chai,   proj4) {
+
 
     
     var assert = chai.assert;
@@ -48,7 +16,7 @@ function   (        chai,   proj4) {
 
 describe('proj4', function () {
     describe('core',function(){
-	testPoints.forEach(function(testPoint){
+  testPoints.forEach(function(testPoint){
         describe(testPoint.code,function(){
           var xyAcc=2,llAcc=6;
           if('acc' in testPoint){
@@ -173,7 +141,7 @@ describe('proj4', function () {
 		});
 	})
 	describe('utility',function(){
-      it('should have MGRS available in the proj4.util namespace',function(){
+		it('should have MGRS available in the proj4.util namespace',function(){
 			assert.typeOf(proj4.mgrs, "object", "MGRS available in the proj4.util namespace");
 		});
 	 	it('should have fromMGRS method added to proj4.Point prototype',function(){
@@ -225,6 +193,7 @@ describe('proj4', function () {
 		});
 	});
 });
-    if (window.mochaPhantomJS) { mochaPhantomJS.run(); }
+
+   if (window.mochaPhantomJS) { mochaPhantomJS.run(); }
       else { mocha.run(); }
-});
+

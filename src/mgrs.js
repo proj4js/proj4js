@@ -1,5 +1,5 @@
-/*jshint browser: true, node: true*/
-/*
+define(function(require, exports) {
+  /*
 Portions of this software are based on a port of components from the OpenMap
 com.bbn.openmap.proj.coords Java package. An initial port was initially created
 by Patrice G. Cappelaere and included in Community Mapbuilder
@@ -157,21 +157,19 @@ United States complies, relating to the export or re-export of
 any commodities, software, or technical data.
 */
 
-if (typeof proj4 !== 'undefined' && !proj4.util) {
-  proj4.util = {};
-}
 
-/**
- * Converts between lat/lon and MGRS coordinates. Note that this static class
- * is restricted to the WGS84 ellipsoid and does not support MGRS notations
- * for polar regions (i.e. above 84° North and below 80° South).
- *
- * If proj4 is loaded, this will be referenced as proj4.util.MGRS. If used
- * standalone, it will be referenced as window.MGRS.
- *
- * @static
- */
-(function() {
+
+  /**
+   * Converts between lat/lon and MGRS coordinates. Note that this static class
+   * is restricted to the WGS84 ellipsoid and does not support MGRS notations
+   * for polar regions (i.e. above 84° North and below 80° South).
+   *
+   * If proj4 is loaded, this will be referenced as util.MGRS. If used
+   * standalone, it will be referenced as window.MGRS.
+   *
+   * @static
+   */
+
 
   /**
    * UTM zones are grouped, and assigned to one of a group of 6
@@ -212,13 +210,13 @@ if (typeof proj4 !== 'undefined' && !proj4.util) {
    *      100 m, 4 for 1000 m or 5 for 10000 m). Optional, default is 5.
    * @return {string} the MGRS string for the given location and accuracy.
    */
-  function forward(ll, accuracy) {
+  exports.forward = function(ll, accuracy) {
     accuracy = accuracy || 5; // default accuracy 1m
     return encode(LLtoUTM({
       lat: ll.lat,
       lon: ll.lon
     }), accuracy);
-  }
+  };
 
   /**
    * Conversion of MGRS to lat/lon.
@@ -228,10 +226,10 @@ if (typeof proj4 !== 'undefined' && !proj4.util) {
    *     (longitude) and top (latitude) values in WGS84, representing the
    *     bounding box for the provided MGRS reference.
    */
-  function inverse(mgrs) {
+  exports.inverse = function(mgrs) {
     var bbox = UTMtoLL(decode(mgrs.toUpperCase()));
     return [bbox.left, bbox.bottom, bbox.right, bbox.top];
-  }
+  };
 
   /**
    * Conversion from degrees to radians.
@@ -294,16 +292,16 @@ if (typeof proj4 !== 'undefined' && !proj4.util) {
 
     // Special zones for Svalbard
     if (Lat >= 72.0 && Lat < 84.0) {
-      if (Long >= 0.0 && Long < 9.0){
+      if (Long >= 0.0 && Long < 9.0) {
         ZoneNumber = 31;
       }
-      else if (Long >= 9.0 && Long < 21.0){
+      else if (Long >= 9.0 && Long < 21.0) {
         ZoneNumber = 33;
       }
-      else if (Long >= 21.0 && Long < 33.0){
+      else if (Long >= 21.0 && Long < 33.0) {
         ZoneNumber = 35;
       }
-      else if (Long >= 33.0 && Long < 42.0){
+      else if (Long >= 33.0 && Long < 42.0) {
         ZoneNumber = 37;
       }
     }
@@ -448,45 +446,64 @@ if (typeof proj4 !== 'undefined' && !proj4.util) {
     //outside MGRS limits
     var LetterDesignator = 'Z';
 
-    if ((84 >= lat) && (lat >= 72)){
+    if ((84 >= lat) && (lat >= 72)) {
       LetterDesignator = 'X';
-    } else if ((72 > lat) && (lat >= 64)){
+    }
+    else if ((72 > lat) && (lat >= 64)) {
       LetterDesignator = 'W';
-    } else if ((64 > lat) && (lat >= 56)){
+    }
+    else if ((64 > lat) && (lat >= 56)) {
       LetterDesignator = 'V';
-    } else if ((56 > lat) && (lat >= 48)){
+    }
+    else if ((56 > lat) && (lat >= 48)) {
       LetterDesignator = 'U';
-    } else if ((48 > lat) && (lat >= 40)){
+    }
+    else if ((48 > lat) && (lat >= 40)) {
       LetterDesignator = 'T';
-    } else if ((40 > lat) && (lat >= 32)){
+    }
+    else if ((40 > lat) && (lat >= 32)) {
       LetterDesignator = 'S';
-    } else if ((32 > lat) && (lat >= 24)){
+    }
+    else if ((32 > lat) && (lat >= 24)) {
       LetterDesignator = 'R';
-    } else if ((24 > lat) && (lat >= 16)){
+    }
+    else if ((24 > lat) && (lat >= 16)) {
       LetterDesignator = 'Q';
-    } else if ((16 > lat) && (lat >= 8)){
+    }
+    else if ((16 > lat) && (lat >= 8)) {
       LetterDesignator = 'P';
-    } else if ((8 > lat) && (lat >= 0)){
+    }
+    else if ((8 > lat) && (lat >= 0)) {
       LetterDesignator = 'N';
-    } else if ((0 > lat) && (lat >= -8)){
+    }
+    else if ((0 > lat) && (lat >= -8)) {
       LetterDesignator = 'M';
-    } else if ((-8 > lat) && (lat >= -16)){
+    }
+    else if ((-8 > lat) && (lat >= -16)) {
       LetterDesignator = 'L';
-    } else if ((-16 > lat) && (lat >= -24)){
+    }
+    else if ((-16 > lat) && (lat >= -24)) {
       LetterDesignator = 'K';
-    } else if ((-24 > lat) && (lat >= -32)){
+    }
+    else if ((-24 > lat) && (lat >= -32)) {
       LetterDesignator = 'J';
-    } else if ((-32 > lat) && (lat >= -40)){
+    }
+    else if ((-32 > lat) && (lat >= -40)) {
       LetterDesignator = 'H';
-    } else if ((-40 > lat) && (lat >= -48)){
+    }
+    else if ((-40 > lat) && (lat >= -48)) {
       LetterDesignator = 'G';
-    } else if ((-48 > lat) && (lat >= -56)){
+    }
+    else if ((-48 > lat) && (lat >= -56)) {
       LetterDesignator = 'F';
-    } else if ((-56 > lat) && (lat >= -64)){
+    }
+    else if ((-56 > lat) && (lat >= -64)) {
       LetterDesignator = 'E';
-    } else if ((-64 > lat) && (lat >= -72)){
+    }
+    else if ((-64 > lat) && (lat >= -72)) {
       LetterDesignator = 'D';
-    } else if ((-72 > lat) && (lat >= -80)){
+    }
+    else if ((-72 > lat) && (lat >= -80)) {
       LetterDesignator = 'C';
     }
     return LetterDesignator;
@@ -534,7 +551,7 @@ if (typeof proj4 !== 'undefined' && !proj4.util) {
    */
   function get100kSetForZone(i) {
     var setParm = i % NUM_100K_SETS;
-    if (setParm === 0){
+    if (setParm === 0) {
       setParm = NUM_100K_SETS;
     }
 
@@ -688,7 +705,7 @@ if (typeof proj4 !== 'undefined' && !proj4.util) {
 
     var sepEasting = 0.0;
     var sepNorthing = 0.0;
-    var accuracyBonus,sepEastingString,sepNorthingString,easting,northing;
+    var accuracyBonus, sepEastingString, sepNorthingString, easting, northing;
     if (sep > 0) {
       accuracyBonus = 100000.0 / Math.pow(10, sep);
       sepEastingString = mgrsString.substring(i, i + sep);
@@ -728,10 +745,10 @@ if (typeof proj4 !== 'undefined' && !proj4.util) {
 
     while (curCol !== e.charCodeAt(0)) {
       curCol++;
-      if (curCol === I){
+      if (curCol === I) {
         curCol++;
       }
-      if (curCol === O){
+      if (curCol === O) {
         curCol++;
       }
       if (curCol > Z) {
@@ -777,10 +794,10 @@ if (typeof proj4 !== 'undefined' && !proj4.util) {
 
     while (curRow !== n.charCodeAt(0)) {
       curRow++;
-      if (curRow === I){
+      if (curRow === I) {
         curRow++;
       }
-      if (curRow === O){
+      if (curRow === O) {
         curRow++;
       }
       // fixing a bug making whole application hang in this loop
@@ -883,53 +900,4 @@ if (typeof proj4 !== 'undefined' && !proj4.util) {
 
   }
 
-  var MGRS = {
-    forward: forward,
-    inverse: inverse
-  };
-  if (typeof proj4 !== 'undefined') {
-    proj4.util.MGRS = MGRS;
-  }
-  else if (typeof window !== 'undefined') {
-    window.MGRS = MGRS;
-  }
-  else if (typeof module !== 'undefined') {
-    module.exports = MGRS;
-  }
-
-})();
-
-if (typeof proj4 !== 'undefined' && proj4.Point) {
-
-  /**
-   * Creates a proj4.Point instance from a MGRS reference. The point will
-   * reference the center of the MGRS reference, and coordinates will be in
-   * WGS84 longitude and latitude.
-   *
-   * Only available if proj4 is loaded.
-   *
-   * @param mgrs {string} MGRS reference
-   */
-  proj4.Point.fromMGRS = function(mgrs) {
-    var llbbox = proj4.util.MGRS.inverse(mgrs);
-    return new proj4.Point(
-    (llbbox[2] + llbbox[0]) / 2, (llbbox[3] + llbbox[1]) / 2);
-  };
-
-  /**
-   * Converts a proj4.Point instance to a MGRS reference. The point
-   * coordinates are expected to be in WGS84 longitude and latitude.
-   *
-   * Only available if proj4 is loaded.
-   *
-   * @param accuracy {int} The accuracy for the MGRS reference in digits (5
-   *     for 1 m, 4 for 10 m, 3 for 100 m, 4 for 1000 m or 5 for 10000 m) 
-   */
-  proj4.Point.prototype.toMGRS = function(accuracy) {
-    return proj4.util.MGRS.forward({
-      lon: this.x,
-      lat: this.y
-    }, accuracy);
-  };
-
-}
+});
