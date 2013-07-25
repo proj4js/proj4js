@@ -1,26 +1,8 @@
+var buildDefs = require('./buildDefs');
+
 module.exports = function(grunt) {
   grunt.initConfig({
 		pkg: grunt.file.readJSON('package.json'),
-		concat:{
-			full:{
-				src:[ './src/Proj4.js','./src/common.js','./src/Proj.js','./src/defs.js','src/defs/bigDefs.js','src/defs/smallDefs.js','./src/datum.js','./src/Point.js','./src/constants.js','./src/projCode/*.js','./src/util/MGRS.js'],
-				dest:'./dist/proj4.js'
-			},
-			noDefs:{
-				src:[ './src/Proj4.js','./src/common.js','./src/Proj.js','./src/defs.js','src/defs/smallDefs.js','./src/datum.js','./src/Point.js','./src/constants.js','./src/projCode/*.js','./src/defs/GOOGLE.js'],
-				dest:'./dist/proj4-noDefs.js'
-			}
-		},
-		uglify:{
-			full:{
-				src:[ './src/Proj4.js','./src/common.js','./src/Proj.js','./src/defs.js','src/defs/bigDefs.js','src/defs/smallDefs.js','./src/datum.js','./src/Point.js','./src/constants.js','./src/projCode/*.js','./src/util/MGRS.js'],
-				dest:'./dist/proj4.min.js'
-			},
-			noDefs:{
-				src:[ './src/Proj4.js','./src/common.js','./src/Proj.js','./src/defs.js','src/defs/smallDefs.js','./src/datum.js','./src/Point.js','./src/constants.js','./src/projCode/*.js','./src/defs/GOOGLE.js'],
-				dest:'./dist/proj4-noDefs.min.js'
-			}
-		},
 		connect: {
 			server: {
 				options: {
@@ -30,11 +12,24 @@ module.exports = function(grunt) {
 			}
 		},
 		mocha_phantomjs: {
-			all: {
+			before: {
 				options: {
 					urls: [//my ide requries process.env.IP and PORT
-						"http://"+(process.env.IP||"127.0.0.1")+":"+(process.env.PORT||"8080")+"/test/index.html",
-						"http://"+(process.env.IP||"127.0.0.1")+":"+(process.env.PORT||"8080")+"/test/min.html"
+						"http://"+(process.env.IP||"127.0.0.1")+":"+(process.env.PORT||"8080")+"/test/index.html"
+					]
+				}
+			},
+      after:{
+        options: {
+					urls: [//my ide requries process.env.IP and PORT
+						"http://"+(process.env.IP||"127.0.0.1")+":"+(process.env.PORT||"8080")+"/test/opt.html"
+					]
+				}
+			},
+      amd:{
+        options: {
+  				urls: [//my ide requries process.env.IP and PORT
+						"http://"+(process.env.IP||"127.0.0.1")+":"+(process.env.PORT||"8080")+"/test/amd.html"
 					]
 				}
 			}
@@ -48,21 +43,78 @@ module.exports = function(grunt) {
 				unused: true,
 				trailing:true,
 				indent:2,
+        //camelcase:true,
         globals: {
-          proj4: true
+          define: true
         }
 			},
-			before: [ './src/Proj4.js','./src/Proj.js','./src/defs.js','./src/common.js','./src/datum.js','./src/Point.js','./src/constants.js','./src/projCode/*.js','./src/util/MGRS.js'],
-      after: [ './dist/proj4.js']
-		}
+			all: [ './src/*.js','./src/projCode/*.js']
+		},
+    requirejs: {
+      custom:{
+        options:{
+          out: "./dist/proj4.custom.js",
+          baseUrl: "./src",
+          //name: "proj4",
+          wrap: {
+            startFile: 'almond/top.frag',
+            endFile: 'almond/end.frag'
+          },
+          name: '../node_modules/almond/almond',
+          include: ['proj4'],
+          optimize:'uglify2',
+          uglify2:{
+            mangle: true
+          },
+          preserveLicenseComments: false
+        }
+      },
+      reg:{
+        options:{
+          out: "./dist/proj4.js",
+          baseUrl: "./src",
+          //name: "proj4",
+          wrap: {
+            startFile: 'almond/top.frag',
+            endFile: 'almond/end.frag'
+          },
+          name: '../node_modules/almond/almond',
+          include: ['proj4'],
+          optimize:'uglify2',
+          uglify2:{
+            mangle: true
+          },
+          preserveLicenseComments: false
+        }
+      },
+      amd:{
+        options:{
+          out: "./dist/amd/proj4.js",
+          baseUrl: "./src",
+          name: "proj4",
+          //include: ['proj4'],
+          optimize:'none',
+          uglify2:{
+            mangle: true
+          },
+          preserveLicenseComments: false
+        }
+      }
+    }
 	});
+  grunt.loadNpmTasks('grunt-contrib-requirejs');
 	grunt.loadNpmTasks('grunt-contrib-jshint');
-	grunt.loadNpmTasks('grunt-contrib-concat');
-	grunt.loadNpmTasks('grunt-contrib-uglify');
 	grunt.loadNpmTasks('grunt-contrib-connect');
 	grunt.loadNpmTasks('grunt-mocha-phantomjs');
-	grunt.registerTask('full', ['concat:full','uglify:full']);
-	grunt.registerTask('noDefs', ['concat:noDefs','uglify:noDefs']);
-	grunt.registerTask('test', ['connect', 'mocha_phantomjs']);
-	grunt.registerTask('default', ['jshint:before','full','noDefs','jshint:after','test']);
+	grunt.registerTask('test', ['connect', 'mocha_phantomjs:before']);
+	grunt.registerTask('defs',function(){
+		var defs = grunt.option('defs');
+		if(defs && defs.indexOf(',')>-1){
+			defs = defs.split(',');
+		}
+		buildDefs.defs(defs);
+	});
+  grunt.registerTask('amd',['defs','jshint','requirejs:amd','connect','mocha_phantomjs:amd']);
+	grunt.registerTask('build',['defs','jshint','requirejs:custom']);
+  grunt.registerTask('default', ['defs','jshint','test','requirejs:reg','mocha_phantomjs:after']);
 }
