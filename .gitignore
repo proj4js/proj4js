@@ -1,3 +1,5 @@
 *~
 node_modules
 .c9revisions
+src/projections.js
+src/defs/local.js
