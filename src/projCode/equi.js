@@ -1,4 +1,5 @@
-/*******************************************************************************
+define(function(require, exports, module) {
+  /*******************************************************************************
 NAME                             EQUIRECTANGULAR 
 
 PURPOSE:  Transforms input longitude and latitude to Easting and
@@ -20,51 +21,55 @@ ALGORITHM REFERENCES
     U.S. Geological Survey Professional Paper 1453 , United State Government
     Printing Office, Washington D.C., 1989.
 *******************************************************************************/
-proj4.Proj.equi = {
+  var common = require('../common');
 
-  init: function() {
-    this.x0 = this.x0||0;
-    this.y0 = this.y0||0;
-    this.lat0 = this.lat0||0;
-    this.long0 = this.long0||0;
-    ///this.t2;
-  },
+  module.exports = {
+
+    init: function() {
+      this.x0 = this.x0 || 0;
+      this.y0 = this.y0 || 0;
+      this.lat0 = this.lat0 || 0;
+      this.long0 = this.long0 || 0;
+      ///this.t2;
+    },
 
 
 
-  /* Equirectangular forward equations--mapping lat,long to x,y
+    /* Equirectangular forward equations--mapping lat,long to x,y
   ---------------------------------------------------------*/
-  forward: function(p) {
+    forward: function(p) {
 
-    var lon = p.x;
-    var lat = p.y;
+      var lon = p.x;
+      var lat = p.y;
 
-    var dlon = proj4.common.adjust_lon(lon - this.long0);
-    var x = this.x0 + this.a * dlon * Math.cos(this.lat0);
-    var y = this.y0 + this.a * lat;
+      var dlon = common.adjust_lon(lon - this.long0);
+      var x = this.x0 + this.a * dlon * Math.cos(this.lat0);
+      var y = this.y0 + this.a * lat;
 
-    this.t1 = x;
-    this.t2 = Math.cos(this.lat0);
-    p.x = x;
-    p.y = y;
-    return p;
-  }, //equiFwd()
+      this.t1 = x;
+      this.t2 = Math.cos(this.lat0);
+      p.x = x;
+      p.y = y;
+      return p;
+    }, //equiFwd()
 
 
 
-  /* Equirectangular inverse equations--mapping x,y to lat/long
+    /* Equirectangular inverse equations--mapping x,y to lat/long
   ---------------------------------------------------------*/
-  inverse: function(p) {
+    inverse: function(p) {
 
-    p.x -= this.x0;
-    p.y -= this.y0;
-    var lat = p.y / this.a;
+      p.x -= this.x0;
+      p.y -= this.y0;
+      var lat = p.y / this.a;
 
-    if (Math.abs(lat) > proj4.common.HALF_PI) {
-      proj4.reportError("equi:Inv:DataError");
-    }
-    var lon = proj4.common.adjust_lon(this.long0 + p.x / (this.a * Math.cos(this.lat0)));
-    p.x = lon;
-    p.y = lat;
-  } //equiInv()
-};
+      if (Math.abs(lat) > common.HALF_PI) {
+        //proj4.reportError("equi:Inv:DataError");
+      }
+      var lon = common.adjust_lon(this.long0 + p.x / (this.a * Math.cos(this.lat0)));
+      p.x = lon;
+      p.y = lat;
+    } //equiInv()
+  };
+
+});

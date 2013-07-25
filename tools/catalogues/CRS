@@ -1,2 +1,0 @@
-# WGS 84 longitude - latitude
-<84> +title=WGS 84 longitude-latitude +proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs  <>
