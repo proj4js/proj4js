@@ -1,5 +1,5 @@
 var defaultLocals = require('./src/defs/defaultLocals');
-var top = "define(function(require, exports, module) {module.exports = function(defs) {defs(";
+var top = "define(function() {return function(defs) {defs(";
 var end = ")}});";
 var pTop = "define(function(require, exports) {";
 var pBottom = "});"

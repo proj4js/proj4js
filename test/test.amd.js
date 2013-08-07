@@ -1,7 +1,4 @@
 
-   
-
- 
 // You can do this in the grunt config for each mocha task, see the `options` config
 
 requirejs.config({
@@ -20,7 +17,6 @@ requirejs.config({
         mochaPhantomJS: {
             attach: 'mochaPhantomJS'
         },
-        
         testPoints: {
             attach: 'testPoints'
         },
@@ -49,7 +45,7 @@ function   (        chai,   proj4) {
 
 describe('proj4', function () {
     describe('core',function(){
-	testPoints.forEach(function(testPoint){
+  testPoints.forEach(function(testPoint){
         describe(testPoint.code,function(){
           var xyAcc=2,llAcc=6;
           if('acc' in testPoint){

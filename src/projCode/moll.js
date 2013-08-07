@@ -1,32 +1,5 @@
-define(function(require, exports, module) {
-  /*******************************************************************************
-NAME                            MOLLWEIDE
-
-PURPOSE:  Transforms input longitude and latitude to Easting and
-    Northing for the MOllweide projection.  The
-    longitude and latitude must be in radians.  The Easting
-    and Northing values will be returned in meters.
-
-PROGRAMMER              DATE
-----------              ----
-D. Steinwand, EROS      May, 1991;  Updated Sept, 1992; Updated Feb, 1993
-S. Nelson, EDC    Jun, 2993;  Made corrections in precision and
-          number of iterations.
-
-ALGORITHM REFERENCES
-
-1.  Snyder, John P. and Voxland, Philip M., "An Album of Map Projections",
-    U.S. Geological Survey Professional Paper 1453 , United State Government
-    Printing Office, Washington D.C., 1989.
-
-2.  Snyder, John P., "Map Projections--A Working Manual", U.S. Geological
-    Survey Professional Paper 1395 (Supersedes USGS Bulletin 1532), United
-    State Government Printing Office, Washington D.C., 1987.
-*******************************************************************************/
-
-  var common = require('../common');
-
-  module.exports = {
+define(['../common'],function(common) {
+  return {
 
     /* Initialize the Mollweide projection
     ------------------------------------*/

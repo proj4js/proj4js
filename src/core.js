@@ -1,9 +1,6 @@
-define(function(require, exports, module) {
-  var point = require('./Point');
-  var proj = require('./Proj');
-  var transform = require('transform');
+define(['./Point','./Proj','./transform'],function(point,proj,transform) {
   var wgs84 = proj('WGS84');
-  module.exports = function(fromProj, toProj, coord) {
+  return function(fromProj, toProj, coord) {
     var transformer = function(f, t, c) {
       var transformedArray;
       if (Array.isArray(c)) {

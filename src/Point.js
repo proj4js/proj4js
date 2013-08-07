@@ -1,5 +1,4 @@
-define(function(require, exports, module) {
-  var mgrs = require('./mgrs');
+define(['./mgrs'],function(mgrs) {
   function Point(x, y, z) {
     if (!(this instanceof Point)) {
       return new Point(x, y, z);
@@ -49,5 +48,5 @@ define(function(require, exports, module) {
         lat: this.y
       }, accuracy);
     };
-  module.exports = Point;
+  return Point;
 });

@@ -1,30 +1,5 @@
-define(function(require, exports, module) {
-  /**
-   NOTES: According to EPSG the full Krovak projection method should have
-          the following parameters.  Within PROJ.4 the azimuth, and pseudo
-          standard parallel are hardcoded in the algorithm and can't be 
-          altered from outside.  The others all have defaults to match the
-          common usage with Krovak projection.
-
-  lat_0 = latitude of centre of the projection
-         
-  lon_0 = longitude of centre of the projection
-  
-  ** = azimuth (true) of the centre line passing through the centre of the projection
-
-  ** = latitude of pseudo standard parallel
-   
-  k  = scale factor on the pseudo standard parallel
-  
-  x_0 = False Easting of the centre of the projection at the apex of the cone
-  
-  y_0 = False Northing of the centre of the projection at the apex of the cone
-
- **/
-
-  var common = require('../common');
-
-  module.exports = {
+define(['../common'],function(common) {
+  return {
 
     init: function() {
       /* we want Bessel as fixed ellipsoid */
