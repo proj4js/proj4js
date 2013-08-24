@@ -1,6 +1,5 @@
-define(function(require, exports, module) {
-  var common = require('./common');
-  module.exports = function(source, dest, point) {
+define(['./common'],function(common) {
+  return function(source, dest, point) {
     var wp, i, l;
 
     function checkParams(fallback) {

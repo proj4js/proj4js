@@ -1,7 +1,5 @@
-define(function(require, exports, module) { /* similar to equi.js FIXME proj4 uses eqc */
-  var common = require('../common');
-
-  module.exports = {
+define(['../common'],function(common) {
+  return {
     init: function() {
 
       this.x0 = this.x0 || 0;

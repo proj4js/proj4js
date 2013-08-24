@@ -1,33 +1,5 @@
-define(function(require, exports, module) {
-  /*******************************************************************************
-NAME                            CASSINI
-
-PURPOSE:  Transforms input longitude and latitude to Easting and
-    Northing for the Cassini projection.  The
-    longitude and latitude must be in radians.  The Easting
-    and Northing values will be returned in meters.
-    Ported from PROJ.4.
-
-
-ALGORITHM REFERENCES
-
-1.  Snyder, John P., "Map Projections--A Working Manual", U.S. Geological
-    Survey Professional Paper 1395 (Supersedes USGS Bulletin 1532), United
-    State Government Printing Office, Washington D.C., 1987.
-
-2.  Snyder, John P. and Voxland, Philip M., "An Album of Map Projections",
-    U.S. Geological Survey Professional Paper 1453 , United State Government
-*******************************************************************************/
-
-
-  //proj4.defs["EPSG:28191"] = "+proj=cass +lat_0=31.73409694444445 +lon_0=35.21208055555556 +x_0=170251.555 +y_0=126867.909 +a=6378300.789 +b=6356566.435 +towgs84=-275.722,94.7824,340.894,-8.001,-4.42,-11.821,1 +units=m +no_defs";
-
-  // Initialize the Cassini projection
-  // -----------------------------------------------------------------
-
-  var common = require('../common');
-
-  module.exports = {
+define(['../common'],function(common) {
+  return {
     init: function() {
       if (!this.sphere) {
         this.e0 = common.e0fn(this.es);

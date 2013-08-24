@@ -1,26 +1,4 @@
-define(function(require, exports, module) {
-  /**
-   * Class: proj
-   *
-   * Proj objects provide transformation methods for point coordinates
-   * between geodetic latitude/longitude and a projected coordinate system. 
-   * once they have been initialized with a projection code.
-   *
-   * Initialization of Proj objects is with a projection code, usually EPSG codes,
-   * which is the key that will be used with the proj4.defs array.
-   * 
-   * The code passed in will be stripped of colons and converted to uppercase
-   * to locate projection definition files.
-   *
-   * A projection object has properties for units and title strings.
-   */
-  var extend = require('./extend');
-  var common = require('./common');
-  var defs = require('./defs');
-  var constants = require('./constants');
-  var datum = require('./datum');
-  var projections = require('./projections');
-  var wkt = require('./wkt');
+define(['./extend','./common','./defs','./constants','./datum','./projections','./wkt2'],function(extend, common, defs,constants,datum,projections,wkt) {
   
   var proj = function proj(srsCode) {
     if (!(this instanceof proj)) {
@@ -217,6 +195,6 @@ define(function(require, exports, module) {
     }
   };
   proj.projections = projections;
-  module.exports = proj;
+  return proj;
 
 });

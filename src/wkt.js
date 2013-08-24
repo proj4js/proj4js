@@ -1,6 +1,5 @@
-define(function(require, exports, module) {
-  var common = require('./common');
-  var constants = require('./constants');
+define(['./common','./constants'],function(common, constants) {
+
   function wkt(wktStr,self) {
     self = self || {};
     var wktMatch = wktStr.match(/^(\w+)\[(.*)\]$/);
@@ -168,5 +167,5 @@ define(function(require, exports, module) {
     }
     return self;
   }
-  module.exports = wkt;
+  return wkt;
 });

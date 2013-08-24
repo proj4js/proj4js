@@ -1,5 +1,5 @@
-define(function(require, exports, module) {
-  module.exports = function(destination, source) {
+define(function() {
+  return function(destination, source) {
     destination = destination || {};
     var value, property;
     if (!source) {

@@ -1,4 +1,4 @@
-define(function(require, exports, module) {
+define(function() {
   var common = {
     PI: 3.141592653589793238, //Math.PI,
     HALF_PI: 1.570796326794896619, //Math.PI*0.5,
@@ -467,5 +467,5 @@ define(function(require, exports, module) {
     C88: 0.3076171875
 
   };
-  module.exports = common;
+  return common;
 });

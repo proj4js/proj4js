@@ -1,36 +1,5 @@
-define(function(require, exports, module) {
-  /*******************************************************************************
-NAME                    VAN DER GRINTEN 
-
-PURPOSE:  Transforms input Easting and Northing to longitude and
-    latitude for the Van der Grinten projection.  The
-    Easting and Northing must be in meters.  The longitude
-    and latitude values will be returned in radians.
-
-PROGRAMMER              DATE            
-----------              ----           
-T. Mittan    March, 1993
-
-This function was adapted from the Van Der Grinten projection code
-(FORTRAN) in the General Cartographic Transformation Package software
-which is available from the U.S. Geological Survey National Mapping Division.
- 
-ALGORITHM REFERENCES
-
-1.  "New Equal-Area Map Projections for Noncircular Regions", John P. Snyder,
-    The American Cartographer, Vol 15, No. 4, October 1988, pp. 341-355.
-
-2.  Snyder, John P., "Map Projections--A Working Manual", U.S. Geological
-    Survey Professional Paper 1395 (Supersedes USGS Bulletin 1532), United
-    State Government Printing Office, Washington D.C., 1987.
-
-3.  "Software Documentation for GCTP General Cartographic Transformation
-    Package", U.S. Geological Survey National Mapping Division, May 1982.
-*******************************************************************************/
-
-  var common = require('../common');
-
-  module.exports = {
+define(['../common'],function(common) {
+  return {
 
     /* Initialize the Van Der Grinten projection
   ----------------------------------------*/

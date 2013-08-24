@@ -1,7 +1,4 @@
-define(function(require, exports, module) {
-  /** datum object
-   */
-  var common = require('./common');
+define(['./common'],function(common) {
   var datum = function(proj) {
     if (!(this instanceof datum)) {
       return new datum(proj);
@@ -396,5 +393,5 @@ define(function(require, exports, module) {
     Other point classes may be used as long as they have
     x and y properties, which will get modified in the transform method.
 */
-  module.exports = datum;
+  return datum;
 });

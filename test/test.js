@@ -4,42 +4,17 @@
  
 // You can do this in the grunt config for each mocha task, see the `options` config
 
-requirejs.config({
-    //By default load any module IDs from js/lib
-    baseUrl: '../src',
-    //except, if the module ID starts with "app",
-    //load it from the js/app directory. paths
-    //config is relative to the baseUrl, and
-    //never includes a ".js" extension since
-    //the paths config could be for a directory.
-   waitSeconds:15,
-    use: {
-        mocha: {
-            attach: 'mocha'
-        },
-        mochaPhantomJS: {
-            attach: 'mochaPhantomJS'
-        },
-        testPoints: {
-            attach: 'testPoints'
-        },
-        
-        aWKT: {
-            attach: 'aWKT'
-        }
-    }
-});
-mocha.setup({
+
+// Start the main app logic.
+curl(['lib/chai', 'proj4']).then(
+function   (        chai,   proj4) {
+
+    mocha.setup({
       ui: "bdd",
       globals: ["console"],
       timeout: 300000,
        ignoreLeaks: true
     });
-// Start the main app logic.
-requirejs(['../test/lib/chai.js', 'proj4'],
-function   (        chai,   proj4) {
-
-    
     var assert = chai.assert;
     proj4.defs([
    ["EPSG:102018", "+proj=gnom +lat_0=90 +lon_0=0 +x_0=6300000 +y_0=6300000 +ellps=WGS84 +datum=WGS84 +units=m +no_defs"]//,
@@ -48,7 +23,7 @@ function   (        chai,   proj4) {
 
 describe('proj4', function () {
     describe('core',function(){
-	testPoints.forEach(function(testPoint){
+  testPoints.forEach(function(testPoint){
         describe(testPoint.code,function(){
           var xyAcc=2,llAcc=6;
           if('acc' in testPoint){
@@ -228,3 +203,7 @@ describe('proj4', function () {
     if (window.mochaPhantomJS) { mochaPhantomJS.run(); }
       else { mocha.run(); }
 });
+
+   
+
+ 

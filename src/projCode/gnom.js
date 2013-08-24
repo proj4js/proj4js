@@ -1,29 +1,5 @@
-define(function(require, exports, module) {
-  /*****************************************************************************
-NAME                             GNOMONIC
-
-PURPOSE:  Transforms input longitude and latitude to Easting and
-    Northing for the Gnomonic Projection.
-                Implementation based on the existing sterea and ortho
-                implementations.
-
-PROGRAMMER              DATE
-----------              ----
-Richard Marsden         November 2009
-
-ALGORITHM REFERENCES
-
-1.  Snyder, John P., "Flattening the Earth - Two Thousand Years of Map 
-    Projections", University of Chicago Press 1993
-
-2.  Wolfram Mathworld "Gnomonic Projection"
-    http://mathworld.wolfram.com/GnomonicProjection.html
-    Accessed: 12th November 2009
-******************************************************************************/
-
-  var common = require('../common');
-
-  module.exports = {
+define(['../common'],function(common) {
+  return {
 
     /* Initialize the Gnomonic projection
     -------------------------------------*/

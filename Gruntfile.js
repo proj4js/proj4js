@@ -116,5 +116,5 @@ module.exports = function(grunt) {
 	});
   grunt.registerTask('amd',['defs','jshint','requirejs:amd','connect','mocha_phantomjs:amd']);
 	grunt.registerTask('build',['defs','jshint','requirejs:custom']);
-  grunt.registerTask('default', ['defs','jshint','test','requirejs:reg','mocha_phantomjs:after']);
+  grunt.registerTask('default', ['defs','jshint','test','requirejs:reg','requirejs:amd','mocha_phantomjs:after','mocha_phantomjs:amd']);
 }

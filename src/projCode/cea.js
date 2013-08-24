@@ -1,42 +1,5 @@
-define(function(require, exports, module) {
-  /*******************************************************************************
-NAME                    LAMBERT CYLINDRICAL EQUAL AREA
-
-PURPOSE:  Transforms input longitude and latitude to Easting and
-    Northing for the Lambert Cylindrical Equal Area projection.
-                This class of projection includes the Behrmann and 
-                Gall-Peters Projections.  The
-    longitude and latitude must be in radians.  The Easting
-    and Northing values will be returned in meters.
-
-PROGRAMMER              DATE            
-----------              ----
-R. Marsden              August 2009
-Winwaed Software Tech LLC, http://www.winwaed.com
-
-This function was adapted from the Miller Cylindrical Projection in the Proj4JS
-library.
-
-Note: This implementation assumes a Spherical Earth. The (commented) code 
-has been included for the ellipsoidal forward transform, but derivation of 
-the ellispoidal inverse transform is beyond me. Note that most of the 
-Proj4JS implementations do NOT currently support ellipsoidal figures. 
-Therefore this is not seen as a problem - especially this lack of support 
-is explicitly stated here.
- 
-ALGORITHM REFERENCES
-
-1.  "Cartographic Projection Procedures for the UNIX Environment - 
-     A User's Manual" by Gerald I. Evenden, USGS Open File Report 90-284
-    and Release 4 Interim Reports (2003)
-
-2.  Snyder, John P., "Flattening the Earth - Two Thousand Years of Map 
-    Projections", Univ. Chicago Press, 1993
-*******************************************************************************/
-
-  var common = require('../common');
-
-  module.exports = {
+define(['../common'],function(common) {
+  return {
 
     /* Initialize the Cylindrical Equal Area projection
   -------------------------------------------*/

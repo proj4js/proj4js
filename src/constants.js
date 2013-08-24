@@ -1,4 +1,4 @@
-define(function(require, exports, module) {
+define(function() {
   var proj4 = {};
   //var Proj = require('./Proj');
   proj4.PrimeMeridian = {
@@ -325,5 +325,5 @@ define(function(require, exports, module) {
       ]
     }
   };
-  module.exports = proj4;
+  return proj4;
 });
