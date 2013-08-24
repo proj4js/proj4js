@@ -89,8 +89,23 @@ define(['./extend','./constants'],function(extend,constants) {
       }
     }
   }
+  function cleanWKT(wkt){
+    if(wkt.type === 'GEOGCS'){
+      wkt.projName = 'longlat';
+    }else if(wkt.type === 'LOCAL_CS'){
+      wkt.projName = 'identity';
+      wkt.local=true;
+    }else{
+      wkt.projName = constants.wktProjections[wkt.PROJECTION];
+    }
+    if(wkt.UNIT){
+      wkt.units=wkt.UNIT.name;
+      wkt.unitsPerMeter=wkt.UNIT.convert;
+    }
+    wkt.srsCode = wkt.name;
+  }
   return function(wkt, self) {
-    var lisp = JSON.parse(("," + wkt).replace(/\,([A-Z_]+?)(\[)/g, ',["$1",').slice(1).replace(/\,([A-Z_]+?)\]/g, ',"$1"]'));
+    var lisp = JSON.parse(("," + wkt).replace(/\,([A-Z_0-9]+?)(\[)/g, ',["$1",').slice(1).replace(/\,([A-Z_0-9]+?)\]/g, ',"$1"]'));
     var type = lisp.shift();
     var name = lisp.shift();
     lisp.unshift(['name', name]);
@@ -98,10 +113,7 @@ define(['./extend','./constants'],function(extend,constants) {
     lisp.unshift('output');
     var obj = {};
     fromLisp(lisp, obj);
-    if(obj.output.type === 'GEOGCS'){
-      obj.output.projName = 'longlat';
-    }
-    obj.output.srsCode = obj.output.name;
+    cleanWKT(obj.output);
     return extend(self,obj.output);
   };
 });
