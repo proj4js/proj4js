@@ -1,4 +1,4 @@
-define(['./extend','./constants'],function(extend,constants) {
+define(['./extend','./constants','./common'],function(extend,constants,common) {
   /*function flatten(a) {
     var out = [];
     a.forEach(function(v) {
@@ -101,6 +101,22 @@ define(['./extend','./constants'],function(extend,constants) {
     if(wkt.UNIT){
       wkt.units=wkt.UNIT.name;
       wkt.unitsPerMeter=wkt.UNIT.convert;
+    }
+    wkt.false_easting=wkt.False_Easting;
+    wkt.false_northing=wkt.False_Northing;
+    wkt.central_meridian=wkt.Central_Meridian;
+    wkt.latitude_of_origin = wkt.Latitude_Of_Origin;
+    wkt.scale_factor=wkt.Scale_Factor;
+    wkt.x0 = wkt.false_easting;
+    wkt.y0 = wkt.false_northing;
+    wkt.lat1=wkt.Standard_Parallel_1 * common.D2R;
+    wkt.lat2=wkt.Standard_Parallel_2 * common.D2R;
+    wkt.k0=wkt.scale_factor;
+    if(wkt.central_meridian){
+      wkt.long0 = wkt.central_meridian * common.D2R;
+    }
+    if(wkt.latitude_of_origin){
+      wkt.lat0 = wkt.latitude_of_origin * common.D2R;
     }
     wkt.srsCode = wkt.name;
   }
