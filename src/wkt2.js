@@ -102,13 +102,21 @@ define(['./extend','./constants','./common'],function(extend,constants,common) {
       wkt.units=wkt.UNIT.name;
       wkt.unitsPerMeter=wkt.UNIT.convert;
     }
+    if(wkt.GEOGCS){
+      wkt.datumName=wkt.GEOGCS.name;
+      if(wkt.GEOGCS.DATUM && wkt.GEOGCS.DATUM.SPHEROID){
+        wkt.ellps=wkt.GEOGCS.DATUM.SPHEROID.name.replace('_19','');
+        wkt.a = wkt.GEOGCS.DATUM.SPHEROID.a;
+        wkt.rf = wkt.GEOGCS.DATUM.SPHEROID.rf;
+      }
+    }
     wkt.false_easting=wkt.False_Easting;
     wkt.false_northing=wkt.False_Northing;
     wkt.central_meridian=wkt.Central_Meridian;
     wkt.latitude_of_origin = wkt.Latitude_Of_Origin;
     wkt.scale_factor=wkt.Scale_Factor;
-    wkt.x0 = wkt.false_easting;
-    wkt.y0 = wkt.false_northing;
+    wkt.x0 = parseFloat(wkt.false_easting,10);
+    wkt.y0 = parseFloat(wkt.false_northing,10);
     wkt.lat1=wkt.Standard_Parallel_1 * common.D2R;
     wkt.lat2=wkt.Standard_Parallel_2 * common.D2R;
     wkt.k0=wkt.scale_factor;

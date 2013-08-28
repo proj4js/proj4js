@@ -143,17 +143,19 @@ var aWKT = [
 	wkt:'LOCAL_CS["Non-Earth (Meter)",LOCAL_DATUM["Local Datum",0],UNIT["Meter", 1],AXIS["X",EAST],AXIS["Y",NORTH]]'
 },
 {
-	name:'SVY21',
+	name:'NAD_1983_HARN_StatePlane_New_Jersey_FIPS_2900',
 	units:'Meter',
 	proj:'tmerc',
-	wkt:'PROJCS["SVY21",GEOGCS["SVY21[WGS84]",DATUM["D_WGS_1984",SPHEROID["WGS_1984",6378137.0,298.257223563]],PRIMEM["Greenwich",0.0],UNIT["Degree",0.0174532925199433]],PROJECTION["Transverse_Mercator"],PARAMETER["False_Easting",28001.642],PARAMETER["False_Northing",38744.572],PARAMETER["Central_Meridian",103.8333333333333],PARAMETER["Scale_Factor",1.0],PARAMETER["Latitude_Of_Origin",1.366666666666667],UNIT["Meter",1.0]]'
+	code:'ESRI:102311',
+	testPoint:[[-75,40],[107307.24586574888, 129634.14970674049]],
+	wkt:'PROJCS["NAD_1983_HARN_StatePlane_New_Jersey_FIPS_2900",GEOGCS["GCS_North_American_1983_HARN",DATUM["D_North_American_1983_HARN",SPHEROID["GRS_1980",6378137,298.257222101]],PRIMEM["Greenwich",0],UNIT["Degree",0.017453292519943295]],PROJECTION["Transverse_Mercator"],PARAMETER["False_Easting",150000],PARAMETER["False_Northing",0],PARAMETER["Central_Meridian",-74.5],PARAMETER["Scale_Factor",0.9999],PARAMETER["Latitude_Of_Origin",38.83333333333334],UNIT["Meter",1]]'
 },
 {
-	name:'NAD_1983_StatePlane_Massachusetts_Mainland_FIPS_2001_Feet',
-	units:"Foot_US",
+	name:"NAD_1983_HARN_StatePlane_Massachusetts_Mainland_FIPS_2001",
+	units:"Meter",
 	proj:'lcc',
-	code:'ESRI:102686',
-	testPoint:[[-70, 41],[782385.8996039435, 2461734.8626785204]],
-	wkt:'PROJCS["NAD_1983_StatePlane_Massachusetts_Mainland_FIPS_2001_Feet",GEOGCS["GCS_North_American_1983",DATUM["D_North_American_1983",SPHEROID["GRS_1980",6378137.0,298.257222101]],PRIMEM["Greenwich",0.0],UNIT["Degree",0.0174532925199433]],PROJECTION["Lambert_Conformal_Conic"],PARAMETER["False_Easting",656166.6666666665],PARAMETER["False_Northing",2460625.0],PARAMETER["Central_Meridian",-71.5],PARAMETER["Standard_Parallel_1",41.71666666666667],PARAMETER["Standard_Parallel_2",42.68333333333333],PARAMETER["Latitude_Of_Origin",41.0],UNIT["Foot_US",0.3048006096012192]]'
-}
+	code:'ESRI:102286',
+	testPoint:[[-70, 41],[326219.2329381689, 751109.8626785288]],
+	wkt:'PROJCS["NAD_1983_HARN_StatePlane_Massachusetts_Mainland_FIPS_2001",GEOGCS["GCS_North_American_1983_HARN",DATUM["D_North_American_1983_HARN",SPHEROID["GRS_1980",6378137,298.257222101]],PRIMEM["Greenwich",0],UNIT["Degree",0.017453292519943295]],PROJECTION["Lambert_Conformal_Conic"],PARAMETER["False_Easting",200000],PARAMETER["False_Northing",750000],PARAMETER["Central_Meridian",-71.5],PARAMETER["Standard_Parallel_1",41.71666666666667],PARAMETER["Standard_Parallel_2",42.68333333333333],PARAMETER["Latitude_Of_Origin",41],UNIT["Meter",1]]'
+	}
 ];
