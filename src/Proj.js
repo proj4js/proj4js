@@ -6,79 +6,25 @@ define(['./extend','./common','./defs','./constants','./datum','./projections','
     }
     this.srsCodeInput = srsCode;
     var obj;
+    if(typeof srsCode === 'string'){
     //check to see if this is a WKT string
-    if ((srsCode.indexOf('GEOGCS') >= 0) || (srsCode.indexOf('GEOCCS') >= 0) || (srsCode.indexOf('PROJCS') >= 0) || (srsCode.indexOf('LOCAL_CS') >= 0)) {
-      obj = wkt(srsCode);
-      this.deriveConstants(obj);
-      extend(this,obj);
-      //this.loadProjCode(this.projName);
-  
-    }
-    else {
-      if (srsCode.indexOf(":") > -1) {
-        this.srsAuth = srsCode.split(':')[0].toLowerCase();
-        this.srsProjNumber = srsCode.split(':')[1];
-
+      if(srsCode in defs){
+        this.deriveConstants(defs[srsCode]);
+        extend(this,defs[srsCode]);
+      }else if ((srsCode.indexOf('GEOGCS') >= 0) || (srsCode.indexOf('GEOCCS') >= 0) || (srsCode.indexOf('PROJCS') >= 0) || (srsCode.indexOf('LOCAL_CS') >= 0)) {
+        obj = wkt(srsCode);
+        this.deriveConstants(obj);
+        extend(this,obj);
+        //this.loadProjCode(this.projName);
       }
-      else {
-        this.srsAuth = '';
-        this.srsProjNumber = this.srsCode;
-      }
-      this.parseDefs(srsCode);
-
+    } else {
+      this.deriveConstants(srsCode);
+      extend(this,srsCode);
     }
+
     this.initTransforms(this.projName);
   };
   proj.prototype = {
-  
-    /**
-     * Property: title
-     * The title to describe the projection
-     */
-    title: null,
-    /**
-     * Property: projName
-     * The projection class for this projection, e.g. lcc (lambert conformal conic,
-     * or merc for mercator).  These are exactly equivalent to their Proj4 
-     * counterparts.
-     */
-    projName: null,
-    /**
-     * Property: units
-     * The units of the projection.  Values include 'm' and 'degrees'
-     */
-    units: null,
-    /**
-     * Property: datum
-     * The datum specified for the projection
-     */
-    datum: null,
-    /**
-     * Property: x0
-     * The x coordinate origin
-     */
-    x0: 0,
-    /**
-     * Property: y0
-     * The y coordinate origin
-     */
-    y0: 0,
-    /**
-     * Property: localCS
-     * Flag to indicate if the projection is a local one in which no transforms
-     * are required.
-     */
-    localCS: false,
-  
-    /**
-     * Constructor: initialize
-     * Constructor for proj objects
-     *
-     * Parameters:
-     * srsCode - a code for map projection definition parameters.  These are usually
-     * (but not always) EPSG codes.
-     */
-  
     /**
      * Function: initTransforms
      *    Finalize the initialization of the Proj object
@@ -92,37 +38,6 @@ define(['./extend','./common','./defs','./constants','./datum','./projections','
       this.init();
     },
   
-    /**
-     * Function: parseWKT
-     * Parses a WKT string to get initialization parameters
-     *
-     */
-  
-    /**
-     * Function: parseDefs
-     * Parses the PROJ.4 initialization string and sets the associated properties.
-     *
-     */
-    parseDefs: function(srsCode) {
-      this.defData = defs[srsCode];
-      if (!this.defData) {
-        return;
-      }else{
-        this.srsCode = srsCode;
-      }
-      var key;
-      for (key in this.defData) {
-        this[key] = this.defData[key];
-      }
-      extend(this,this.deriveConstants(this));
-    },
-  
-    /**
-     * Function: deriveConstants
-     * Sets several derived constant values and initialization of datum and ellipse
-     *     parameters.
-     *
-     */
     deriveConstants: function(self) {
       // DGR 2011-03-20 : nagrids -> nadgrids
       if (self.nadgrids && self.nadgrids.length === 0) {
