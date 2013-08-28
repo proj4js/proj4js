@@ -157,5 +157,13 @@ var aWKT = [
 	code:'ESRI:102286',
 	testPoint:[[-70, 41],[326219.2329381689, 751109.8626785288]],
 	wkt:'PROJCS["NAD_1983_HARN_StatePlane_Massachusetts_Mainland_FIPS_2001",GEOGCS["GCS_North_American_1983_HARN",DATUM["D_North_American_1983_HARN",SPHEROID["GRS_1980",6378137,298.257222101]],PRIMEM["Greenwich",0],UNIT["Degree",0.017453292519943295]],PROJECTION["Lambert_Conformal_Conic"],PARAMETER["False_Easting",200000],PARAMETER["False_Northing",750000],PARAMETER["Central_Meridian",-71.5],PARAMETER["Standard_Parallel_1",41.71666666666667],PARAMETER["Standard_Parallel_2",42.68333333333333],PARAMETER["Latitude_Of_Origin",41],UNIT["Meter",1]]'
+	},
+{
+	name:"NAD83 / Alaska zone 1",
+	units:"Meter",
+	proj:'omerc',
+	code:'EPSG:26931',
+	testPoint:[[-135,56],[4916815.274147286, -5110540.771739297]],
+	wkt:'PROJCS["NAD83 / Alaska zone 1",GEOGCS["GCS_North_American_1983",DATUM["D_North_American_1983",SPHEROID["GRS_1980",6378137,298.257222101]],PRIMEM["Greenwich",0],UNIT["Degree",0.017453292519943295]],PROJECTION["Hotine_Oblique_Mercator_Azimuth_Natural_Origin"],PARAMETER["latitude_of_center",57],PARAMETER["longitude_of_center",-133.6666666666667],PARAMETER["azimuth",323.1301023611111],PARAMETER["rectified_grid_angle",323.1301023611111],PARAMETER["scale_factor",0.9999],PARAMETER["false_easting",5000000],PARAMETER["false_northing",-5000000],UNIT["Meter",1]]'
 	}
 ];

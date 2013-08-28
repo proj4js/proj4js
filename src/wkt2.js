@@ -89,6 +89,19 @@ define(['./extend','./constants','./common'],function(extend,constants,common) {
       }
     }
   }
+  function rename(obj, params){
+    var outName=params[0];
+    var inName = params[1];
+    if(!(outName in obj)&&(inName in obj)){
+      obj[outName]=obj[inName];
+      if(params.length===3){
+        obj[outName]=params[2](obj[outName]);
+      }
+    }
+  }
+  function d2r(input){
+    return input*common.D2R;
+  }
   function cleanWKT(wkt){
     if(wkt.type === 'GEOGCS'){
       wkt.projName = 'longlat';
@@ -110,23 +123,28 @@ define(['./extend','./constants','./common'],function(extend,constants,common) {
         wkt.rf = wkt.GEOGCS.DATUM.SPHEROID.rf;
       }
     }
-    wkt.false_easting=wkt.False_Easting;
-    wkt.false_northing=wkt.False_Northing;
-    wkt.central_meridian=wkt.Central_Meridian;
-    wkt.latitude_of_origin = wkt.Latitude_Of_Origin;
-    wkt.scale_factor=wkt.Scale_Factor;
-    wkt.x0 = parseFloat(wkt.false_easting,10);
-    wkt.y0 = parseFloat(wkt.false_northing,10);
-    wkt.lat1=wkt.Standard_Parallel_1 * common.D2R;
-    wkt.lat2=wkt.Standard_Parallel_2 * common.D2R;
-    wkt.k0=wkt.scale_factor;
-    if(wkt.central_meridian){
-      wkt.long0 = wkt.central_meridian * common.D2R;
-    }
-    if(wkt.latitude_of_origin){
-      wkt.lat0 = wkt.latitude_of_origin * common.D2R;
-    }
-    wkt.srsCode = wkt.name;
+    var renamer = rename.bind(null,wkt);
+    var list = [
+      ['false_easting','False_Easting'],
+      ['false_northing','False_Northing'],
+      ['central_meridian','Central_Meridian'],
+      ['latitude_of_origin','Latitude_Of_Origin'],
+      ['scale_factor','Scale_Factor'],
+      ['k0','scale_factor'],
+      ['latitude_of_center','Latitude_of_center'],
+      ['lat0','latitude_of_center',d2r],
+      ['longitude_of_center','Longitude_Of_Center'],
+      ['longc','longitude_of_center',d2r],
+      ['x0','false_easting',parseFloat],
+      ['y0','false_northing',parseFloat],
+      ['long0','central_meridian',d2r],
+      ['lat0','latitude_of_origin',d2r],
+      ['lat1','Standard_Parallel_1',d2r],
+      ['lat2','Standard_Parallel_2',d2r],
+      ['alpha','azimuth',d2r],
+      ['srsCode','name']
+    ];
+    list.forEach(renamer);
   }
   return function(wkt, self) {
     var lisp = JSON.parse(("," + wkt).replace(/\,([A-Z_0-9]+?)(\[)/g, ',["$1",').slice(1).replace(/\,([A-Z_0-9]+?)\]/g, ',"$1"]'));

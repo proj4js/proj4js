@@ -297,7 +297,10 @@ define(function() {
     "Transverse_Mercator": "tmerc",
     "Transverse Mercator": "tmerc",
     "Lambert Azimuthal Equal Area": "laea",
-    "Universal Transverse Mercator System": "utm"
+    "Universal Transverse Mercator System": "utm",
+    "Hotine_Oblique_Mercator":"omerc",
+    "Hotine Oblique Mercator":"omerc",
+    "Hotine_Oblique_Mercator_Azimuth_Natural_Origin":"omerc"
   };
 
   // Based on proj4 CTABLE  structure :
