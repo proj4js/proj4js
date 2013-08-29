@@ -231,22 +231,22 @@ define(function() {
   };
 
   proj4.Datum = {
-    "WGS84": {
+    "wgs84": {
       towgs84: "0,0,0",
       ellipse: "WGS84",
       datumName: "WGS84"
     },
-    "GGRS87": {
+    "ggrs87": {
       towgs84: "-199.87,74.79,246.62",
       ellipse: "GRS80",
       datumName: "Greek_Geodetic_Reference_System_1987"
     },
-    "NAD83": {
+    "nad83": {
       towgs84: "0,0,0",
       ellipse: "GRS80",
       datumName: "North_American_Datum_1983"
     },
-    "NAD27": {
+    "nad27": {
       nadgrids: "@conus,@alaska,@ntv2_0.gsb,@ntv1_can.dat",
       ellipse: "clrk66",
       datumName: "North_American_Datum_1927"
@@ -271,15 +271,35 @@ define(function() {
       ellipse: "mod_airy",
       datumName: "Ireland 1965"
     },
+    "rassadiran": {
+      towgs84: "-133.63,-157.5,-158.62",
+      ellipse: "intl",
+      datumName: "Rassadiran"
+    },
     "nzgd49": {
       towgs84: "59.47,-5.04,187.44,0.47,-0.1,1.024,-4.5993",
       ellipse: "intl",
       datumName: "New Zealand Geodetic Datum 1949"
     },
-    "OSGB36": {
+    "osgb36": {
       towgs84: "446.448,-125.157,542.060,0.1502,0.2470,0.8421,-20.4894",
       ellipse: "airy",
       datumName: "Airy 1830"
+    },
+    "s_jtsk":{
+      towgs84:"589,76,480",
+      ellipse:'bessel',
+      datumName:'S-JTSK (Ferro)'
+    },
+    'beduaram':{
+      towgs84:'-106,-87,188',
+      ellipse:'clrk80',
+      datumName:'Beduaram'
+    },
+    'gunung_segara':{
+      towgs84:'-403,684,41',
+      ellipse:'bessel',
+      datumName:'Gunung Segara Jakarta'
     }
   };
 
@@ -291,6 +311,7 @@ define(function() {
   proj4.wktProjections = {
     "Lambert Tangential Conformal Conic Projection": "lcc",
     "Lambert_Conformal_Conic": "lcc",
+    "Lambert_Conformal_Conic_2SP":"lcc",
     "Mercator": "merc",
     "Popular Visualisation Pseudo Mercator": "merc",
     "Mercator_1SP": "merc",
@@ -300,7 +321,28 @@ define(function() {
     "Universal Transverse Mercator System": "utm",
     "Hotine_Oblique_Mercator":"omerc",
     "Hotine Oblique Mercator":"omerc",
-    "Hotine_Oblique_Mercator_Azimuth_Natural_Origin":"omerc"
+    "Hotine_Oblique_Mercator_Azimuth_Natural_Origin":"omerc",
+    'Hotine_Oblique_Mercator_Azimuth_Center':'omerc',
+    "Van_der_Grinten_I":"vandg",
+    "VanDerGrinten":"vandg",
+    "Stereographic_North_Pole":"sterea",
+    "Oblique_Stereographic":"sterea",
+    'Polar_Stereographic':"sterea",
+    "Polyconic":"poly",
+    'New_Zealand_Map_Grid':'nzmg',
+    'Miller_Cylindrical':'mill',
+    'Krovak':'krovak',
+    'Equirectangular':'eqc',
+    'Equidistant_Cylindrical':'eqc',
+    'Cassini':'cass',
+    'Cassini_Soldner':'cass',
+    'Azimuthal_Equidistant':'aeqd',
+    'Albers_Conic_Equal_Area':'aea',
+    'Albers':'aea',
+    'Mollweide':'moll',
+    'Lambert_Azimuthal_Equal_Area':'laea',
+    'Sinusoidal':"sinu",
+    "Equidistant_Conic":'eqdc'
   };
 
   // Based on proj4 CTABLE  structure :

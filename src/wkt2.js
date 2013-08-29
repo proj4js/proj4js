@@ -57,7 +57,7 @@ define(['./extend','./constants','./common'],function(extend,constants,common) {
         obj[key] = {};
         if (['UNIT', 'PRIMEM', 'VERT_DATUM'].indexOf(key) > -1) {
           obj[key] = {
-            name: v[0],
+            name: v[0].toLowerCase(),
             convert: v[1]
           };
           if (v.length === 3) {
@@ -112,19 +112,50 @@ define(['./extend','./constants','./common'],function(extend,constants,common) {
       wkt.projName = constants.wktProjections[wkt.PROJECTION];
     }
     if(wkt.UNIT){
-      wkt.units=wkt.UNIT.name;
+      wkt.units=wkt.UNIT.name.toLowerCase();
+      if(wkt.units === 'metre'){
+        wkt.units = 'meter';
+      }
       wkt.unitsPerMeter=wkt.UNIT.convert;
     }
+    
     if(wkt.GEOGCS){
-      wkt.datumName=wkt.GEOGCS.name;
+      //if(wkt.GEOGCS.PRIMEM&&wkt.GEOGCS.PRIMEM.convert){
+      //  wkt.from_greenwich=wkt.GEOGCS.PRIMEM.convert*common.D2R;
+      //}
+      if(wkt.GEOGCS.DATUM){
+        wkt.datumCode=wkt.GEOGCS.DATUM.name.toLowerCase();
+      }else{
+        wkt.datumCode=wkt.GEOGCS.name.toLowerCase();
+      }
+      if(wkt.datumCode.slice(0,2)==='d_'){
+        wkt.datumCode=wkt.datumCode.slice(2);
+      }
+      if(wkt.datumCode==='new_zealand_geodetic_datum_1949' || wkt.datumCode === 'new_zealand_1949'){
+        wkt.datumCode='nzgd49';
+      }
+      if(wkt.datumCode.slice(-6)==='_ferro'){
+        wkt.datumCode=wkt.datumCode.slice(0,-6);
+      }
+      if(wkt.datumCode.slice(-8)==='_jakarta'){
+        wkt.datumCode=wkt.datumCode.slice(0,-8);
+      }
       if(wkt.GEOGCS.DATUM && wkt.GEOGCS.DATUM.SPHEROID){
         wkt.ellps=wkt.GEOGCS.DATUM.SPHEROID.name.replace('_19','');
+        if(wkt.ellps.toLowerCase().slice(0,13)==="international"){
+          wkt.ellps='intl';
+        }
         wkt.a = wkt.GEOGCS.DATUM.SPHEROID.a;
-        wkt.rf = wkt.GEOGCS.DATUM.SPHEROID.rf;
+        wkt.rf = parseFloat(wkt.GEOGCS.DATUM.SPHEROID.rf,10);
       }
+    }
+    if(wkt.b && !isFinite(wkt.b)){
+      wkt.b=wkt.a;
     }
     var renamer = rename.bind(null,wkt);
     var list = [
+      ['standard_parallel_1','Standard_Parallel_1'],
+      ['standard_parallel_2','Standard_Parallel_2'],
       ['false_easting','False_Easting'],
       ['false_northing','False_Northing'],
       ['central_meridian','Central_Meridian'],
@@ -139,12 +170,16 @@ define(['./extend','./constants','./common'],function(extend,constants,common) {
       ['y0','false_northing',parseFloat],
       ['long0','central_meridian',d2r],
       ['lat0','latitude_of_origin',d2r],
-      ['lat1','Standard_Parallel_1',d2r],
-      ['lat2','Standard_Parallel_2',d2r],
+      ['lat0','standard_parallel_1',d2r],
+      ['lat1','standard_parallel_1',d2r],
+      ['lat2','standard_parallel_2',d2r],
       ['alpha','azimuth',d2r],
       ['srsCode','name']
     ];
     list.forEach(renamer);
+    if(!wkt.long0&&wkt.longc&&wkt.PROJECTION==='Albers_Conic_Equal_Area'){
+      wkt.long0=wkt.longc;
+    }
   }
   return function(wkt, self) {
     var lisp = JSON.parse(("," + wkt).replace(/\,([A-Z_0-9]+?)(\[)/g, ',["$1",').slice(1).replace(/\,([A-Z_0-9]+?)\]/g, ',"$1"]'));
