@@ -8,7 +8,15 @@
   <script src="lib/mocha.js"></script>
   <div id="mocha"></div>
   <script src="testData.js"></script>
-  <script data-main="test.js" src="lib/require.js"></script>
- 
+  <script>
+    curl = {
+      baseUrl: '../src',
+      paths:{
+        lib:'../test/lib'
+      }
+    }
+  </script>
+  <script src="lib/curl.js"></script>
+ <script src='test.js'></script>
 </body>
 </html>
