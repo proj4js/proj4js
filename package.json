@@ -19,7 +19,7 @@
   "jam":{
     "main":"dist/amd/proj4.js",
     "include":["dist/amd/proj4.js","README.md","AUTHORS","LICENSE.md"]
-  }
+  },
   "devDependencies": {
     "grunt-cli": "~0.1.9",
     "grunt": "~0.4.1",
