@@ -1,4 +1,10 @@
 define(['../common'],function(common) {
+/*
+  reference:  
+    "Cartographic Projection Procedures for the UNIX Environment-
+    A User's Manual" by Gerald I. Evenden,
+    USGS Open File Report 90-284and Release 4 Interim Reports (2003)
+*/
   return {
 
     /* Initialize the Cylindrical Equal Area projection
