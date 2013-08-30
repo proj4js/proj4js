@@ -1,7 +1,5 @@
-define(function(require, exports, module) {
-  var common = require('../common');
-  var gauss = require('./gauss');
-  module.exports = {
+define(['../common','./gauss'],function(common,gauss) {
+  return {
 
     init: function() {
       gauss.init.apply(this);

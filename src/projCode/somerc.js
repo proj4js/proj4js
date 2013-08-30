@@ -1,21 +1,12 @@
-define(function(require, exports, module) {
-  /*******************************************************************************
-NAME                       SWISS OBLIQUE MERCATOR
-
-PURPOSE:  Swiss projection.
-WARNING:  X and Y are inverted (weird) in the swiss coordinate system. Not
-   here, since we want X to be horizontal and Y vertical.
-
-ALGORITHM REFERENCES
-1. "Formules et constantes pour le Calcul pour la
- projection cylindrique conforme à axe oblique et pour la transformation entre
- des systèmes de référence".
- http://www.swisstopo.admin.ch/internet/swisstopo/fr/home/topics/survey/sys/refsys/switzerland.parsysrelated1.31216.downloadList.77004.DownloadFile.tmp/swissprojectionfr.pdf
-
-*******************************************************************************/
-
-
-  module.exports = {
+define(function() {
+  /*
+  references:
+    Formules et constantes pour le Calcul pour la
+    projection cylindrique conforme à axe oblique et pour la transformation entre
+    des systèmes de référence.
+    http://www.swisstopo.admin.ch/internet/swisstopo/fr/home/topics/survey/sys/refsys/switzerland.parsysrelated1.31216.downloadList.77004.DownloadFile.tmp/swissprojectionfr.pdf
+  */
+  return {
 
     init: function() {
       var phy0 = this.lat0;

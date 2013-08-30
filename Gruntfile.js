@@ -1,5 +1,3 @@
-var buildDefs = require('./buildDefs');
-
 module.exports = function(grunt) {
   grunt.initConfig({
 		pkg: grunt.file.readJSON('package.json'),
@@ -107,14 +105,7 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks('grunt-contrib-connect');
 	grunt.loadNpmTasks('grunt-mocha-phantomjs');
 	grunt.registerTask('test', ['connect', 'mocha_phantomjs:before']);
-	grunt.registerTask('defs',function(){
-		var defs = grunt.option('defs');
-		if(defs && defs.indexOf(',')>-1){
-			defs = defs.split(',');
-		}
-		buildDefs.defs(defs);
-	});
-  grunt.registerTask('amd',['defs','jshint','requirejs:amd','connect','mocha_phantomjs:amd']);
-	grunt.registerTask('build',['defs','jshint','requirejs:custom']);
-  grunt.registerTask('default', ['defs','jshint','test','requirejs:reg','mocha_phantomjs:after']);
+  grunt.registerTask('amd',['jshint','requirejs:amd','connect','mocha_phantomjs:amd']);
+	grunt.registerTask('build',['jshint','requirejs:custom']);
+  grunt.registerTask('default', ['jshint','test','requirejs:reg','requirejs:amd','mocha_phantomjs:after','mocha_phantomjs:amd']);
 }

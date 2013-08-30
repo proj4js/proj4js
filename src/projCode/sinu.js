@@ -1,33 +1,5 @@
-define(function(require, exports, module) {
-  /*******************************************************************************
-NAME                      SINUSOIDAL
-
-PURPOSE:  Transforms input longitude and latitude to Easting and
-    Northing for the Sinusoidal projection.  The
-    longitude and latitude must be in radians.  The Easting
-    and Northing values will be returned in meters.
-
-PROGRAMMER              DATE            
-----------              ----           
-D. Steinwand, EROS      May, 1991     
-
-This function was adapted from the Sinusoidal projection code (FORTRAN) in the 
-General Cartographic Transformation Package software which is available from 
-the U.S. Geological Survey National Mapping Division.
- 
-ALGORITHM REFERENCES
-
-1.  Snyder, John P., "Map Projections--A Working Manual", U.S. Geological
-    Survey Professional Paper 1395 (Supersedes USGS Bulletin 1532), United
-    State Government Printing Office, Washington D.C., 1987.
-
-2.  "Software Documentation for GCTP General Cartographic Transformation
-    Package", U.S. Geological Survey National Mapping Division, May 1982.
-*******************************************************************************/
-
-  var common = require('../common');
-
-  module.exports = {
+define(['../common'],function(common) {
+  return {
 
     /* Initialize the Sinusoidal projection
     ------------------------------------*/

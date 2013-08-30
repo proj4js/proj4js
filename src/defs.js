@@ -1,6 +1,4 @@
-define(function(require, exports, module) {
-  var common = require('./common');
-  var constants = require('./constants');
+define(['./common','./constants','./global'],function(common, constants,globals) {
 
   function defs(name) {
     /*global console*/
@@ -149,8 +147,7 @@ define(function(require, exports, module) {
     defs[name] = self;
     return name;
   }
-  require('./defs/global')(defs);
-  require('./defs/local')(defs);
-  module.exports = defs;
+  globals(defs);
+  return defs;
 
 });

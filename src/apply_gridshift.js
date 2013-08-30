@@ -1,6 +1,5 @@
-define(function(require, exports, module) {
-  var common = require('./common');
-  module.exports = function(srs, inverse, point) {
+define(['../common'],function(common) {
+  return function(srs, inverse, point) {
     var i, l, gi, ct, epsilon;
     if (srs.grids === null || srs.grids.length === 0) {
       return -38; //are these error codes?

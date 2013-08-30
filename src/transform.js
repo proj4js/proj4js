@@ -1,9 +1,6 @@
-define(function(require, exports, module) {
-  var common = require('./common');
-  var datum_transform = require('./datum_transform');
-  var adjust_axis = require('./adjust_axis');
-  var proj = require('./Proj');
-  module.exports = function(source, dest, point) {
+define(['./common','./datum_transform','./adjust_axis','./Proj'],function(common, datum_transform, adjust_axis,proj) {
+
+  return function(source, dest, point) {
     var wgs84;
 
     function checkNotWGS(source, dest) {

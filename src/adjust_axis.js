@@ -1,5 +1,5 @@
-define(function(require, exports, module) {
-  module.exports = function(crs, denorm, point) {
+define(function() {
+  return function(crs, denorm, point) {
     var xin = point.x,
       yin = point.y,
       zin = point.z || 0.0;

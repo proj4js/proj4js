@@ -1,41 +1,5 @@
-define(function(require, exports, module) {
-  /*******************************************************************************
-NAME                            MERCATOR
-
-PURPOSE:  Transforms input longitude and latitude to Easting and
-    Northing for the Mercator projection.  The
-    longitude and latitude must be in radians.  The Easting
-    and Northing values will be returned in meters.
-
-PROGRAMMER              DATE
-----------              ----
-D. Steinwand, EROS      Nov, 1991
-T. Mittan    Mar, 1993
-
-ALGORITHM REFERENCES
-
-1.  Snyder, John P., "Map Projections--A Working Manual", U.S. Geological
-    Survey Professional Paper 1395 (Supersedes USGS Bulletin 1532), United
-    State Government Printing Office, Washington D.C., 1987.
-
-2.  Snyder, John P. and Voxland, Philip M., "An Album of Map Projections",
-    U.S. Geological Survey Professional Paper 1453 , United State Government
-    Printing Office, Washington D.C., 1989.
-*******************************************************************************/
-
-  //static double r_major = a;       /* major axis         */
-  //static double r_minor = b;       /* minor axis         */
-  //static double lon_center = long0;     /* Center longitude (projection center) */
-  //static double lat_origin =  lat0;     /* center latitude      */
-  //static double e,es;               /* eccentricity constants    */
-  //static double m1;                   /* small value m      */
-  //static double false_northing = y0;   /* y offset in meters      */
-  //static double false_easting = x0;     /* x offset in meters      */
-  //scale_fact = k0 
-
-  var common = require('../common');
-
-  module.exports = {
+define(['../common'],function(common) {
+  return {
     init: function() {
       var con = this.b / this.a;
       this.es = 1 - con * con;
