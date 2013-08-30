@@ -1,4 +1,9 @@
 define(['../common'],function(common) {
+  /*
+  reference
+    "New Equal-Area Map Projections for Noncircular Regions", John P. Snyder,
+    The American Cartographer, Vol 15, No. 4, October 1988, pp. 341-355.
+  */
   return {
 
     /* Initialize the Miller Cylindrical projection

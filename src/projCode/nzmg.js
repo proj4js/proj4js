@@ -1,4 +1,11 @@
 define(['../common'],function(common) {
+  /*
+  reference
+    Department of Land and Survey Technical Circular 1973/32
+      http://www.linz.govt.nz/docs/miscellaneous/nz-map-definition.pdf
+    OSG Technical Report 4.1
+      http://www.linz.govt.nz/docs/miscellaneous/nzmg.pdf
+  */
   return {
 
     /**

@@ -1,4 +1,10 @@
 define(['../common'],function(common) {
+  /*
+  reference:
+    Wolfram Mathworld "Gnomonic Projection"
+    http://mathworld.wolfram.com/GnomonicProjection.html
+    Accessed: 12th November 2009
+  */
   return {
 
     /* Initialize the Gnomonic projection
