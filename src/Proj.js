@@ -1,4 +1,4 @@
-define(['./extend','./common','./defs','./constants','./datum','./projections','./wkt'],function(extend, common, defs,constants,datum,projections,wkt) {
+define(['./extend','./common','./defs','./constants','./datum','./projections','./wkt','./projString'],function(extend, common, defs,constants,datum,projections,wkt,projStr) {
   
   var proj = function proj(srsCode) {
     if (!(this instanceof proj)) {
@@ -16,6 +16,10 @@ define(['./extend','./common','./defs','./constants','./datum','./projections','
         this.deriveConstants(obj);
         extend(this,obj);
         //this.loadProjCode(this.projName);
+      }else if(srsCode[0]==='+'){
+        obj = projStr(srsCode);
+        this.deriveConstants(obj);
+        extend(this,obj);
       }
     } else {
       this.deriveConstants(srsCode);
