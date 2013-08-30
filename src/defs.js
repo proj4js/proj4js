@@ -1,4 +1,4 @@
-define(['./common','./constants','./defs/global'],function(common, constants,globals,locals) {
+define(['./common','./constants','./global'],function(common, constants,globals) {
 
   function defs(name) {
     /*global console*/
@@ -148,7 +148,6 @@ define(['./common','./constants','./defs/global'],function(common, constants,glo
     return name;
   }
   globals(defs);
-  locals(defs);
   return defs;
 
 });
