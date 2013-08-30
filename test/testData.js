@@ -48,6 +48,9 @@ var testPoints = [
   {code: 'EPSG:102018',
     xy: [350577.5930806119, 4705857.070634324],
     ll: [-75,46]
+  }, {code: '+proj=gnom +lat_0=90 +lon_0=0 +x_0=6300000 +y_0=6300000 +ellps=WGS84 +datum=WGS84 +units=m +no_defs',
+    xy: [350577.5930806119, 4705857.070634324],
+    ll: [-75,46]
   },
   {code: 'PROJCS["NAD83(CSRS) / UTM zone 17N",GEOGCS["NAD83(CSRS)",DATUM["D_North_American_1983_CSRS98",SPHEROID["GRS_1980",6378137,298.257222101]],PRIMEM["Greenwich",0],UNIT["Degree",0.017453292519943295]],PROJECTION["Transverse_Mercator"],PARAMETER["latitude_of_origin",0],PARAMETER["central_meridian",-81],PARAMETER["scale_factor",0.9996],PARAMETER["false_easting",500000],PARAMETER["false_northing",0],UNIT["Meter",1]]',
     xy: [411461.807497, 4700123.744402],
