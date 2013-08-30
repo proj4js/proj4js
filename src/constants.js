@@ -236,6 +236,11 @@ define(function() {
       ellipse: "WGS84",
       datumName: "WGS84"
     },
+    "ch1903":{
+      towgs84:"674.374,15.056,405.346",
+      ellipse:"bessel",
+      datumName:"swiss"
+    },
     "ggrs87": {
       towgs84: "-199.87,74.79,246.62",
       ellipse: "GRS80",

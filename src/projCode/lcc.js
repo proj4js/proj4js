@@ -46,6 +46,9 @@ define(['../common'],function(common) {
       else {
         this.ns = sin1;
       }
+      if(isNaN(this.ns)){
+        this.ns = sin1;
+      }
       this.f0 = ms1 / (this.ns * Math.pow(ts1, this.ns));
       this.rh = this.a * this.f0 * Math.pow(ts0, this.ns);
       if (!this.title) {
