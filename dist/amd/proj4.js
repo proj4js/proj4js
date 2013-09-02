@@ -1839,48 +1839,10 @@ define('global',[],function() {
   };
 });
 
-define('defs',['./common','./constants','./global'],function(common, constants,globals) {
-
-  function defs(name) {
-    /*global console*/
-    var defData, that = this;
-    if (arguments.length === 2) {
-      defData = arguments[1];
-    }
-    else if (arguments.length === 1) {
-      if (Array.isArray(name)) {
-        return name.map(function(v) {
-          if (Array.isArray(v)) {
-            defs.apply(that, v);
-          }
-          else {
-            defs(v);
-          }
-        });
-      }
-      else if (typeof name === 'string') {
-
-      }
-      else if ('EPSG' in name) {
-        defs['EPSG:' + name.EPSG] = name;
-      }
-      else if ('ESRI' in name) {
-        defs['ESRI:' + name.ESRI] = name;
-      }
-      else if ('IAU2000' in name) {
-        defs['IAU2000:' + name.IAU2000] = name;
-      }
-      else {
-        console.log(name);
-      }
-      return;
-    }
+define('projString',['./common', './constants'], function(common, constants) {
+  return function(defData) {
     var self = {};
-    var nameSplit;
-    if (name.indexOf(":") > -1) {
-      nameSplit = name.split(":");
-      self[nameSplit[0]] = nameSplit[1];
-    }
+
     var paramObj = {};
     defData.split("+").map(function(v) {
       return v.trim();
@@ -1985,12 +1947,50 @@ define('defs',['./common','./constants','./global'],function(common, constants,g
         self[paramName] = paramVal;
       }
     }
-    defs[name] = self;
-    return name;
+    return self;
+  };
+});
+define('defs',['./common','./constants','./global','./projString'],function(common, constants,globals,parseProj) {
+
+  function defs(name) {
+    /*global console*/
+    var that = this;
+    if (arguments.length === 2) {
+      defs[name] = parseProj(arguments[1]);
+    }
+    else if (arguments.length === 1) {
+      if (Array.isArray(name)) {
+        return name.map(function(v) {
+          if (Array.isArray(v)) {
+            defs.apply(that, v);
+          }
+          else {
+            defs(v);
+          }
+        });
+      }
+      else if (typeof name === 'string') {
+       
+      }
+      else if ('EPSG' in name) {
+        defs['EPSG:' + name.EPSG] = name;
+      }
+      else if ('ESRI' in name) {
+        defs['ESRI:' + name.ESRI] = name;
+      }
+      else if ('IAU2000' in name) {
+        defs['IAU2000:' + name.IAU2000] = name;
+      }
+      else {
+        console.log(name);
+      }
+      return;
+    }
+    
+  
   }
   globals(defs);
   return defs;
-
 });
 
 define('datum',['./common'],function(common) {
@@ -5278,7 +5278,7 @@ define('wkt',['./extend','./constants','./common'],function(extend,constants,com
   };
 });
 
-define('Proj',['./extend','./common','./defs','./constants','./datum','./projections','./wkt'],function(extend, common, defs,constants,datum,projections,wkt) {
+define('Proj',['./extend','./common','./defs','./constants','./datum','./projections','./wkt','./projString'],function(extend, common, defs,constants,datum,projections,wkt,projStr) {
   
   var proj = function proj(srsCode) {
     if (!(this instanceof proj)) {
@@ -5296,6 +5296,10 @@ define('Proj',['./extend','./common','./defs','./constants','./datum','./project
         this.deriveConstants(obj);
         extend(this,obj);
         //this.loadProjCode(this.projName);
+      }else if(srsCode[0]==='+'){
+        obj = projStr(srsCode);
+        this.deriveConstants(obj);
+        extend(this,obj);
       }
     } else {
       this.deriveConstants(srsCode);
