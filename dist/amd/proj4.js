@@ -1,5 +1,5 @@
 
-define('mgrs',['require','exports','module'],function(require, exports) {
+define('proj4/mgrs',['require','exports','module'],function(require, exports) {
   /*
 Portions of this software are based on a port of components from the OpenMap
 com.bbn.openmap.proj.coords Java package. An initial port was initially created
@@ -903,7 +903,7 @@ any commodities, software, or technical data.
 
 });
 
-define('Point',['./mgrs'],function(mgrs) {
+define('proj4/Point',['./mgrs'],function(mgrs) {
   function Point(x, y, z) {
     if (!(this instanceof Point)) {
       return new Point(x, y, z);
@@ -956,7 +956,7 @@ define('Point',['./mgrs'],function(mgrs) {
   return Point;
 });
 
-define('extend',[],function() {
+define('proj4/extend',[],function() {
   return function(destination, source) {
     destination = destination || {};
     var value, property;
@@ -973,7 +973,7 @@ define('extend',[],function() {
   };
 });
 
-define('common',[],function() {
+define('proj4/common',[],function() {
   var common = {
     PI: 3.141592653589793238, //Math.PI,
     HALF_PI: 1.570796326794896619, //Math.PI*0.5,
@@ -1445,7 +1445,7 @@ define('common',[],function() {
   return common;
 });
 
-define('constants',[],function() {
+define('proj4/constants',[],function() {
   var proj4 = {};
   //var Proj = require('./Proj');
   proj4.PrimeMeridian = {
@@ -1825,7 +1825,7 @@ define('constants',[],function() {
   return proj4;
 });
 
-define('global',[],function() {
+define('proj4/global',[],function() {
   return function(defs) {
     defs('WGS84', "+title=WGS 84 (long/lat) +proj=longlat +ellps=WGS84 +datum=WGS84 +units=degrees");
     defs('EPSG:4326', "+title=WGS 84 (long/lat) +proj=longlat +ellps=WGS84 +datum=WGS84 +units=degrees");
@@ -1839,7 +1839,7 @@ define('global',[],function() {
   };
 });
 
-define('projString',['./common', './constants'], function(common, constants) {
+define('proj4/projString',['./common', './constants'], function(common, constants) {
   return function(defData) {
     var self = {};
 
@@ -1950,7 +1950,7 @@ define('projString',['./common', './constants'], function(common, constants) {
     return self;
   };
 });
-define('defs',['./common','./constants','./global','./projString'],function(common, constants,globals,parseProj) {
+define('proj4/defs',['./common','./constants','./global','./projString'],function(common, constants,globals,parseProj) {
 
   function defs(name) {
     /*global console*/
@@ -1993,7 +1993,7 @@ define('defs',['./common','./constants','./global','./projString'],function(comm
   return defs;
 });
 
-define('datum',['./common'],function(common) {
+define('proj4/datum',['./common'],function(common) {
   var datum = function(proj) {
     if (!(this instanceof datum)) {
       return new datum(proj);
@@ -2391,7 +2391,7 @@ define('datum',['./common'],function(common) {
   return datum;
 });
 
-define('projCode/longlat',['require','exports','module'],function(require, exports) {
+define('proj4/projCode/longlat',['require','exports','module'],function(require, exports) {
   exports.init = function() {
     //no-op for longlat
   };
@@ -2401,7 +2401,7 @@ define('projCode/longlat',['require','exports','module'],function(require, expor
   exports.forward = identity;
   exports.inverse = identity;
 });
-define('projCode/tmerc',['../common'],function(common) {
+define('proj4/projCode/tmerc',['../common'],function(common) {
   return {
     init: function() {
       this.e0 = common.e0fn(this.es);
@@ -2532,7 +2532,7 @@ define('projCode/tmerc',['../common'],function(common) {
   };
 });
 
-define('projCode/utm',['../common','./tmerc'],function(common,tmerc) {
+define('proj4/projCode/utm',['../common','./tmerc'],function(common,tmerc) {
   return {
 
     dependsOn: 'tmerc',
@@ -2555,7 +2555,7 @@ define('projCode/utm',['../common','./tmerc'],function(common,tmerc) {
   };
 });
 
-define('projCode/gauss',['../common'],function(common) {
+define('proj4/projCode/gauss',['../common'],function(common) {
   return {
 
     init: function() {
@@ -2603,7 +2603,7 @@ define('projCode/gauss',['../common'],function(common) {
 
 });
 
-define('projCode/sterea',['../common','./gauss'],function(common,gauss) {
+define('proj4/projCode/sterea',['../common','./gauss'],function(common,gauss) {
   return {
 
     init: function() {
@@ -2665,7 +2665,7 @@ define('projCode/sterea',['../common','./gauss'],function(common,gauss) {
 
 });
 
-define('projCode/somerc',[],function() {
+define('proj4/projCode/somerc',[],function() {
   /*
   references:
     Formules et constantes pour le Calcul pour la
@@ -2750,7 +2750,7 @@ define('projCode/somerc',[],function() {
 
 });
 
-define('projCode/omerc',['../common'],function(common) {
+define('proj4/projCode/omerc',['../common'],function(common) {
   return {
 
     /* Initialize the Oblique Mercator  projection
@@ -2916,7 +2916,7 @@ define('projCode/omerc',['../common'],function(common) {
 
 });
 
-define('projCode/lcc',['../common'],function(common) {
+define('proj4/projCode/lcc',['../common'],function(common) {
   return {
     init: function() {
 
@@ -3049,7 +3049,7 @@ define('projCode/lcc',['../common'],function(common) {
 
 });
 
-define('projCode/krovak',['../common'],function(common) {
+define('proj4/projCode/krovak',['../common'],function(common) {
   return {
 
     init: function() {
@@ -3164,7 +3164,7 @@ define('projCode/krovak',['../common'],function(common) {
 
 });
 
-define('projCode/cass',['../common'],function(common) {
+define('proj4/projCode/cass',['../common'],function(common) {
   return {
     init: function() {
       if (!this.sphere) {
@@ -3262,7 +3262,7 @@ define('projCode/cass',['../common'],function(common) {
 
 });
 
-define('projCode/laea',['../common'],function(common) {
+define('proj4/projCode/laea',['../common'],function(common) {
   /*
   reference
     "New Equal-Area Map Projections for Noncircular Regions", John P. Snyder,
@@ -3603,7 +3603,7 @@ define('projCode/laea',['../common'],function(common) {
 
 });
 
-define('projCode/merc',['../common'],function(common) {
+define('proj4/projCode/merc',['../common'],function(common) {
   return {
     init: function() {
       var con = this.b / this.a;
@@ -3694,7 +3694,7 @@ define('projCode/merc',['../common'],function(common) {
 
 });
 
-define('projCode/aea',['../common'],function(common) {
+define('proj4/projCode/aea',['../common'],function(common) {
   return {
     init: function() {
 
@@ -3818,7 +3818,7 @@ define('projCode/aea',['../common'],function(common) {
 
 });
 
-define('projCode/gnom',['../common'],function(common) {
+define('proj4/projCode/gnom',['../common'],function(common) {
   /*
   reference:
     Wolfram Mathworld "Gnomonic Projection"
@@ -3922,7 +3922,7 @@ define('projCode/gnom',['../common'],function(common) {
 
 });
 
-define('projCode/cea',['../common'],function(common) {
+define('proj4/projCode/cea',['../common'],function(common) {
 /*
   reference:  
     "Cartographic Projection Procedures for the UNIX Environment-
@@ -3989,7 +3989,7 @@ define('projCode/cea',['../common'],function(common) {
 
 });
 
-define('projCode/eqc',['../common'],function(common) {
+define('proj4/projCode/eqc',['../common'],function(common) {
   return {
     init: function() {
 
@@ -4034,7 +4034,7 @@ define('projCode/eqc',['../common'],function(common) {
 
 });
 
-define('projCode/poly',['../common'],function(common) {
+define('proj4/projCode/poly',['../common'],function(common) {
   return {
 
     /* Initialize the POLYCONIC projection
@@ -4160,7 +4160,7 @@ define('projCode/poly',['../common'],function(common) {
 
 });
 
-define('projCode/nzmg',['../common'],function(common) {
+define('proj4/projCode/nzmg',['../common'],function(common) {
   /*
   reference
     Department of Land and Survey Technical Circular 1973/32
@@ -4383,7 +4383,7 @@ define('projCode/nzmg',['../common'],function(common) {
 
 });
 
-define('projCode/mill',['../common'],function(common) {
+define('proj4/projCode/mill',['../common'],function(common) {
   /*
   reference
     "New Equal-Area Map Projections for Noncircular Regions", John P. Snyder,
@@ -4431,7 +4431,7 @@ define('projCode/mill',['../common'],function(common) {
 
 });
 
-define('projCode/sinu',['../common'],function(common) {
+define('proj4/projCode/sinu',['../common'],function(common) {
   return {
 
     /* Initialize the Sinusoidal projection
@@ -4534,7 +4534,7 @@ define('projCode/sinu',['../common'],function(common) {
 
 });
 
-define('projCode/moll',['../common'],function(common) {
+define('proj4/projCode/moll',['../common'],function(common) {
   return {
 
     /* Initialize the Mollweide projection
@@ -4624,7 +4624,7 @@ define('projCode/moll',['../common'],function(common) {
 
 });
 
-define('projCode/eqdc',['../common'],function(common) {
+define('proj4/projCode/eqdc',['../common'],function(common) {
   return {
 
     /* Initialize the Equidistant Conic projection
@@ -4737,7 +4737,7 @@ define('projCode/eqdc',['../common'],function(common) {
   };
 });
 
-define('projCode/vandg',['../common'],function(common) {
+define('proj4/projCode/vandg',['../common'],function(common) {
   return {
 
     /* Initialize the Van Der Grinten projection
@@ -4859,7 +4859,7 @@ define('projCode/vandg',['../common'],function(common) {
 
 });
 
-define('projCode/aeqd',['../common'],function(common) {
+define('proj4/projCode/aeqd',['../common'],function(common) {
   return {
 
     init: function() {
@@ -5052,7 +5052,7 @@ define('projCode/aeqd',['../common'],function(common) {
 
 });
 
-define('projections',['require','exports','module','./projCode/longlat','./projCode/tmerc','./projCode/utm','./projCode/sterea','./projCode/somerc','./projCode/omerc','./projCode/lcc','./projCode/krovak','./projCode/cass','./projCode/laea','./projCode/merc','./projCode/aea','./projCode/gnom','./projCode/cea','./projCode/eqc','./projCode/poly','./projCode/nzmg','./projCode/mill','./projCode/sinu','./projCode/moll','./projCode/eqdc','./projCode/vandg','./projCode/aeqd','./projCode/longlat'],function(require, exports) {
+define('proj4/projections',['require','exports','module','./projCode/longlat','./projCode/tmerc','./projCode/utm','./projCode/sterea','./projCode/somerc','./projCode/omerc','./projCode/lcc','./projCode/krovak','./projCode/cass','./projCode/laea','./projCode/merc','./projCode/aea','./projCode/gnom','./projCode/cea','./projCode/eqc','./projCode/poly','./projCode/nzmg','./projCode/mill','./projCode/sinu','./projCode/moll','./projCode/eqdc','./projCode/vandg','./projCode/aeqd','./projCode/longlat'],function(require, exports) {
   exports.longlat = require('./projCode/longlat');
   exports.identity = exports.longlat;
   exports.tmerc = require('./projCode/tmerc');
@@ -5081,7 +5081,7 @@ define('projections',['require','exports','module','./projCode/longlat','./projC
   exports.identity = exports.longlat;
 });
 
-define('wkt',['./extend','./constants','./common'],function(extend,constants,common) {
+define('proj4/wkt',['./extend','./constants','./common'],function(extend,constants,common) {
   /*function flatten(a) {
     var out = [];
     a.forEach(function(v) {
@@ -5278,7 +5278,7 @@ define('wkt',['./extend','./constants','./common'],function(extend,constants,com
   };
 });
 
-define('Proj',['./extend','./common','./defs','./constants','./datum','./projections','./wkt','./projString'],function(extend, common, defs,constants,datum,projections,wkt,projStr) {
+define('proj4/Proj',['./extend','./common','./defs','./constants','./datum','./projections','./wkt','./projString'],function(extend, common, defs,constants,datum,projections,wkt,projStr) {
   
   var proj = function proj(srsCode) {
     if (!(this instanceof proj)) {
@@ -5398,7 +5398,7 @@ define('Proj',['./extend','./common','./defs','./constants','./datum','./project
 
 });
 
-define('datum_transform',['./common'],function(common) {
+define('proj4/datum_transform',['./common'],function(common) {
   return function(source, dest, point) {
     var wp, i, l;
 
@@ -5493,7 +5493,7 @@ define('datum_transform',['./common'],function(common) {
   };
 });
 
-define('adjust_axis',[],function() {
+define('proj4/adjust_axis',[],function() {
   return function(crs, denorm, point) {
     var xin = point.x,
       yin = point.y,
@@ -5547,7 +5547,7 @@ define('adjust_axis',[],function() {
   };
 });
 
-define('transform',['./common','./datum_transform','./adjust_axis','./Proj'],function(common, datum_transform, adjust_axis,proj) {
+define('proj4/transform',['./common','./datum_transform','./adjust_axis','./Proj'],function(common, datum_transform, adjust_axis,proj) {
 
   return function(source, dest, point) {
     var wgs84;
@@ -5613,7 +5613,7 @@ define('transform',['./common','./datum_transform','./adjust_axis','./Proj'],fun
   };
 });
 
-define('core',['./Point','./Proj','./transform'],function(point,proj,transform) {
+define('proj4/core',['./Point','./Proj','./transform'],function(point,proj,transform) {
   var wgs84 = proj('WGS84');
   return function(fromProj, toProj, coord) {
     var transformer = function(f, t, c) {
@@ -5663,7 +5663,7 @@ define('core',['./Point','./Proj','./transform'],function(point,proj,transform) 
     }
   };
 });
-define('proj4',['./core','./Proj','./Point','./defs','./transform','./mgrs'],function(proj4, Proj, Point,defs,transform,mgrs) {
+define('proj4',['proj4/core','proj4/Proj','proj4/Point','proj4/defs','proj4/transform','proj4/mgrs'],function(proj4, Proj, Point,defs,transform,mgrs) {
   
   proj4.defaultDatum = 'WGS84'; //default datum
   proj4.Proj = Proj;
