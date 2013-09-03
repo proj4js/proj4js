@@ -116,7 +116,9 @@ define(['./extend','./constants','./common'],function(extend,constants,common) {
       if(wkt.units === 'metre'){
         wkt.units = 'meter';
       }
-      wkt.unitsPerMeter=wkt.UNIT.convert;
+      if(wkt.UNIT.convert){
+        wkt.to_meter=parseFloat(wkt.UNIT.convert,10);
+      }
     }
     
     if(wkt.GEOGCS){
@@ -141,16 +143,21 @@ define(['./extend','./constants','./common'],function(extend,constants,common) {
         wkt.datumCode=wkt.datumCode.slice(0,-8);
       }
       if(wkt.GEOGCS.DATUM && wkt.GEOGCS.DATUM.SPHEROID){
-        wkt.ellps=wkt.GEOGCS.DATUM.SPHEROID.name.replace('_19','');
+        wkt.ellps=wkt.GEOGCS.DATUM.SPHEROID.name.replace('_19','').replace(/[Cc]larke\_18/,'clrk');
         if(wkt.ellps.toLowerCase().slice(0,13)==="international"){
           wkt.ellps='intl';
         }
+        
         wkt.a = wkt.GEOGCS.DATUM.SPHEROID.a;
         wkt.rf = parseFloat(wkt.GEOGCS.DATUM.SPHEROID.rf,10);
       }
     }
     if(wkt.b && !isFinite(wkt.b)){
       wkt.b=wkt.a;
+    }
+    function toMeter(input){
+      var ratio = wkt.to_meter||1;
+      return parseFloat(input,10)*ratio;
     }
     var renamer = rename.bind(null,wkt);
     var list = [
@@ -166,8 +173,8 @@ define(['./extend','./constants','./common'],function(extend,constants,common) {
       ['lat0','latitude_of_center',d2r],
       ['longitude_of_center','Longitude_Of_Center'],
       ['longc','longitude_of_center',d2r],
-      ['x0','false_easting',parseFloat],
-      ['y0','false_northing',parseFloat],
+      ['x0','false_easting',toMeter],
+      ['y0','false_northing',toMeter],
       ['long0','central_meridian',d2r],
       ['lat0','latitude_of_origin',d2r],
       ['lat0','standard_parallel_1',d2r],
