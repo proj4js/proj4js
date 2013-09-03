@@ -1,11 +1,75 @@
 #PROJ4JS
 
 Proj4js is a JavaScript library to transform point coordinates from one coordinate system to another, including datum transformations.
+Origionally a port of [PROJ.4](http://trac.osgeo.org/proj/) and [GCTCP C](http://edcftp.cr.usgs.gov/pub//software/gctpc) it is
+a part of the [MetaCRS](http://wiki.osgeo.org/wiki/MetaCRS) group of projects.
 
-This library is a port of both the [PROJ.4](http://trac.osgeo.org/proj/) and [GCTCP C](http://edcftp.cr.usgs.gov/pub//software/gctpc) libraries to JavaScript. Enabling these transformations in the browser allows geographic data stored in different projections to be combined in browser-based web mapping applications.
+##Installing
 
-Proj4js is a part of the [MetaCRS](http://wiki.osgeo.org/wiki/MetaCRS) group of projects and uses the same MIT style license as PROJ.4.
+Depending on your preferences
 
+```bash
+npm install proj4js
+bower install proj4js
+jam install proj4js
+```
+
+or just manually grab the file `dist/proj4.js`
+
+##Using
+
+the basic signature is:
+
+```javascript
+proj4(fromProjection[, toProjection2, coordinates])
+```
+
+Projections can be proj or wkt strings, or a proj4.Proj object.
+
+Coordinates may be proj4.Point objects, an object of the form `{x:x,y:y}`, or an array of the form `[x,y]`.
+
+When all 3 arguments  are given, the result is that the coordinates are transformed from projection1 to projection 2. And returned in the same format that they were given in.
+
+```javascript
+var firstProjection = 'PROJCS["NAD83 / Massachusetts Mainland",GEOGCS["NAD83",DATUM["North_American_Datum_1983",SPHEROID["GRS 1980",6378137,298.257222101,AUTHORITY["EPSG","7019"]],AUTHORITY["EPSG","6269"]],PRIMEM["Greenwich",0,AUTHORITY["EPSG","8901"]],UNIT["degree",0.01745329251994328,AUTHORITY["EPSG","9122"]],AUTHORITY["EPSG","4269"]],UNIT["metre",1,AUTHORITY["EPSG","9001"]],PROJECTION["Lambert_Conformal_Conic_2SP"],PARAMETER["standard_parallel_1",42.68333333333333],PARAMETER["standard_parallel_2",41.71666666666667],PARAMETER["latitude_of_origin",41],PARAMETER["central_meridian",-71.5],PARAMETER["false_easting",200000],PARAMETER["false_northing",750000],AUTHORITY["EPSG","26986"],AXIS["X",EAST],AXIS["Y",NORTH]]';
+var secondProjection = "+proj=gnom +lat_0=90 +lon_0=0 +x_0=6300000 +y_0=6300000 +ellps=WGS84 +datum=WGS84 +units=m +no_defs";
+//I'm not going to redefine those two in latter examples.
+proj4(firstProjection,secondProjection,[2,5]);
+// [-2690666.2977344505, 3662659.885459918]
+```
+
+If only 1 projection is given then it is assumed that it is being projected *from* WGS84 (fromProjection is WGS84).
+
+```javascript
+proj4(firstProjection,[-71,41]);
+// [242075.00535055372, 750123.32090043]
+```
+
+If no coordinates are given an object with two methods is returned, its methods are `forward` which projects from the first projection to the second and `inverse` which projects from the second to the first.
+
+```javascript
+proj4(firstProjection,secondProjection).forward([2,5]);
+// [-2690666.2977344505, 3662659.885459918]
+proj4(secondProjection,firstProjection).inverse([2,5]);
+// [-2690666.2977344505, 3662659.885459918]
+```
+
+and as above if only one projection is given, it's assumed to be coming from wgs84
+
+```javascript
+proj4(firstProjection).forward([-71,41]);
+// [242075.00535055372, 750123.32090043]
+proj4(firstProjection).inverse([242075.00535055372, 750123.32090043]);
+//[-71, 40.99999999999986]
+//the floating points to answer your question
+```
+
+
+##Developing
 to set up build tools make sure you have node installed and run `npm install`
 
-to build run `grunt`
+to build run `grunt` if that doesn't work try:
+
+```bash
+npm install -g grunt-cli #you may need a sudo in front of that
+```
