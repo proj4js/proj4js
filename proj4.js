@@ -1,4 +1,4 @@
-define(['./core','./Proj','./Point','./defs','./transform','./mgrs'],function(proj4, Proj, Point,defs,transform,mgrs) {
+define(['proj4/core','proj4/Proj','proj4/Point','proj4/defs','proj4/transform','proj4/mgrs'],function(proj4, Proj, Point,defs,transform,mgrs) {
   
   proj4.defaultDatum = 'WGS84'; //default datum
   proj4.Proj = Proj;

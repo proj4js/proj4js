@@ -46,19 +46,19 @@ module.exports = function(grunt) {
           define: true
         }
 			},
-			all: [ './src/*.js','./src/projCode/*.js']
+			all: [ './proj4/*.js','./proj4/projCode/*.js']
 		},
     requirejs: {
       custom:{
         options:{
           out: "./dist/proj4.custom.js",
-          baseUrl: "./src",
+          baseUrl: ".",
           //name: "proj4",
           wrap: {
             startFile: 'almond/top.frag',
             endFile: 'almond/end.frag'
           },
-          name: '../node_modules/almond/almond',
+          name: 'node_modules/almond/almond',
           include: ['proj4'],
           optimize:'uglify2',
           uglify2:{
@@ -70,13 +70,13 @@ module.exports = function(grunt) {
       reg:{
         options:{
           out: "./dist/proj4.js",
-          baseUrl: "./src",
+          baseUrl: ".",
           //name: "proj4",
           wrap: {
             startFile: 'almond/top.frag',
             endFile: 'almond/end.frag'
           },
-          name: '../node_modules/almond/almond',
+          name: 'node_modules/almond/almond',
           include: ['proj4'],
           optimize:'uglify2',
           uglify2:{
@@ -88,7 +88,7 @@ module.exports = function(grunt) {
       amd:{
         options:{
           out: "./dist/amd/proj4.js",
-          baseUrl: "./src",
+          baseUrl: ".",
           name: "proj4",
           //include: ['proj4'],
           optimize:'none',
