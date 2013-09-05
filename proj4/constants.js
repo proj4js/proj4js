@@ -93,6 +93,11 @@ define(function() {
       rf: 293.4663,
       ellipseName: "Clarke 1880 mod."
     },
+    "clrk58": {
+      a: 6378293.645208759,
+      rf: 294.2606763692654,
+      ellipseName: "Clarke 1858"
+    },
     "CPM": {
       a: 6375738.7,
       rf: 334.29,
@@ -347,7 +352,8 @@ define(function() {
     'Mollweide':'moll',
     'Lambert_Azimuthal_Equal_Area':'laea',
     'Sinusoidal':"sinu",
-    "Equidistant_Conic":'eqdc'
+    "Equidistant_Conic":'eqdc',
+    'Mercator_Auxiliary_Sphere':'merc'
   };
 
   // Based on proj4 CTABLE  structure :
