@@ -88,12 +88,20 @@ var testPoints = [
   },
   {
     code:'PROJCS["Mount Dillon / Tobago Grid",GEOGCS["Mount Dillon",DATUM["Mount_Dillon",SPHEROID["Clarke 1858",6378293.645208759,294.2606763692654,AUTHORITY["EPSG","7007"]],AUTHORITY["EPSG","6157"]],PRIMEM["Greenwich",0,AUTHORITY["EPSG","8901"]],UNIT["degree",0.01745329251994328,AUTHORITY["EPSG","9122"]],AUTHORITY["EPSG","4157"]],UNIT["Clarke\'s link",0.201166195164,AUTHORITY["EPSG","9039"]],PROJECTION["Cassini_Soldner"],PARAMETER["latitude_of_origin",11.25217861111111],PARAMETER["central_meridian",-60.68600888888889],PARAMETER["false_easting",187500],PARAMETER["false_northing",180000],AUTHORITY["EPSG","2066"],AXIS["Easting",EAST],AXIS["Northing",NORTH]]',
-    ll:[-60.64, 11.23399779],
-    xy:[192524.3061766178, 178100.2740019509]
+    ll:[-60.676753018, 11.2487234308],
+    xy:[192524.3061766178, 178100.2740019509],
+    acc:{
+      ll:1,
+      xy:-4
+    }
   }, {
     code:'PROJCS["Mount Dillon / Tobago Grid",GEOGCS["Mount Dillon",DATUM["D_Mount_Dillon",SPHEROID["Clarke_1858",6378293.645208759,294.2606763692654]],PRIMEM["Greenwich",0],UNIT["Degree",0.017453292519943295]],PROJECTION["Cassini"],PARAMETER["latitude_of_origin",11.25217861111111],PARAMETER["central_meridian",-60.68600888888889],PARAMETER["false_easting",187500],PARAMETER["false_northing",180000],UNIT["Clarke\'s link",0.201166195164]]',
-    ll:[-60.64, 11.23399779],
-    xy:[192524.3061766178, 178100.2740019509]
+    ll:[-60.676753018, 11.2487234308],
+    xy:[192524.3061766178, 178100.2740019509],
+    acc:{
+      ll:1,
+      xy:-4
+    }
   },
     /*{
     code:'EPSG:3975',
@@ -226,6 +234,10 @@ var testPoints = [
       ll:0,
       xy:-5
     }
+  },{
+    code:'PROJCS["NAD_1983_StatePlane_New_Jersey_FIPS_2900_Feet",GEOGCS["GCS_North_American_1983",DATUM["D_North_American_1983",SPHEROID["GRS_1980",6378137.0,298.257222101]],PRIMEM["Greenwich",0.0],UNIT["Degree",0.0174532925199433]],PROJECTION["Transverse_Mercator"],PARAMETER["False_Easting",492125.0],PARAMETER["False_Northing",0.0],PARAMETER["Central_Meridian",-74.5],PARAMETER["Scale_Factor",0.9999],PARAMETER["Latitude_Of_Origin",38.83333333333334],UNIT["Foot_US",0.3048006096012192]]',
+    ll:[-74,41],
+    xy:[630128.205,789591.522]
   }
 ];
 var aWKT = [
