@@ -352,7 +352,8 @@ define(function() {
     'Mollweide':'moll',
     'Lambert_Azimuthal_Equal_Area':'laea',
     'Sinusoidal':"sinu",
-    "Equidistant_Conic":'eqdc'
+    "Equidistant_Conic":'eqdc',
+    'Mercator_Auxiliary_Sphere':'merc'
   };
 
   // Based on proj4 CTABLE  structure :

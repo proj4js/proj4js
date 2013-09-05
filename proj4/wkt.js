@@ -1,33 +1,15 @@
 define(['./extend','./constants','./common'],function(extend,constants,common) {
-  /*function flatten(a) {
-    var out = [];
-    a.forEach(function(v) {
-      if (Array.isArray(v)) {
-        out = out.concat(v);
-      }
-      else {
-        out.push(v);
-      }
-    });
-    if (out.every(function(aa) {
-      return !Array.isArray(aa);
-    })) {
-      return out;
-    }
-    return flatten(out);
-  }*/
-
   function mapit(obj, key, v) {
     obj[key] = v.map(function(aa) {
       var o = {};
-      fromLisp(aa, o);
+      sExpr(aa, o);
       return o;
     }).reduce(function(a, b) {
       return extend(a, b);
     }, {});
   }
 
-  function fromLisp(v, obj) {
+  function sExpr(v, obj) {
     var key;
     if (!Array.isArray(v)) {
       obj[v] = true;
@@ -41,7 +23,7 @@ define(['./extend','./constants','./common'],function(extend,constants,common) {
       if (v.length === 1) {
         if (Array.isArray(v[0])) {
           obj[key] = {};
-          fromLisp(v[0], obj[key]);
+          sExpr(v[0], obj[key]);
         }
         else {
           obj[key] = v[0];
@@ -84,7 +66,7 @@ define(['./extend','./constants','./common'],function(extend,constants,common) {
           mapit(obj, key, v);
         }
         else {
-          fromLisp(v, obj[key]);
+          sExpr(v, obj[key]);
         }
       }
     }
@@ -136,6 +118,12 @@ define(['./extend','./constants','./common'],function(extend,constants,common) {
       if(wkt.datumCode==='new_zealand_geodetic_datum_1949' || wkt.datumCode === 'new_zealand_1949'){
         wkt.datumCode='nzgd49';
       }
+      if(wkt.datumCode === "wgs_1984"){
+        if(wkt.PROJECTION==='Mercator_Auxiliary_Sphere'){
+          wkt.sphere = true;
+        }
+        wkt.datumCode = 'wgs84';
+      }
       if(wkt.datumCode.slice(-6)==='_ferro'){
         wkt.datumCode=wkt.datumCode.slice(0,-6);
       }
@@ -147,7 +135,7 @@ define(['./extend','./constants','./common'],function(extend,constants,common) {
         if(wkt.ellps.toLowerCase().slice(0,13)==="international"){
           wkt.ellps='intl';
         }
-        
+
         wkt.a = wkt.GEOGCS.DATUM.SPHEROID.a;
         wkt.rf = parseFloat(wkt.GEOGCS.DATUM.SPHEROID.rf,10);
       }
@@ -196,7 +184,7 @@ define(['./extend','./constants','./common'],function(extend,constants,common) {
     lisp.unshift(['type', type]);
     lisp.unshift('output');
     var obj = {};
-    fromLisp(lisp, obj);
+    sExpr(lisp, obj);
     cleanWKT(obj.output);
     return extend(self,obj.output);
   };
