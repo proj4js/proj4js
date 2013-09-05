@@ -1540,6 +1540,11 @@ define('proj4/constants',[],function() {
       rf: 293.4663,
       ellipseName: "Clarke 1880 mod."
     },
+    "clrk58": {
+      a: 6378293.645208759,
+      rf: 294.2606763692654,
+      ellipseName: "Clarke 1858"
+    },
     "CPM": {
       a: 6375738.7,
       rf: 334.29,
@@ -1794,7 +1799,8 @@ define('proj4/constants',[],function() {
     'Mollweide':'moll',
     'Lambert_Azimuthal_Equal_Area':'laea',
     'Sinusoidal':"sinu",
-    "Equidistant_Conic":'eqdc'
+    "Equidistant_Conic":'eqdc',
+    'Mercator_Auxiliary_Sphere':'merc'
   };
 
   // Based on proj4 CTABLE  structure :
@@ -5082,35 +5088,17 @@ define('proj4/projections',['require','exports','module','./projCode/longlat','.
 });
 
 define('proj4/wkt',['./extend','./constants','./common'],function(extend,constants,common) {
-  /*function flatten(a) {
-    var out = [];
-    a.forEach(function(v) {
-      if (Array.isArray(v)) {
-        out = out.concat(v);
-      }
-      else {
-        out.push(v);
-      }
-    });
-    if (out.every(function(aa) {
-      return !Array.isArray(aa);
-    })) {
-      return out;
-    }
-    return flatten(out);
-  }*/
-
   function mapit(obj, key, v) {
     obj[key] = v.map(function(aa) {
       var o = {};
-      fromLisp(aa, o);
+      sExpr(aa, o);
       return o;
     }).reduce(function(a, b) {
       return extend(a, b);
     }, {});
   }
 
-  function fromLisp(v, obj) {
+  function sExpr(v, obj) {
     var key;
     if (!Array.isArray(v)) {
       obj[v] = true;
@@ -5124,7 +5112,7 @@ define('proj4/wkt',['./extend','./constants','./common'],function(extend,constan
       if (v.length === 1) {
         if (Array.isArray(v[0])) {
           obj[key] = {};
-          fromLisp(v[0], obj[key]);
+          sExpr(v[0], obj[key]);
         }
         else {
           obj[key] = v[0];
@@ -5167,7 +5155,7 @@ define('proj4/wkt',['./extend','./constants','./common'],function(extend,constan
           mapit(obj, key, v);
         }
         else {
-          fromLisp(v, obj[key]);
+          sExpr(v, obj[key]);
         }
       }
     }
@@ -5199,7 +5187,9 @@ define('proj4/wkt',['./extend','./constants','./common'],function(extend,constan
       if(wkt.units === 'metre'){
         wkt.units = 'meter';
       }
-      wkt.unitsPerMeter=wkt.UNIT.convert;
+      if(wkt.UNIT.convert){
+        wkt.to_meter=parseFloat(wkt.UNIT.convert,10);
+      }
     }
     
     if(wkt.GEOGCS){
@@ -5217,6 +5207,12 @@ define('proj4/wkt',['./extend','./constants','./common'],function(extend,constan
       if(wkt.datumCode==='new_zealand_geodetic_datum_1949' || wkt.datumCode === 'new_zealand_1949'){
         wkt.datumCode='nzgd49';
       }
+      if(wkt.datumCode === "wgs_1984"){
+        if(wkt.PROJECTION==='Mercator_Auxiliary_Sphere'){
+          wkt.sphere = true;
+        }
+        wkt.datumCode = 'wgs84';
+      }
       if(wkt.datumCode.slice(-6)==='_ferro'){
         wkt.datumCode=wkt.datumCode.slice(0,-6);
       }
@@ -5224,16 +5220,21 @@ define('proj4/wkt',['./extend','./constants','./common'],function(extend,constan
         wkt.datumCode=wkt.datumCode.slice(0,-8);
       }
       if(wkt.GEOGCS.DATUM && wkt.GEOGCS.DATUM.SPHEROID){
-        wkt.ellps=wkt.GEOGCS.DATUM.SPHEROID.name.replace('_19','');
+        wkt.ellps=wkt.GEOGCS.DATUM.SPHEROID.name.replace('_19','').replace(/[Cc]larke\_18/,'clrk');
         if(wkt.ellps.toLowerCase().slice(0,13)==="international"){
           wkt.ellps='intl';
         }
+
         wkt.a = wkt.GEOGCS.DATUM.SPHEROID.a;
         wkt.rf = parseFloat(wkt.GEOGCS.DATUM.SPHEROID.rf,10);
       }
     }
     if(wkt.b && !isFinite(wkt.b)){
       wkt.b=wkt.a;
+    }
+    function toMeter(input){
+      var ratio = wkt.to_meter||1;
+      return parseFloat(input,10)*ratio;
     }
     var renamer = rename.bind(null,wkt);
     var list = [
@@ -5249,8 +5250,8 @@ define('proj4/wkt',['./extend','./constants','./common'],function(extend,constan
       ['lat0','latitude_of_center',d2r],
       ['longitude_of_center','Longitude_Of_Center'],
       ['longc','longitude_of_center',d2r],
-      ['x0','false_easting',parseFloat],
-      ['y0','false_northing',parseFloat],
+      ['x0','false_easting',toMeter],
+      ['y0','false_northing',toMeter],
       ['long0','central_meridian',d2r],
       ['lat0','latitude_of_origin',d2r],
       ['lat0','standard_parallel_1',d2r],
@@ -5272,7 +5273,7 @@ define('proj4/wkt',['./extend','./constants','./common'],function(extend,constan
     lisp.unshift(['type', type]);
     lisp.unshift('output');
     var obj = {};
-    fromLisp(lisp, obj);
+    sExpr(lisp, obj);
     cleanWKT(obj.output);
     return extend(self,obj.output);
   };
