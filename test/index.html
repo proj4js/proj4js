@@ -2,21 +2,23 @@
 <head>
   <meta charset="utf-8">
   <title>Mocha Tests</title>
-  <link rel="stylesheet" href="lib/mocha.css" />
+  <link rel="stylesheet" href="../node_modules/mocha/mocha.css" />
 </head>
 <body>
-  <script src="lib/mocha.js"></script>
+  <script src="../node_modules/mocha/mocha.js"></script>
   <div id="mocha"></div>
   <script src="testData.js"></script>
   <script>
     curl = {
-      baseUrl: '../',
-      paths:{
-        lib:'../test/lib'
-      }
+      baseUrl: '../'
     }
-  </script>
-  <script src="lib/curl.js"></script>
+
+  
+ window.run = function(){
+  if (window.mochaPhantomJS) { window.mochaPhantomJS.run(); }
+      else { window.mocha.run(); }
+ }  </script>
+ <script src="../node_modules/curl/dist/curl/curl.js"></script>
  <script src='test.js'></script>
 </body>
 </html>

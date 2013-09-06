@@ -43,7 +43,8 @@ module.exports = function(grunt) {
 				indent:2,
         //camelcase:true,
         globals: {
-          define: true
+          define: true,
+          console:true
         }
 			},
 			all: [ './proj4/*.js','./proj4/projCode/*.js']
