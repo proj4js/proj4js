@@ -147,7 +147,9 @@ define(['./extend','./constants','./common'],function(extend,constants,common) {
       var ratio = wkt.to_meter||1;
       return parseFloat(input,10)*ratio;
     }
-    var renamer = rename.bind(null,wkt);
+    var renamer = function(a){
+      return rename(wkt,a);
+    };
     var list = [
       ['standard_parallel_1','Standard_Parallel_1'],
       ['standard_parallel_2','Standard_Parallel_2'],

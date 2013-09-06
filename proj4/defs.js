@@ -1,10 +1,14 @@
-define(['./common','./constants','./global','./projString'],function(common, constants,globals,parseProj) {
+define(['./common','./constants','./global','./projString','./wkt'],function(common, constants,globals,parseProj,wkt) {
 
   function defs(name) {
     /*global console*/
     var that = this;
     if (arguments.length === 2) {
-      defs[name] = parseProj(arguments[1]);
+      if(arguments[1][0]==='+'){
+        defs[name] = parseProj(arguments[1]);
+      }else{
+        defs[name] = wkt(arguments[1]);
+      }
     }
     else if (arguments.length === 1) {
       if (Array.isArray(name)) {
