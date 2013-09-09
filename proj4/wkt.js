@@ -1,4 +1,4 @@
-define(['./extend','./constants','./common'],function(extend,constants,common) {
+define(['proj4/extend','proj4/constants','proj4/common'],function(extend,constants,common) {
   function mapit(obj, key, v) {
     obj[key] = v.map(function(aa) {
       var o = {};

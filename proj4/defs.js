@@ -1,4 +1,4 @@
-define(['./common','./constants','./global','./projString','./wkt'],function(common, constants,globals,parseProj,wkt) {
+define(['proj4/common','proj4/constants','proj4/global','proj4/projString','proj4/wkt'],function(common, constants,globals,parseProj,wkt) {
 
   function defs(name) {
     /*global console*/

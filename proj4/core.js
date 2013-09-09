@@ -1,4 +1,4 @@
-define(['./Point','./Proj','./transform'],function(point,proj,transform) {
+define(['proj4/Point','proj4/Proj','proj4/transform'],function(point,proj,transform) {
   var wgs84 = proj('WGS84');
   return function(fromProj, toProj, coord) {
     var transformer = function(f, t, c) {

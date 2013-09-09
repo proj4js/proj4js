@@ -1,4 +1,4 @@
-define(['./extend','./common','./defs','./constants','./datum','./projections','./wkt','./projString'],function(extend, common, defs,constants,datum,projections,wkt,projStr) {
+define(['proj4/extend','proj4/common','proj4/defs','proj4/constants','proj4/datum','proj4/projections','proj4/wkt','proj4/projString'],function(extend, common, defs,constants,datum,projections,wkt,projStr) {
   
   var proj = function proj(srsCode) {
     if (!(this instanceof proj)) {

@@ -1,4 +1,4 @@
-define(['./common', './constants'], function(common, constants) {
+define(['proj4/common', 'proj4/constants'], function(common, constants) {
   return function(defData) {
     var self = {};
 

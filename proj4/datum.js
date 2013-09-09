@@ -1,4 +1,4 @@
-define(['./common'],function(common) {
+define(['proj4/common'],function(common) {
   var datum = function(proj) {
     if (!(this instanceof datum)) {
       return new datum(proj);

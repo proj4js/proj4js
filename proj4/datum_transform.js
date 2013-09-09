@@ -1,4 +1,4 @@
-define(['./common'],function(common) {
+define(['proj4/common'],function(common) {
   return function(source, dest, point) {
     var wp, i, l;
 

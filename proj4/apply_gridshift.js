@@ -1,4 +1,4 @@
-define(['../common'],function(common) {
+define(['proj4/common'],function(common) {
   return function(srs, inverse, point) {
     var i, l, gi, ct, epsilon;
     if (srs.grids === null || srs.grids.length === 0) {
