@@ -1,4 +1,5 @@
-define(['../common'],function(common) {
+define(function(require) {
+  var common = require('proj4/common');
   /*
   reference
     "New Equal-Area Map Projections for Noncircular Regions", John P. Snyder,

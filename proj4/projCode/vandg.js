@@ -1,4 +1,5 @@
-define(['../common'],function(common) {
+define(function(require) {
+  var common = require('proj4/common');
   return {
 
     /* Initialize the Van Der Grinten projection

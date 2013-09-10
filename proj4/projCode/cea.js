@@ -1,4 +1,5 @@
-define(['../common'],function(common) {
+define(function(require) {
+  var common = require('proj4/common');
 /*
   reference:  
     "Cartographic Projection Procedures for the UNIX Environment-

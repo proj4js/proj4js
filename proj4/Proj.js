@@ -1,5 +1,12 @@
-define(['proj4/extend','proj4/common','proj4/defs','proj4/constants','proj4/datum','proj4/projections','proj4/wkt','proj4/projString'],function(extend, common, defs,constants,datum,projections,wkt,projStr) {
-  
+define(function(require) {
+  var extend = require('proj4/extend');
+  var common = require('proj4/common');
+  var defs = require('proj4/defs');
+  var constants = require('proj4/constants');
+  var datum = require('proj4/datum');
+  var projections = require('proj4/projections');
+  var wkt = require('proj4/wkt');
+  var projStr = require('proj4/projString');
   var proj = function proj(srsCode) {
     if (!(this instanceof proj)) {
       return new proj(srsCode);

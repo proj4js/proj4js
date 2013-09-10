@@ -1,4 +1,5 @@
-define(['../common'],function(common) {
+define(function(require) {
+  var common = require('proj4/common');
   return {
     ssfn_: function(phit, sinphi, eccen) {
       sinphi *= eccen;

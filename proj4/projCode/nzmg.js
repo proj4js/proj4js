@@ -1,4 +1,5 @@
-define(['../common'],function(common) {
+define(function(require) {
+  var common = require('proj4/common');
   /*
   reference
     Department of Land and Survey Technical Circular 1973/32

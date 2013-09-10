@@ -1,4 +1,5 @@
-define(['../common'],function(common) {
+define(function(require) {
+  var common = require('proj4/common');
   return {
     init: function() {
       this.e0 = common.e0fn(this.es);

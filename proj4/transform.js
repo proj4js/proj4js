@@ -1,5 +1,8 @@
-define(['proj4/common','proj4/datum_transform','proj4/adjust_axis','proj4/Proj'],function(common, datum_transform, adjust_axis,proj) {
-
+define(function(require) {
+  var common = require('proj4/common');
+  var datum_transform = require('proj4/datum_transform');
+  var adjust_axis = require('proj4/adjust_axis');
+  var proj = require('proj4/Proj');
   return function(source, dest, point) {
     var wgs84;
 

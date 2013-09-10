@@ -1,4 +1,5 @@
-define(['proj4/common'],function(common) {
+define(function(require) {
+  var common = require('proj4/common');
   var datum = function(proj) {
     if (!(this instanceof datum)) {
       return new datum(proj);

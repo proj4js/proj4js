@@ -1,4 +1,6 @@
-define(['../common','./tmerc'],function(common,tmerc) {
+define(function(require) {
+  var common = require('proj4/common');
+  var tmerc = require('proj4/projCode/tmerc');
   return {
 
     dependsOn: 'tmerc',

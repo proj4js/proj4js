@@ -1,5 +1,7 @@
-define(['proj4/common','proj4/constants','proj4/global','proj4/projString','proj4/wkt'],function(common, constants,globals,parseProj,wkt) {
-
+define(function(require) {
+  var globals = require('proj4/global');
+  var parseProj = require('proj4/projString');
+  var wkt = require('proj4/wkt');
   function defs(name) {
     /*global console*/
     var that = this;

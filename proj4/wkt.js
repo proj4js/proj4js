@@ -1,4 +1,7 @@
-define(['proj4/extend','proj4/constants','proj4/common'],function(extend,constants,common) {
+define(function(require) {
+  var common = require('proj4/common');
+  var constants = require('proj4/constants');
+  var extend = require('proj4/extend');
   function mapit(obj, key, v) {
     obj[key] = v.map(function(aa) {
       var o = {};

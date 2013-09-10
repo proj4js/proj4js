@@ -1,4 +1,6 @@
-define(['../common','./gauss'],function(common,gauss) {
+define(function(require) {
+  var common = require('proj4/common');
+  var gauss = require('proj4/projCode/gauss');
   return {
 
     init: function() {
