@@ -353,8 +353,7 @@ define(function() {
     'Lambert_Azimuthal_Equal_Area':'laea',
     'Sinusoidal':"sinu",
     "Equidistant_Conic":'eqdc',
-    'Mercator_Auxiliary_Sphere':'merc',
-    :"Lambert_Conformal_Conic_2SP":"lcc"
+    'Mercator_Auxiliary_Sphere':'merc'
   };
 
   // Based on proj4 CTABLE  structure :
