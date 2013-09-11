@@ -182,7 +182,7 @@ define(function(require) {
     }
   }
   return function(wkt, self) {
-    var lisp = JSON.parse(("," + wkt).replace(/\,([A-Z_0-9]+?)(\[)/g, ',["$1",').slice(1).replace(/\,([A-Z_0-9]+?)\]/g, ',"$1"]'));
+    var lisp = JSON.parse(("," + wkt).replace(/\s*\,\s*([A-Z_0-9]+?)(\[)/g, ',["$1",').slice(1).replace(/\s*\,\s*([A-Z_0-9]+?)\]/g, ',"$1"]'));
     var type = lisp.shift();
     var name = lisp.shift();
     lisp.unshift(['name', name]);
