@@ -205,20 +205,6 @@ describe('proj4', function () {
   })
 	
 	});
-	describe('wkt',function(){
-		aWKT.forEach(function(wkt){
-			it('should work with '+wkt.name,function(){
-				var testProj = new proj4.Proj(wkt.wkt);
-				assert.equal(testProj.srsCode,wkt.name,'correct name');
-				assert.equal(testProj.units,wkt.units,'correct units');
-				assert.equal(testProj.projName,wkt.proj,'correct type')
-				if(wkt.testPoint){
-				   assert.closeTo(proj4(wkt.wkt).forward(wkt.testPoint[0])[0],proj4(wkt.code).forward(wkt.testPoint[0])[0],1)
-				  assert.closeTo(proj4(wkt.wkt).inverse(wkt.testPoint[1])[0],proj4(wkt.code).inverse(wkt.testPoint[1])[0],1)
-				}
-			});
-		});
-	});
 });
    window.run();
 });
