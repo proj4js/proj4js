@@ -7,5 +7,6 @@ define(function(require) {
   proj4.defs = require('proj4/defs');
   proj4.transform = require('proj4/transform');
   proj4.mgrs = require('proj4/mgrs');
+  proj4.version = require('proj4/version');
   return proj4;
 });
