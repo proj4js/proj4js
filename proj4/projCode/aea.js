@@ -1,7 +1,6 @@
-define(function(require) {
+define(function(require, exports) {
   var common = require('proj4/common');
-  return {
-    init: function() {
+  exports.init = function() {
 
       if (Math.abs(this.lat1 + this.lat2) < common.EPSLN) {
         //proj4.reportError("aeaInitEqualLatitudes");
@@ -37,11 +36,11 @@ define(function(require) {
       }
       this.c = this.ms1 * this.ms1 + this.ns0 * this.qs1;
       this.rh = this.a * Math.sqrt(this.c - this.ns0 * this.qs0) / this.ns0;
-    },
+    };
 
     /* Albers Conical Equal Area forward equations--mapping lat,long to x,y
   -------------------------------------------------------------------*/
-    forward: function(p) {
+    exports.forward = function(p) {
 
       var lon = p.x;
       var lat = p.y;
@@ -58,10 +57,10 @@ define(function(require) {
       p.x = x;
       p.y = y;
       return p;
-    },
+    };
 
 
-    inverse: function(p) {
+    exports.inverse = function(p) {
       var rh1, qs, con, theta, lon, lat;
 
       p.x -= this.x0;
@@ -91,12 +90,12 @@ define(function(require) {
       p.x = lon;
       p.y = lat;
       return p;
-    },
+    };
 
     /* Function to compute phi1, the latitude for the inverse of the
    Albers Conical Equal-Area projection.
 -------------------------------------------*/
-    phi1z: function(eccent, qs) {
+    exports.phi1z = function(eccent, qs) {
       var sinphi, cosphi, con, com, dphi;
       var phi = common.asinz(0.5 * qs);
       if (eccent < common.EPSLN) {
@@ -117,8 +116,10 @@ define(function(require) {
       }
       //proj4.reportError("aea:phi1z:Convergence error");
       return null;
-    }
-
-  };
-
+    };
+exports.names = [
+        "Albers_Conic_Equal_Area",
+        "Albers",
+        "aea"
+    ];
 });

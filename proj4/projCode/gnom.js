@@ -1,4 +1,4 @@
-define(function(require) {
+define(function(require, exports) {
   var common = require('proj4/common');
   /*
   reference:
@@ -6,11 +6,7 @@ define(function(require) {
     http://mathworld.wolfram.com/GnomonicProjection.html
     Accessed: 12th November 2009
   */
-  return {
-
-    /* Initialize the Gnomonic projection
-    -------------------------------------*/
-    init: function() {
+  exports.init = function() {
 
       /* Place parameters in static storage for common use
       -------------------------------------------------*/
@@ -19,12 +15,12 @@ define(function(require) {
       // Approximation for projecting points to the horizon (infinity)
       this.infinity_dist = 1000 * this.a;
       this.rc = 1;
-    },
+    };
 
 
     /* Gnomonic forward equations--mapping lat,long to x,y
     ---------------------------------------------------*/
-    forward: function(p) {
+    exports.forward = function(p) {
       var sinphi, cosphi; /* sin and cos value        */
       var dlon; /* delta longitude value      */
       var coslon; /* cos of longitude        */
@@ -64,10 +60,10 @@ define(function(require) {
       p.x = x;
       p.y = y;
       return p;
-    },
+    };
 
 
-    inverse: function(p) {
+    exports.inverse = function(p) {
       var rh; /* Rho */
       var sinc, cosc;
       var c;
@@ -98,7 +94,7 @@ define(function(require) {
       p.x = lon;
       p.y = lat;
       return p;
-    }
-  };
+    };
+    exports.names = ["gnom"];
 
 });

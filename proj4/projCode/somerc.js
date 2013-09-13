@@ -1,4 +1,4 @@
-define(function() {
+define(function(require,exports) {
   /*
   references:
     Formules et constantes pour le Calcul pour la
@@ -6,9 +6,7 @@ define(function() {
     des systèmes de référence.
     http://www.swisstopo.admin.ch/internet/swisstopo/fr/home/topics/survey/sys/refsys/switzerland.parsysrelated1.31216.downloadList.77004.DownloadFile.tmp/swissprojectionfr.pdf
   */
-  return {
-
-    init: function() {
+  exports.init = function() {
       var phy0 = this.lat0;
       this.lambda0 = this.long0;
       var sinPhy0 = Math.sin(phy0);
@@ -24,10 +22,10 @@ define(function() {
       var k2 = Math.log(Math.tan(Math.PI / 4 + phy0 / 2));
       var k3 = Math.log((1 + e * sinPhy0) / (1 - e * sinPhy0));
       this.K = k1 - this.alpha * k2 + this.alpha * e / 2 * k3;
-    },
+    };
 
 
-    forward: function(p) {
+    exports.forward = function(p) {
       var Sa1 = Math.log(Math.tan(Math.PI / 4 - p.y / 2));
       var Sa2 = this.e / 2 * Math.log((1 + this.e * Math.sin(p.y)) / (1 - this.e * Math.sin(p.y)));
       var S = -this.alpha * (Sa1 + Sa2) + this.K;
@@ -46,9 +44,9 @@ define(function() {
       p.y = this.R / 2 * Math.log((1 + Math.sin(rotB)) / (1 - Math.sin(rotB))) + this.y0;
       p.x = this.R * rotI + this.x0;
       return p;
-    },
-
-    inverse: function(p) {
+    };
+    
+    exports.inverse = function(p) {
       var Y = p.x - this.x0;
       var X = p.y - this.y0;
 
@@ -78,7 +76,8 @@ define(function() {
       p.x = lambda;
       p.y = phy;
       return p;
-    }
-  };
+    };
+    
+    exports.names = ["somerc"];
 
 });

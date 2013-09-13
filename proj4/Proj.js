@@ -7,7 +7,9 @@ define(function(require) {
   var projections = require('proj4/projections');
   var wkt = require('proj4/wkt');
   var projStr = require('proj4/projString');
-  var proj = function proj(srsCode) {
+  proj.projections = projections;
+  proj.projections.start();
+  function proj(srsCode) {
     if (!(this instanceof proj)) {
       return new proj(srsCode);
     }
@@ -42,11 +44,13 @@ define(function(require) {
      *
      */
     initTransforms: function(projName) {
-      if (!(projName in proj.projections)) {
+      var ourProj = proj.projections.get(projName);
+      if(ourProj){
+        extend(this, ourProj);
+        this.init();
+      }else{
         throw ("unknown projection " + projName);
       }
-      extend(this, proj.projections[projName]);
-      this.init();
     },
   
     deriveConstants: function(self) {
@@ -120,7 +124,6 @@ define(function(require) {
       self.datum = datum(self);
     }
   };
-  proj.projections = projections;
   return proj;
 
 });

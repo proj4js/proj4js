@@ -1,22 +1,18 @@
-define(function(require) {
+define(function(require, exports) {
   var common = require('proj4/common');
-  return {
-
-    /* Initialize the Orthographic projection
-    -------------------------------------*/
-    init: function() {
+  exports.init = function() {
       //double temp;      /* temporary variable    */
 
       /* Place parameters in static storage for common use
       -------------------------------------------------*/
       this.sin_p14 = Math.sin(this.lat0);
       this.cos_p14 = Math.cos(this.lat0);
-    },
+    };
 
 
     /* Orthographic forward equations--mapping lat,long to x,y
     ---------------------------------------------------*/
-    forward: function(p) {
+    exports.forward = function(p) {
       var sinphi, cosphi; /* sin and cos value        */
       var dlon; /* delta longitude value      */
       var coslon; /* cos of longitude        */
@@ -44,10 +40,10 @@ define(function(require) {
       p.x = x;
       p.y = y;
       return p;
-    },
+    };
 
 
-    inverse: function(p) {
+    exports.inverse = function(p) {
       var rh; /* height above ellipsoid      */
       var z; /* angle          */
       var sinz, cosz; /* sin of z and cos of z      */
@@ -90,7 +86,7 @@ define(function(require) {
       p.x = lon;
       p.y = lat;
       return p;
-    }
-  };
+    };
+    exports.names = ["ortho"];
 
 });

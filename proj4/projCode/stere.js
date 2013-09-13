@@ -1,12 +1,11 @@
-define(function(require) {
+define(function(require, exports) {
   var common = require('proj4/common');
-  return {
-    ssfn_: function(phit, sinphi, eccen) {
+  exports.ssfn_ = function(phit, sinphi, eccen) {
       sinphi *= eccen;
       return (Math.tan(0.5 * (common.HALF_PI + phit)) * Math.pow((1 - sinphi) / (1 + sinphi), 0.5 * eccen));
-    },
+    };
 
-    init: function() {
+    exports.init = function() {
       this.coslat0 = Math.cos(this.lat0);
       this.sinlat0 = Math.sin(this.lat0);
       if (this.sphere) {
@@ -36,10 +35,10 @@ define(function(require) {
         this.cosX0 = Math.cos(this.X0);
         this.sinX0 = Math.sin(this.X0);
       }
-    },
+    };
 
     // Stereographic forward equations--mapping lat,long to x,y
-    forward: function(p) {
+    exports.forward = function(p) {
       var lon = p.x;
       var lat = p.y;
       var sinlat = Math.sin(lat);
@@ -89,11 +88,11 @@ define(function(require) {
       }
       //trace(p.toString());
       return p;
-    },
+    };
 
 
     //* Stereographic inverse equations--mapping x,y to lat/long
-    inverse: function(p) {
+    exports.inverse = function(p) {
       p.x -= this.x0;
       p.y -= this.y0;
       var lon, lat, ts, ce, Chi;
@@ -158,7 +157,6 @@ define(function(require) {
       //trace(p.toString());
       return p;
 
-    }
-  };
-
+    };
+    exports.names = ["stere"];
 });

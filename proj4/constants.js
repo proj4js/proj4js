@@ -316,46 +316,6 @@ define(function() {
   //proj4.WGS84 = Proj('WGS84');
   proj4.Datum.OSB36 = proj4.Datum.OSGB36; //as returned from spatialreference.org
 
-  //lookup table to go from the projection name in WKT to the proj4 projection name
-  //build this out as required
-  proj4.wktProjections = {
-    "Lambert Tangential Conformal Conic Projection": "lcc",
-    "Lambert_Conformal_Conic": "lcc",
-    "Lambert_Conformal_Conic_2SP":"lcc",
-    "Mercator": "merc",
-    "Popular Visualisation Pseudo Mercator": "merc",
-    "Mercator_1SP": "merc",
-    "Transverse_Mercator": "tmerc",
-    "Transverse Mercator": "tmerc",
-    "Lambert Azimuthal Equal Area": "laea",
-    "Universal Transverse Mercator System": "utm",
-    "Hotine_Oblique_Mercator":"omerc",
-    "Hotine Oblique Mercator":"omerc",
-    "Hotine_Oblique_Mercator_Azimuth_Natural_Origin":"omerc",
-    'Hotine_Oblique_Mercator_Azimuth_Center':'omerc',
-    "Van_der_Grinten_I":"vandg",
-    "VanDerGrinten":"vandg",
-    "Stereographic_North_Pole":"sterea",
-    "Oblique_Stereographic":"sterea",
-    'Polar_Stereographic':"sterea",
-    "Polyconic":"poly",
-    'New_Zealand_Map_Grid':'nzmg',
-    'Miller_Cylindrical':'mill',
-    'Krovak':'krovak',
-    'Equirectangular':'eqc',
-    'Equidistant_Cylindrical':'eqc',
-    'Cassini':'cass',
-    'Cassini_Soldner':'cass',
-    'Azimuthal_Equidistant':'aeqd',
-    'Albers_Conic_Equal_Area':'aea',
-    'Albers':'aea',
-    'Mollweide':'moll',
-    'Lambert_Azimuthal_Equal_Area':'laea',
-    'Sinusoidal':"sinu",
-    "Equidistant_Conic":'eqdc',
-    'Mercator_Auxiliary_Sphere':'merc'
-  };
-
   // Based on proj4 CTABLE  structure :
   // FIXME: better to have array instead of object holding longitudes, latitudes members
   //        In the former case, one has to document index 0 is longitude and
