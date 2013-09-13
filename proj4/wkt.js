@@ -95,9 +95,9 @@ define(function(require) {
       wkt.local=true;
     }else{
       if(typeof wkt.PROJECTION === "object"){
-        wkt.projName = constants.wktProjections[Object.keys(wkt.PROJECTION)[0]];
+        wkt.projName = Object.keys(wkt.PROJECTION)[0];
       }else{
-        wkt.projName = constants.wktProjections[wkt.PROJECTION];
+        wkt.projName = wkt.PROJECTION;
       }
     }
     if(wkt.UNIT){
