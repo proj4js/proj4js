@@ -3,12 +3,11 @@ define(function(require) {
   var proj = require('proj4/Proj');
   var transform = require('proj4/transform');
   var wgs84 = proj('WGS84');
-  return function(fromProj, toProj, coord) {
-    var transformer = function(f, t, c) {
+  function transformer(from, to, coords) {
       var transformedArray;
-      if (Array.isArray(c)) {
-        transformedArray = transform(f, t, point(c));
-        if (c.length === 3) {
+      if (Array.isArray(coords)) {
+        transformedArray = transform(from, to, point(coords));
+        if (coords.length === 3) {
           return [transformedArray.x, transformedArray.y, transformedArray.z];
         }
         else {
@@ -16,10 +15,10 @@ define(function(require) {
         }
       }
       else {
-        return transform(fromProj, toProj, c);
+        return transform(from, to, coords);
       }
-    };
-
+    }
+  return function(fromProj, toProj, coord) {
     fromProj = fromProj instanceof proj ? fromProj :proj(fromProj);
     if (typeof toProj === 'undefined') {
       toProj = fromProj;

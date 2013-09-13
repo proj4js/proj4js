@@ -3,7 +3,7 @@ define(function(require) {
   var datum_transform = require('proj4/datum_transform');
   var adjust_axis = require('proj4/adjust_axis');
   var proj = require('proj4/Proj');
-  return function(source, dest, point) {
+  return function transform(source, dest, point) {
     var wgs84;
 
     function checkNotWGS(source, dest) {
@@ -13,7 +13,7 @@ define(function(require) {
     // Workaround for datum shifts towgs84, if either source or destination projection is not wgs84
     if (source.datum && dest.datum && (checkNotWGS(source, dest) || checkNotWGS(dest, source))) {
       wgs84 = new proj('WGS84');
-      this.transform(source, wgs84, point);
+      transform(source, wgs84, point);
       source = wgs84;
     }
     // DGR, 2010/11/12

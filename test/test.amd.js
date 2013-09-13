@@ -43,7 +43,15 @@ function   (        chai,   proj4) {
 ]);
 
 proj4.defs('esriOnline','PROJCS["WGS_1984_Web_Mercator_Auxiliary_Sphere",GEOGCS["GCS_WGS_1984",DATUM["D_WGS_1984",SPHEROID["WGS_1984",6378137.0,298.257223563]],PRIMEM["Greenwich",0.0],UNIT["Degree",0.0174532925199433]],PROJECTION["Mercator_Auxiliary_Sphere"],PARAMETER["False_Easting",0.0],PARAMETER["False_Northing",0.0],PARAMETER["Central_Meridian",0.0],PARAMETER["Standard_Parallel_1",0.0],PARAMETER["Auxiliary_Sphere_Type",0.0],UNIT["Meter",1.0]]');
-
+describe('proj2proj',function(){
+    it('should work transforming from one projection to another',function(){
+      var sweref99tm  = '+proj=utm +zone=33 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs';
+      var rt90  = '+lon_0=15.808277777799999 +lat_0=0.0 +k=1.0 +x_0=1500000.0 +y_0=0.0 +proj=tmerc +ellps=bessel +units=m +towgs84=414.1,41.3,603.1,-0.855,2.141,-7.023,0 +no_defs';
+      var rslt = proj4(sweref99tm,rt90).forward([319180, 6399862]);
+      assert.closeTo(rslt[0],1271137.927154,0.000001);
+      assert.closeTo(rslt[1],6404230.291456,0.000001);
+    });
+  })
 describe('proj4', function () {
     describe('core',function(){
   testPoints.forEach(function(testPoint){
