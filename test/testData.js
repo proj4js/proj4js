@@ -243,6 +243,10 @@ var testPoints = [
     code:'esriOnline',
     ll:[-74,41],
     xy:[-8237642.318702244, 5012341.663847514]
+  },{
+    code:"+proj=sinu +lon_0=0 +x_0=0 +y_0=0 +a=6371000 +b=6371000 +units=m +datum=none +no_defs",
+     xy: [ 736106.55, 5893331.11 ], 
+      ll: [11.0, 53.0] 
   }
 ];
 var aWKT = [
