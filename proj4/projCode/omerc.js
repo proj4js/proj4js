@@ -128,7 +128,7 @@ define(function(require, exports) {
       p.y = this.y0 + us * Math.cos(this.alpha) - vs * Math.sin(this.alpha);
     }
     return p;
-  },
+  };
 
   exports.inverse = function(p) {
     var us, vs;

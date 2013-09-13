@@ -14,7 +14,7 @@ define(function(require, exports) {
    *     1 -> m accuracy -- suitable for most mapping applications
    *     2 -> mm accuracy
    */
-  exports.iterations = 1,
+  exports.iterations = 1;
 
   exports.init = function() {
     this.A = [];

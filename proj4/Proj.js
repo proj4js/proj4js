@@ -7,8 +7,6 @@ define(function(require) {
   var projections = require('proj4/projections');
   var wkt = require('proj4/wkt');
   var projStr = require('proj4/projString');
-  proj.projections = projections;
-  proj.projections.start();
   function proj(srsCode) {
     if (!(this instanceof proj)) {
       return new proj(srsCode);
@@ -36,7 +34,9 @@ define(function(require) {
     }
 
     this.initTransforms(this.projName);
-  };
+  }
+  proj.projections = projections;
+  proj.projections.start();
   proj.prototype = {
     /**
      * Function: initTransforms
