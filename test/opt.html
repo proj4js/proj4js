@@ -11,12 +11,7 @@
   <script src="../dist/proj4.js"></script>
   <script src="test.js"></script>
   <script>
-    mocha.setup({
-      ui: "bdd",
-      globals: ["console"],
-      timeout: 300000,
-       ignoreLeaks: true
-    });
+  
      window.run = function(){
   if (window.mochaPhantomJS) { window.mochaPhantomJS.run(); }
       else { window.mocha.run(); }

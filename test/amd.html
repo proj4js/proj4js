@@ -40,12 +40,6 @@
         }
     }
 });
-mocha.setup({
-      ui: "bdd",
-      globals: ["console"],
-      timeout: 300000,
-       ignoreLeaks: true
-    });
    requirejs(['../node_modules/chai/chai.js', 'proj4'],startTests);
    
  </script>
