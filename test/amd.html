@@ -8,7 +8,48 @@
   <script src="../node_modules/mocha/mocha.js"></script>
   <div id="mocha"></div>
   <script src="testData.js"></script>
-  <script data-main="test.amd.js" src="../node_modules/requirejs/require.js"></script>
+  <script src="../node_modules/requirejs/require.js"></script>
+  <script src="test.js"></script>
+  <script>
+    window.run = function(){
+  if (window.mochaPhantomJS) { window.mochaPhantomJS.run(); }
+      else { window.mocha.run(); }
+ }  
+   requirejs.config({
+    //By default load any module IDs from js/lib
+    baseUrl: '../dist/amd',
+    //except, if the module ID starts with "app",
+    //load it from the js/app directory. paths
+    //config is relative to the baseUrl, and
+    //never includes a ".js" extension since
+    //the paths config could be for a directory.
+   waitSeconds:15,
+    use: {
+        mocha: {
+            attach: 'mocha'
+        },
+        mochaPhantomJS: {
+            attach: 'mochaPhantomJS'
+        },
+        testPoints: {
+            attach: 'testPoints'
+        },
+        
+        aWKT: {
+            attach: 'aWKT'
+        }
+    }
+});
+mocha.setup({
+      ui: "bdd",
+      globals: ["console"],
+      timeout: 300000,
+       ignoreLeaks: true
+    });
+   requirejs(['../node_modules/chai/chai.js', 'proj4'],startTests);
+   
+ </script>
+  
  
 </body>
 </html>

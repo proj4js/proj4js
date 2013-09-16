@@ -19,6 +19,9 @@
       else { window.mocha.run(); }
  }  </script>
  <script src="../node_modules/curl/dist/curl/curl.js"></script>
- <script src='test.js'></script>
+ <script src="test.js"></script>
+ <script>
+   curl(['node_modules/chai/chai', 'proj4']).then(startTests)
+ </script>
 </body>
 </html>

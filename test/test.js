@@ -6,8 +6,8 @@
 
 
 // Start the main app logic.
-curl(['node_modules/chai/chai', 'proj4']).then(
-function   (        chai,   proj4) {
+
+function startTests(        chai,   proj4) {
 
     mocha.setup({
       ui: "bdd",
@@ -207,7 +207,7 @@ describe('proj4', function () {
 	});
 });
    window.run();
-});
+};
 
    
 
