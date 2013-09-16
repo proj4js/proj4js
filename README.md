@@ -9,9 +9,9 @@ a part of the [MetaCRS](http://wiki.osgeo.org/wiki/MetaCRS) group of projects.
 Depending on your preferences
 
 ```bash
-npm install proj4js
-bower install proj4js
-jam install proj4js
+npm install proj4
+bower install proj4
+jam install proj4
 ```
 
 or just manually grab the file `dist/proj4.js`
