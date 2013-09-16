@@ -9,6 +9,14 @@
   <script src="../node_modules/chai/chai.js"></script>
   <script src="testData.js"></script>
   <script src="../dist/proj4.js"></script>
-  <script src="test.opt.js"></script>
+  <script src="test.js"></script>
+  <script>
+  
+     window.run = function(){
+  if (window.mochaPhantomJS) { window.mochaPhantomJS.run(); }
+      else { window.mocha.run(); }
+ }  
+    startTests(chai,proj4);
+  </script>
 </body>
 </html>

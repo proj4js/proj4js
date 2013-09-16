@@ -1,4 +1,5 @@
-define(['../common'],function(common) {
+define(function(require) {
+  var common = require('proj4/common');
   return function(srs, inverse, point) {
     var i, l, gi, ct, epsilon;
     if (srs.grids === null || srs.grids.length === 0) {

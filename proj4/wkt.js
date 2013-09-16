@@ -1,4 +1,6 @@
-define(['./extend','./constants','./common'],function(extend,constants,common) {
+define(function(require) {
+  var common = require('proj4/common');
+  var extend = require('proj4/extend');
   function mapit(obj, key, v) {
     obj[key] = v.map(function(aa) {
       var o = {};
@@ -91,7 +93,11 @@ define(['./extend','./constants','./common'],function(extend,constants,common) {
       wkt.projName = 'identity';
       wkt.local=true;
     }else{
-      wkt.projName = constants.wktProjections[wkt.PROJECTION];
+      if(typeof wkt.PROJECTION === "object"){
+        wkt.projName = Object.keys(wkt.PROJECTION)[0];
+      }else{
+        wkt.projName = wkt.PROJECTION;
+      }
     }
     if(wkt.UNIT){
       wkt.units=wkt.UNIT.name.toLowerCase();
@@ -179,7 +185,7 @@ define(['./extend','./constants','./common'],function(extend,constants,common) {
     }
   }
   return function(wkt, self) {
-    var lisp = JSON.parse(("," + wkt).replace(/\,([A-Z_0-9]+?)(\[)/g, ',["$1",').slice(1).replace(/\,([A-Z_0-9]+?)\]/g, ',"$1"]'));
+    var lisp = JSON.parse(("," + wkt).replace(/\s*\,\s*([A-Z_0-9]+?)(\[)/g, ',["$1",').slice(1).replace(/\s*\,\s*([A-Z_0-9]+?)\]/g, ',"$1"]'));
     var type = lisp.shift();
     var name = lisp.shift();
     lisp.unshift(['name', name]);

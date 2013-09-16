@@ -1,6 +1,13 @@
-define(['./extend','./common','./defs','./constants','./datum','./projections','./wkt','./projString'],function(extend, common, defs,constants,datum,projections,wkt,projStr) {
-  
-  var proj = function proj(srsCode) {
+define(function(require) {
+  var extend = require('proj4/extend');
+  var common = require('proj4/common');
+  var defs = require('proj4/defs');
+  var constants = require('proj4/constants');
+  var datum = require('proj4/datum');
+  var projections = require('proj4/projections');
+  var wkt = require('proj4/wkt');
+  var projStr = require('proj4/projString');
+  function proj(srsCode) {
     if (!(this instanceof proj)) {
       return new proj(srsCode);
     }
@@ -27,7 +34,9 @@ define(['./extend','./common','./defs','./constants','./datum','./projections','
     }
 
     this.initTransforms(this.projName);
-  };
+  }
+  proj.projections = projections;
+  proj.projections.start();
   proj.prototype = {
     /**
      * Function: initTransforms
@@ -35,11 +44,13 @@ define(['./extend','./common','./defs','./constants','./datum','./projections','
      *
      */
     initTransforms: function(projName) {
-      if (!(projName in proj.projections)) {
+      var ourProj = proj.projections.get(projName);
+      if(ourProj){
+        extend(this, ourProj);
+        this.init();
+      }else{
         throw ("unknown projection " + projName);
       }
-      extend(this, proj.projections[projName]);
-      this.init();
     },
   
     deriveConstants: function(self) {
@@ -113,7 +124,6 @@ define(['./extend','./common','./defs','./constants','./datum','./projections','
       self.datum = datum(self);
     }
   };
-  proj.projections = projections;
   return proj;
 
 });
