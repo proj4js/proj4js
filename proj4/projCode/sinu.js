@@ -60,24 +60,28 @@ define(function(require, exports) {
   };
 
   exports.inverse = function(p) {
-    var lat, temp, lon;
+    var lat, temp, lon, s;
 
-    /* Inverse equations
-    -----------------*/
     p.x -= this.x0;
+    lon = p.x / this.a;
     p.y -= this.y0;
     lat = p.y / this.a;
 
     if (this.sphere) {
-
-      p.y /= this.C_y;
-      lat = this.m ? Math.asin((this.m * p.y + Math.sin(p.y)) / this.n) : (this.n !== 1 ? Math.asin(Math.sin(p.y) / this.n) : p.y);
-      lon = p.x / (this.C_x * (this.m + Math.cos(p.y)));
-
+      lat /= this.C_y;
+      lon = lon / (this.C_x * (this.m + Math.cos(lat)));
+      if (this.m) {
+        lat = common.asinz((this.m * lat + Math.sin(lat)) / this.n);
+      }
+      else if (this.n !== 1) {
+        lat = common.asinz(Math.sin(lat) / this.n);
+      }
+      lon = common.adjust_lon(lon + this.long0);
+      lat = common.adjust_lat(lat);
     }
     else {
       lat = common.pj_inv_mlfn(p.y / this.a, this.es, this.en);
-      var s = Math.abs(lat);
+      s = Math.abs(lat);
       if (s < common.HALF_PI) {
         s = Math.sin(lat);
         temp = this.long0 + p.x * Math.sqrt(1 - this.es * s * s) / (this.a * Math.cos(lat));
@@ -87,9 +91,7 @@ define(function(require, exports) {
       else if ((s - common.EPSLN) < common.HALF_PI) {
         lon = this.long0;
       }
-
     }
-
     p.x = lon;
     p.y = lat;
     return p;
