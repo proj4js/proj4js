@@ -61,8 +61,8 @@ module.exports = function(grunt) {
           },
           name: 'node_modules/almond/almond',
           include: ['proj4'],
-          //optimize:'uglify2',
-          optimize:'none',
+          optimize:'uglify2',
+          //optimize:'none',
           uglify2:{
             mangle: true
           },
