@@ -18,5 +18,5 @@ define(function(require, exports) {
 		this.forward = sinu.forward;
 		this.inverse = sinu.inverse;
   };
-  exports.names = ["Eckert VI", "eck6"];
+  exports.names = ["Eckert_VI", "eck6"];
 });
