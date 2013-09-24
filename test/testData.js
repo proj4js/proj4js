@@ -21,6 +21,14 @@ var testPoints = [
 	xy: [ 736106.55, 5893331.11 ], 
 	ll: [11.0, 53.0]  
   },
+  {code: 'EPSG:53010', /* eck6 with spherical datum */ 
+	xy: [12697777.70, 3747394.62], 
+	ll: [145.0, 30.0] 
+  }, 
+  {code: 'EPSG:54010', /* eck6 with elliptical datum */ 
+	xy: [12712002.16, 3751592.57], 
+	ll: [145.0, 30.0] 
+  }, 
   {code: 'PROJCS["NAD83 / Massachusetts Mainland",GEOGCS["GCS_North_American_1983",DATUM["D_North_American_1983",SPHEROID["GRS_1980",6378137,298.257222101]],PRIMEM["Greenwich",0],UNIT["Degree",0.017453292519943295]],PROJECTION["Lambert_Conformal_Conic"],PARAMETER["standard_parallel_1",42.68333333333333],PARAMETER["standard_parallel_2",41.71666666666667],PARAMETER["latitude_of_origin",41],PARAMETER["central_meridian",-71.5],PARAMETER["false_easting",200000],PARAMETER["false_northing",750000],UNIT["Meter",1]]',
     xy: [ 231394.84,902621.11],
     ll: [-71.11881762742996,42.37346263960867]
