@@ -124,6 +124,9 @@ define(function(require) {
       if(wkt.datumCode==='new_zealand_geodetic_datum_1949' || wkt.datumCode === 'new_zealand_1949'){
         wkt.datumCode='nzgd49';
       }
+      if(wkt.datumCode==='not_specified_based_on_authalic_sphere'){
+        wkt.datumCode='none';
+      }
       if(wkt.datumCode === "wgs_1984"){
         if(wkt.PROJECTION==='Mercator_Auxiliary_Sphere'){
           wkt.sphere = true;
