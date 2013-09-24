@@ -1,4 +1,6 @@
-define(['./common', './constants'], function(common, constants) {
+define(function(require) {
+  var common = require('proj4/common');
+  var constants = require('proj4/constants');
   return function(defData) {
     var self = {};
 

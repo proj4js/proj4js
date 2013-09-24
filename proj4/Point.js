@@ -1,4 +1,5 @@
-define(['./mgrs'],function(mgrs) {
+define(function(require) {
+  var mgrs = require('proj4/mgrs');
   function Point(x, y, z) {
     if (!(this instanceof Point)) {
       return new Point(x, y, z);

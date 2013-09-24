@@ -1,7 +1,7 @@
 #PROJ4JS
 
 Proj4js is a JavaScript library to transform point coordinates from one coordinate system to another, including datum transformations.
-Origionally a port of [PROJ.4](http://trac.osgeo.org/proj/) and [GCTCP C](http://edcftp.cr.usgs.gov/pub//software/gctpc) it is
+Originally a port of [PROJ.4](http://trac.osgeo.org/proj/) and [GCTCP C](http://edcftp.cr.usgs.gov/pub//software/gctpc) it is
 a part of the [MetaCRS](http://wiki.osgeo.org/wiki/MetaCRS) group of projects.
 
 ##Installing
@@ -9,9 +9,9 @@ a part of the [MetaCRS](http://wiki.osgeo.org/wiki/MetaCRS) group of projects.
 Depending on your preferences
 
 ```bash
-npm install proj4js
-bower install proj4js
-jam install proj4js
+npm install proj4
+bower install proj4
+jam install proj4
 ```
 
 or just manually grab the file `dist/proj4.js`

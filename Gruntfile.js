@@ -50,24 +50,6 @@ module.exports = function(grunt) {
 			all: [ './proj4/*.js','./proj4/projCode/*.js']
 		},
     requirejs: {
-      custom:{
-        options:{
-          out: "./dist/proj4.custom.js",
-          baseUrl: ".",
-          //name: "proj4",
-          wrap: {
-            startFile: 'almond/top.frag',
-            endFile: 'almond/end.frag'
-          },
-          name: 'node_modules/almond/almond',
-          include: ['proj4'],
-          optimize:'uglify2',
-          uglify2:{
-            mangle: true
-          },
-          preserveLicenseComments: false
-        }
-      },
       reg:{
         options:{
           out: "./dist/proj4.js",
@@ -80,6 +62,7 @@ module.exports = function(grunt) {
           name: 'node_modules/almond/almond',
           include: ['proj4'],
           optimize:'uglify2',
+          //optimize:'none',
           uglify2:{
             mangle: true
           },
@@ -105,8 +88,11 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks('grunt-contrib-jshint');
 	grunt.loadNpmTasks('grunt-contrib-connect');
 	grunt.loadNpmTasks('grunt-mocha-phantomjs');
+	grunt.registerTask('version',function(){
+	  grunt.file.write('./proj4/version.js',"define(function(){return '"+grunt.file.readJSON('package.json').version+"';});");
+	});
 	grunt.registerTask('test', ['connect', 'mocha_phantomjs:before']);
   grunt.registerTask('amd',['jshint','requirejs:amd','connect','mocha_phantomjs:amd']);
 	grunt.registerTask('build',['jshint','requirejs:custom']);
-  grunt.registerTask('default', ['jshint','test','requirejs:reg','requirejs:amd','mocha_phantomjs:after','mocha_phantomjs:amd']);
+  grunt.registerTask('default', ['version','jshint','test','requirejs:reg','requirejs:amd','mocha_phantomjs:after','mocha_phantomjs:amd']);
 }

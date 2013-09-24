@@ -1,43 +1,52 @@
-define(['./Point','./Proj','./transform'],function(point,proj,transform) {
+define(function(require) {
+  var point = require('proj4/Point');
+  var proj = require('proj4/Proj');
+  var transform = require('proj4/transform');
   var wgs84 = proj('WGS84');
-  return function(fromProj, toProj, coord) {
-    var transformer = function(f, t, c) {
-      var transformedArray;
-      if (Array.isArray(c)) {
-        transformedArray = transform(f, t, point(c));
-        if (c.length === 3) {
-          return [transformedArray.x, transformedArray.y, transformedArray.z];
-        }
-        else {
-          return [transformedArray.x, transformedArray.y];
-        }
+  function transformer(from, to, coords) {
+    var transformedArray;
+    if (Array.isArray(coords)) {
+      transformedArray = transform(from, to, point(coords));
+      if (coords.length === 3) {
+        return [transformedArray.x, transformedArray.y, transformedArray.z];
       }
       else {
-        return transform(fromProj, toProj, c);
+        return [transformedArray.x, transformedArray.y];
       }
-    };
-
-    fromProj = fromProj instanceof proj ? fromProj :proj(fromProj);
+    }
+    else {
+      return transform(from, to, coords);
+    }
+  }
+  function checkProj(item){
+    if(item instanceof proj){
+      return item;
+    }
+    if(item.oProj){
+      return item.oProj;
+    }
+    return proj(item);
+  }
+  return function(fromProj, toProj, coord) {
+    fromProj = checkProj(fromProj);
+    var single = false;
+    var obj;
     if (typeof toProj === 'undefined') {
       toProj = fromProj;
       fromProj = wgs84;
-    }
-    else if (typeof toProj === 'string') {
-      toProj = proj(toProj);
-    }
-    else if (('x' in toProj) || Array.isArray(toProj)) {
+      single = true;
+    } else if (typeof toProj.x!=='undefined' || Array.isArray(toProj)) {
       coord = toProj;
       toProj = fromProj;
       fromProj = wgs84;
+      single = true;
     }
-    else {
-      toProj = toProj instanceof proj ? toProj : proj(toProj);
-    }
+    toProj = checkProj(toProj);
     if (coord) {
       return transformer(fromProj, toProj, coord);
     }
     else {
-      return {
+      obj = {
         forward: function(coords) {
           return transformer(fromProj, toProj, coords);
         },
@@ -45,6 +54,10 @@ define(['./Point','./Proj','./transform'],function(point,proj,transform) {
           return transformer(toProj, fromProj, coords);
         }
       };
+      if(single){
+        obj.oProj = toProj;
+      }
+      return obj;
     }
   };
 });
