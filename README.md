@@ -10,7 +10,7 @@ Depending on your preferences
 
 ```bash
 npm install proj4
-bower install proj4js
+bower install proj4
 jam install proj4
 ```
 
