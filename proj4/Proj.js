@@ -12,6 +12,8 @@ define(function(require) {
       return new proj(srsCode);
     }
     this.srsCodeInput = srsCode;
+    this.x0 = 0;
+    this.y0 = 0;
     var obj;
     if(typeof srsCode === 'string'){
     //check to see if this is a WKT string
