@@ -17,6 +17,42 @@ var testPoints = [
     xy: [ 231394.84,902621.11],
     ll: [-71.11881762742996,42.37346263960867]
   },
+  {code: 'PROJCS["Sphere_Sinusoidal",GEOGCS["GCS_Sphere",DATUM["Not_specified_based_on_Authalic_Sphere",SPHEROID["Sphere",6371000,0]],PRIMEM["Greenwich",0],UNIT["Degree",0.017453292519943295]],PROJECTION["Sinusoidal"],PARAMETER["False_Easting",0],PARAMETER["False_Northing",0],PARAMETER["Central_Meridian",0],UNIT["Meter",1],AUTHORITY["EPSG","53008"]]',
+	xy: [ 736106.55, 5893331.11 ], 
+	ll: [11.0, 53.0]  
+  },
+  {code: 'PROJCS["Sphere_Eckert_VI",GEOGCS["GCS_Sphere",DATUM["Not_specified_based_on_Authalic_Sphere",SPHEROID["Sphere",6371000,0]],PRIMEM["Greenwich",0],UNIT["Degree",0.017453292519943295]],PROJECTION["Eckert_VI"],PARAMETER["False_Easting",0],PARAMETER["False_Northing",0],PARAMETER["Central_Meridian",0],UNIT["Meter",1],AUTHORITY["EPSG","53010"]]', /* eck6 with spherical datum */ 
+	xy: [12697777.70, 3747394.62], 
+	ll: [145.0, 30.0] 
+  }, 
+  {code: 'PROJCS["World_Eckert_VI",GEOGCS["GCS_WGS_1984",DATUM["WGS_1984",SPHEROID["WGS_1984",6378137,298.257223563]],PRIMEM["Greenwich",0],UNIT["Degree",0.017453292519943295]],PROJECTION["Eckert_VI"],PARAMETER["False_Easting",0],PARAMETER["False_Northing",0],PARAMETER["Central_Meridian",0],UNIT["Meter",1],AUTHORITY["EPSG","54010"]]', /* eck6 with elliptical datum */ 
+	xy: [12712002.16, 3751592.57], 
+	ll: [145.0, 30.0] 
+  }, 
+  {code: 'PROJCS["Sphere_Sinusoidal",GEOGCS["GCS_Sphere",DATUM["D_Sphere",SPHEROID["Sphere",6371000,0]],PRIMEM["Greenwich",0],UNIT["Degree",0.017453292519943295]],PROJECTION["Sinusoidal"],PARAMETER["False_Easting",0],PARAMETER["False_Northing",0],PARAMETER["Central_Meridian",0],UNIT["Meter",1]]',
+	xy: [ 736106.55, 5893331.11 ], 
+	ll: [11.0, 53.0]  
+  },
+  {code: 'PROJCS["Sphere_Eckert_VI",GEOGCS["GCS_Sphere",DATUM["D_Sphere",SPHEROID["Sphere",6371000,0]],PRIMEM["Greenwich",0],UNIT["Degree",0.017453292519943295]],PROJECTION["Eckert_VI"],PARAMETER["False_Easting",0],PARAMETER["False_Northing",0],PARAMETER["Central_Meridian",0],UNIT["Meter",1]]', /* eck6 with spherical datum */ 
+	xy: [12697777.70, 3747394.62], 
+	ll: [145.0, 30.0] 
+  }, 
+  {code: 'PROJCS["World_Eckert_VI",GEOGCS["GCS_WGS_1984",DATUM["D_WGS_1984",SPHEROID["WGS_1984",6378137,298.257223563]],PRIMEM["Greenwich",0],UNIT["Degree",0.017453292519943295]],PROJECTION["Eckert_VI"],PARAMETER["False_Easting",0],PARAMETER["False_Northing",0],PARAMETER["Central_Meridian",0],UNIT["Meter",1]]', /* eck6 with elliptical datum */ 
+	xy: [12712002.16, 3751592.57], 
+	ll: [145.0, 30.0] 
+  }, 
+  {code: 'EPSG:53008',
+	xy: [ 736106.55, 5893331.11 ], 
+	ll: [11.0, 53.0]  
+  },
+  {code: 'EPSG:53010', /* eck6 with spherical datum */ 
+	xy: [12697777.70, 3747394.62], 
+	ll: [145.0, 30.0] 
+  }, 
+  {code: 'EPSG:54010', /* eck6 with elliptical datum */ 
+	xy: [12712002.16, 3751592.57], 
+	ll: [145.0, 30.0] 
+  }, 
   {code: 'PROJCS["NAD83 / Massachusetts Mainland",GEOGCS["GCS_North_American_1983",DATUM["D_North_American_1983",SPHEROID["GRS_1980",6378137,298.257222101]],PRIMEM["Greenwich",0],UNIT["Degree",0.017453292519943295]],PROJECTION["Lambert_Conformal_Conic"],PARAMETER["standard_parallel_1",42.68333333333333],PARAMETER["standard_parallel_2",41.71666666666667],PARAMETER["latitude_of_origin",41],PARAMETER["central_meridian",-71.5],PARAMETER["false_easting",200000],PARAMETER["false_northing",750000],UNIT["Meter",1]]',
     xy: [ 231394.84,902621.11],
     ll: [-71.11881762742996,42.37346263960867]

@@ -19,6 +19,7 @@ define(function(require, exports) {
     require('proj4/projCode/nzmg'),
     require('proj4/projCode/mill'),
     require('proj4/projCode/sinu'),
+    require('proj4/projCode/eck6'),
     require('proj4/projCode/moll'),
     require('proj4/projCode/eqdc'),
     require('proj4/projCode/vandg'),
