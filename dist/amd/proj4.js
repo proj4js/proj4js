@@ -1820,9 +1820,6 @@ define('proj4/projString',['require','proj4/common','proj4/constants'],function(
       return a;
     }).forEach(function(a) {
       var split = a.split("=");
-      if (split[1] === "@null") {
-        return;
-      }
       split.push(true);
       paramObj[split[0].toLowerCase()] = split[1];
     });
@@ -1894,6 +1891,13 @@ define('proj4/projString',['require','proj4/common','proj4/constants'],function(
       },
       pm: function(v) {
         self.from_greenwich = (constants.PrimeMeridian[v] ? constants.PrimeMeridian[v] : parseFloat(v, 10)) * common.D2R;
+      },
+      nadgrids: function(v) {
+        if (v==='@null') {
+          self.datumCode = 'none';
+        } else {
+          self.nadgrids = v;
+        }
       },
       axis: function(v) {
         var legalAxis = "ewnsud";
@@ -5431,6 +5435,8 @@ define('proj4/Proj',['require','proj4/extend','proj4/common','proj4/defs','proj4
       return new proj(srsCode);
     }
     this.srsCodeInput = srsCode;
+    this.x0 = 0;
+    this.y0 = 0;
     var obj;
     if(typeof srsCode === 'string'){
     //check to see if this is a WKT string
@@ -5829,7 +5835,7 @@ define('proj4/core',['require','proj4/Point','proj4/Proj','proj4/transform'],fun
     }
   };
 });
-define('proj4/version',[],function(){return '1.4.0';});
+define('proj4/version',[],function(){return '1.4.1-dev.1';});
 define('proj4',['require','proj4/core','proj4/Proj','proj4/Point','proj4/defs','proj4/transform','proj4/mgrs','proj4/version'],function(require) {
   var proj4 = require('proj4/core');
   proj4.defaultDatum = 'WGS84'; //default datum
