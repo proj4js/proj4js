@@ -1,4 +1,12 @@
 var testPoints = [
+  {code: 'testmerc',
+    xy: [-45007.0787624, 4151725.59875],
+    ll: [5.364315,46.623154]
+  },
+  {code: 'testmerc2',
+    xy: [4156404,7480076.5],
+    ll: [37.33761240175515, 55.60447049026976]
+  },
   {code: 'PROJCS["CH1903 / LV03",GEOGCS["CH1903",DATUM["D_CH1903",SPHEROID["Bessel_1841",6377397.155,299.1528128]],PRIMEM["Greenwich",0],UNIT["Degree",0.017453292519943295]],PROJECTION["Hotine_Oblique_Mercator_Azimuth_Center"],PARAMETER["latitude_of_center",46.95240555555556],PARAMETER["longitude_of_center",7.439583333333333],PARAMETER["azimuth",90],PARAMETER["scale_factor",1],PARAMETER["false_easting",600000],PARAMETER["false_northing",200000],UNIT["Meter",1]]',
   xy: [660389.4751110513, 185731.68482649108],
     ll: [8.23, 46.82],

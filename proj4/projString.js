@@ -11,9 +11,6 @@ define(function(require) {
       return a;
     }).forEach(function(a) {
       var split = a.split("=");
-      if (split[1] === "@null") {
-        return;
-      }
       split.push(true);
       paramObj[split[0].toLowerCase()] = split[1];
     });
@@ -85,6 +82,13 @@ define(function(require) {
       },
       pm: function(v) {
         self.from_greenwich = (constants.PrimeMeridian[v] ? constants.PrimeMeridian[v] : parseFloat(v, 10)) * common.D2R;
+      },
+      nadgrids: function(v) {
+        if (v==='@null') {
+          self.datumCode = 'none';
+        } else {
+          self.nadgrids = v;
+        }
       },
       axis: function(v) {
         var legalAxis = "ewnsud";
