@@ -12,6 +12,7 @@ Depending on your preferences
 npm install proj4
 bower install proj4
 jam install proj4
+component install proj4js/proj4js
 ```
 
 or just manually grab the file `dist/proj4.js`
