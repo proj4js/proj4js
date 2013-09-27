@@ -5835,7 +5835,7 @@ define('proj4/core',['require','proj4/Point','proj4/Proj','proj4/transform'],fun
     }
   };
 });
-define('proj4/version',[],function(){return '1.4.1-dev.1';});
+define('proj4/version',[],function(){return '1.4.1';});
 define('proj4',['require','proj4/core','proj4/Proj','proj4/Point','proj4/defs','proj4/transform','proj4/mgrs','proj4/version'],function(require) {
   var proj4 = require('proj4/core');
   proj4.defaultDatum = 'WGS84'; //default datum

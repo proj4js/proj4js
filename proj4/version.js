@@ -1,1 +1,1 @@
-define(function(){return '1.4.1-dev.1';});
+define(function(){return '1.4.1';});
