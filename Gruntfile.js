@@ -10,12 +10,6 @@ module.exports = function(grunt) {
       }
     },
     mocha_phantomjs: {
-      before: {
-        options: {
-          urls: [ //my ide requries process.env.IP and PORT
-          "http://" + (process.env.IP || "127.0.0.1") + ":" + (process.env.PORT || "8080") + "/test/index.html"]
-        }
-      },
       after: {
         options: {
           urls: [ //my ide requries process.env.IP and PORT
@@ -31,20 +25,9 @@ module.exports = function(grunt) {
     },
     jshint: {
       options: {
-        curly: true,
-        eqeqeq: true,
-        latedef: true,
-        undef: true,
-        unused: true,
-        trailing: true,
-        indent: 2,
-        //camelcase:true,
-        globals: {
-          define: true,
-          console: true
-        }
+        jshintrc: "./.jshintrc"
       },
-      all: ['./proj4/*.js', './proj4/projCode/*.js']
+      all: ['./lib/*.js', './lib/*/*.js']
     },
     browserify: {
       all: {
@@ -52,7 +35,6 @@ module.exports = function(grunt) {
           'dist/proj4.js': ['lib/index.js'],
         },
         options: {
-          transform: ['deamdify'],
           standalone: 'proj4'
         }
       }
@@ -74,10 +56,10 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-connect');
   grunt.loadNpmTasks('grunt-mocha-phantomjs');
   grunt.registerTask('version', function() {
-    grunt.file.write('./lib/version.js', "define(function(){return '" + grunt.file.readJSON('package.json').version + "';});");
+    grunt.file.write('./lib/version.js', "module.exports = '" + grunt.file.readJSON('package.json').version + "';");
   });
-  grunt.registerTask('test', ['connect', 'mocha_phantomjs:before']);
+
   grunt.registerTask('amd', ['jshint', 'requirejs:amd', 'connect', 'mocha_phantomjs:amd']);
   grunt.registerTask('build', ['jshint', 'requirejs:custom']);
-  grunt.registerTask('default', ['version', 'jshint', 'test', 'browserify', 'uglify', 'mocha_phantomjs:after', 'mocha_phantomjs:amd']);
+  grunt.registerTask('default', ['version', 'jshint', 'browserify', 'uglify', 'connect','mocha_phantomjs:after', 'mocha_phantomjs:amd']);
 };
