@@ -1,7 +1,7 @@
 {
   "curly": true,
   "eqeqeq": true,
-  "latedef": "latedef",
+  "latedef": "nofunc",
   "undef": true,
   "unused": true,
   "trailing": true,
