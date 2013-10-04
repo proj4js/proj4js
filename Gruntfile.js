@@ -58,8 +58,5 @@ module.exports = function(grunt) {
   grunt.registerTask('version', function() {
     grunt.file.write('./lib/version.js', "module.exports = '" + grunt.file.readJSON('package.json').version + "';");
   });
-
-  grunt.registerTask('amd', ['jshint', 'requirejs:amd', 'connect', 'mocha_phantomjs:amd']);
-  grunt.registerTask('build', ['jshint', 'requirejs:custom']);
   grunt.registerTask('default', ['version', 'jshint', 'browserify', 'uglify', 'connect','mocha_phantomjs:after', 'mocha_phantomjs:amd']);
 };
