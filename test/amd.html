@@ -8,16 +8,18 @@
   <script src="../node_modules/mocha/mocha.js"></script>
   <div id="mocha"></div>
   <script src="testData.js"></script>
-  <script src="../node_modules/requirejs/require.js"></script>
+  <script src="../node_modules/curl/src/curl.js"></script>
   <script src="test.js"></script>
   <script>
-    window.run = function(){
-  if (window.mochaPhantomJS) { window.mochaPhantomJS.run(); }
-      else { window.mocha.run(); }
- }  
-   requirejs.config({
+  window.run = function(){
+    if (window.mochaPhantomJS) {
+      window.mochaPhantomJS.run();
+    } else {
+      window.mocha.run();
+    }
+  }  
+  curl.config({
     //By default load any module IDs from js/lib
-    baseUrl: '../dist',
    waitSeconds:15,
     use: {
         mocha: {
@@ -33,9 +35,16 @@
         aWKT: {
             attach: 'aWKT'
         }
-    }
+    },packages: [
+        {
+            name: 'proj4',
+            location: '../lib',
+            main: 'index.js',
+            config: { moduleLoader: '../node_modules/curl/src/curl/loader/cjsm11' } /* <-- hey! */
+        }
+    ]
 });
-   requirejs(['../node_modules/chai/chai.js', 'proj4'],startTests);
+   curl(['../node_modules/chai/chai.js', 'proj4']).then(startTests);
    
  </script>
   

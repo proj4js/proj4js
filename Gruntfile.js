@@ -10,16 +10,12 @@ module.exports = function(grunt) {
       }
     },
     mocha_phantomjs: {
-      after: {
+      all: {
         options: {
           urls: [ //my ide requries process.env.IP and PORT
-          "http://" + (process.env.IP || "127.0.0.1") + ":" + (process.env.PORT || "8080") + "/test/opt.html"]
-        }
-      },
-      amd: {
-        options: {
-          urls: [ //my ide requries process.env.IP and PORT
-          "http://" + (process.env.IP || "127.0.0.1") + ":" + (process.env.PORT || "8080") + "/test/amd.html"]
+            "http://" + (process.env.IP || "127.0.0.1") + ":" + (process.env.PORT || "8080") + "/test/amd.html",
+            "http://" + (process.env.IP || "127.0.0.1") + ":" + (process.env.PORT || "8080") + "/test/opt.html"
+          ]
         }
       }
     },
@@ -58,5 +54,5 @@ module.exports = function(grunt) {
   grunt.registerTask('version', function() {
     grunt.file.write('./lib/version.js', "module.exports = '" + grunt.file.readJSON('package.json').version + "';");
   });
-  grunt.registerTask('default', ['version', 'jshint', 'browserify', 'uglify', 'connect','mocha_phantomjs:after', 'mocha_phantomjs:amd']);
+  grunt.registerTask('default', ['version', 'jshint', 'browserify', 'uglify', 'connect','mocha_phantomjs']);
 };

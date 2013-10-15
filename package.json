@@ -36,6 +36,6 @@
     "browserify": "~2.33.1",
     "grunt-browserify": "~1.2.8",
     "grunt-contrib-uglify": "~0.2.4",
-    "requirejs": "~2.1.8"
+    "curl": "git://github.com/cujojs/curl.git"
   }
 }
