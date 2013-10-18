@@ -6,16 +6,19 @@ function Point(x, y, z) {
   if (!(this instanceof Point)) {
     return new Point(x, y, z);
   }
-  if (typeof x === 'object') {
+  if (Array.isArray(x)) {
     this.x = x[0];
     this.y = x[1];
     this.z = x[2] || 0.0;
-  }
-  else if (typeof x === 'string' && typeof y === 'undefined') {
+  }else if(typeof x === 'object'){
+    this.x = x.x;
+    this.y = x.y;
+    this.z = x.z || 0.0;
+  } else if (typeof x === 'string' && typeof y === 'undefined') {
     var coords = x.split(',');
-    this.x = parseFloat(coords[0]);
-    this.y = parseFloat(coords[1]);
-    this.z = parseFloat(coords[2]) || 0.0;
+    this.x = parseFloat(coords[0], 10);
+    this.y = parseFloat(coords[1], 10);
+    this.z = parseFloat(coords[2], 10) || 0.0;
   }
   else {
     this.x = x;
@@ -25,19 +28,26 @@ function Point(x, y, z) {
   this.clone = function() {
     return new Point(this.x, this.y, this.z);
   };
-  this.toString = function() {
-    return ("x=" + this.x + ",y=" + this.y);
+  this.toArray = function(){
+    if(this.z){
+      return [this.x,this.y, this.z];
+    }else{
+      return [this.x,this.y];
+    }
   };
-  /** 
-   * APIMethod: toShortString
-   * Return a short string version of the point.
-   *
-   * Return:
-   * {String} Shortened String representation of ..Point object. 
-   *         (ex. <i>"5, 42"</i>)
-   */
+  this.toString = function() {
+    if(this.z){
+      return "x=" + this.x + ",y=" + this.y + ",z="+this.z;
+    }else{
+      return "x=" + this.x + ",y=" + this.y;
+    }
+  };
   this.toShortString = function() {
-    return (this.x + ", " + this.y);
+    if(this.z){
+      return this.x + "," + this.y+ "," + this.z;
+    }else{
+      return this.x + "," + this.y;
+    }
   };
 }
 
@@ -62,9 +72,9 @@ var projections = require('./projections/index');
 var wkt = require('./wkt');
 var projStr = require('./projString');
 
-function proj(srsCode) {
-  if (!(this instanceof proj)) {
-    return new proj(srsCode);
+function Projection(srsCode) {
+  if (!(this instanceof Projection)) {
+    return new Projection(srsCode);
   }
   this.srsCodeInput = srsCode;
   this.x0 = 0;
@@ -95,16 +105,16 @@ function proj(srsCode) {
 
   this.initTransforms(this.projName);
 }
-proj.projections = projections;
-proj.projections.start();
-proj.prototype = {
+Projection.projections = projections;
+Projection.projections.start();
+Projection.prototype = {
   /**
    * Function: initTransforms
    *    Finalize the initialization of the Proj object
    *
    */
   initTransforms: function(projName) {
-    var ourProj = proj.projections.get(projName);
+    var ourProj = Projection.projections.get(projName);
     if (ourProj) {
       extend(this, ourProj);
       this.init();
@@ -185,7 +195,7 @@ proj.prototype = {
     self.datum = datum(self);
   }
 };
-module.exports = proj;
+module.exports = Projection;
 
 },{"./common":4,"./constants/index":9,"./datum":11,"./defs":13,"./extend":14,"./projString":18,"./projections/index":27,"./wkt":47}],3:[function(require,module,exports){
 module.exports = function(crs, denorm, point) {
@@ -1080,7 +1090,7 @@ function checkProj(item) {
   }
   return proj(item);
 }
-module.exports = function(fromProj, toProj, coord) {
+function proj4(fromProj, toProj, coord) {
   fromProj = checkProj(fromProj);
   var single = false;
   var obj;
@@ -1113,7 +1123,8 @@ module.exports = function(fromProj, toProj, coord) {
     }
     return obj;
   }
-};
+}
+module.exports = proj4;
 },{"./Point":1,"./Proj":2,"./transform":45}],11:[function(require,module,exports){
 var common = require('./common');
 var datum = function(proj) {
@@ -5495,7 +5506,7 @@ module.exports = function transform(source, dest, point) {
   return point;
 };
 },{"./Proj":2,"./adjust_axis":3,"./common":4,"./datum_transform":12}],46:[function(require,module,exports){
-module.exports = '1.5.0-dev.3';
+module.exports = '1.5.0-dev.4';
 },{}],47:[function(require,module,exports){
 var common = require('./common');
 var extend = require('./extend');
