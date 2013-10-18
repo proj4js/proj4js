@@ -38,7 +38,9 @@ module.exports = function(grunt) {
     uglify: {
       options: {
         report: 'gzip',
-        mangle: true
+        mangle:{
+          except: ['proj4','Projection','Point']
+        },
       },
       all: {
         src: 'dist/proj4.js',
