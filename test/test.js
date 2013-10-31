@@ -3,14 +3,9 @@
 
 // Start the main app logic.
 
-function startTests(chai, proj4) {
+function startTests(chai, proj4, testPoints) {
 
-  mocha.setup({
-    ui: "bdd",
-    globals: ["console"],
-    timeout: 300000,
-    ignoreLeaks: true
-  });
+  
   var assert = chai.assert;
   proj4.defs([
     ["EPSG:102018", "+proj=gnom +lat_0=90 +lon_0=0 +x_0=6300000 +y_0=6300000 +ellps=WGS84 +datum=WGS84 +units=m +no_defs"],
@@ -295,5 +290,9 @@ function startTests(chai, proj4) {
       });
     });
   });
-  window.run();
-};
+}
+if(typeof process !== 'undefined'&&process.toString() === '[object process]'){
+  (function(){
+    startTests(require('chai'), require('../lib'), require('./testData'));
+  })();
+}

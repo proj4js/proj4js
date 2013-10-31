@@ -261,3 +261,10 @@ var testPoints = [
       ll: [11.0, 53.0] 
   }
 ];
+if(typeof module !== 'undefined'){
+  module.exports = testPoints;
+}else if(typeof define === 'function'){
+  define(function(){
+    return testPoints;
+  });
+}

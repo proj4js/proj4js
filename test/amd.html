@@ -7,17 +7,9 @@
 <body>
   <script src="../node_modules/mocha/mocha.js"></script>
   <div id="mocha"></div>
-  <script src="testData.js"></script>
   <script src="../node_modules/curl/src/curl.js"></script>
   <script src="test.js"></script>
   <script>
-  window.run = function(){
-    if (window.mochaPhantomJS) {
-      window.mochaPhantomJS.run();
-    } else {
-      window.mocha.run();
-    }
-  }  
   curl.config({
     //By default load any module IDs from js/lib
    waitSeconds:15,
@@ -44,7 +36,19 @@
         }
     ]
 });
-   curl(['../node_modules/chai/chai.js', 'proj4']).then(startTests);
+mocha.setup({
+    ui: "bdd",
+    globals: ["console"],
+    timeout: 300000,
+    ignoreLeaks: true
+  });
+   curl(['../node_modules/chai/chai.js', 'proj4','testData']).then(startTests).then(function(){
+      if (window.mochaPhantomJS) {
+      window.mochaPhantomJS.run();
+    } else {
+      window.mocha.run();
+    }
+   });
    
  </script>
   
