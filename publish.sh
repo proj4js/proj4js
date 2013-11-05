@@ -3,8 +3,8 @@
 tin -v $1
 git checkout -b build
 grunt
-git add dist/proj4.js -f
-git add dist/proj4-src.js -f
+git add dist
+git add lib/version.js
 git add package.json
 git add bower.json
 git add component.json
