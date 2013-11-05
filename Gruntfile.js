@@ -28,7 +28,7 @@ module.exports = function(grunt) {
     browserify: {
       all: {
         files: {
-          'dist/proj4.js': ['lib/index.js'],
+          'dist/proj4-src.js': ['lib/index.js'],
         },
         options: {
           standalone: 'proj4'
@@ -43,8 +43,8 @@ module.exports = function(grunt) {
         },
       },
       all: {
-        src: 'dist/proj4.js',
-        dest: 'dist/proj4.min.js'
+        src: 'dist/proj4-src.js',
+        dest: 'dist/proj4.js'
       }
     }
   });
