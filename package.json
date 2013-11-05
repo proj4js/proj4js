@@ -10,6 +10,7 @@
   "scripts": {
     "test": "./node_modules/istanbul/lib/cli.js test ./node_modules/mocha/bin/_mocha test/test.js"
   },
+  "files":["dist/proj4-src.js","dist/proj4.js"],
   "repository": {
     "type": "git",
     "url": "git://github.com/proj4js/proj4js.git"
