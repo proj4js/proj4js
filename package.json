@@ -33,7 +33,7 @@
     "chai": "~1.7.2",
     "mocha": "~1.12.1",
     "grunt-mocha-phantomjs": "~0.3.0",
-    "browserify": "~2.33.1",
+    "browserify": ">=2.35.0",
     "grunt-browserify": "~1.2.8",
     "grunt-contrib-uglify": "~0.2.4",
     "curl": "git://github.com/cujojs/curl.git",
