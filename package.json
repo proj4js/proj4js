@@ -38,5 +38,8 @@
     "grunt-contrib-uglify": "~0.2.4",
     "curl": "git://github.com/cujojs/curl.git",
     "istanbul": "~0.1.44"
+  },
+  "dependencies": {
+    "mgrs": "0.0.0"
   }
 }
