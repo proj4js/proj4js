@@ -33,6 +33,12 @@
             location: '../lib',
             main: 'index.js',
             config: { moduleLoader: '../node_modules/curl/src/curl/loader/cjsm11' } /* <-- hey! */
+        },
+        {
+          name:'mgrs',
+          location:'../node_modules/mgrs',
+          main:'mgrs.js',
+          config: { moduleLoader: '../node_modules/curl/src/curl/loader/cjsm11' } /* <-- hey! */
         }
     ]
 });
