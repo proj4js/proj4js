@@ -67,10 +67,39 @@ proj4(firstProjection).inverse([242075.00535055372, 750123.32090043]);
 
 
 ##Developing
-to set up build tools make sure you have node installed and run `npm install`
+to set up build tools make sure you have node and grunt-cli installed and then run `npm install`
 
-to build run `grunt` if that doesn't work try:
+to do the complete build and browser tests run
 
 ```bash
-npm install -g grunt-cli #you may need a sudo in front of that
+grunt
+```
+
+to run node tests run
+
+```bash
+npm test
+```
+
+to run node tests with coverage run
+
+```bash
+node test --coverage
+```
+
+to create a build with only default projections (latlon and Mercator) run 
+
+```bash
+grunt build
+```
+
+to create a build with only custome projections include a comma seperated list of projections codes (thie file name in 'lib/projections' without the '.js') after a colin, e.g.
+
+```bash
+grunt build:tmerc
+#includes transverse Mercator
+grunt build:lcc
+#includes lambert conformal conic
+grunt build:omerc,moll
+#includes oblique Mercator and Mollweide
 ```

@@ -2,3 +2,5 @@
 node_modules
 .c9revisions
 coverage
+projs.js
+.DS_STORE

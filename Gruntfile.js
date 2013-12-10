@@ -55,7 +55,10 @@ module.exports = function(grunt) {
           'dist/proj4-src.js': ['lib/index.js'],
         },
         options: {
-          standalone: 'proj4'
+          standalone: 'proj4',
+          alias: [
+            './projs:./includedProjections'
+            ]
         }
       }
     },
