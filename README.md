@@ -93,7 +93,7 @@ to create a build with only default projections (latlon and Mercator) run
 grunt build
 ```
 
-to create a build with only custome projections include a comma seperated list of projections codes (thie file name in 'lib/projections' without the '.js') after a colin, e.g.
+to create a build with only custom projections include a comma separated list of projections codes (the file name in 'lib/projections' without the '.js') after a colon, e.g.
 
 ```bash
 grunt build:tmerc

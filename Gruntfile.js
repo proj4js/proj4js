@@ -93,7 +93,7 @@ module.exports = function(grunt) {
     if(projections[0]==='all'){
       projections = projs;
     }
-    grunt.file.write('./projs.js',"var projs = [require('./lib/projections/"+projections.join("'),require('./lib/projections/")+"')];module.exports = function(proj4){projs.forEach(function(proj){proj4.Proj.projections.add(proj);});}");
+    grunt.file.write('./projs.js',"var projs = [\n\trequire('./lib/projections/"+projections.join("'),\n\trequire('./lib/projections/")+"')\n];\nmodule.exports = function(proj4){\n\tprojs.forEach(function(proj){\n\t\tproj4.Proj.projections.add(proj);\n\t});\n}");
   });
   grunt.registerTask('build',function(){
     var args = this.args.length?this.args[0].split(','):['default'];
