@@ -163,7 +163,7 @@ function startTests(chai, proj4, testPoints) {
       it('should throw an error for an unknown ref', function() {
         assert.throws(function() {
           new proj4.Proj('fake one');
-        }, 'unknown projection', 'should work');
+        }, 'fake one', 'should work');
       });
     })
     describe('utility', function() {
