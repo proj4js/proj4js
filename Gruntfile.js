@@ -1,3 +1,27 @@
+var projs = [
+  'tmerc',
+  'utm',
+  'sterea',
+  'stere',
+  'somerc',
+  'omerc',
+  'lcc',
+  'krovak',
+  'cass',
+  'laea',
+  'aea',
+  'gnom',
+  'cea',
+  'eqc',
+  'poly',
+  'nzmg',
+  'mill',
+  'sinu',
+  'moll',
+  'eqdc',
+  'vandg',
+  'aeqd'
+];
 module.exports = function(grunt) {
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
@@ -31,7 +55,10 @@ module.exports = function(grunt) {
           'dist/proj4-src.js': ['lib/index.js'],
         },
         options: {
-          standalone: 'proj4'
+          standalone: 'proj4',
+          alias: [
+            './projs:./includedProjections'
+            ]
         }
       }
     },
@@ -56,5 +83,30 @@ module.exports = function(grunt) {
   grunt.registerTask('version', function() {
     grunt.file.write('./lib/version.js', "module.exports = '" + grunt.file.readJSON('package.json').version + "';");
   });
-  grunt.registerTask('default', ['version', 'jshint', 'browserify', 'uglify', 'connect','mocha_phantomjs']);
+  grunt.registerTask('custom',function(){
+    grunt.task.run('browserify', 'uglify');
+    var projections = this.args;
+    if(projections[0]==='default'){
+      grunt.file.write('./projs.js','module.exports = function(){}');
+      return;
+    }
+    if(projections[0]==='all'){
+      projections = projs;
+    }
+    grunt.file.write('./projs.js',[
+      "var projs = [",
+      " require('./lib/projections/"+projections.join("'),\n\trequire('./lib/projections/")+"')",
+      "];",
+      "module.exports = function(proj4){",
+      " projs.forEach(function(proj){",
+      "   proj4.Proj.projections.add(proj);",
+      " });",
+      "}"
+    ].join("\n"));
+  });
+  grunt.registerTask('build',function(){
+    var args = this.args.length?this.args[0].split(','):['default'];
+    grunt.task.run('version', 'jshint', 'custom:'+args.join(':'));
+  });
+  grunt.registerTask('default', ['build:all', 'connect','mocha_phantomjs']);
 };
