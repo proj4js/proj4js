@@ -49,13 +49,13 @@ function startTests(chai, proj4, testPoints) {
           describe('traditional', function() {
             it('should work with forwards', function() {
               var proj = new proj4.Proj(testPoint.code);
-              var xy = proj4.transform(proj4.WGS84, proj, new proj4.Point(testPoint.ll));
+              var xy = proj4.transform(proj4.WGS84, proj, proj4.toPoint(testPoint.ll));
               assert.closeTo(xy.x, testPoint.xy[0], xyEPSLN, 'x is close');
               assert.closeTo(xy.y, testPoint.xy[1], xyEPSLN, 'y is close');
             });
             it('should work with backwards', function() {
               var proj = new proj4.Proj(testPoint.code);
-              var ll = proj4.transform(proj, proj4.WGS84, new proj4.Point(testPoint.xy));
+              var ll = proj4.transform(proj, proj4.WGS84, proj4.toPoint(testPoint.xy));
               assert.closeTo(ll.x, testPoint.ll[0], llEPSLN, 'lng is close');
               assert.closeTo(ll.y, testPoint.ll[1], llEPSLN, 'lat is close');
             });
@@ -76,7 +76,7 @@ function startTests(chai, proj4, testPoints) {
               assert.closeTo(xy.y, testPoint.xy[1], xyEPSLN, 'y is close');
             });
             it('shortcut method should work with a point object', function() {
-              var pt = new proj4.Point(testPoint.ll);
+              var pt = proj4.toPoint(testPoint.ll);
               var xy = proj4(testPoint.code, pt);
               assert.closeTo(xy.x, testPoint.xy[0], xyEPSLN, 'x is close');
               assert.closeTo(xy.y, testPoint.xy[1], xyEPSLN, 'y is close');
@@ -98,7 +98,7 @@ function startTests(chai, proj4, testPoints) {
               assert.closeTo(xy.y, testPoint.xy[1], xyEPSLN, 'y is close');
             });
             it('shortcut method should work with a point object', function() {
-              var pt = new proj4.Point(testPoint.ll);
+              var pt = proj4.toPoint(testPoint.ll);
               var xy = proj4(proj4.WGS84, testPoint.code, pt);
               assert.closeTo(xy.x, testPoint.xy[0], xyEPSLN, 'x is close');
               assert.closeTo(xy.y, testPoint.xy[1], xyEPSLN, 'y is close');
@@ -120,7 +120,7 @@ function startTests(chai, proj4, testPoints) {
               assert.closeTo(ll.y, testPoint.ll[1], llEPSLN, 'y is close');
             });
             it('shortcut method should work with a point object', function() {
-              var pt = new proj4.Point(testPoint.xy);
+              var pt = proj4.toPoint(testPoint.xy);
               var ll = proj4(testPoint.code, proj4.WGS84, pt);
               assert.closeTo(ll.x, testPoint.ll[0], llEPSLN, 'x is close');
               assert.closeTo(ll.y, testPoint.ll[1], llEPSLN, 'y is close');
@@ -150,7 +150,7 @@ function startTests(chai, proj4, testPoints) {
               assert.closeTo(xy[1], testPoint.xy[1], xyEPSLN, 'y is close');
             });
             it('should work 3 element ponit object', function() {
-              var pt = new proj4.Point(testPoint.xy);
+              var pt = proj4.toPoint(testPoint.xy);
               var ll = proj4(new proj4.Proj(testPoint.code), proj4.WGS84, pt);
               assert.closeTo(ll.x, testPoint.ll[0], llEPSLN, 'x is close');
               assert.closeTo(ll.y, testPoint.ll[1], llEPSLN, 'y is close');
@@ -206,88 +206,6 @@ function startTests(chai, proj4, testPoints) {
           assert.equal(point.toMGRS(3), "25XEN041865", "MGRS reference with 3-digit accuracy correct.");
         });
       })
-      describe('points', function() {
-        describe('from params', function() {
-          it('should work with 2 params', function() {
-            var point = proj4.Point(1, 2);
-            assert.equal(point.x, 1);
-            assert.equal(point.y, 2);
-            assert.equal(point.z, 0);
-            assert.equal(point.toShortString(), "1,2");
-            assert.equal(point.toString(), "x=1,y=2");
-            assert.deepEqual(point.toArray(), [1, 2]);
-          });
-          it('should work with 3 params', function() {
-            var point = proj4.Point(1, 2, 3);
-            assert.equal(point.x, 1);
-            assert.equal(point.y, 2);
-            assert.equal(point.z, 3);
-            assert.equal(point.toShortString(), "1,2,3");
-            assert.equal(point.toString(), "x=1,y=2,z=3");
-            assert.deepEqual(point.toArray(), [1, 2, 3]);
-          });
-        });
-        describe('from an obj', function() {
-          it('should work with 2 params', function() {
-            var point = proj4.Point({x:1, y:2});
-            assert.equal(point.x, 1);
-            assert.equal(point.y, 2);
-            assert.equal(point.z, 0);
-            assert.equal(point.toString(), "x=1,y=2");
-            assert.equal(point.toShortString(), "1,2");
-            assert.deepEqual(point.toArray(), [1, 2]);
-          });
-          it('should work with 3 params', function() {
-            var point = proj4.Point({x:1, y:2, z:3});
-            assert.equal(point.x, 1);
-            assert.equal(point.y, 2);
-            assert.equal(point.z, 3);
-            assert.equal(point.toShortString(), "1,2,3");
-            assert.equal(point.toString(), "x=1,y=2,z=3");
-            assert.deepEqual(point.toArray(), [1, 2, 3]);
-          });
-        });
-        describe('from an array', function() {
-          it('should work with 2 params', function() {
-            var point = proj4.Point([1,2]);
-            assert.equal(point.x, 1);
-            assert.equal(point.y, 2);
-            assert.equal(point.z, 0);
-            assert.equal(point.toString(), "x=1,y=2");
-            assert.equal(point.toShortString(), "1,2");
-            assert.deepEqual(point.toArray(), [1, 2]);
-          });
-          it('should work with 3 params', function() {
-            var point = proj4.Point([1,2,3]);
-            assert.equal(point.x, 1);
-            assert.equal(point.y, 2);
-            assert.equal(point.z, 3);
-            assert.equal(point.toShortString(), "1,2,3");
-            assert.equal(point.toString(), "x=1,y=2,z=3");
-            assert.deepEqual(point.toArray(), [1, 2, 3]);
-          });
-        });
-        describe('from a string', function() {
-          it('should work with 2 params', function() {
-            var point = proj4.Point('1,2');
-            assert.equal(point.x, 1);
-            assert.equal(point.y, 2);
-            assert.equal(point.z, 0);
-            assert.equal(point.toString(), "x=1,y=2");
-            assert.equal(point.toShortString(), "1,2");
-            assert.deepEqual(point.toArray(), [1, 2]);
-          });
-          it('should work with 3 params', function() {
-            var point = proj4.Point('1,2,3');
-            assert.equal(point.x, 1);
-            assert.equal(point.y, 2);
-            assert.equal(point.z, 3);
-            assert.equal(point.toString(), "x=1,y=2,z=3");
-            assert.equal(point.toShortString(), "1,2,3");
-            assert.deepEqual(point.toArray(), [1, 2, 3]);
-          });
-        });
-      });
     });
   });
 }
