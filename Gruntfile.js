@@ -36,6 +36,7 @@ module.exports = function(grunt) {
     mocha_phantomjs: {
       all: {
         options: {
+          reporter: "dot",
           urls: [ //my ide requries process.env.IP and PORT
             "http://" + (process.env.IP || "127.0.0.1") + ":" + (process.env.PORT || "8080") + "/test/amd.html",
             "http://" + (process.env.IP || "127.0.0.1") + ":" + (process.env.PORT || "8080") + "/test/opt.html"
@@ -80,9 +81,6 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-jshint');
   grunt.loadNpmTasks('grunt-contrib-connect');
   grunt.loadNpmTasks('grunt-mocha-phantomjs');
-  grunt.registerTask('version', function() {
-    grunt.file.write('./lib/version.js', "module.exports = '" + grunt.file.readJSON('package.json').version + "';");
-  });
   grunt.registerTask('custom',function(){
     grunt.task.run('browserify', 'uglify');
     var projections = this.args;
@@ -106,7 +104,7 @@ module.exports = function(grunt) {
   });
   grunt.registerTask('build',function(){
     var args = this.args.length?this.args[0].split(','):['default'];
-    grunt.task.run('version', 'jshint', 'custom:'+args.join(':'));
+    grunt.task.run('jshint', 'custom:'+args.join(':'));
   });
   grunt.registerTask('default', ['build:all', 'connect','mocha_phantomjs']);
 };
