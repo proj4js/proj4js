@@ -6,8 +6,9 @@ Authors:
 - Didier Richard didier.richardATign.fr
 - Stephen Irons stephen.ironsATclear.net.nz
 - Olivier Terral oterralATgmail.com
+- Calvin Metcalf cmetcalfATappgeo.com
 
-Copyright (c) 2012, Mike Adair, Richard Greenwood, Didier Richard, Stephen Irons and Olivier Terral
+Copyright (c) 2014, Mike Adair, Richard Greenwood, Didier Richard, Stephen Irons, Olivier Terral and Calvin Metcalf
 
  Permission is hereby granted, free of charge, to any person obtaining a
  copy of this software and associated documentation files (the "Software"),
