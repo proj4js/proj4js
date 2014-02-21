@@ -22,7 +22,7 @@ or just manually grab the file `dist/proj4.js`
 the basic signature is:
 
 ```javascript
-proj4(fromProjection[, toProjection2, coordinates])
+proj4(fromProjection, toProjection2, [coordinates])
 ```
 
 Projections can be proj or wkt strings, or a proj4.Proj object.
