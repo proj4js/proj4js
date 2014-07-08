@@ -25,9 +25,9 @@ the basic signature is:
 proj4(fromProjection[, toProjection2, coordinates])
 ```
 
-Projections can be proj or wkt strings, or a proj4.Proj object.
+Projections can be proj or wkt strings.
 
-Coordinates may be proj4.Point objects, an object of the form `{x:x,y:y}`, or an array of the form `[x,y]`.
+Coordinates may an object of the form `{x:x,y:y}` or an array of the form `[x,y]`.
 
 When all 3 arguments  are given, the result is that the coordinates are transformed from projection1 to projection 2. And returned in the same format that they were given in.
 
