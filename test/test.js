@@ -159,13 +159,20 @@ function startTests(chai, proj4, testPoints) {
         });
       });
     });
+    describe('defs', function() {
+      assert.equal(proj4.defs('testmerc'), proj4.defs['testmerc']);
+      proj4.defs('foo', '+proj=merc +lon_0=5.937 +lat_ts=45.027 +ellps=sphere +datum=none');
+      assert.typeOf(proj4.defs['foo'], 'object');
+      proj4.defs('urn:x-ogc:def:crs:EPSG:4326', proj4.defs('EPSG:4326'));
+      assert.strictEqual(proj4.defs['urn:x-ogc:def:crs:EPSG:4326'], proj4.defs['EPSG:4326']);
+    });
     describe('errors', function() {
       it('should throw an error for an unknown ref', function() {
         assert.throws(function() {
           new proj4.Proj('fake one');
         }, 'fake one', 'should work');
       });
-    })
+    });
     describe('utility', function() {
       it('should have MGRS available in the proj4.util namespace', function() {
         assert.typeOf(proj4.mgrs, "object", "MGRS available in the proj4.util namespace");
@@ -205,7 +212,7 @@ function startTests(chai, proj4, testPoints) {
         it("MGRS reference with 3-digit accuracy correct.", function() {
           assert.equal(point.toMGRS(3), "25XEN041865", "MGRS reference with 3-digit accuracy correct.");
         });
-      })
+      });
     });
   });
 }
