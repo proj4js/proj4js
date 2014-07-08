@@ -1,6 +1,6 @@
 Change log
 ===
-- 2.2.0: Documentation fixes and added proj4.defs('name') as an alias for proj4.defs['name'];
+- 2.2.1: Documentation fixes and added proj4.defs('name') as an alias for proj4.defs['name'];
 
 - 2.1.4: dist folder is added back in after accidentally omitting it in 2.1.1
 
