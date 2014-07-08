@@ -65,6 +65,46 @@ proj4(firstProjection).inverse([242075.00535055372, 750123.32090043]);
 //the floating points to answer your question
 ```
 
+## Named Projections
+
+If you prefer to define a projection as a string and refence it that way, you may use the proj4.defs method which can be called 2 ways, with a name and projection:
+
+```js
+proj4.defs('WGS84', "+title=WGS 84 (long/lat) +proj=longlat +ellps=WGS84 +datum=WGS84 +units=degrees");
+```
+
+or with an array
+
+```js
+proj4.defs([
+  [
+    'EPSG:4326',
+    '+title=WGS 84 (long/lat) +proj=longlat +ellps=WGS84 +datum=WGS84 +units=degrees'],
+  [
+    'EPSG:4269',
+    '+title=NAD83 (long/lat) +proj=longlat +a=6378137.0 +b=6356752.31414036 +ellps=GRS80 +datum=NAD83 +units=degrees'
+  ]
+]);
+```
+
+you can then do 
+
+```js
+proj4('EPSG:4326');
+```
+
+instead of writing out the whole proj definition, by default proj4 has the following projections predefined:
+
+- 'WGS84'
+- 'EPSG:4326'
+- 'EPSG:4269'
+- 'EPSG:3857', which has the following aliases
+    - 'EPSG:3785'
+    - 'GOOGLE'
+    - 'EPSG:900913'
+    - 'EPSG:102113'
+
+defined projections can also be accessed as properties of the proj4.defs function (`proj4.defs['EPSG:4326']`).
 
 ##Developing
 to set up build tools make sure you have node and grunt-cli installed and then run `npm install`
