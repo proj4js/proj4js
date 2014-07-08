@@ -159,6 +159,13 @@ function startTests(chai, proj4, testPoints) {
         });
       });
     });
+    describe('defs', function() {
+      assert.equal(proj4.defs('testmerc'), proj4.defs['testmerc']);
+      proj4.defs('foo', '+proj=merc +lon_0=5.937 +lat_ts=45.027 +ellps=sphere +datum=none');
+      assert.typeOf(proj4.defs['foo'], 'object');
+      proj4.defs('urn:x-ogc:def:crs:EPSG:4326', proj4.defs('EPSG:4326'));
+      assert.strictEqual(proj4.defs['urn:x-ogc:def:crs:EPSG:4326'], proj4.defs['EPSG:4326']);
+    });
     describe('errors', function() {
       it('should throw an error for an unknown ref', function() {
         assert.throws(function() {

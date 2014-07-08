@@ -104,7 +104,13 @@ instead of writing out the whole proj definition, by default proj4 has the follo
     - 'EPSG:900913'
     - 'EPSG:102113'
 
-defined projections can also be accessed as properties of the proj4.defs function (`proj4.defs['EPSG:4326']`).
+defined projections can also be accessed through the proj4.defs function (`proj4.defs('EPSG:4326')`).
+
+proj4.defs can also be used to define a named alias:
+
+```javascript
+proj4.defs('urn:x-ogc:def:crs:EPSG:4326', proj4.defs('EPSG:4326'));
+``` 
 
 ##Developing
 to set up build tools make sure you have node and grunt-cli installed and then run `npm install`
