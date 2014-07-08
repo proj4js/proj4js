@@ -95,8 +95,8 @@ proj4('EPSG:4326');
 
 instead of writing out the whole proj definition, by default proj4 has the following projections predefined:
 
-- 'WGS84'
-- 'EPSG:4326'
+- 'EPSG:4326', which has the following alias
+    - 'WGS84'
 - 'EPSG:4269'
 - 'EPSG:3857', which has the following aliases
     - 'EPSG:3785'
