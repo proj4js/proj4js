@@ -15,7 +15,7 @@ jam install proj4
 component install proj4js/proj4js
 ```
 
-or just manually grab the file `dist/proj4.js`
+or just manually grab the file `proj4.js` from the [latest release](https://github.com/proj4js/proj4js/releases).
 
 ##Using
 
