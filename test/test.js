@@ -172,7 +172,7 @@ function startTests(chai, proj4, testPoints) {
           new proj4.Proj('fake one');
         }, 'fake one', 'should work');
       });
-    })
+    });
     describe('utility', function() {
       it('should have MGRS available in the proj4.util namespace', function() {
         assert.typeOf(proj4.mgrs, "object", "MGRS available in the proj4.util namespace");
@@ -212,7 +212,7 @@ function startTests(chai, proj4, testPoints) {
         it("MGRS reference with 3-digit accuracy correct.", function() {
           assert.equal(point.toMGRS(3), "25XEN041865", "MGRS reference with 3-digit accuracy correct.");
         });
-      })
+      });
     });
   });
 }
