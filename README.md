@@ -67,7 +67,7 @@ proj4(firstProjection).inverse([242075.00535055372, 750123.32090043]);
 
 ## Named Projections
 
-If you prefer to define a projection as a string and refence it that way, you may use the proj4.defs method which can be called 2 ways, with a name and projection:
+If you prefer to define a projection as a string and reference it that way, you may use the proj4.defs method which can be called 2 ways, with a name and projection:
 
 ```js
 proj4.defs('WGS84', "+title=WGS 84 (long/lat) +proj=longlat +ellps=WGS84 +datum=WGS84 +units=degrees");
