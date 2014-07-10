@@ -49,7 +49,9 @@ jam install proj4
 component install proj4js/proj4js
 </pre></div>
 
-<p>or just manually grab the file <code>dist/proj4.js</code></p>
+<p>or just manually grab the file <code>proj4.js</code> from the <a href="https://github.com/proj4js/proj4js/releases">latest release</a>.</p>
+
+<p>if you do not want to download anything, Proj4js is also hosted on <a href="http://www.cdnjs.com/libraries/proj4js">cdnjs</a> for direct use in your browser applications.</p>
 
 <h2>
 <a name="using" class="anchor" href="#using"><span class="octicon octicon-link"></span></a>Using</h2>
@@ -59,9 +61,9 @@ component install proj4js/proj4js
 <div class="highlight highlight-javascript"><pre><span class="nx">proj4</span><span class="p">(</span><span class="nx">fromProjection</span><span class="p">[,</span> <span class="nx">toProjection2</span><span class="p">,</span> <span class="nx">coordinates</span><span class="p">])</span>
 </pre></div>
 
-<p>Projections can be proj or wkt strings, or a proj4.Proj object.</p>
+<p>Projections can be proj or wkt strings.</p>
 
-<p>Coordinates may be proj4.Point objects, an object of the form <code>{x:x,y:y}</code>, or an array of the form <code>[x,y]</code>.</p>
+<p>Coordinates may an object of the form <code>{x:x,y:y}</code> or an array of the form <code>[x,y]</code>.</p>
 
 <p>When all 3 arguments  are given, the result is that the coordinates are transformed from projection1 to projection 2. And returned in the same format that they were given in.</p>
 
@@ -96,13 +98,90 @@ component install proj4js/proj4js
 </pre></div>
 
 <h2>
+<a name="named-projections" class="anchor" href="#named-projections"><span class="octicon octicon-link"></span></a>Named Projections</h2>
+
+<p>If you prefer to define a projection as a string and reference it that way, you may use the proj4.defs method which can be called 2 ways, with a name and projection:</p>
+
+<div class="highlight highlight-js"><pre><span class="nx">proj4</span><span class="p">.</span><span class="nx">defs</span><span class="p">(</span><span class="s1">'WGS84'</span><span class="p">,</span> <span class="s2">"+title=WGS 84 (long/lat) +proj=longlat +ellps=WGS84 +datum=WGS84 +units=degrees"</span><span class="p">);</span>
+</pre></div>
+
+<p>or with an array</p>
+
+<div class="highlight highlight-js"><pre><span class="nx">proj4</span><span class="p">.</span><span class="nx">defs</span><span class="p">([</span>
+  <span class="p">[</span>
+    <span class="s1">'EPSG:4326'</span><span class="p">,</span>
+    <span class="s1">'+title=WGS 84 (long/lat) +proj=longlat +ellps=WGS84 +datum=WGS84 +units=degrees'</span><span class="p">],</span>
+  <span class="p">[</span>
+    <span class="s1">'EPSG:4269'</span><span class="p">,</span>
+    <span class="s1">'+title=NAD83 (long/lat) +proj=longlat +a=6378137.0 +b=6356752.31414036 +ellps=GRS80 +datum=NAD83 +units=degrees'</span>
+  <span class="p">]</span>
+<span class="p">]);</span>
+</pre></div>
+
+<p>you can then do </p>
+
+<div class="highlight highlight-js"><pre><span class="nx">proj4</span><span class="p">(</span><span class="s1">'EPSG:4326'</span><span class="p">);</span>
+</pre></div>
+
+<p>instead of writing out the whole proj definition, by default proj4 has the following projections predefined:</p>
+
+<ul>
+<li>'EPSG:4326', which has the following alias
+
+<ul>
+<li>'WGS84'</li>
+</ul>
+</li>
+<li>'EPSG:4269'</li>
+<li>'EPSG:3857', which has the following aliases
+
+<ul>
+<li>'EPSG:3785'</li>
+<li>'GOOGLE'</li>
+<li>'EPSG:900913'</li>
+<li>'EPSG:102113'</li>
+</ul>
+</li>
+</ul><p>defined projections can also be accessed through the proj4.defs function (<code>proj4.defs('EPSG:4326')</code>).</p>
+
+<p>proj4.defs can also be used to define a named alias:</p>
+
+<div class="highlight highlight-javascript"><pre><span class="nx">proj4</span><span class="p">.</span><span class="nx">defs</span><span class="p">(</span><span class="s1">'urn:x-ogc:def:crs:EPSG:4326'</span><span class="p">,</span> <span class="nx">proj4</span><span class="p">.</span><span class="nx">defs</span><span class="p">(</span><span class="s1">'EPSG:4326'</span><span class="p">));</span>
+</pre></div>
+
+<h2>
 <a name="developing" class="anchor" href="#developing"><span class="octicon octicon-link"></span></a>Developing</h2>
 
-<p>to set up build tools make sure you have node installed and run <code>npm install</code></p>
+<p>to set up build tools make sure you have node and grunt-cli installed and then run <code>npm install</code></p>
 
-<p>to build run <code>grunt</code> if that doesn't work try:</p>
+<p>to do the complete build and browser tests run</p>
 
-<div class="highlight highlight-bash"><pre>npm install -g grunt-cli <span class="c">#you may need a sudo in front of that</span>
+<div class="highlight highlight-bash"><pre>grunt
+</pre></div>
+
+<p>to run node tests run</p>
+
+<div class="highlight highlight-bash"><pre>npm <span class="nb">test</span>
+</pre></div>
+
+<p>to run node tests with coverage run</p>
+
+<div class="highlight highlight-bash"><pre>node <span class="nb">test</span> --coverage
+</pre></div>
+
+<p>to create a build with only default projections (latlon and Mercator) run </p>
+
+<div class="highlight highlight-bash"><pre>grunt build
+</pre></div>
+
+<p>to create a build with only custom projections include a comma separated list of projections codes (the file name in 'lib/projections' without the '.js') after a colon, e.g.</p>
+
+<div class="highlight highlight-bash"><pre>grunt build:tmerc
+<span class="c">#includes transverse Mercator</span>
+grunt build:lcc
+<span class="c">#includes lambert conformal conic</span>
+grunt build:omerc,moll
+<span class="c">#includes oblique Mercator and Mollweide</span>
 </pre></div>
         </section>
 
