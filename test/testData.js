@@ -279,6 +279,11 @@ var testPoints = [
     code:"+proj=tmerc +lat_0=49 +lon_0=-2 +k=0.9996012717 +x_0=400000 +y_0=-100000 +ellps=airy +datum=OSGB36 +units=m +no_defs",
     ll:[-3.20078, 55.96056],
     xy:[325132.0089586496, 674822.638235305]
+  },
+  {
+    code:"+proj=krovak +lat_0=49.5 +lon_0=24.83333333333333 +alpha=30.28813972222222 +k=0.9999 +x_0=0 +y_0=0 +ellps=bessel +pm=greenwich +units=m +no_defs +towgs84=570.8,85.7,462.8,4.998,1.587,5.261,3.56",
+    ll: [12.806988, 49.452262],
+    xy: [-868208.61, -1095793.64]
   }
 ];
 if(typeof module !== 'undefined'){
