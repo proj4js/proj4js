@@ -213,6 +213,25 @@ function startTests(chai, proj4, testPoints) {
           assert.equal(point.toMGRS(3), "25XEN041865", "MGRS reference with 3-digit accuracy correct.");
         });
       });
+      describe('Defs and Datum definition', function() {
+        proj4.defs("EPSG:5514", "+proj=krovak +lat_0=49.5 +lon_0=24.83333333333333 +alpha=30.28813972222222 +k=0.9999 +x_0=0 +y_0=0 +ellps=bessel +pm=greenwich +units=m +no_defs +towgs84=570.8,85.7,462.8,4.998,1.587,5.261,3.56");
+        var point = proj4.transform(proj4.Proj("WGS84"), proj4.Proj("EPSG:5514"),
+                                proj4.toPoint([12.806988, 49.452262]));
+        it("Longitude of point from WGS84 correct.", function() {
+          assert.equal(point.x.toPrecision(8), "-868208.61", "Longitude of point from WGS84 correct.");
+        });
+        it("Latitude of point from WGS84 correct.", function() {
+          assert.equal(point.y.toPrecision(9), "-1095793.64", "Latitude of point from WGS84 correct.");
+        });
+        var point2 = proj4.transform(proj4.Proj("WGS84"), proj4.Proj("EPSG:5514"),
+                                proj4.toPoint([12.806988, 49.452262]));
+        it("Longitude of point from WGS84 with second call for EPSG:5514 correct.", function() {
+          assert.equal(point2.x.toPrecision(8), "-868208.61", "Longitude of point from WGS84 correct.");
+        });
+        it("Latitude of point from WGS84 with second call for EPSG:5514 correct.", function() {
+          assert.equal(point2.y.toPrecision(9), "-1095793.64", "Latitude of point from WGS84 correct.");
+        });
+      });
     });
   });
 }
