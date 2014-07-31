@@ -1326,9 +1326,12 @@ module.exports = function(json) {
     json.axis = "enu";
   }
 
-  json.datum = datum(json);
+  if (!json.datum) {
+    json.datum = datum(json);
+  }
   return json;
 };
+
 },{"./constants/Datum":25,"./constants/Ellipsoid":26,"./datum":29,"./extend":33}],33:[function(_dereq_,module,exports){
 module.exports = function(destination, source) {
   destination = destination || {};
@@ -5361,7 +5364,7 @@ function getMinNorthing(zoneLetter) {
 },{}],67:[function(_dereq_,module,exports){
 module.exports={
   "name": "proj4",
-  "version": "2.2.1",
+  "version": "2.2.2",
   "description": "Proj4js is a JavaScript library to transform point coordinates from one coordinate system to another, including datum transformations.",
   "main": "lib/index.js",
   "directories": {
