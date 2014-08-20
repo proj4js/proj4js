@@ -257,8 +257,8 @@ var testPoints = [
     xy:[-8237642.318702244, 5012341.663847514]
   },{
     code:"+proj=sinu +lon_0=0 +x_0=0 +y_0=0 +a=6371000 +b=6371000 +units=m +datum=none +no_defs",
-     xy: [ 736106.55, 5893331.11 ], 
-      ll: [11.0, 53.0] 
+     xy: [ 736106.55, 5893331.11 ],
+      ll: [11.0, 53.0]
   },
   {
     code:'PROJCS["Belge 1972 / Belgian Lambert 72",GEOGCS["Belge 1972",DATUM["Reseau_National_Belge_1972",SPHEROID["International 1924",6378388,297,AUTHORITY["EPSG","7022"]],TOWGS84[106.869,-52.2978,103.724,-0.33657,0.456955,-1.84218,1],AUTHORITY["EPSG","6313"]],PRIMEM["Greenwich",0,AUTHORITY["EPSG","8901"]],UNIT["degree",0.01745329251994328,AUTHORITY["EPSG","9122"]],AUTHORITY["EPSG","4313"]],UNIT["metre",1,AUTHORITY["EPSG","9001"]],PROJECTION["Lambert_Conformal_Conic_2SP"],PARAMETER["standard_parallel_1",51.16666723333333],PARAMETER["standard_parallel_2",49.8333339],PARAMETER["latitude_of_origin",90],PARAMETER["central_meridian",4.367486666666666],PARAMETER["false_easting",150000.013],PARAMETER["false_northing",5400088.438],AUTHORITY["EPSG","31370"],AXIS["X",EAST],AXIS["Y",NORTH]]',
@@ -284,6 +284,17 @@ var testPoints = [
     code:"+proj=krovak +lat_0=49.5 +lon_0=24.83333333333333 +alpha=30.28813972222222 +k=0.9999 +x_0=0 +y_0=0 +ellps=bessel +pm=greenwich +units=m +no_defs +towgs84=570.8,85.7,462.8,4.998,1.587,5.261,3.56",
     ll: [12.806988, 49.452262],
     xy: [-868208.61, -1095793.64]
+  },
+  // check that coordinates at 180 and -180 deg. longitude don't wrap around
+  {
+    code: 'EPSG:3857',
+    ll: [-180, 0],
+    xy: [-20037508.342789, 0]
+  },
+  {
+    code: 'EPSG:3857',
+    ll: [180, 0],
+    xy: [20037508.342789, 0]
   }
 ];
 if(typeof module !== 'undefined'){
