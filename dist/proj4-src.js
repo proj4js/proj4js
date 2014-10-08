@@ -131,10 +131,15 @@ module.exports = function(x) {
 };
 },{"./sign":21}],5:[function(_dereq_,module,exports){
 var TWO_PI = Math.PI * 2;
+// SPI is slightly greater than Math.PI, so values that exceed the -180..180
+// degree range by a tiny amount don't get wrapped. This prevents points that
+// have drifted from their original location along the 180th meridian (due to
+// floating point error) from changing their sign.
+var SPI = 3.14159265359;
 var sign = _dereq_('./sign');
 
 module.exports = function(x) {
-  return (Math.abs(x) < Math.PI) ? x : (x - (sign(x) * TWO_PI));
+  return (Math.abs(x) <= SPI) ? x : (x - (sign(x) * TWO_PI));
 };
 },{"./sign":21}],6:[function(_dereq_,module,exports){
 module.exports = function(x) {
@@ -1228,7 +1233,7 @@ function defs(name) {
   if (arguments.length === 2) {
     var def = arguments[1];
     if (typeof def === 'string') {
-      if (def[0] === '+') {
+      if (def.charAt(0) === '+') {
         defs[name] = parseProj(arguments[1]);
       }
       else {
@@ -1326,9 +1331,12 @@ module.exports = function(json) {
     json.axis = "enu";
   }
 
-  json.datum = datum(json);
+  if (!json.datum) {
+    json.datum = datum(json);
+  }
   return json;
 };
+
 },{"./constants/Datum":25,"./constants/Ellipsoid":26,"./datum":29,"./extend":33}],33:[function(_dereq_,module,exports){
 module.exports = function(destination, source) {
   destination = destination || {};
@@ -1411,9 +1419,9 @@ module.exports = parse;
 },{"./defs":31,"./projString":37,"./wkt":65}],37:[function(_dereq_,module,exports){
 var D2R = 0.01745329251994329577;
 var PrimeMeridian = _dereq_('./constants/PrimeMeridian');
+
 module.exports = function(defData) {
   var self = {};
-
   var paramObj = {};
   defData.split("+").map(function(v) {
     return v.trim();
@@ -1429,7 +1437,7 @@ module.exports = function(defData) {
     proj: 'projName',
     datum: 'datumCode',
     rf: function(v) {
-      self.rf = parseFloat(v, 10);
+      self.rf = parseFloat(v);
     },
     lat_0: function(v) {
       self.lat0 = v * D2R;
@@ -1459,16 +1467,22 @@ module.exports = function(defData) {
       self.longc = v * D2R;
     },
     x_0: function(v) {
-      self.x0 = parseFloat(v, 10);
+      self.x0 = parseFloat(v);
     },
     y_0: function(v) {
-      self.y0 = parseFloat(v, 10);
+      self.y0 = parseFloat(v);
     },
     k_0: function(v) {
-      self.k0 = parseFloat(v, 10);
+      self.k0 = parseFloat(v);
     },
     k: function(v) {
-      self.k0 = parseFloat(v, 10);
+      self.k0 = parseFloat(v);
+    },
+    a: function(v) {
+      self.a = parseFloat(v);
+    },
+    b: function(v) {
+      self.b = parseFloat(v);
     },
     r_a: function() {
       self.R_A = true;
@@ -1481,17 +1495,17 @@ module.exports = function(defData) {
     },
     towgs84: function(v) {
       self.datum_params = v.split(",").map(function(a) {
-        return parseFloat(a, 10);
+        return parseFloat(a);
       });
     },
     to_meter: function(v) {
-      self.to_meter = parseFloat(v, 10);
+      self.to_meter = parseFloat(v);
     },
     from_greenwich: function(v) {
       self.from_greenwich = v * D2R;
     },
     pm: function(v) {
-      self.from_greenwich = (PrimeMeridian[v] ? PrimeMeridian[v] : parseFloat(v, 10)) * D2R;
+      self.from_greenwich = (PrimeMeridian[v] ? PrimeMeridian[v] : parseFloat(v)) * D2R;
     },
     nadgrids: function(v) {
       if (v === '@null') {
@@ -4587,6 +4601,7 @@ function cleanWKT(wkt) {
     ['false_northing', 'False_Northing'],
     ['central_meridian', 'Central_Meridian'],
     ['latitude_of_origin', 'Latitude_Of_Origin'],
+    ['latitude_of_origin', 'Central_Parallel'],
     ['scale_factor', 'Scale_Factor'],
     ['k0', 'scale_factor'],
     ['latitude_of_center', 'Latitude_of_center'],
@@ -4609,7 +4624,7 @@ function cleanWKT(wkt) {
   }
 }
 module.exports = function(wkt, self) {
-  var lisp = JSON.parse(("," + wkt).replace(/\s*\,\s*([A-Z_0-9]+?)(\[)/g, ',["$1",').slice(1).replace(/\s*\,\s*([A-Z_0-9]+?)\]/g, ',"$1"]'));
+  var lisp = JSON.parse(("," + wkt).replace(/\s*\,\s*([A-Z_0-9]+?)(\[)/g, ',["$1",').slice(1).replace(/\s*\,\s*([A-Z_0-9]+?)\]/g, ',"$1"]').replace(/,\["VERTCS".+/,''));
   var type = lisp.shift();
   var name = lisp.shift();
   lisp.unshift(['name', name]);
@@ -5361,7 +5376,7 @@ function getMinNorthing(zoneLetter) {
 },{}],67:[function(_dereq_,module,exports){
 module.exports={
   "name": "proj4",
-  "version": "2.2.1",
+  "version": "2.3.3",
   "description": "Proj4js is a JavaScript library to transform point coordinates from one coordinate system to another, including datum transformations.",
   "main": "lib/index.js",
   "directories": {
@@ -5405,6 +5420,7 @@ module.exports={
     "mgrs": "0.0.0"
   }
 }
+
 },{}],"./includedProjections":[function(_dereq_,module,exports){
 module.exports=_dereq_('gWUPNW');
 },{}],"gWUPNW":[function(_dereq_,module,exports){
