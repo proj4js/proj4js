@@ -223,6 +223,14 @@ var testPoints = [
     ll:[0, 75],
     xy:[2000000, 325449.806286]
   },{
+    code:'+proj=stere +lat_0=-90 +lat_ts=-70 +lon_0=0 +k=1 +x_0=0 +y_0=0 +datum=WGS84 +units=m +no_defs"',
+    ll:[0, -72.5],
+    xy:[0, 1910008.78441421]
+  },{
+    code:'PROJCS["WGS 84 / NSIDC Sea Ice Polar Stereographic South", GEOGCS["WGS 84", DATUM["World Geodetic System 1984", SPHEROID["WGS 84", 6378137.0, 298.257223563, AUTHORITY["EPSG","7030"]], AUTHORITY["EPSG","6326"]], PRIMEM["Greenwich", 0.0, AUTHORITY["EPSG","8901"]], UNIT["degree", 0.017453292519943295], AXIS["Geodetic longitude", EAST], AXIS["Geodetic latitude", NORTH], AUTHORITY["EPSG","4326"]], PROJECTION["Polar Stereographic (variant B)", AUTHORITY["EPSG","9829"]], PARAMETER["central_meridian", 0.0], PARAMETER["Standard_Parallel_1", -70.0], PARAMETER["false_easting", 0.0], PARAMETER["false_northing", 0.0], UNIT["m", 1.0], AXIS["Easting", "North along 90 deg East"], AXIS["Northing", "North along 0 deg"], AUTHORITY["EPSG","3976"]]',
+    ll:[0, -72.5],
+    xy:[0, 1910008.78441421]
+  },{
     code:'PROJCS["NAD83(CSRS98) / New Brunswick Stereo (deprecated)",GEOGCS["NAD83(CSRS98)",DATUM["D_North_American_1983_CSRS98",SPHEROID["GRS_1980",6378137,298.257222101]],PRIMEM["Greenwich",0],UNIT["Degree",0.017453292519943295]],PROJECTION["Stereographic_North_Pole"],PARAMETER["standard_parallel_1",46.5],PARAMETER["central_meridian",-66.5],PARAMETER["scale_factor",0.999912],PARAMETER["false_easting",2500000],PARAMETER["false_northing",7500000],UNIT["Meter",1]]',
     ll:[-66.415, 46.34],
     xy:[2506543.370459, 7482219.546176]
