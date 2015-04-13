@@ -7,7 +7,7 @@
 <body>
   <script src="../node_modules/mocha/mocha.js"></script>
   <div id="mocha"></div>
-  <script src="../node_modules/curl/src/curl.js"></script>
+  <script src="../node_modules/curl-amd/src/curl.js"></script>
   <script src="test.js"></script>
   <script>
   curl.config({
@@ -23,7 +23,7 @@
         testPoints: {
             attach: 'testPoints'
         },
-        
+
         aWKT: {
             attach: 'aWKT'
         }
@@ -32,13 +32,13 @@
             name: 'proj4',
             location: '../lib',
             main: 'index.js',
-            config: { moduleLoader: '../node_modules/curl/src/curl/loader/cjsm11' } /* <-- hey! */
+            config: { moduleLoader: '../node_modules/curl-amd/src/curl/loader/cjsm11' } /* <-- hey! */
         },
         {
           name:'mgrs',
           location:'../node_modules/mgrs',
           main:'mgrs.js',
-          config: { moduleLoader: '../node_modules/curl/src/curl/loader/cjsm11' } /* <-- hey! */
+          config: { moduleLoader: '../node_modules/curl-amd/src/curl/loader/cjsm11' } /* <-- hey! */
         }
     ]
 });
@@ -55,9 +55,9 @@ mocha.setup({
       window.mocha.run();
     }
    });
-   
+
  </script>
-  
- 
+
+
 </body>
 </html>
