@@ -171,6 +171,16 @@ function startTests(chai, proj4, testPoints) {
       assert.typeOf(proj4.defs['foo'], 'object');
       proj4.defs('urn:x-ogc:def:crs:EPSG:4326', proj4.defs('EPSG:4326'));
       assert.strictEqual(proj4.defs['urn:x-ogc:def:crs:EPSG:4326'], proj4.defs['EPSG:4326']);
+
+      describe('wkt', function() {
+        it('should provide the correct conversion factor for WKT GEOGCS projections', function() {
+          proj4.defs('EPSG:4269', 'GEOGCS["NAD83",DATUM["North_American_Datum_1983",SPHEROID["GRS 1980",6378137,298.257222101,AUTHORITY["EPSG","7019"]],AUTHORITY["EPSG","6269"]],PRIMEM["Greenwich",0,AUTHORITY["EPSG","8901"]],UNIT["degree",0.01745329251994328,AUTHORITY["EPSG","9122"]],AUTHORITY["EPSG","4269"]]');
+          assert.equal(proj4.defs['EPSG:4269'].to_meter, 6378137*0.01745329251994328);
+
+          proj4.defs('EPSG:4279', 'GEOGCS["OS(SN)80",DATUM["OS_SN_1980",SPHEROID["Airy 1830",6377563.396,299.3249646,AUTHORITY["EPSG","7001"]],AUTHORITY["EPSG","6279"]],PRIMEM["Greenwich",0,AUTHORITY["EPSG","8901"]],UNIT["degree",0.01745329251994328,AUTHORITY["EPSG","9122"]],AUTHORITY["EPSG","4279"]]');
+          assert.equal(proj4.defs['EPSG:4279'].to_meter, 6377563.396*0.01745329251994328);
+        }); 
+      });
     });
     describe('errors', function() {
       it('should throw an error for an unknown ref', function() {
