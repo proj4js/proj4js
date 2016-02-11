@@ -89,7 +89,7 @@ proj4.defs([
 ]);
 ```
 
-you can then do 
+you can then do
 
 ```js
 proj4('EPSG:4326');
@@ -112,7 +112,7 @@ proj4.defs can also be used to define a named alias:
 
 ```javascript
 proj4.defs('urn:x-ogc:def:crs:EPSG:4326', proj4.defs('EPSG:4326'));
-``` 
+```
 
 ## Developing
 to set up build tools make sure you have node and grunt-cli installed and then run `npm install`
@@ -120,7 +120,7 @@ to set up build tools make sure you have node and grunt-cli installed and then r
 to do the complete build and browser tests run
 
 ```bash
-grunt
+node_modules/.bin/grunt
 ```
 
 to run node tests run
@@ -132,22 +132,22 @@ npm test
 to run node tests with coverage run
 
 ```bash
-node test --coverage
+npm test --coverage
 ```
 
-to create a build with only default projections (latlon and Mercator) run 
+to create a build with only default projections (latlon and Mercator) run
 
 ```bash
-grunt build
+node_modules/.bin/grunt build
 ```
 
 to create a build with only custom projections include a comma separated list of projections codes (the file name in 'lib/projections' without the '.js') after a colon, e.g.
 
 ```bash
-grunt build:tmerc
+node_modules/.bin/grunt build:tmerc
 #includes transverse Mercator
-grunt build:lcc
+node_modules/.bin/grunt build:lcc
 #includes lambert conformal conic
-grunt build:omerc,moll
+node_modules/.bin/grunt build:omerc,moll
 #includes oblique Mercator and Mollweide
 ```
