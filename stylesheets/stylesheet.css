@@ -152,9 +152,15 @@ a.button span {
   padding-left: 50px;
 }
 
+#download-zip {
+	display: none;
+}
 #download-zip span {
   display: none;
   background: transparent url(../images/zip-icon.png) 12px 50% no-repeat;
+}
+#download-tar-gz {
+	display: none;
 }
 #download-tar-gz span {
   display: none;
