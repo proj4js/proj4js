@@ -15,7 +15,7 @@ jam install proj4
 component install proj4js/proj4js
 ```
 
-or just manually grab the file `proj4.js` from the [latest release](https://github.com/proj4js/proj4js/releases).
+or just manually grab the file `proj4.js` from the [latest release](https://github.com/proj4js/proj4js/releases)'s `dist/` folder.
 
 if you do not want to download anything, Proj4js is also hosted on [cdnjs](http://www.cdnjs.com/libraries/proj4js) for direct use in your browser applications.
 
