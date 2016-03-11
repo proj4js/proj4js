@@ -5,7 +5,7 @@ VERSION=$(npm ls --json=true proj4js | grep version | awk '{ print $2}'| sed -e 
 
 # Build
 git checkout -b build
-grunt
+node_modules/.bin/grunt
 git add dist -f
 git commit -m "build $VERSION"
 
