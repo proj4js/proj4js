@@ -5,7 +5,7 @@
 
 function startTests(chai, proj4, testPoints) {
 
-  
+
   var assert = chai.assert;
   proj4.defs([
     ["EPSG:102018", "+proj=gnom +lat_0=90 +lon_0=0 +x_0=6300000 +y_0=6300000 +ellps=WGS84 +datum=WGS84 +units=m +no_defs"],
@@ -13,6 +13,12 @@ function startTests(chai, proj4, testPoints) {
     ["testmerc2", "+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0 +units=m +k=1.0 +nadgrids=@null +no_defs"]
   ]);
   proj4.defs('esriOnline', 'PROJCS["WGS_1984_Web_Mercator_Auxiliary_Sphere",GEOGCS["GCS_WGS_1984",DATUM["D_WGS_1984",SPHEROID["WGS_1984",6378137.0,298.257223563]],PRIMEM["Greenwich",0.0],UNIT["Degree",0.0174532925199433]],PROJECTION["Mercator_Auxiliary_Sphere"],PARAMETER["False_Easting",0.0],PARAMETER["False_Northing",0.0],PARAMETER["Central_Meridian",0.0],PARAMETER["Standard_Parallel_1",0.0],PARAMETER["Auxiliary_Sphere_Type",0.0],UNIT["Meter",1.0]]');
+
+  describe('parse', function() {
+    it('should parse units', function() {
+      assert.equal(proj4.defs('testmerc2').units, 'm');
+    });
+  });
 
   describe('proj2proj', function() {
     it('should work transforming from one projection to another', function() {
@@ -165,6 +171,20 @@ function startTests(chai, proj4, testPoints) {
       assert.typeOf(proj4.defs['foo'], 'object');
       proj4.defs('urn:x-ogc:def:crs:EPSG:4326', proj4.defs('EPSG:4326'));
       assert.strictEqual(proj4.defs['urn:x-ogc:def:crs:EPSG:4326'], proj4.defs['EPSG:4326']);
+
+      describe('wkt', function() {
+        it('should provide the correct conversion factor for WKT GEOGCS projections', function() {
+          proj4.defs('EPSG:4269', 'GEOGCS["NAD83",DATUM["North_American_Datum_1983",SPHEROID["GRS 1980",6378137,298.257222101,AUTHORITY["EPSG","7019"]],AUTHORITY["EPSG","6269"]],PRIMEM["Greenwich",0,AUTHORITY["EPSG","8901"]],UNIT["degree",0.01745329251994328,AUTHORITY["EPSG","9122"]],AUTHORITY["EPSG","4269"]]');
+          assert.equal(proj4.defs['EPSG:4269'].to_meter, 6378137*0.01745329251994328);
+
+          proj4.defs('EPSG:4279', 'GEOGCS["OS(SN)80",DATUM["OS_SN_1980",SPHEROID["Airy 1830",6377563.396,299.3249646,AUTHORITY["EPSG","7001"]],AUTHORITY["EPSG","6279"]],PRIMEM["Greenwich",0,AUTHORITY["EPSG","8901"]],UNIT["degree",0.01745329251994328,AUTHORITY["EPSG","9122"]],AUTHORITY["EPSG","4279"]]');
+          assert.equal(proj4.defs['EPSG:4279'].to_meter, 6377563.396*0.01745329251994328);
+          
+          proj4.defs('EPSG:2913', 'PROJCS[NAD_1983_HARN_StatePlane_Oregon_North_FIPS_3601_Feet_Intl,GEOGCS[GCS_North_American_1983_HARN,DATUM[D_North_American_1983_HARN,SPHEROID[GRS_1980,6378137.0,298.257222101]],PRIMEM[Greenwich,0.0],UNIT[Degree,0.0174532925199433]],PROJECTION[Lambert_Conformal_Conic],PARAMETER[False_Easting,8202099.737532808],PARAMETER[False_Northing,0.0],PARAMETER[Central_Meridian,-120.5],PARAMETER[Standard_Parallel_1,44.33333333333334],PARAMETER[Standard_Parallel_2,46.0],PARAMETER[Latitude_Of_Origin,43.66666666666666],UNIT[Foot,0.3048]]');
+          assert.equal(proj4.defs['EPSG:2913'].to_meter, 0.3048);
+
+        }); 
+      });
     });
     describe('errors', function() {
       it('should throw an error for an unknown ref', function() {
