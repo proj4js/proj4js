@@ -20,7 +20,8 @@ var projs = [
   'moll',
   'eqdc',
   'vandg',
-  'aeqd'
+  'aeqd',
+  'navmerc'
 ];
 module.exports = function(grunt) {
   grunt.initConfig({
