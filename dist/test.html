@@ -1,0 +1,11 @@
+<html>
+<body>
+  <div id="result"></div>
+  <script src="proj4-src.js"></script>
+  <script>
+  document.getElementById('result').innerHTML =
+      proj4('EPSG:4326', 'EPSG:3857', [16, 48]);
+  </script>
+</body>
+</html>
+
