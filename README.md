@@ -114,6 +114,16 @@ proj4.defs can also be used to define a named alias:
 proj4.defs('urn:x-ogc:def:crs:EPSG:4326', proj4.defs('EPSG:4326'));
 ```
 
+## TypeScript
+
+TypeScript implementation was added to the [DefinitelyTyped repository](https://github.com/DefinitelyTyped/DefinitelyTyped).
+
+**Install definition**
+
+```bash
+$ typings install --save --global dt~proj4
+```
+
 ## Developing
 to set up build tools make sure you have node and grunt-cli installed and then run `npm install`
 
