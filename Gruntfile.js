@@ -61,7 +61,8 @@ module.exports = function(grunt) {
             standalone: 'proj4'
           },
           alias: [
-            './projs:./includedProjections'
+            './projs:./includedProjections',
+            './lib/version-browser:./lib/version'
             ]
         }
       }
