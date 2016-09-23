@@ -16,15 +16,6 @@
   },
   "author": "",
   "license": "MIT",
-  "jam": {
-    "main": "dist/proj4.js",
-    "include": [
-      "dist/proj4.js",
-      "README.md",
-      "AUTHORS",
-      "LICENSE.md"
-    ]
-  },
   "devDependencies": {
     "grunt-cli": "~0.1.13",
     "grunt": "~0.4.2",
