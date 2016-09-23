@@ -151,3 +151,46 @@ node_modules/.bin/grunt build:lcc
 node_modules/.bin/grunt build:omerc,moll
 #includes oblique Mercator and Mollweide
 ```
+
+## Notes on Webpack usage
+If you are using [Webpack](https://webpack.github.io) to manage your dependencies, and are using 
+
+```js
+var proj4 = require('proj4');
+```
+
+```js
+import proj4 from 'proj4';
+```
+
+You will encounter this error message:
+
+```bash
+ERROR in ./~/proj4/package.json
+Module parse failed: /home/user/path/to/project/node_modules/proj4/package.json Unexpected token (2:9)
+You may need an appropriate loader to handle this file type.
+SyntaxError: Unexpected token (2:9)
+[snip]
+ @ ./~/proj4/lib/index.js 10:16-42
+```
+
+This is because lib/index.js imports package.json, which Webpack does not handle by default.
+A fix for this is to install the npm package ```json-loader```, and update your webpack.config.js
+to include the json-loader (make sure to _not_ exlude ```node_modules```).
+
+```bash
+module.exports = {
+    module: {
+        loaders: [
+            { test: /\.json$/, loader: "json-loader" }
+        ]
+    }
+}
+```
+
+
+
+or
+
+
+
