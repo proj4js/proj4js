@@ -120,8 +120,16 @@ TypeScript implementation was added to the [DefinitelyTyped repository](https://
 
 **Install definition**
 
+Using DefinitelyTyped
+
 ```bash
 $ typings install --save --global dt~proj4
+```
+
+Using Typescript 2.0
+
+```bash
+$ npm install --save @types/proj4
 ```
 
 ## Developing
