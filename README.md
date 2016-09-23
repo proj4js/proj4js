@@ -11,7 +11,6 @@ Depending on your preferences
 ```bash
 npm install proj4
 bower install proj4
-jam install proj4
 component install proj4js/proj4js
 ```
 

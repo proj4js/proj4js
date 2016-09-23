@@ -15,7 +15,6 @@ git push --tags git@github.com:proj4js/proj4js.git $VERSION
 
 # Publish
 npm publish
-jam publish
 
 # Cleanup
 git checkout master
