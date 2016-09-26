@@ -5,6 +5,8 @@ VERSION=$(npm ls --json=true proj4js | grep version | awk '{ print $2}'| sed -e 
 
 # Build
 git checkout -b build
+echo "module.exports = '$VERSION';" > ./lib/version-browser.js
+git add ./lib/version-browser.js -f
 node_modules/.bin/grunt
 git add dist -f
 git commit -m "build $VERSION"

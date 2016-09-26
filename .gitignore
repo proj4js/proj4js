@@ -5,3 +5,4 @@ coverage
 projs.js
 .DS_STORE
 dist
+lib/version-browser.js

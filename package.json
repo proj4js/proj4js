@@ -31,6 +31,9 @@
     "istanbul": "~0.2.4",
     "tin": "~0.4.0"
   },
+  "browser": {
+    "./lib/version.js": "./lib/version-browser.js"
+  },
   "dependencies": {
     "mgrs": "~0.0.2"
   }
