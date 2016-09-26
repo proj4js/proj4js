@@ -118,16 +118,6 @@ proj4.defs('urn:x-ogc:def:crs:EPSG:4326', proj4.defs('EPSG:4326'));
 
 TypeScript implementation was added to the [DefinitelyTyped repository](https://github.com/DefinitelyTyped/DefinitelyTyped).
 
-**Install definition**
-
-Using DefinitelyTyped
-
-```bash
-$ typings install --save --global dt~proj4
-```
-
-Using Typescript 2.0
-
 ```bash
 $ npm install --save @types/proj4
 ```
