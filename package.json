@@ -36,6 +36,6 @@
   },
   "dependencies": {
     "mgrs": "~0.0.2",
-    "wkt-parser": "^1.0.1"
+    "wkt-parser": "^1.0.2"
   }
 }
