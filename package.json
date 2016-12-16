@@ -35,8 +35,6 @@
     "./lib/version.js": "./lib/version-browser.js"
   },
   "dependencies": {
-    "babel-preset-es2015": "^6.18.0",
-    "babelify": "^7.3.0",
     "mgrs": "~0.0.2",
     "wkt-parser": "^1.0.1"
   }
