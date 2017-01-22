@@ -8,7 +8,8 @@
     "doc": "docs"
   },
   "scripts": {
-    "test": "./node_modules/istanbul/lib/cli.js test ./node_modules/mocha/bin/_mocha test/test.js"
+    "build": "grunt",
+    "test": "npm run build && istanbul test _mocha test/test.js"
   },
   "repository": {
     "type": "git",

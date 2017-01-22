@@ -254,6 +254,6 @@ function startTests(chai, proj4, testPoints) {
 }
 if(typeof process !== 'undefined'&&process.toString() === '[object process]'){
   (function(){
-    startTests(require('chai'), require('../lib'), require('./testData'));
+    startTests(require('chai'), require('../dist/proj4-src'), require('./testData'));
   })();
 }
