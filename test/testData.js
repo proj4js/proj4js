@@ -147,20 +147,20 @@ var testPoints = [
   {
     code:'PROJCS["Beduaram / TM 13 NE",GEOGCS["Beduaram",DATUM["Beduaram",SPHEROID["Clarke 1880 (IGN)",6378249.2,293.4660212936269,AUTHORITY["EPSG","7011"]],TOWGS84[-106,-87,188,0,0,0,0],AUTHORITY["EPSG","6213"]],PRIMEM["Greenwich",0,AUTHORITY["EPSG","8901"]],UNIT["degree",0.01745329251994328,AUTHORITY["EPSG","9122"]],AUTHORITY["EPSG","4213"]],UNIT["metre",1,AUTHORITY["EPSG","9001"]],PROJECTION["Transverse_Mercator"],PARAMETER["latitude_of_origin",0],PARAMETER["central_meridian",13],PARAMETER["scale_factor",0.9996],PARAMETER["false_easting",500000],PARAMETER["false_northing",0],AUTHORITY["EPSG","2931"],AXIS["X",EAST],AXIS["Y",NORTH]]',
     ll:[5, 25],
-    xy:[-308919.1462828873, 2788738.252386554],
+    xy:[-308919.1234711099, 2788738.255936392],
     acc:{
       ll:5
     }
   },
-   {
+  {
     code:'PROJCS["Beduaram / TM 13 NE",GEOGCS["Beduaram",DATUM["D_Beduaram",SPHEROID["Clarke_1880_IGN",6378249.2,293.4660212936269]],PRIMEM["Greenwich",0],UNIT["Degree",0.017453292519943295]],PROJECTION["Transverse_Mercator"],PARAMETER["latitude_of_origin",0],PARAMETER["central_meridian",13],PARAMETER["scale_factor",0.9996],PARAMETER["false_easting",500000],PARAMETER["false_northing",0],UNIT["Meter",1]]',
     ll:[5, 25],
-    xy:[-308919.1462828873, 2788738.252386554],
+    xy:[-308919.1234711099, 2788738.255936392],
     acc:{
       ll:5
     }
-  }
-  ,{
+  },
+  {
     code:'PROJCS["S-JTSK (Ferro) / Krovak",GEOGCS["S-JTSK (Ferro)",DATUM["S_JTSK_Ferro",SPHEROID["Bessel 1841",6377397.155,299.1528128,AUTHORITY["EPSG","7004"]],AUTHORITY["EPSG","6818"]],PRIMEM["Ferro",-17.66666666666667,AUTHORITY["EPSG","8909"]],UNIT["degree",0.01745329251994328,AUTHORITY["EPSG","9122"]],AUTHORITY["EPSG","4818"]],UNIT["metre",1,AUTHORITY["EPSG","9001"]],PROJECTION["Krovak"],PARAMETER["latitude_of_center",49.5],PARAMETER["longitude_of_center",42.5],PARAMETER["azimuth",30.28813972222222],PARAMETER["pseudo_standard_parallel_1",78.5],PARAMETER["scale_factor",0.9999],PARAMETER["false_easting",0],PARAMETER["false_northing",0],AUTHORITY["EPSG","2065"],AXIS["Y",WEST],AXIS["X",SOUTH]]',
     ll:[17.323583231075897, 49.39440725405376],
     xy:[-544115.474379, -1144058.330762]
@@ -308,6 +308,80 @@ var testPoints = [
     code: 'EPSG:3857',
     ll: [180, 0],
     xy: [20037508.342789, 0]
+  },
+  // these test cases are taken from mapshaper-proj and the test results match
+  {
+    code: '+proj=tmerc +ellps=GRS80 +lat_1=0.5 +lat_2=2 +n=0.5',
+    ll: [2, 1],
+    xy: [222650.79679577847, 110642.2294119271]
+  },
+  {
+    code: '+proj=tmerc +a=6400000 +lat_1=0.5 +lat_2=2 +n=0.5 +datum=none',
+    ll: [2, 1],
+    xy: [223413.46640632232, 111769.14504059685]
+  },
+  {
+    code: '+proj=utm +zone=30 +ellps=GRS80 +lat_1=0.5 +lat_2=2 +n=0.5',
+    ll: [2, 1],
+    xy: [1057002.4052152266, 110955.14117382761]
+  },
+  // these test cases are related to the original issue on GitHub
+  {
+    code: '+proj=utm +zone=33 +datum=WGS84 +units=m +no_defs',
+    ll: [2, 1],
+    xy: [-959006.3439168662, 113457.31706492987],
+    acc: {
+      ll: 5
+    }
+  },
+  {
+    code: '+proj=utm +zone=33 +datum=WGS84 +units=m +no_defs',
+    ll: [31, 70],
+    xy: [1104629.4280255223, 7845845.076400871],
+    acc: {
+      ll: 4
+    }
+  },
+  // these test cases are for Norway snow flake zones
+  {
+    code: '+proj=utm +zone=31 +datum=WGS84 +units=m +no_defs',
+    ll: [59.121778, 1.508527],
+    xy: [8055639.601582392, 297536.7150416747],
+    acc: {
+      ll: 0
+    }
+  },
+  {
+    code: '+proj=utm +zone=32 +datum=WGS84 +units=m +no_defs',
+    ll: [59.121778, 1.508527],
+    xy: [6958363.797581035, 260155.3254079497],
+    acc: {
+      ll: 0
+    }
+  },
+  {
+    code: '+proj=utm +zone=33 +datum=WGS84 +units=m +no_defs',
+    ll: [59.121778, 1.508527],
+    xy: [5980907.454031456, 232674.60895515585],
+    acc: {
+      ll: 1
+    }
+  },
+  {
+    code: '+proj=utm +zone=34 +datum=WGS84 +units=m +no_defs',
+    ll: [79.070672, 20.520579],
+    xy: [7442887.111291251, 3910285.3071145327],
+    acc: {
+      ll: -1.5
+    }
+  },
+  {
+    code: '+proj=utm +zone=35 +datum=WGS84 +units=m +no_defs',
+    ll: [79.070672, 20.520579],
+    xy: [6555309.538050345, 3474309.0216152733],
+    acc: {
+      ll: -0.5
+    }
   }
 ];
 if(typeof module !== 'undefined'){
