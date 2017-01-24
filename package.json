@@ -35,6 +35,7 @@
     "./lib/version.js": "./lib/version-browser.js"
   },
   "dependencies": {
-    "mgrs": "~0.0.2"
+    "mgrs": "~0.0.2",
+    "wkt-parser": "^1.0.3"
   }
 }
