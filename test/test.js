@@ -181,6 +181,15 @@ function startTests(chai, proj4, testPoints) {
           proj4.defs('EPSG:4279', 'GEOGCS["OS(SN)80",DATUM["OS_SN_1980",SPHEROID["Airy 1830",6377563.396,299.3249646,AUTHORITY["EPSG","7001"]],AUTHORITY["EPSG","6279"]],PRIMEM["Greenwich",0,AUTHORITY["EPSG","8901"]],UNIT["degree",0.01745329251994328,AUTHORITY["EPSG","9122"]],AUTHORITY["EPSG","4279"]]');
           assert.equal(proj4.defs['EPSG:4279'].to_meter, 6377563.396*0.01745329251994328);
         }); 
+        it('should parse wkt and proj4 of the same crs and result in the same params', function() {
+          var s1 = 'GEOGCS["PSD93",DATUM["PDO_Survey_Datum_1993",SPHEROID["Clarke 1880 (RGS)",6378249.145,293.465,AUTHORITY["EPSG","7012"]],TOWGS84[-180.624,-225.516,173.919,-0.81,-1.898,8.336,16.7101],AUTHORITY["EPSG","6134"]],PRIMEM["Greenwich",0,AUTHORITY["EPSG","8901"]],UNIT["degree",0.0174532925199433,AUTHORITY["EPSG","9122"]],AUTHORITY["EPSG","4134"]]';
+          var s2 = '+proj=longlat +ellps=clrk80 +towgs84=-180.624,-225.516,173.919,-0.81,-1.898,8.336,16.7101 +no_defs';
+          var crs1 = proj4(s1);
+          var crs2 = proj4(s2);
+          assert.equal(crs1.oProj.a, crs2.oProj.a);
+          // proj4 has different ellipsoid parameters that EPSG: http://epsg.io/4134
+          // assert.equal(crs1.oProj.b, crs2.oProj.b);
+        });
       });
     });
     describe('errors', function() {
