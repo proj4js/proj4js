@@ -1,5 +1,6 @@
 var projs = [
   'tmerc',
+  'etmerc',
   'utm',
   'sterea',
   'stere',
