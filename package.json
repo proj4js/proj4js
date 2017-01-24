@@ -27,7 +27,6 @@
     "mocha": "~1.17.1",
     "grunt-mocha-phantomjs": "~0.4.0",
     "rollup": "^0.41.4",
-    "rollup-plugin-commonjs": "^7.0.0",
     "rollup-plugin-node-resolve": "^2.0.0",
     "grunt-rollup": "^1.0.1",
     "grunt-contrib-uglify": "~0.11.1",
@@ -39,6 +38,6 @@
     "./lib/version.js": "./lib/version-browser.js"
   },
   "dependencies": {
-    "mgrs": "~0.0.2"
+    "mgrs": "simon04/mgrs#es6-module"
   }
 }
