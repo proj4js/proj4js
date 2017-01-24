@@ -382,6 +382,17 @@ var testPoints = [
     acc: {
       ll: -0.5
     }
+  },
+  // these test cases are for the margin zones 1 and 60
+  {
+    code: '+proj=utm +zone=1 +datum=WGS84 +units=m +no_defs',
+    ll: [-177, 60],
+    xy: [500000, 6651411.190362714]
+  },
+  {
+    code: '+proj=utm +zone=60 +datum=WGS84 +units=m +no_defs',
+    ll: [177, 60],
+    xy: [500000.0000000014, 6651411.190362714]
   }
 ];
 if(typeof module !== 'undefined'){
