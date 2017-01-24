@@ -90,20 +90,20 @@ module.exports = function(grunt) {
     grunt.task.run('rollup', 'uglify');
     var projections = this.args;
     if(projections[0]==='default'){
-      grunt.file.write('./projs.js','module.exports = function(){}');
+      grunt.file.write('./projs.js','export default function(){}');
       return;
     }
     if(projections[0]==='all'){
       projections = projs;
     }
     grunt.file.write('./projs.js',[
-      "var projs = [",
-      " require('./lib/projections/"+projections.join("'),\n\trequire('./lib/projections/")+"')",
-      "];",
-      "module.exports = function(proj4){",
-      " projs.forEach(function(proj){",
-      "   proj4.Proj.projections.add(proj);",
-      " });",
+      projections.map(function(proj) {
+        return "import * as " + proj + " from './lib/projections/" + proj + "';";
+      }).join("\n"),
+      "export default function(proj4){",
+      projections.map(function(proj) {
+        return "  proj4.Proj.projections.add(" + proj + ");"
+      }).join("\n"),
       "}"
     ].join("\n"));
   });
