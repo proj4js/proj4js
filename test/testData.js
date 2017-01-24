@@ -325,6 +325,11 @@ var testPoints = [
     ll: [2, 1],
     xy: [1057002.4052152266, 110955.14117382761]
   },
+  {
+    code: '+proj=utm +lon_0=-3 +ellps=GRS80 +lat_1=0.5 +lat_2=2 +n=0.5',
+    ll: [2, 1],
+    xy: [1057002.4052152266, 110955.14117382761]
+  },
   // these test cases are related to the original issue on GitHub
   {
     code: '+proj=utm +zone=33 +datum=WGS84 +units=m +no_defs',
