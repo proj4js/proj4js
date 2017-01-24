@@ -1,3 +1,4 @@
+var json = require('rollup-plugin-json');
 var nodeResolve = require('rollup-plugin-node-resolve');
 
 var projs = [
@@ -58,6 +59,7 @@ module.exports = function(grunt) {
         format: "umd",
         moduleName: "proj4",
         plugins: [
+          json(),
           nodeResolve()
         ]
       },
