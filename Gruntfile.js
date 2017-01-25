@@ -3,6 +3,7 @@ var nodeResolve = require('rollup-plugin-node-resolve');
 
 var projs = [
   'tmerc',
+  'etmerc',
   'utm',
   'sterea',
   'stere',
