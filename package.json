@@ -37,6 +37,6 @@
     "tin": "~0.4.0"
   },
   "dependencies": {
-    "mgrs": "simon04/mgrs#es6-module"
+    "mgrs": "1.0.0"
   }
 }
