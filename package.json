@@ -37,6 +37,7 @@
     "tin": "~0.4.0"
   },
   "dependencies": {
-    "mgrs": "1.0.0"
+    "mgrs": "1.0.0",
+    "wkt-parser": "^1.1.2"
   }
 }
