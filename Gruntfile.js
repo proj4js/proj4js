@@ -98,7 +98,7 @@ module.exports = function(grunt) {
     }
     grunt.file.write('./projs.js',[
       projections.map(function(proj) {
-        return "import * as " + proj + " from './lib/projections/" + proj + "';";
+        return "import " + proj + " from './lib/projections/" + proj + "';";
       }).join("\n"),
       "export default function(proj4){",
       projections.map(function(proj) {
