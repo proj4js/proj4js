@@ -263,10 +263,11 @@ var testPoints = [
     code:'esriOnline',
     ll:[-74,41],
     xy:[-8237642.318702244, 5012341.663847514]
-  },{
-    code:"+proj=sinu +lon_0=0 +x_0=0 +y_0=0 +a=6371000 +b=6371000 +units=m +datum=none +no_defs",
-     xy: [ 736106.55, 5893331.11 ],
-      ll: [11.0, 53.0]
+  },
+  {
+    code: '+proj=sinu +lon_0=0 +x_0=0 +y_0=0 +a=6371000 +b=6371000 +units=m +no_defs',
+    xy: [736106.55, 5893331.11],
+    ll: [11.0, 53.0]
   },
   {
     code:'PROJCS["Belge 1972 / Belgian Lambert 72",GEOGCS["Belge 1972",DATUM["Reseau_National_Belge_1972",SPHEROID["International 1924",6378388,297,AUTHORITY["EPSG","7022"]],TOWGS84[106.869,-52.2978,103.724,-0.33657,0.456955,-1.84218,1],AUTHORITY["EPSG","6313"]],PRIMEM["Greenwich",0,AUTHORITY["EPSG","8901"]],UNIT["degree",0.01745329251994328,AUTHORITY["EPSG","9122"]],AUTHORITY["EPSG","4313"]],UNIT["metre",1,AUTHORITY["EPSG","9001"]],PROJECTION["Lambert_Conformal_Conic_2SP"],PARAMETER["standard_parallel_1",51.16666723333333],PARAMETER["standard_parallel_2",49.8333339],PARAMETER["latitude_of_origin",90],PARAMETER["central_meridian",4.367486666666666],PARAMETER["false_easting",150000.013],PARAMETER["false_northing",5400088.438],AUTHORITY["EPSG","31370"],AXIS["X",EAST],AXIS["Y",NORTH]]',
@@ -316,7 +317,7 @@ var testPoints = [
     xy: [222650.79679577847, 110642.2294119271]
   },
   {
-    code: '+proj=tmerc +a=6400000 +lat_1=0.5 +lat_2=2 +n=0.5 +datum=none',
+    code: '+proj=tmerc +a=6400000 +lat_1=0.5 +lat_2=2 +n=0.5',
     ll: [2, 1],
     xy: [223413.46640632232, 111769.14504059685]
   },
