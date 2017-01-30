@@ -29,7 +29,7 @@ var testPoints = [
     xy: [ 231394.84,902621.11],
     ll: [-71.11881762742996,42.37346263960867]
   },
-  {code:'["PROJCS","NAD83 / Massachusetts Mainland", GEOGCS["NAD83", DATUM["North American Datum 1983", SPHEROID["GRS 1980", 6378137.0, 298.257222101, AUTHORITY["EPSG","7019"]], TOWGS84[0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], AUTHORITY["EPSG","6269"]], PRIMEM["Greenwich", 0.0, AUTHORITY["EPSG","8901"]], UNIT["degree", 0.017453292519943295], AXIS["Geodetic longitude", EAST], AXIS["Geodetic latitude", NORTH], AUTHORITY["EPSG","4269"]], PROJECTION["Lambert_Conformal_Conic_2SP", AUTHORITY["EPSG","9802"]], PARAMETER["central_meridian", -71.5], PARAMETER["latitude_of_origin", 41.0], PARAMETER["standard_parallel_1", 42.68333333333334], PARAMETER["false_easting", 200000.0], PARAMETER["false_northing", 750000.0], PARAMETER["scale_factor", 1.0], PARAMETER["standard_parallel_2", 41.71666666666667], UNIT["m", 1.0], AXIS["Easting", EAST], AXIS["Northing", NORTH], AUTHORITY["EPSG","26986"]]',
+  {code:'PROJCS["NAD83 / Massachusetts Mainland", GEOGCS["NAD83", DATUM["North American Datum 1983", SPHEROID["GRS 1980", 6378137.0, 298.257222101, AUTHORITY["EPSG","7019"]], TOWGS84[0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], AUTHORITY["EPSG","6269"]], PRIMEM["Greenwich", 0.0, AUTHORITY["EPSG","8901"]], UNIT["degree", 0.017453292519943295], AXIS["Geodetic longitude", EAST], AXIS["Geodetic latitude", NORTH], AUTHORITY["EPSG","4269"]], PROJECTION["Lambert_Conformal_Conic_2SP", AUTHORITY["EPSG","9802"]], PARAMETER["central_meridian", -71.5], PARAMETER["latitude_of_origin", 41.0], PARAMETER["standard_parallel_1", 42.68333333333334], PARAMETER["false_easting", 200000.0], PARAMETER["false_northing", 750000.0], PARAMETER["scale_factor", 1.0], PARAMETER["standard_parallel_2", 41.71666666666667], UNIT["m", 1.0], AXIS["Easting", EAST], AXIS["Northing", NORTH], AUTHORITY["EPSG","26986"]]', 
    xy: [ 231394.84,902621.11],
     ll: [-71.11881762742996,42.37346263960867]
   },
@@ -321,9 +321,19 @@ var testPoints = [
     xy: [223413.46640632232, 111769.14504059685]
   },
   {
+    code: '+proj=etmerc +zone=30 +ellps=GRS80 +lat_1=0.5 +lat_2=2 +n=0.5',
+    ll: [2, 1],
+    xy: [222650.7967975856, 110642.2294119332]
+  },
+  {
+    code: '+proj=etmerc +k=0.998 +lon_0=-20 +datum=WGS84 +x_0=10000 +y_0=20000',
+    ll: [2, 1],
+    xy: [2516532.477709202, 139083.35793371277]
+  },
+  {
     code: '+proj=utm +zone=30 +ellps=GRS80 +lat_1=0.5 +lat_2=2 +n=0.5',
     ll: [2, 1],
-    xy: [1057002.4052152266, 110955.14117382761]
+    xy: [1057002.405491298, 110955.14117594929]
   },
   {
     code: '+proj=utm +lon_0=-3 +ellps=GRS80 +lat_1=0.5 +lat_2=2 +n=0.5',
@@ -334,59 +344,49 @@ var testPoints = [
   {
     code: '+proj=utm +zone=33 +datum=WGS84 +units=m +no_defs',
     ll: [2, 1],
-    xy: [-959006.3439168662, 113457.31706492987],
-    acc: {
-      ll: 5
-    }
+    xy: [-959006.4926646841, 113457.31956265299]
   },
   {
     code: '+proj=utm +zone=33 +datum=WGS84 +units=m +no_defs',
     ll: [31, 70],
-    xy: [1104629.4280255223, 7845845.076400871],
-    acc: {
-      ll: 4
-    }
+    xy: [1104629.4356366363, 7845845.077685604]
   },
   // these test cases are for Norway snow flake zones
   {
     code: '+proj=utm +zone=31 +datum=WGS84 +units=m +no_defs',
     ll: [59.121778, 1.508527],
-    xy: [8055639.601582392, 297536.7150416747],
-    acc: {
-      ll: 0
-    }
+    xy: [8089746.634775677, 301230.8618526573]
   },
   {
     code: '+proj=utm +zone=32 +datum=WGS84 +units=m +no_defs',
     ll: [59.121778, 1.508527],
-    xy: [6958363.797581035, 260155.3254079497],
-    acc: {
-      ll: 0
-    }
+    xy: [6969865.865375574, 261237.08330733588]
   },
   {
     code: '+proj=utm +zone=33 +datum=WGS84 +units=m +no_defs',
     ll: [59.121778, 1.508527],
-    xy: [5980907.454031456, 232674.60895515585],
-    acc: {
-      ll: 1
-    }
+    xy: [5984417.050333044, 232959.75386279594]
   },
   {
     code: '+proj=utm +zone=34 +datum=WGS84 +units=m +no_defs',
     ll: [79.070672, 20.520579],
-    xy: [7442887.111291251, 3910285.3071145327],
-    acc: {
-      ll: -1.5
-    }
+    xy: [7421462.108989433, 3922366.25143021]
   },
   {
     code: '+proj=utm +zone=35 +datum=WGS84 +units=m +no_defs',
     ll: [79.070672, 20.520579],
-    xy: [6555309.538050345, 3474309.0216152733],
-    acc: {
-      ll: -0.5
-    }
+    xy: [6548241.281523044, 3478520.1422119136]
+  },
+  // these test cases are for the margin zones 1 and 60
+  {
+    code: '+proj=utm +zone=1 +datum=WGS84 +units=m +no_defs',
+    ll: [-177, 60],
+    xy: [500000, 6651411.190362714]
+  },
+  {
+    code: '+proj=utm +zone=60 +datum=WGS84 +units=m +no_defs',
+    ll: [177, 60],
+    xy: [500000.0000000014, 6651411.190362714]
   }
 ];
 if(typeof module !== 'undefined'){
