@@ -1,5 +1,9 @@
+var json = require('rollup-plugin-json');
+var nodeResolve = require('rollup-plugin-node-resolve');
+
 var projs = [
   'tmerc',
+  'etmerc',
   'utm',
   'sterea',
   'stere',
@@ -51,21 +55,19 @@ module.exports = function(grunt) {
       },
       all: ['./lib/*.js', './lib/*/*.js']
     },
-    browserify: {
-      all: {
-        files: {
-          'dist/proj4-src.js': ['lib/index.js'],
-        },
-        options: {
-          browserifyOptions: {
-            standalone: 'proj4'
-          },
-          alias: [
-            './projs:./includedProjections',
-            './lib/version-browser:./lib/version'
-            ]
-        }
-      }
+    rollup: {
+      options: {
+        format: "umd",
+        moduleName: "proj4",
+        plugins: [
+          json(),
+          nodeResolve()
+        ]
+      },
+      files: {
+        dest: './dist/proj4-src.js',
+        src: './lib/index.js',
+      },
     },
     uglify: {
       options: {
@@ -80,29 +82,29 @@ module.exports = function(grunt) {
       }
     }
   });
-  grunt.loadNpmTasks('grunt-browserify');
+  grunt.loadNpmTasks('grunt-rollup');
   grunt.loadNpmTasks('grunt-contrib-uglify');
   grunt.loadNpmTasks('grunt-contrib-jshint');
   grunt.loadNpmTasks('grunt-contrib-connect');
   grunt.loadNpmTasks('grunt-mocha-phantomjs');
   grunt.registerTask('custom',function(){
-    grunt.task.run('browserify', 'uglify');
+    grunt.task.run('rollup', 'uglify');
     var projections = this.args;
     if(projections[0]==='default'){
-      grunt.file.write('./projs.js','module.exports = function(){}');
+      grunt.file.write('./projs.js','export default function(){}');
       return;
     }
     if(projections[0]==='all'){
       projections = projs;
     }
     grunt.file.write('./projs.js',[
-      "var projs = [",
-      " require('./lib/projections/"+projections.join("'),\n\trequire('./lib/projections/")+"')",
-      "];",
-      "module.exports = function(proj4){",
-      " projs.forEach(function(proj){",
-      "   proj4.Proj.projections.add(proj);",
-      " });",
+      projections.map(function(proj) {
+        return "import " + proj + " from './lib/projections/" + proj + "';";
+      }).join("\n"),
+      "export default function(proj4){",
+      projections.map(function(proj) {
+        return "  proj4.Proj.projections.add(" + proj + ");"
+      }).join("\n"),
       "}"
     ].join("\n"));
   });
