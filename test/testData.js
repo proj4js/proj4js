@@ -388,6 +388,11 @@ var testPoints = [
     code: '+proj=utm +zone=60 +datum=WGS84 +units=m +no_defs',
     ll: [177, 60],
     xy: [500000.0000000014, 6651411.190362714]
+  },
+  {
+    code: '+proj=lcc +lat_1=46.8 +lat_0=46.8 +lon_0=0 +k_0=0.99987742 +x_0=600000 +y_0=2200000 +a=6378249.2 +b=6356515 +towgs84=-168,-60,320,0,0,0,0 +pm=paris +units=m +no_defs',
+    ll: [1.4477496, 46.8692953],
+    xy: [532247.285, 2208091.8723]
   }
 ];
 if(typeof module !== 'undefined'){
