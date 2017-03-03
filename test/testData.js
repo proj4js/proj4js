@@ -393,6 +393,11 @@ var testPoints = [
     code: '+proj=lcc +lat_1=46.8 +lat_0=46.8 +lon_0=0 +k_0=0.99987742 +x_0=600000 +y_0=2200000 +a=6378249.2 +b=6356515 +towgs84=-168,-60,320,0,0,0,0 +pm=paris +units=m +no_defs',
     ll: [1.4477496, 46.8692953],
     xy: [532247.285, 2208091.8723]
+  },
+  {
+    code: '+proj=utm +zone=33 +units=m +no_defs',
+    ll: [2, 1],
+    xy: [-959006.4926646841, 113457.31956265299]
   }
 ];
 if(typeof module !== 'undefined'){
