@@ -398,6 +398,16 @@ var testPoints = [
     code: '+proj=utm +zone=33 +units=m +no_defs',
     ll: [2, 1],
     xy: [-959006.4926646841, 113457.31956265299]
+  },
+  {
+    code: '+proj=utm +zone=33 +units=m',
+    ll: [2, 1],
+    xy: [-959006.4926646841, 113457.31956265299]
+  },
+  {
+    code: '+proj=utm +zone=33',
+    ll: [2, 1],
+    xy: [-959006.4926646841, 113457.31956265299]
   }
 ];
 if(typeof module !== 'undefined'){
