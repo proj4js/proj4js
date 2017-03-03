@@ -38,6 +38,6 @@
   },
   "dependencies": {
     "mgrs": "1.0.0",
-    "wkt-parser": "^1.1.2"
+    "wkt-parser": "^1.1.3"
   }
 }
