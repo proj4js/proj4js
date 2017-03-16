@@ -166,6 +166,27 @@ function startTests(chai, proj4, testPoints) {
         });
       });
     });
+    describe('points', function () {
+      it('should ignore stuff it does not know', function (){
+
+          var sweref99tm = '+proj=utm +zone=33 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs';
+          var rt90 = '+lon_0=15.808277777799999 +lat_0=0.0 +k=1.0 +x_0=1500000.0 +y_0=0.0 +proj=tmerc +ellps=bessel +units=m +towgs84=414.1,41.3,603.1,-0.855,2.141,-7.023,0 +no_defs';
+          var rslt = proj4(sweref99tm, rt90).forward({
+            x: 319180,
+            y: 6399862,
+            z: 0,
+            m: 1000,
+            method: function () {
+              return 'correct answer';
+            }
+          });
+          assert.closeTo(rslt.x, 1271137.9275601401, 0.000001);
+          assert.closeTo(rslt.y, 6404230.291459564, 0.000001);
+          assert.equal(rslt.z, 0);
+          assert.equal(rslt.m, 1000);
+          assert.equal(rslt.method(), 'correct answer');
+      });
+    });
     describe('defs', function() {
       assert.equal(proj4.defs('testmerc'), proj4.defs['testmerc']);
       proj4.defs('foo', '+proj=merc +lon_0=5.937 +lat_ts=45.027 +ellps=sphere');
@@ -265,6 +286,7 @@ function startTests(chai, proj4, testPoints) {
         });
       });
     });
+
   });
 }
 if(typeof process !== 'undefined'&&process.toString() === '[object process]'){
