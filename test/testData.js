@@ -300,9 +300,36 @@ var testPoints = [
     xy: [2434515.870, 1422072.711]
   },
   {
-    code: '+proj=qsc +datum=WGS84 +no_defs',
-    ll: [13, -10],
-    xy: [2073986.94908809568733, -1680858.27222427958623]
+    code: '+proj=qsc +lat_0=0 +lon_0=0 +units=m +datum=WGS84',
+    ll: [2, 1],
+    xy: [304638.4508447283296846, 164123.8709293559950311]
+  },
+  {
+    code: '+proj=qsc +lat_0=0 +lon_0=90 +units=m +datum=WGS84',
+    ll: [2, 1],
+    xy: [-11576764.4717786349356174, 224687.8649776891397778]
+  },
+  {
+    code: '+proj=qsc +lat_0=0 +lon_0=180 +units=m +datum=WGS84',
+    ll: [2, 1],
+    xy: [-15631296.4526007361710072, 8421356.1168374437838793]
+  },
+  {
+    code: '+proj=qsc +lat_0=0 +lon_0=-90 +units=m +datum=WGS84',
+    ll: [2, 1],
+    xy: [11988027.5987015366554260, 232669.8736086514254566
+    ]
+  },
+  {
+    code: '+proj=qsc +lat_0=90 +lon_0=0 +units=m +datum=WGS84',
+    ll: [2, 1],
+    xy: [456180.4073964518611319, -11678366.5914389267563820
+    ]
+  },
+  {
+    code: '+proj=qsc +lat_0=-90 +lon_0=0 +units=m +datum=WGS84',
+    ll: [2, 1],
+    xy: [464158.3228444084525108, 11882603.8180405404418707]
   },
   // check that coordinates at 180 and -180 deg. longitude don't wrap around
   {
