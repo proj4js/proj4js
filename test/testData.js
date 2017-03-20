@@ -299,6 +299,11 @@ var testPoints = [
     ll: [-110.8, 43.5],
     xy: [2434515.870, 1422072.711]
   },
+  {
+    code: '+proj=qsc +datum=WGS84 +no_defs',
+    ll: [13, -10],
+    xy: [2073986.94908809568733, -1680858.27222427958623]
+  },
   // check that coordinates at 180 and -180 deg. longitude don't wrap around
   {
     code: 'EPSG:3857',
