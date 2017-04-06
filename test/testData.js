@@ -299,6 +299,7 @@ var testPoints = [
     ll: [-110.8, 43.5],
     xy: [2434515.870, 1422072.711]
   },
+  // QSC WGS84
   {
     code: '+proj=qsc +lat_0=0 +lon_0=0 +units=m +datum=WGS84',
     ll: [2, 1],
@@ -330,6 +331,70 @@ var testPoints = [
     code: '+proj=qsc +lat_0=-90 +lon_0=0 +units=m +datum=WGS84',
     ll: [2, 1],
     xy: [464158.3228444084525108, 11882603.8180405404418707]
+  },
+  // QSC WGS84 WKT
+  {
+    code: 'PROJCS["unnamed",GEOGCS["WGS 84",DATUM["unknown",SPHEROID["WGS84",6378137,298.257223563]],PRIMEM["Greenwich",0],UNIT["degree",0.0174532925199433]],PROJECTION["Quadrilateralized_Spherical_Cube"],PARAMETER["latitude_of_origin",0],PARAMETER["central_meridian",0],UNIT["Meter",1]]',
+    ll: [2, 1],
+    xy: [304638.4508447283296846, 164123.8709293559950311]
+  },
+  {
+    code: 'PROJCS["unnamed",GEOGCS["WGS 84",DATUM["unknown",SPHEROID["WGS84",6378137,298.257223563]],PRIMEM["Greenwich",0],UNIT["degree",0.0174532925199433]],PROJECTION["Quadrilateralized_Spherical_Cube"],PARAMETER["latitude_of_origin",0],PARAMETER["central_meridian",90],UNIT["Meter",1]]',
+    ll: [2, 1],
+    xy: [-11576764.4717786349356174, 224687.8649776891397778]
+  },
+  {
+    code: 'PROJCS["unnamed",GEOGCS["WGS 84",DATUM["unknown",SPHEROID["WGS84",6378137,298.257223563]],PRIMEM["Greenwich",0],UNIT["degree",0.0174532925199433]],PROJECTION["Quadrilateralized_Spherical_Cube"],PARAMETER["latitude_of_origin",0],PARAMETER["central_meridian",180],UNIT["Meter",1]]',
+    ll: [2, 1],
+    xy: [-15631296.4526007361710072, 8421356.1168374437838793]
+  },
+  {
+    code: 'PROJCS["unnamed",GEOGCS["WGS 84",DATUM["unknown",SPHEROID["WGS84",6378137,298.257223563]],PRIMEM["Greenwich",0],UNIT["degree",0.0174532925199433]],PROJECTION["Quadrilateralized_Spherical_Cube"],PARAMETER["latitude_of_origin",0],PARAMETER["central_meridian",-90],UNIT["Meter",1]]',
+    ll: [2, 1],
+    xy: [11988027.5987015366554260, 232669.8736086514254566
+    ]
+  },
+  {
+    code: 'PROJCS["unnamed",GEOGCS["WGS 84",DATUM["unknown",SPHEROID["WGS84",6378137,298.257223563]],PRIMEM["Greenwich",0],UNIT["degree",0.0174532925199433]],PROJECTION["Quadrilateralized_Spherical_Cube"],PARAMETER["latitude_of_origin",90],PARAMETER["central_meridian",0],UNIT["Meter",1]]',
+    ll: [2, 1],
+    xy: [456180.4073964518611319, -11678366.5914389267563820
+    ]
+  },
+  {
+    code: 'PROJCS["unnamed",GEOGCS["WGS 84",DATUM["unknown",SPHEROID["WGS84",6378137,298.257223563]],PRIMEM["Greenwich",0],UNIT["degree",0.0174532925199433]],PROJECTION["Quadrilateralized_Spherical_Cube"],PARAMETER["latitude_of_origin",-90],PARAMETER["central_meridian",0],UNIT["Meter",1]]',
+    ll: [2, 1],
+    xy: [464158.3228444084525108, 11882603.8180405404418707]
+  },
+  // QSC Mercury
+  {
+    code: '+proj=qsc +units=m +a=3396190 +b=3376200 +lat_0=0 +lon_0=0',
+    ll: [2, 1],
+    xy: [162139.9347801624389831, 86935.6184961361577734]
+  },
+  {
+    code: '+proj=qsc +units=m +a=3396190 +b=3376200 +lat_0=0 +lon_0=90',
+    ll: [2, 1],
+    xy: [-6164327.7345527401193976,119033.1141843862715177]
+  },
+  {
+    code: '+proj=qsc +units=m +a=3396190 +b=3376200 +lat_0=0 +lon_0=180',
+    ll: [2, 1],
+    xy: [-8327904.7183852149173617, 4465226.5862284321337938]
+  },
+  {
+    code: '+proj=qsc +units=m +a=3396190 +b=3376200 +lat_0=0 +lon_0=-90',
+    ll: [2, 1],
+    xy: [6383315.0547841880470514, 123261.7574065744993277]
+  },
+  {
+    code: '+proj=qsc +units=m +a=3396190 +b=3376200 +lat_0=90 +lon_0=0',
+    ll: [2, 1],
+    xy: [242914.9289354820502922, -6218701.0766915259882808]
+  },
+  {
+    code: '+proj=qsc +units=m +a=3396190 +b=3376200 +lat_0=-90 +lon_0=0',
+    ll: [2, 1],
+    xy: [247141.3965058987669181, 6326900.0192015860229731]
   },
   // check that coordinates at 180 and -180 deg. longitude don't wrap around
   {
