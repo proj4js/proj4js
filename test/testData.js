@@ -365,7 +365,7 @@ var testPoints = [
     ll: [2, 1],
     xy: [464158.3228444084525108, 11882603.8180405404418707]
   },
-  // QSC Mercury
+  // QSC Mars
   {
     code: '+proj=qsc +units=m +a=3396190 +b=3376200 +lat_0=0 +lon_0=0',
     ll: [2, 1],
