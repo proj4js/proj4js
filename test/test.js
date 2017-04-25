@@ -225,12 +225,12 @@ function startTests(chai, proj4, testPoints) {
           new proj4.Proj('fake one');
         }, 'fake one', 'should work');
       });
-      it('should throw when passed a null', function() {
+      it('should throw when passed null', function() {
         assert.throws(function() {
             proj4('+proj=utm +zone=31', [null, 0]);
         }, 'coordinates must be finite numbers', 'should work');
       });
-      it('should throw when passed NAN', function() {
+      it('should throw when passed NaN', function() {
         assert.throws(function() {
             proj4('+proj=utm +zone=31', [0, NaN]);
         }, 'coordinates must be finite numbers', 'should work');
