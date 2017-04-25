@@ -225,6 +225,26 @@ function startTests(chai, proj4, testPoints) {
           new proj4.Proj('fake one');
         }, 'fake one', 'should work');
       });
+      it('should throw when passed a null', function() {
+        assert.throws(function() {
+            proj4('+proj=utm +zone=31', [null, 0]);
+        }, 'coordinates must be finite numbers', 'should work');
+      });
+      it('should throw when passed NAN', function() {
+        assert.throws(function() {
+            proj4('+proj=utm +zone=31', [0, NaN]);
+        }, 'coordinates must be finite numbers', 'should work');
+      });
+      it('should throw when passed Infinity', function() {
+        assert.throws(function() {
+            proj4('+proj=utm +zone=31', [Infinity, 0]);
+        }, 'coordinates must be finite numbers', 'should work');
+      });
+      it('should throw when passed -Infinity', function() {
+        assert.throws(function() {
+            proj4('+proj=utm +zone=31', [-Infinity, 0]);
+        }, 'coordinates must be finite numbers', 'should work');
+      });
     });
     describe('utility', function() {
       it('should have MGRS available in the proj4.util namespace', function() {
