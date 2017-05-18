@@ -25,7 +25,8 @@ var projs = [
   'eqdc',
   'vandg',
   'aeqd',
-  'ortho'
+  'ortho',
+  'qsc'
 ];
 module.exports = function(grunt) {
   grunt.initConfig({
