@@ -505,6 +505,16 @@ var testPoints = [
     code: '+proj=utm +zone=33',
     ll: [2, 1],
     xy: [-959006.4926646841, 113457.31956265299]
+  },
+  {
+    code: '+proj=moll +lon_0=0 +x_0=0 +y_0=0 +datum=WGS84 +units=m +no_defs',
+    ll: [-180, 80.11],
+    xy: [-5837753.259051185, 8534718.648155002]
+  },
+  {
+    code: '+proj=moll +lon_0=0 +x_0=0 +y_0=0 +datum=WGS84 +units=m',
+    ll: [-180, 80],
+    xy: [-5879879.246669655, 8527486.041776998]
   }
 ];
 if(typeof module !== 'undefined'){
