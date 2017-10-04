@@ -74,7 +74,7 @@ module.exports = function(grunt) {
       options: {
         report: 'gzip',
         mangle:{
-          except: ['proj4','Projection','Point']
+          reserved: ['proj4','Projection','Point']
         },
       },
       all: {
