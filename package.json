@@ -1,6 +1,6 @@
 {
   "name": "proj4",
-  "version": "2.4.5-alpha",
+  "version": "2.4.4-alpha",
   "description": "Proj4js is a JavaScript library to transform point coordinates from one coordinate system to another, including datum transformations.",
   "main": "dist/proj4-src.js",
   "module": "lib/index.js",
@@ -20,24 +20,24 @@
   "author": "",
   "license": "MIT",
   "devDependencies": {
-    "chai": "~4.1.2",
-    "curl": "git://github.com/cujojs/curl.git",
-    "grunt": "^1.0.1",
-    "grunt-cli": "~1.2.0",
-    "grunt-contrib-connect": "~1.0.2",
+    "grunt-cli": "~0.1.13",
+    "grunt": "~0.4.2",
+    "grunt-contrib-connect": "~0.6.0",
     "grunt-contrib-jshint": "~1.1.0",
-    "grunt-contrib-uglify": "~3.1.0",
-    "grunt-mocha-phantomjs": "~4.0.0",
-    "grunt-rollup": "^6.0.0",
-    "istanbul": "~0.4.5",
-    "mocha": "~4.0.0",
-    "rollup": "^0.50.0",
-    "rollup-plugin-json": "^2.3.0",
-    "rollup-plugin-node-resolve": "^3.0.0",
-    "tin": "~0.5.0"
+    "chai": "~1.8.1",
+    "mocha": "~1.17.1",
+    "grunt-mocha-phantomjs": "~0.4.0",
+    "rollup": "^0.41.4",
+    "rollup-plugin-json": "^2.0.1",
+    "rollup-plugin-node-resolve": "^2.0.0",
+    "grunt-rollup": "^1.0.1",
+    "grunt-contrib-uglify": "~0.11.1",
+    "curl": "git://github.com/cujojs/curl.git",
+    "istanbul": "~0.2.4",
+    "tin": "~0.4.0"
   },
   "dependencies": {
     "mgrs": "1.0.0",
-    "wkt-parser": "^1.2.0"
+    "wkt-parser": "^1.2.1"
   }
 }
