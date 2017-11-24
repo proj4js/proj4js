@@ -26,7 +26,8 @@ var projs = [
   'vandg',
   'aeqd',
   'ortho',
-  'qsc'
+  'qsc',
+  'robin'
 ];
 module.exports = function(grunt) {
   grunt.initConfig({

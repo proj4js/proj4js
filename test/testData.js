@@ -396,6 +396,49 @@ var testPoints = [
     ll: [2, 1],
     xy: [247141.3965058987669181, 6326900.0192015860229731]
   },
+  // Robinson
+  {
+    code: '+proj=robin +lon_0=0 +x_0=0 +y_0=0 +datum=WGS84 +units=m +no_defs',
+    ll: [-15, -35],
+    xy: [-1335949.91, -3743319.07],
+    acc: {ll: 4, xy: 0}
+  },
+  {
+    code: '+proj=robin +lon_0=0 +x_0=0 +y_0=0 +datum=WGS84 +units=m +no_defs',
+    ll: [-10, 50],
+    xy: [-819964.60, 5326895.52],
+    acc: {ll: 4, xy: 0}
+  },
+  {
+    code: '+proj=robin +a=6400000',
+    ll: [80, -20],
+    xy: [7449059.80, -2146370.56],
+    acc: {ll: 4, xy: 0}
+  },
+  {
+    code: '+proj=robin +lon_0=15 +x_0=100000 +y_0=100000 +datum=WGS84',
+    ll: [-35, 40],
+    xy: [-4253493.26, 4376351.58],
+    acc: {ll: 4, xy: 0}
+  },
+  {
+    code: 'PROJCS["World_Robinson",GEOGCS["GCS_WGS_1984",DATUM["WGS_1984",SPHEROID["WGS_1984",6378137,298.257223563]],PRIMEM["Greenwich",0],UNIT["Degree",0.017453292519943295]],PROJECTION["Robinson"],PARAMETER["False_Easting",0],PARAMETER["False_Northing",0],PARAMETER["Central_Meridian",0],UNIT["Meter",1]]',
+    ll: [20, 40],
+    xy: [1741397.30, 4276351.58],
+    acc: {ll: 4, xy: 0}
+  },
+  {
+    code: 'PROJCS["World_Robinson",GEOGCS["GCS_WGS_1984",DATUM["WGS_1984",SPHEROID["WGS_1984",6378137,298.257223563]],PRIMEM["Greenwich",0],UNIT["Degree",0.017453292519943295]],PROJECTION["Robinson"],PARAMETER["False_Easting",100000],PARAMETER["False_Northing",100000],PARAMETER["Central_Meridian",15],UNIT["Meter",1]]',
+    ll: [-35, 40],
+    xy: [-4253493.26, 4376351.58],
+    acc: {ll: 4, xy: 0}
+  },
+  {
+    code: '+proj=robin +lon_0=162 +x_0=0 +y_0=0 +ellps=WGS84 +datum=WGS84 +units=m +no_defs',
+    ll: [-90, 22],
+    xy: [9987057.08, 2352946.55],
+    acc: {ll: 4, xy: 0}
+  },
   // check that coordinates at 180 and -180 deg. longitude don't wrap around
   {
     code: 'EPSG:3857',
