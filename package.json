@@ -37,6 +37,7 @@
     "tin": "~0.5.0"
   },
   "dependencies": {
+    "curl-amd": "github:cujojs/curl",
     "mgrs": "1.0.0",
     "wkt-parser": "^1.2.0"
   }
