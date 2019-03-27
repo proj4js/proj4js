@@ -105,7 +105,7 @@ module.exports = function(grunt) {
       }).join("\n"),
       "export default function(proj4){",
       projections.map(function(proj) {
-        return "  proj4.Proj.projections.add(" + proj + ");"
+        return "  proj4.Proj.projections.add(" + proj + ");";
       }).join("\n"),
       "}"
     ].join("\n"));
