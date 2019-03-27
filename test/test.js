@@ -195,7 +195,7 @@ function startTests(chai, proj4, testPoints) {
           319180,
           6399862,
           0,
-          1000
+          1000,
         ]);
         assert.closeTo(rslt[0], 1271137.9275601401, 0.000001);
         assert.closeTo(rslt[1], 6404230.291459564, 0.000001);
