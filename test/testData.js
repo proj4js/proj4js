@@ -554,6 +554,11 @@ var testPoints = [
     xy: [-959006.4926646841, 113457.31956265299]
   },
   {
+    code: 'PROJCS["CUSTOM_OBLIQUE_MERCATOR:37.50832038,-122.25064809,-361.2500,254.9150,37.50644797,-122.24946191,382.0320,65.0710,ft", GEOGCS["WGS 84", DATUM["World Geodetic System 1984", SPHEROID["WGS 84", 6378137.0, 298.257223563]], PRIMEM["Greenwich", 0.0], UNIT["degree", 0.017453292519943295], AXIS["Geodetic latitude", NORTH], AXIS["Geodetic longitude", EAST]], PROJECTION["Hotine_Oblique_Mercator_Azimuth_Center", AUTHORITY["EPSG", "9815"]], PARAMETER["latitude_of_center", 37.50832038], PARAMETER["longitude_of_center", -122.25064809], PARAMETER["azimuth", 45.0], PARAMETER["rectified_grid_angle", -3.99], PARAMETER["scale_factor", 1.0], PARAMETER["false_easting", -361.25], PARAMETER["false_northing", 254.915], UNIT["foot", 0.3048], AXIS["Easting", EAST], AXIS["Northing", NORTH]]',
+    xy: [397.4667002959177, -3861.3150102049112],
+    ll: [-122.25963848377265, 37.49932998622735]
+  },
+  {
     code: 'PROJCS["WGS 84 / Pseudo-Mercator", GEOGCS["WGS 84", DATUM["World Geodetic System 1984", SPHEROID["WGS 84", 6378137.0, 0, AUTHORITY["EPSG","7030"]], AUTHORITY["EPSG","6326"]], PRIMEM["Greenwich", 0.0, AUTHORITY["EPSG","8901"]], UNIT["degree", 0.017453292519943295], AXIS["Geodetic latitude", NORTH], AXIS["Geodetic longitude", EAST], AUTHORITY["EPSG","4326"]], PROJECTION["Popular Visualisation Pseudo Mercator", AUTHORITY["EPSG","1024"]], PARAMETER["semi_minor", 6378137.0], PARAMETER["latitude_of_origin", 0.0], PARAMETER["central_meridian", 0.0], PARAMETER["scale_factor", 1.0], PARAMETER["false_easting", 0.0], PARAMETER["false_northing", 0.0], UNIT["m", 1.0], AXIS["Easting", EAST], AXIS["Northing", NORTH], AUTHORITY["EPSG","3857"]]',
     xy: [-12523490.49256873, 5166512.50707369],
     ll: [-112.50042920000004,42.036926809999976]
