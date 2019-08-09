@@ -28,6 +28,7 @@ var projs = [
   'ortho',
   'qsc',
   'robin'
+  'geocent'
 ];
 module.exports = function(grunt) {
   grunt.initConfig({
