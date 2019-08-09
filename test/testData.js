@@ -571,6 +571,15 @@ var testPoints = [
       ll: 0,
       xy: 0
     }
+  },
+  {
+    code: '+proj=geocent +ellps=GRS80 +units=m +no_defs',
+    ll: [-7.56234, 38.96618, 1],
+    xy: [4922499, -653508, 3989399],
+    acc: {
+      ll: 0,
+      xy: 0
+    }
   }
 ];
 if (typeof module !== 'undefined') {
