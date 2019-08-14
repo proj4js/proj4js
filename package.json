@@ -9,7 +9,7 @@
     "doc": "docs"
   },
   "scripts": {
-    "install": "npm run build",
+    "install": "node_modules/.bin/grunt",
     "build": "grunt",
     "build:tmerc": "grunt build:tmerc",
     "test": "npm run build && istanbul test _mocha test/test.js"
