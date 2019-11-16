@@ -1,5 +1,7 @@
 var json = require('rollup-plugin-json');
 var nodeResolve = require('rollup-plugin-node-resolve');
+var replace = require('rollup-plugin-replace');
+var pkg = require('./package.json');
 
 var projs = [
   'tmerc',
@@ -63,6 +65,9 @@ module.exports = function (grunt) {
         format: "umd",
         moduleName: "proj4",
         plugins: [
+          replace({
+            __VERSION__: pkg.version
+          }),
           json(),
           nodeResolve()
         ]
