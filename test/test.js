@@ -122,6 +122,10 @@ function startTests(chai, proj4, testPoints) {
                 x: testPoint.xy[0],
                 y: testPoint.xy[1]
               };
+              // in case of geocentric proj we need Z value.
+              if (typeof testPoint.xy[2] === 'number') {
+                pt.z = testPoint.xy[2]
+              }
               var ll = proj4(testPoint.code, proj4.WGS84, pt);
               assert.closeTo(ll.x, testPoint.ll[0], llEPSLN, 'x is close');
               assert.closeTo(ll.y, testPoint.ll[1], llEPSLN, 'y is close');
@@ -167,28 +171,44 @@ function startTests(chai, proj4, testPoints) {
       });
     });
     describe('points', function () {
-      it('should ignore stuff it does not know', function (){
-
-          var sweref99tm = '+proj=utm +zone=33 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs';
-          var rt90 = '+lon_0=15.808277777799999 +lat_0=0.0 +k=1.0 +x_0=1500000.0 +y_0=0.0 +proj=tmerc +ellps=bessel +units=m +towgs84=414.1,41.3,603.1,-0.855,2.141,-7.023,0 +no_defs';
-          var rslt = proj4(sweref99tm, rt90).forward({
-            x: 319180,
-            y: 6399862,
-            z: 0,
-            m: 1000,
-            method: function () {
-              return 'correct answer';
-            }
-          });
-          assert.closeTo(rslt.x, 1271137.9275601401, 0.000001);
-          assert.closeTo(rslt.y, 6404230.291459564, 0.000001);
-          assert.equal(rslt.z, 0);
-          assert.equal(rslt.m, 1000);
-          assert.equal(rslt.method(), 'correct answer');
+      it('should ignore stuff it does not know', function () {
+        var sweref99tm = '+proj=utm +zone=33 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs';
+        var rt90 = '+lon_0=15.808277777799999 +lat_0=0.0 +k=1.0 +x_0=1500000.0 +y_0=0.0 +proj=tmerc +ellps=bessel +units=m +towgs84=414.1,41.3,603.1,-0.855,2.141,-7.023,0 +no_defs';
+        var rslt = proj4(sweref99tm, rt90).forward({
+          x: 319180,
+          y: 6399862,
+          z: 0,
+          m: 1000,
+          method: function () {
+            return 'correct answer';
+          }
+        });
+        assert.closeTo(rslt.x, 1271137.9275601401, 0.000001);
+        assert.closeTo(rslt.y, 6404230.291459564, 0.000001);
+        assert.equal(rslt.z, 0);
+        assert.equal(rslt.m, 1000);
+        assert.equal(rslt.method(), 'correct answer');
+      });
+      it('should be able to compute X Y Z M in geocenteric coordinates', function () {
+        var epsg4978 = '+proj=geocent +datum=WGS84 +units=m +no_defs';
+        var rslt = proj4(epsg4978).forward({
+          x: -7.76166,
+          y: 39.19685,
+          z: 0,
+          m: 1000,
+          method: function () {
+            return 'correct answer';
+          }
+        });
+        assert.closeTo(rslt.x, 4904199.584207411, 0.000001);
+        assert.closeTo(rslt.y, -668448.8153664203, 0.000001);
+        assert.closeTo(rslt.z, 4009276.930771821, 0.000001);
+        assert.equal(rslt.m, 1000);
+        assert.equal(rslt.method(), 'correct answer');
       });
     });
     describe('points array', function () {
-      it('should ignore stuff it does not know', function (){
+      it('should ignore stuff it does not know', function () {
         var sweref99tm = '+proj=utm +zone=33 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs';
         var rt90 = '+lon_0=15.808277777799999 +lat_0=0.0 +k=1.0 +x_0=1500000.0 +y_0=0.0 +proj=tmerc +ellps=bessel +units=m +towgs84=414.1,41.3,603.1,-0.855,2.141,-7.023,0 +no_defs';
         var rslt = proj4(sweref99tm, rt90).forward([
@@ -202,23 +222,36 @@ function startTests(chai, proj4, testPoints) {
         assert.equal(rslt[2], 0);
         assert.equal(rslt[3], 1000);
       });
+      it('should be able to compute X Y Z M in geocenteric coordinates', function () {
+        var epsg4978 = '+proj=geocent +datum=WGS84 +units=m +no_defs';
+        var rslt = proj4(epsg4978).forward([
+          -7.76166,
+          39.19685,
+          0,
+          1000
+        ]);
+        assert.closeTo(rslt[0], 4904199.584207411, 0.000001);
+        assert.closeTo(rslt[1], -668448.8153664203, 0.000001);
+        assert.closeTo(rslt[2], 4009276.930771821, 0.000001);
+        assert.equal(rslt[3], 1000);
+      });
     });
-    describe('defs', function() {
+    describe('defs', function () {
       assert.equal(proj4.defs('testmerc'), proj4.defs['testmerc']);
       proj4.defs('foo', '+proj=merc +lon_0=5.937 +lat_ts=45.027 +ellps=sphere');
       assert.typeOf(proj4.defs['foo'], 'object');
       proj4.defs('urn:x-ogc:def:crs:EPSG:4326', proj4.defs('EPSG:4326'));
       assert.strictEqual(proj4.defs['urn:x-ogc:def:crs:EPSG:4326'], proj4.defs['EPSG:4326']);
 
-      describe('wkt', function() {
-        it('should provide the correct conversion factor for WKT GEOGCS projections', function() {
+      describe('wkt', function () {
+        it('should provide the correct conversion factor for WKT GEOGCS projections', function () {
           proj4.defs('EPSG:4269', 'GEOGCS["NAD83",DATUM["North_American_Datum_1983",SPHEROID["GRS 1980",6378137,298.257222101,AUTHORITY["EPSG","7019"]],AUTHORITY["EPSG","6269"]],PRIMEM["Greenwich",0,AUTHORITY["EPSG","8901"]],UNIT["degree",0.01745329251994328,AUTHORITY["EPSG","9122"]],AUTHORITY["EPSG","4269"]]');
-          assert.equal(proj4.defs['EPSG:4269'].to_meter, 6378137*0.01745329251994328);
+          assert.equal(proj4.defs['EPSG:4269'].to_meter, 6378137 * 0.01745329251994328);
 
           proj4.defs('EPSG:4279', 'GEOGCS["OS(SN)80",DATUM["OS_SN_1980",SPHEROID["Airy 1830",6377563.396,299.3249646,AUTHORITY["EPSG","7001"]],AUTHORITY["EPSG","6279"]],PRIMEM["Greenwich",0,AUTHORITY["EPSG","8901"]],UNIT["degree",0.01745329251994328,AUTHORITY["EPSG","9122"]],AUTHORITY["EPSG","4279"]]');
-          assert.equal(proj4.defs['EPSG:4279'].to_meter, 6377563.396*0.01745329251994328);
+          assert.equal(proj4.defs['EPSG:4279'].to_meter, 6377563.396 * 0.01745329251994328);
         });
-        it('should parse wkt and proj4 of the same crs and result in the same params', function() {
+        it('should parse wkt and proj4 of the same crs and result in the same params', function () {
           var s1 = 'GEOGCS["PSD93",DATUM["PDO_Survey_Datum_1993",SPHEROID["Clarke 1880 (RGS)",6378249.145,293.465,AUTHORITY["EPSG","7012"]],TOWGS84[-180.624,-225.516,173.919,-0.81,-1.898,8.336,16.7101],AUTHORITY["EPSG","6134"]],PRIMEM["Greenwich",0,AUTHORITY["EPSG","8901"]],UNIT["degree",0.0174532925199433,AUTHORITY["EPSG","9122"]],AUTHORITY["EPSG","4134"]]';
           var s2 = '+proj=longlat +ellps=clrk80 +towgs84=-180.624,-225.516,173.919,-0.81,-1.898,8.336,16.7101 +no_defs';
           var crs1 = proj4(s1);

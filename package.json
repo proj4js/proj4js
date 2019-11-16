@@ -9,6 +9,7 @@
     "doc": "docs"
   },
   "scripts": {
+    "prepare": "grunt",
     "build": "grunt",
     "build:tmerc": "grunt build:tmerc",
     "test": "npm run build && istanbul test _mocha test/test.js"
