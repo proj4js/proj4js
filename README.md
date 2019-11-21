@@ -40,6 +40,13 @@ proj4(firstProjection,secondProjection,[2,5]);
 // [-2690666.2977344505, 3662659.885459918]
 ```
 
+The library can also parse coordinates provided with an elevation, again as an object of the form `{x:x,y:y,z:z}` or an array of the form `[x,y,z]`.
+
+```javascript
+proj4(firstProjection,secondProjection,[2,5,10]);
+// [-2690666.2977344505, 3662659.885459918,10]
+```
+
 If only 1 projection is given then it is assumed that it is being projected *from* WGS84 (fromProjection is WGS84).
 
 ```javascript
