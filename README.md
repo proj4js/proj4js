@@ -69,9 +69,9 @@ and as above if only one projection is given, it's assumed to be coming from wgs
 proj4(firstProjection).forward([-71,41]);
 // [242075.00535055372, 750123.32090043]
 proj4(firstProjection).inverse([242075.00535055372, 750123.32090043]);
-//[-71, 40.99999999999986]
-//the floating points to answer your question
+// [-71, 40.99999999999986]
 ```
+Note: The generation of the floating point value `40.99999999999986` in this example represents the fact that some variance in precision is involved in any conversion between one coordinate reference system and another.
 
 ## Named Projections
 
