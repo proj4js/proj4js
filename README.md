@@ -16,19 +16,19 @@ component install proj4js/proj4js
 
 or just manually grab the file `proj4.js` from the [latest release](https://github.com/proj4js/proj4js/releases)'s `dist/` folder.
 
-if you do not want to download anything, Proj4js is also hosted on [cdnjs](http://www.cdnjs.com/libraries/proj4js) for direct use in your browser applications.
+If you do not want to download anything, Proj4js is also hosted on [cdnjs](http://www.cdnjs.com/libraries/proj4js) for direct use in your browser applications.
 
 ## Using
 
-the basic signature is:
+The basic signature is:
 
 ```javascript
-proj4(fromProjection[, toProjection, coordinates])
+proj4(fromProjection, toProjection, [coordinates])
 ```
 
 Projections can be proj or wkt strings.
 
-Coordinates may an object of the form `{x:x,y:y}` or an array of the form `[x,y]`.
+Coordinates may be an object of the form `{x:x,y:y}` or an array of the form `[x,y]`.
 
 When all 3 arguments  are given, the result is that the coordinates are transformed from projection1 to projection 2. And returned in the same format that they were given in.
 
@@ -37,14 +37,14 @@ var firstProjection = 'PROJCS["NAD83 / Massachusetts Mainland",GEOGCS["NAD83",DA
 var secondProjection = "+proj=gnom +lat_0=90 +lon_0=0 +x_0=6300000 +y_0=6300000 +ellps=WGS84 +datum=WGS84 +units=m +no_defs";
 //I'm not going to redefine those two in latter examples.
 proj4(firstProjection,secondProjection,[-122.305887, 58.9465872]);
-// [-2690666.2977344505, 3662659.885459918]
+// [-2690575.447893817, 36622916.8071244564]
 ```
 
 The library can also parse coordinates provided with an elevation, again as an object of the form `{x:x,y:y,z:z}` or an array of the form `[x,y,z]`.
 
 ```javascript
 proj4(firstProjection,secondProjection,[-122.305887, 58.9465872,10]);
-// [-2690666.2977344505, 3662659.885459918,10]
+// [-2690575.447893817, 36622916.8071244564, 10]
 ```
 
 If only 1 projection is given then it is assumed that it is being projected *from* WGS84 (fromProjection is WGS84).
@@ -57,10 +57,10 @@ proj4(firstProjection,[-71,41]);
 If no coordinates are given an object with two methods is returned, its methods are `forward` which projects from the first projection to the second and `inverse` which projects from the second to the first.
 
 ```javascript
-proj4(firstProjection,secondProjection).forward([2,5]);
-// [-2690666.2977344505, 3662659.885459918]
-proj4(secondProjection,firstProjection).inverse([2,5]);
-// [-2690666.2977344505, 3662659.885459918]
+proj4(firstProjection,secondProjection).forward([-122.305887, 58.9465872]);
+// [-2690575.447893817, 36622916.8071244564]
+proj4(secondProjection,firstProjection).inverse([-122.305887, 58.9465872]);
+// [-2690575.447893817, 36622916.8071244564]
 ```
 
 and as above if only one projection is given, it's assumed to be coming from wgs84
@@ -112,7 +112,7 @@ instead of writing out the whole proj definition, by default proj4 has the follo
     - 'EPSG:900913'
     - 'EPSG:102113'
 
-defined projections can also be accessed through the proj4.defs function (`proj4.defs('EPSG:4326')`).
+Defined projections can also be accessed through the proj4.defs function (`proj4.defs('EPSG:4326')`).
 
 proj4.defs can also be used to define a named alias:
 
@@ -129,33 +129,33 @@ $ npm install --save @types/proj4
 ```
 
 ## Developing
-to set up build tools make sure you have node and grunt-cli installed and then run `npm install`
+To set up build tools make sure you have node and grunt-cli installed and then run `npm install`.
 
-to do the complete build and browser tests run
+To do the complete build and browser tests run
 
 ```bash
 node_modules/.bin/grunt
 ```
 
-to run node tests run
+To run node tests run
 
 ```bash
 npm test
 ```
 
-to run node tests with coverage run
+To run node tests with coverage run
 
 ```bash
 npm test --coverage
 ```
 
-to create a build with only default projections (latlon and Mercator) run
+To create a build with only default projections (latlon and Mercator) run
 
 ```bash
 node_modules/.bin/grunt build
 ```
 
-to create a build with only custom projections include a comma separated list of projections codes (the file name in 'lib/projections' without the '.js') after a colon, e.g.
+To create a build with only custom projections include a comma separated list of projections codes (the file name in 'lib/projections' without the '.js') after a colon, e.g.
 
 ```bash
 node_modules/.bin/grunt build:tmerc
