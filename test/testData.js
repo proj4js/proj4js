@@ -289,6 +289,11 @@ var testPoints = [
     ll:[3.7186701465384533,51.04642936832842]
   },
   {
+    code: 'PROJCS["JAD2001 / Jamaica Metric Grid",GEOGCS["JAD2001",DATUM["Jamaica_2001",SPHEROID["WGS 84",6378137,298.257223563,AUTHORITY["EPSG","7030"]],TOWGS84[0,0,0,0,0,0,0],AUTHORITY["EPSG","6758"]],PRIMEM["Greenwich",0,AUTHORITY["EPSG","8901"]],UNIT["degree",0.0174532925199433,AUTHORITY["EPSG","9122"]],AUTHORITY["EPSG","4758"]],PROJECTION["Lambert_Conformal_Conic_1SP"],PARAMETER["latitude_of_origin",18],PARAMETER["central_meridian",-77],PARAMETER["scale_factor",1],PARAMETER["false_easting",750000],PARAMETER["false_northing",650000],UNIT["metre",1,AUTHORITY["EPSG","9001"]],AXIS["Easting",EAST],AXIS["Northing",NORTH],AUTHORITY["EPSG","3448"]]',
+    xy: [7578825.28673236, 11374595.814939449],
+    ll: [44.2312, 76.4860],
+  },
+  {
     code:"+proj=tmerc +lat_0=49 +lon_0=-2 +k=0.9996012717 +x_0=400000 +y_0=-100000 +ellps=airy +datum=OSGB36 +units=m +no_defs",
     ll:[-3.20078, 55.96056],
     xy:[325132.0089586496, 674822.638235305]
@@ -588,4 +593,4 @@ if (typeof module !== 'undefined') {
   define(function () {
     return testPoints;
   });
-}
+}
