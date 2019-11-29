@@ -160,7 +160,7 @@ function startTests(chai, proj4, testPoints) {
               assert.closeTo(xy[0], testPoint.xy[0], xyEPSLN, 'x is close');
               assert.closeTo(xy[1], testPoint.xy[1], xyEPSLN, 'y is close');
             });
-            it('should work 3 element ponit object', function() {
+            it('should work 3 element point object', function() {
               var pt = proj4.toPoint(testPoint.xy);
               var ll = proj4(new proj4.Proj(testPoint.code), proj4.WGS84, pt);
               assert.closeTo(ll.x, testPoint.ll[0], llEPSLN, 'x is close');
