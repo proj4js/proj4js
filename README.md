@@ -1,8 +1,8 @@
 # PROJ4JS [![Build Status](https://travis-ci.org/proj4js/proj4js.svg)](https://travis-ci.org/proj4js/proj4js)
 
 Proj4js is a JavaScript library to transform point coordinates from one coordinate system to another, including datum transformations.
-Originally a port of [PROJ.4](http://trac.osgeo.org/proj/) and [GCTCP C](http://edcftp.cr.usgs.gov/pub//software/gctpc) it is
-a part of the [MetaCRS](http://wiki.osgeo.org/wiki/MetaCRS) group of projects.
+Originally a port of [PROJ](https://proj.org/) ([then known as PROJ.4](https://proj.org/faq.html#what-happened-to-proj-4)) and GCTCP C ([Archive](https://web.archive.org/web/20130523091752/http://edcftp.cr.usgs.gov/pub/software/gctpc/)) it is
+a part of the [MetaCRS](https://trac.osgeo.org/metacrs/wiki) group of projects.
 
 ## Installing
 
@@ -16,11 +16,11 @@ component install proj4js/proj4js
 
 or just manually grab the file `proj4.js` from the [latest release](https://github.com/proj4js/proj4js/releases)'s `dist/` folder.
 
-if you do not want to download anything, Proj4js is also hosted on [cdnjs](http://www.cdnjs.com/libraries/proj4js) for direct use in your browser applications.
+If you do not want to download anything, Proj4js is also hosted on [cdnjs](https://www.cdnjs.com/libraries/proj4js) for direct use in your browser applications.
 
 ## Using
 
-the basic signature is:
+The basic signature is:
 
 ```javascript
 proj4(fromProjection[, toProjection, coordinates])
@@ -56,7 +56,7 @@ proj4(secondProjection,firstProjection).inverse([2,5]);
 // [-2690666.2977344505, 3662659.885459918]
 ```
 
-and as above if only one projection is given, it's assumed to be coming from wgs84
+And as above if only one projection is given, it's assumed to be coming from wgs84:
 
 ```javascript
 proj4(firstProjection).forward([-71,41]);
@@ -105,7 +105,7 @@ instead of writing out the whole proj definition, by default proj4 has the follo
     - 'EPSG:900913'
     - 'EPSG:102113'
 
-defined projections can also be accessed through the proj4.defs function (`proj4.defs('EPSG:4326')`).
+Defined projections can also be accessed through the proj4.defs function (`proj4.defs('EPSG:4326')`).
 
 proj4.defs can also be used to define a named alias:
 
@@ -122,33 +122,33 @@ $ npm install --save @types/proj4
 ```
 
 ## Developing
-to set up build tools make sure you have node and grunt-cli installed and then run `npm install`
+To set up build tools make sure you have node and grunt-cli installed and then run `npm install`.
 
-to do the complete build and browser tests run
+To do the complete build and browser tests run:
 
 ```bash
 node_modules/.bin/grunt
 ```
 
-to run node tests run
+To run node tests run:
 
 ```bash
 npm test
 ```
 
-to run node tests with coverage run
+To run node tests with coverage run:
 
 ```bash
 npm test --coverage
 ```
 
-to create a build with only default projections (latlon and Mercator) run
+To create a build with only default projections (latlon and Mercator) run:
 
 ```bash
 node_modules/.bin/grunt build
 ```
 
-to create a build with only custom projections include a comma separated list of projections codes (the file name in 'lib/projections' without the '.js') after a colon, e.g.
+To create a build with only custom projections include a comma separated list of projections codes (the file name in 'lib/projections' without the '.js') after a colon, e.g.:
 
 ```bash
 node_modules/.bin/grunt build:tmerc
