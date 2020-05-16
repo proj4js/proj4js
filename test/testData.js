@@ -89,6 +89,16 @@ var testPoints = [
     xy:[964813.103719, 1016486.305862]
   },
   {
+    code:'PROJCS["Azimuthal_Equidistant",GEOGCS["GCS_WGS_1984",DATUM["D_WGS_1984",SPHEROID["WGS_1984",6378137,298.257223563]],PRIMEM["Greenwich",0],UNIT["Degree",0.017453292519943295]],PROJECTION["Azimuthal_Equidistant"],PARAMETER["False_Easting",0],PARAMETER["False_Northing",0],PARAMETER["Central_Meridian",0],PARAMETER["Latitude_Of_Origin",0],UNIT["Meter",1]]',
+    ll:[0, 0],
+    xy:[0, 0]
+  },
+  {
+    code:'PROJCS["Sphere_Azimuthal_Equidistant",GEOGCS["GCS_Sphere",DATUM["Not_specified_based_on_Authalic_Sphere",SPHEROID["Sphere",6371000,0]],PRIMEM["Greenwich",0],UNIT["Degree",0.017453292519943295]],PROJECTION["Azimuthal_Equidistant"],PARAMETER["False_Easting",0],PARAMETER["False_Northing",0],PARAMETER["Central_Meridian",0],PARAMETER["Latitude_Of_Origin",0],UNIT["Meter",1]]',
+    ll:[0, 0],
+    xy:[0, 0]
+  },
+  {
     code:'PROJCS["North_Pole_Azimuthal_Equidistant",GEOGCS["GCS_WGS_1984",DATUM["D_WGS_1984",SPHEROID["WGS_1984",6378137,298.257223563]],PRIMEM["Greenwich",0],UNIT["Degree",0.017453292519943295]],PROJECTION["Azimuthal_Equidistant"],PARAMETER["False_Easting",0],PARAMETER["False_Northing",0],PARAMETER["Central_Meridian",0],PARAMETER["Latitude_Of_Origin",90],UNIT["Meter",1]]',
     ll:[50.977303830208, 30.915260093747],
     xy:[5112279.911077, -4143196.76625]
@@ -222,6 +232,42 @@ var testPoints = [
     code:'PROJCS["WGS 84 / UPS North",GEOGCS["GCS_WGS_1984",DATUM["D_WGS_1984",SPHEROID["WGS_1984",6378137,298.257223563]],PRIMEM["Greenwich",0],UNIT["Degree",0.017453292519943295]],PROJECTION["Stereographic_North_Pole"],PARAMETER["standard_parallel_1",90],PARAMETER["central_meridian",0],PARAMETER["scale_factor",0.994],PARAMETER["false_easting",2000000],PARAMETER["false_northing",2000000],UNIT["Meter",1]]',
     ll:[0, 75],
     xy:[2000000, 325449.806286]
+  },{
+    code:'+proj=aeqd +lat_0=0 +lon_0=0 +x_0=0 +y_0=0 +datum=WGS84 +units=m +no_defs',
+    ll:[2, 0],
+    xy:[222638.98158654713, 0]
+  },{
+    code:'+proj=aeqd +lat_0=0 +lon_0=0 +x_0=0 +y_0=0 +datum=WGS84 +units=m +no_defs',
+    ll:[89, 0],
+    xy:[9907434.680601358, 0]
+  },{
+//    code:'+proj=aeqd +lat_0=0 +lon_0=0 +x_0=0 +y_0=0 +datum=WGS84 +units=m +no_defs',
+//    ll:[91, 0],
+//    xy:[10130073.6622, 0]
+//  },{
+    code:'+proj=aeqd +lat_0=0 +lon_0=0 +x_0=0 +y_0=0 +a=6371000 +b=6371000 +units=m +no_defs',
+    ll:[91, 0],
+    xy:[10118738.32, 0.00]
+  },{
+    code:'+proj=laea +lat_0=2 +lon_0=1 +x_0=0 +y_0=0 +a=6371000 +b=6371000  +units=m +no_defs',
+    ll:[1, 2],
+    xy:[0, 0]
+  },{
+    code:'+proj=laea +lat_0=1 +lon_0=1 +x_0=0 +y_0=0 +a=6371000 +b=6371000  +units=m +no_defs',
+    ll:[1, 1],
+    xy:[0, 0]
+  },{
+    code:'+proj=laea +lat_0=1 +lon_0=1 +x_0=0 +y_0=0 +a=6371000 +b=6371000  +units=m +no_defs',
+    ll:[2, 1],
+    xy:[111176.58, 16.93]
+  },{
+    code:'+proj=laea +lat_0=1 +lon_0=1 +x_0=0 +y_0=0 +a=6371000 +b=6371000  +units=m +no_defs',
+    ll:[1, 2],
+    xy:[0.00,111193.52]
+  },{
+    code:'+proj=laea +lat_0=0 +lon_0=0 +x_0=0 +y_0=0 +a=6371000 +b=6371000 +units=m +no_defs',
+    ll:[19, 0],
+    xy:[2103036.59, 0.00]
   },{
     code:'+proj=stere +lat_0=-90 +lat_ts=-70 +lon_0=0 +k=1 +x_0=0 +y_0=0 +datum=WGS84 +units=m +no_defs"',
     ll:[0, -72.5],
