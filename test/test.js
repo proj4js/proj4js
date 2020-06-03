@@ -248,6 +248,18 @@ function startTests(chai, proj4, testPoints) {
       assert.closeTo(rslt.y, 10.2, 0.000001);
     });
 
+    it('axes should be invertable', function () {
+      var enu = '+proj=longlat +axis=enu';
+      var esu = '+proj=longlat +axis=esu';
+      var wnu = '+proj=longlat +axis=wnu';
+      var result = proj4(enu, esu).forward({x: 40, y: 50});
+      assert.closeTo(result.x, 40, 0.000001);
+      assert.closeTo(result.y, -50, 0.000001);
+      var result = proj4(enu, wnu).forward({x: 40, y: 50});
+      assert.closeTo(result.x, -40, 0.000001);
+      assert.closeTo(result.y, 50, 0.000001);
+    });
+
     describe('defs', function () {
       assert.equal(proj4.defs('testmerc'), proj4.defs['testmerc']);
       proj4.defs('foo', '+proj=merc +lon_0=5.937 +lat_ts=45.027 +ellps=sphere');
