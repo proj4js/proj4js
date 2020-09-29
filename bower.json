@@ -19,6 +19,7 @@
     "test",
     "tests",
     "almond",
-    "src"
+    "src",
+    "OSTN15-NTv2"
   ]
 }

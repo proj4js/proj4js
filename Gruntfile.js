@@ -121,5 +121,6 @@ module.exports = function (grunt) {
     var args = this.args.length?this.args[0].split(','):['default'];
     grunt.task.run('jshint', 'custom:'+args.join(':'));
   });
-  grunt.registerTask('default', ['build:all', 'connect','mocha_phantomjs']);
+  // grunt.registerTask('default', ['build:all', 'connect','mocha_phantomjs']);
+  grunt.registerTask('default', ['build:all', 'connect']);
 };
