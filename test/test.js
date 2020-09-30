@@ -382,37 +382,40 @@ function startTests(chai, proj4, testPoints, nadgridData) {
 
     if (nadgridData !== undefined) {
       describe('Nadgrids', function() {
-        // it('Load nagrid from buffer', function() {
-        //   console.log('nadgrid', nadgridData);
-        //   var nadgrids = proj4.nadgrid('key', nadgridData);
-        //   console.log('result', nadgrids);
-        // });
+        var tests = [
+          [-44.382211538462, 40.3768, -44.380749, 40.377457], // just inside the lower limit
+          [-87.617788, 59.623262, -87.617659, 59.623441], // just inside the upper limit
+          [-44.5, 40.5, -44.498553, 40.500632], // inside the first square
+          [-60, 50, -59.999192, 50.000058], // a general point towards the middle of the grid
+          [0, 0, 0, 0] // fall back to null
+        ];
+        proj4.nadgrid('ntv2', nadgridData);
+        proj4.defs('ntv2_from', '+proj=longlat +ellps=clrk66 +nadgrids=@ignorable,ntv2,null');
+        proj4.defs('ntv2_to', '+proj=longlat +datum=WGS84 +no_defs');
+        var converter = proj4('ntv2_from', 'ntv2_to');
 
-        const testCases = getOSGBTestData();
-        proj4.nadgrid('ostn15', nadgridData);
-        proj4.defs('WGS84', "+proj=longlat +datum=WGS84 +no_defs ");
-        proj4.defs('OSGB', "+proj=tmerc +lat_0=49 +lon_0=-2 +k=0.9996012717 +x_0=400000 +y_0=-100000 +ellps=airy +towgs84=446.448,-125.157,542.06,0.15,0.247,0.842,-20.489 +units=m +no_defs  +nadgrids=ostn15,null")
-        const converter = proj4('OSGB', 'WGS84');
-
-        for (const testCase of testCases) {
-          it(`should convert ${testCase.id}: ${testCase.osPoint} -> ${testCase.etrsPoint}`, () => {
-            const actual = converter.forward(testCase.osPoint)
-            assert.approximately(actual[0], testCase.etrsPoint[0], 0.000001)
-            assert.approximately(actual[1], testCase.etrsPoint[1], 0.000001)
-          })
-
-          it(`should convert the inverse ${testCase.id}: ${testCase.etrsPoint} -> ${testCase.osPoint}`, () => {
-            const actual = converter.inverse(testCase.etrsPoint)
-            assert.approximately(actual[0], testCase.osPoint[0], 0.1)
-            assert.approximately(actual[1], testCase.osPoint[1], 0.1)
-          })
+        for (const test of tests) {
+          let [fromLng, fromLat, toLng, toLat] = test;
+          it('should interpolate ' + [fromLng, fromLat] + ' to ' + [toLng, toLat], function () {
+            var actual = converter.forward([fromLng, fromLat]);
+            assert.approximately(actual[0], toLng, 0.000001);
+            assert.approximately(actual[1], toLat, 0.000001);
+          });
         }
 
-        it('should fall back to null if specified', function () {
-          const actual = converter.forward([-100000, -100000])
-          console.log('actual', actual)
-          // TODO: Check the value here
-        })
+        var inverseTests = [
+          [-44.5, 40.5, -44.498553, 40.500632],
+          [-60, 50, -59.999192, 50.000058]
+        ];
+
+        for (const test of inverseTests) {
+          let [fromLng, fromLat, toLng, toLat] = test;
+          it('should inverse interpolate ' + [toLng, toLat] + ' to ' + [fromLng, fromLat], function () {
+            var actual = converter.inverse([toLng, toLat]);
+            assert.approximately(actual[0], fromLng, 0.000001);
+            assert.approximately(actual[1], fromLat, 0.000001);
+          });
+        }
       });
     }
   });
@@ -426,28 +429,6 @@ if(typeof process !== 'undefined'&&process.toString() === '[object process]'){
 // TODO: How to load in browser?
 function loadNadgridData() {
   var fs = require('fs');
-  return fs.readFileSync('./OSTN15-NTv2/OSTN15_NTv2_OSGBtoETRS.gsb').buffer
-}
-
-// TODO: Move to testData.js
-function getOSGBTestData() {
-  var fs = require('fs');
-  const Papa = require('papaparse')
-  const testInputs = Papa.parse(fs.readFileSync('./OSTN15-NTv2/OSTN15_TestInput_OSGBtoETRS.txt', 'utf8'),
-    { header: true })
-  const testOutputs = Papa.parse(fs.readFileSync('./OSTN15-NTv2/OSTN15_TestOutput_OSGBtoETRS.txt', 'utf8'),
-    { header: true })
-  const testData = []
-  for (let i = 0; i < testInputs.data.length; i++) {
-    const input = testInputs.data[i]
-    const output = testOutputs.data[i]
-    if (input['PointID'] === '') continue
-    const test = {
-      id: input['PointID'],
-      osPoint: [parseFloat(input['OSGB36 Eastings']), parseFloat(input['OSGB36 Northing'])],
-      etrsPoint: [parseFloat(output['ETRSLong']), parseFloat(output['ETRSLat'])]
-    }
-    testData.push(test)
-  }
-  return testData
+  // return fs.readFileSync('./OSTN15-NTv2/OSTN15_NTv2_OSGBtoETRS.gsb').buffer
+  return fs.readFileSync('./test/ntv2_0_downsampled.gsb').buffer
 }
