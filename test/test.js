@@ -389,46 +389,56 @@ function startTests(chai, proj4, testPoints, nadgridData) {
           [-60, 50, -59.999192, 50.000058], // a general point towards the middle of the grid
           [0, 0, 0, 0] // fall back to null
         ];
-        proj4.nadgrid('ntv2', nadgridData);
+        const buffer = base64ToArrayBuffer(nadgridData)
+        proj4.nadgrid('ntv2', buffer);
         proj4.defs('ntv2_from', '+proj=longlat +ellps=clrk66 +nadgrids=@ignorable,ntv2,null');
         proj4.defs('ntv2_to', '+proj=longlat +datum=WGS84 +no_defs');
         var converter = proj4('ntv2_from', 'ntv2_to');
 
-        for (const test of tests) {
-          let [fromLng, fromLat, toLng, toLat] = test;
+        tests.forEach(function(test) {
+          var fromLng = test[0];
+          var fromLat = test[1];
+          var toLng = test[2];
+          var toLat = test[3];
           it('should interpolate ' + [fromLng, fromLat] + ' to ' + [toLng, toLat], function () {
             var actual = converter.forward([fromLng, fromLat]);
             assert.approximately(actual[0], toLng, 0.000001);
             assert.approximately(actual[1], toLat, 0.000001);
           });
-        }
+        });
 
         var inverseTests = [
           [-44.5, 40.5, -44.498553, 40.500632],
           [-60, 50, -59.999192, 50.000058]
         ];
 
-        for (const test of inverseTests) {
-          let [fromLng, fromLat, toLng, toLat] = test;
+        inverseTests.forEach(function(test) {
+          var fromLng = test[0];
+          var fromLat = test[1];
+          var toLng = test[2];
+          var toLat = test[3];
           it('should inverse interpolate ' + [toLng, toLat] + ' to ' + [fromLng, fromLat], function () {
             var actual = converter.inverse([toLng, toLat]);
             assert.approximately(actual[0], fromLng, 0.000001);
             assert.approximately(actual[1], fromLat, 0.000001);
           });
-        }
+        });
       });
     }
   });
 }
 if(typeof process !== 'undefined'&&process.toString() === '[object process]'){
   (function(){
-    startTests(require('chai'), require('../dist/proj4-src'), require('./testData'), loadNadgridData());
+    startTests(require('chai'), require('../dist/proj4-src'), require('./testData'), require('./ntv2_0_downsampled'));
   })();
 }
 
-// TODO: How to load in browser?
-function loadNadgridData() {
-  var fs = require('fs');
-  // return fs.readFileSync('./OSTN15-NTv2/OSTN15_NTv2_OSGBtoETRS.gsb').buffer
-  return fs.readFileSync('./test/ntv2_0_downsampled.gsb').buffer
+function base64ToArrayBuffer(base64) {
+  var binary_string = window.atob(base64);
+  var len = binary_string.length;
+  var bytes = new Uint8Array(len);
+  for (var i = 0; i < len; i++) {
+    bytes[i] = binary_string.charCodeAt(i);
+  }
+  return bytes.buffer;
 }
