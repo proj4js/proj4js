@@ -1,6 +1,6 @@
 {
-  "name": "@geoffsmith/proj4",
-  "version": "2.6.5",
+  "name": "proj4",
+  "version": "2.6.3-alpha",
   "description": "Proj4js is a JavaScript library to transform point coordinates from one coordinate system to another, including datum transformations.",
   "main": "dist/proj4-src.js",
   "module": "lib/index.js",
@@ -32,7 +32,6 @@
     "grunt-rollup": "^6.0.0",
     "istanbul": "~0.4.5",
     "mocha": "~4.0.0",
-    "papaparse": "^5.3.0",
     "rollup": "^0.50.0",
     "rollup-plugin-json": "^2.3.0",
     "rollup-plugin-node-resolve": "^3.0.0",

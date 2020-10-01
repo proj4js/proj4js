@@ -19,7 +19,6 @@
     "test",
     "tests",
     "almond",
-    "src",
-    "OSTN15-NTv2"
+    "src"
   ]
 }
