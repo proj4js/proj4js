@@ -1,6 +1,10 @@
 Publishing
 ===
 
+Make sure you have the latest from the main branch:
+
+    git pull origin master
+
 Use `tin` to update the version number in the `package.json`, `component.json` & `bower.json`.
 
     tin -v x.y.z
