@@ -698,6 +698,15 @@ var testPoints = [
       ll: 5,
       xy: 0
     }
+  },
+  {
+    code: '+proj=obtran +a=6400000 +h=1000000 +tilt=20',
+    ll: [-2, -1],
+    xy: [-231609.982792523, -123274.645577324],
+    acc: {
+      ll: 5,
+      xy: 0
+    }
   }
 ];
 if (typeof module !== 'undefined') {
