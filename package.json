@@ -12,7 +12,7 @@
     "prepare": "grunt",
     "build": "grunt",
     "build:tmerc": "grunt build:tmerc",
-    "test": "npm run build && istanbul test _mocha test/test.js"
+    "test": "npm run build && istanbul test node_modules/mocha/bin/_mocha test/test.js"
   },
   "repository": {
     "type": "git",
