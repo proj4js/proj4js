@@ -76,6 +76,10 @@ var testPoints = [
     xy: [-1877994.66, 3932281.56],
     ll: [-16.10000000237, 32.879999998812]
   },
+  {code: 'PROJCS["NAD27 / UTM zone 14N",GEOGCS["NAD27 Coordinate System",DATUM["D_North American Datum 1927 (NAD27)",SPHEROID["Clarke_1866",6378206.4,294.97869821391]],PRIMEM["Greenwich",0],UNIT["Degree",0.017453292519943295]],PROJECTION["Transverse_Mercator"],PARAMETER["false_easting",500000],PARAMETER["false_northing",0],PARAMETER["latitude_of_origin",0],PARAMETER["central_meridian",-99],PARAMETER["scale_factor",0.9996],UNIT["Meter (m)",1]]',
+    xy: [2026074.9192811155, 12812891.606450122],
+    ll: [51.517955776474096, 61.56941794249017]
+  },
   {code: 'PROJCS["World_Mollweide",GEOGCS["GCS_WGS_1984",DATUM["WGS_1984",SPHEROID["WGS_1984",6378137,298.257223563]],PRIMEM["Greenwich",0],UNIT["Degree",0.017453292519943295]],PROJECTION["Mollweide"],PARAMETER["False_Easting",0],PARAMETER["False_Northing",0],PARAMETER["Central_Meridian",0],UNIT["Meter",1],AUTHORITY["EPSG","54009"]]',
     xy: [3891383.58309223, 6876758.9933288],
     ll: [60,60]
