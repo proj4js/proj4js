@@ -25,15 +25,15 @@ function startTests(chai, proj4, testPoints) {
       var sweref99tm = '+proj=utm +zone=33 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs';
       var rt90 = '+lon_0=15.808277777799999 +lat_0=0.0 +k=1.0 +x_0=1500000.0 +y_0=0.0 +proj=tmerc +ellps=bessel +units=m +towgs84=414.1,41.3,603.1,-0.855,2.141,-7.023,0 +no_defs';
       var rslt = proj4(sweref99tm, rt90).forward([319180, 6399862]);
-      assert.closeTo(rslt[0], 1271137.9275601401, 0.000001);
-      assert.closeTo(rslt[1], 6404230.291459564, 0.000001);
+      assert.closeTo(rslt[0], 1271137.927561178, 0.000001);
+      assert.closeTo(rslt[1], 6404230.291456626, 0.000001);
     });
     it('should work with a proj object', function() {
       var sweref99tm = proj4('+proj=utm +zone=33 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs');
       var rt90 = proj4('+lon_0=15.808277777799999 +lat_0=0.0 +k=1.0 +x_0=1500000.0 +y_0=0.0 +proj=tmerc +ellps=bessel +units=m +towgs84=414.1,41.3,603.1,-0.855,2.141,-7.023,0 +no_defs');
       var rslt = proj4(sweref99tm, rt90).forward([319180, 6399862]);
-      assert.closeTo(rslt[0], 1271137.9275601401, 0.000001);
-      assert.closeTo(rslt[1], 6404230.291459564, 0.000001);
+      assert.closeTo(rslt[0], 1271137.927561178, 0.000001);
+      assert.closeTo(rslt[1], 6404230.291456626, 0.000001);
     });
   });
 
@@ -160,7 +160,7 @@ function startTests(chai, proj4, testPoints) {
               assert.closeTo(xy[0], testPoint.xy[0], xyEPSLN, 'x is close');
               assert.closeTo(xy[1], testPoint.xy[1], xyEPSLN, 'y is close');
             });
-            it('should work 3 element ponit object', function() {
+            it('should work 3 element point object', function() {
               var pt = proj4.toPoint(testPoint.xy);
               var ll = proj4(new proj4.Proj(testPoint.code), proj4.WGS84, pt);
               assert.closeTo(ll.x, testPoint.ll[0], llEPSLN, 'x is close');
@@ -183,8 +183,8 @@ function startTests(chai, proj4, testPoints) {
             return 'correct answer';
           }
         });
-        assert.closeTo(rslt.x, 1271137.9275601401, 0.000001);
-        assert.closeTo(rslt.y, 6404230.291459564, 0.000001);
+        assert.closeTo(rslt.x, 1271137.927561178, 0.000001);
+        assert.closeTo(rslt.y, 6404230.291456626, 0.000001);
         assert.equal(rslt.z, 0);
         assert.equal(rslt.m, 1000);
         assert.equal(rslt.method(), 'correct answer');
@@ -217,8 +217,8 @@ function startTests(chai, proj4, testPoints) {
           0,
           1000,
         ]);
-        assert.closeTo(rslt[0], 1271137.9275601401, 0.000001);
-        assert.closeTo(rslt[1], 6404230.291459564, 0.000001);
+        assert.closeTo(rslt[0], 1271137.927561178, 0.000001);
+        assert.closeTo(rslt[1], 6404230.291456626, 0.000001);
         assert.equal(rslt[2], 0);
         assert.equal(rslt[3], 1000);
       });
