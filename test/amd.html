@@ -48,7 +48,7 @@ mocha.setup({
     timeout: 300000,
     ignoreLeaks: true
   });
-   curl(['../node_modules/chai/chai.js', 'proj4','testData','ntv2_0_downsampled']).then(startTests).then(function(){
+   curl(['../node_modules/chai/chai.js', 'proj4','testData']).then(startTests).then(function(){
       if (window.mochaPhantomJS) {
       window.mochaPhantomJS.run();
     } else {

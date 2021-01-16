@@ -10,7 +10,6 @@
   <script src="testData.js"></script>
   <script src="../dist/proj4.js"></script>
   <script src="test.js"></script>
-  <script src="ntv2_0_downsampled.js"></script>
   <script>
   mocha.setup({
     ui: "bdd",
@@ -18,7 +17,7 @@
     timeout: 300000,
     ignoreLeaks: true
   });
-    startTests(chai,proj4,testPoints,ntv2);
+    startTests(chai,proj4,testPoints);
     if (window.mochaPhantomJS) { window.mochaPhantomJS.run(); }
       else { window.mocha.run(); }
   </script>
