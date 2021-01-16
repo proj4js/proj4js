@@ -1,6 +1,6 @@
 {
   "name": "proj4",
-  "version": "2.6.4-alpha",
+  "version": "2.7.1-alpha",
   "description": "Proj4js is a JavaScript library to transform point coordinates from one coordinate system to another, including datum transformations.",
   "main": "dist/proj4-src.js",
   "module": "lib/index.js",
