@@ -8,17 +8,19 @@ var testPoints = [
     ll: [37.33761240175515, 55.60447049026976]
   },
   {code: 'PROJCS["CH1903 / LV03",GEOGCS["CH1903",DATUM["D_CH1903",SPHEROID["Bessel_1841",6377397.155,299.1528128]],PRIMEM["Greenwich",0],UNIT["Degree",0.017453292519943295]],PROJECTION["Hotine_Oblique_Mercator_Azimuth_Center"],PARAMETER["latitude_of_center",46.95240555555556],PARAMETER["longitude_of_center",7.439583333333333],PARAMETER["azimuth",90],PARAMETER["scale_factor",1],PARAMETER["false_easting",600000],PARAMETER["false_northing",200000],UNIT["Meter",1]]',
-  xy: [660389.4751110513, 185731.68482649108],
-    ll: [8.23, 46.82],
+  xy: [660013.4882918689, 185172.17110117766],
+    ll: [8.225, 46.815],
     acc:{
-      xy:0.1
+      xy: 0.1,
+      ll: 5
     }
   },
-   {code: 'PROJCS["CH1903 / LV03",GEOGCS["CH1903",DATUM["CH1903",SPHEROID["Bessel 1841",6377397.155,299.1528128,AUTHORITY["EPSG","7004"]],TOWGS84[674.374,15.056,405.346,0,0,0,0],AUTHORITY["EPSG","6149"]],PRIMEM["Greenwich",0,AUTHORITY["EPSG","8901"]],UNIT["degree",0.01745329251994328,AUTHORITY["EPSG","9122"]],AUTHORITY["EPSG","4149"]],UNIT["metre",1,AUTHORITY["EPSG","9001"]],PROJECTION["Hotine_Oblique_Mercator"],PARAMETER["latitude_of_center",46.95240555555556],PARAMETER["longitude_of_center",7.439583333333333],PARAMETER["azimuth",90],PARAMETER["rectified_grid_angle",90],PARAMETER["scale_factor",1],PARAMETER["false_easting",600000],PARAMETER["false_northing",200000],AUTHORITY["EPSG","21781"],AXIS["Y",EAST],AXIS["X",NORTH]]',
-    xy: [660389.4751110513, 185731.68482649108],
-    ll: [8.23, 46.82],
+  {code: 'PROJCS["CH1903 / LV03",GEOGCS["CH1903",DATUM["CH1903",SPHEROID["Bessel 1841",6377397.155,299.1528128,AUTHORITY["EPSG","7004"]],TOWGS84[674.4,15.1,405.3,0,0,0,0],AUTHORITY["EPSG","6149"]],PRIMEM["Greenwich",0,AUTHORITY["EPSG","8901"]],UNIT["degree",0.0174532925199433,AUTHORITY["EPSG","9122"]],AUTHORITY["EPSG","4149"]],PROJECTION["Hotine_Oblique_Mercator_Azimuth_Center"],PARAMETER["latitude_of_center",46.95240555555556],PARAMETER["longitude_of_center",7.439583333333333],PARAMETER["azimuth",90],PARAMETER["rectified_grid_angle",90],PARAMETER["scale_factor",1],PARAMETER["false_easting",600000],PARAMETER["false_northing",200000],UNIT["metre",1,AUTHORITY["EPSG","9001"]],AXIS["Y",EAST],AXIS["X",NORTH],AUTHORITY["EPSG","21781"]]',
+    xy: [660013.4882918689, 185172.17110117766],
+    ll: [8.225, 46.815],
     acc:{
-      xy:0.1
+      xy: 0.1,
+      ll: 5
     }
   },
   {code: 'PROJCS["NAD83 / Massachusetts Mainland",GEOGCS["NAD83",DATUM["North_American_Datum_1983",SPHEROID["GRS 1980",6378137,298.257222101,AUTHORITY["EPSG","7019"]],AUTHORITY["EPSG","6269"]],PRIMEM["Greenwich",0,AUTHORITY["EPSG","8901"]],UNIT["degree",0.01745329251994328,AUTHORITY["EPSG","9122"]],AUTHORITY["EPSG","4269"]],UNIT["metre",1,AUTHORITY["EPSG","9001"]],PROJECTION["Lambert_Conformal_Conic_2SP"],PARAMETER["standard_parallel_1",42.68333333333333],PARAMETER["standard_parallel_2",41.71666666666667],PARAMETER["latitude_of_origin",41],PARAMETER["central_meridian",-71.5],PARAMETER["false_easting",200000],PARAMETER["false_northing",750000],AUTHORITY["EPSG","26986"],AXIS["X",EAST],AXIS["Y",NORTH]]',
@@ -134,12 +136,12 @@ var testPoints = [
       xy:-4
     }
   },
-    /*{
-    code:'EPSG:3975',
-    ll:[-9.764450683, 25.751953],
-    xy:[-942135.525095996, 3178441.8667094777]
-  },*/
-   {
+  // {
+  //   code:'EPSG:3975',
+  //   ll:[-9.764450683, 25.751953],
+  //   xy:[-942135.525095996, 3178441.8667094777]
+  // },
+  {
     code:'PROJCS["World Equidistant Cylindrical (Sphere)",GEOGCS["Unspecified datum based upon the GRS 1980 Authalic Sphere",DATUM["Not_specified_based_on_GRS_1980_Authalic_Sphere",SPHEROID["GRS 1980 Authalic Sphere",6371007,0,AUTHORITY["EPSG","7048"]],AUTHORITY["EPSG","6047"]],PRIMEM["Greenwich",0,AUTHORITY["EPSG","8901"]],UNIT["degree",0.01745329251994328,AUTHORITY["EPSG","9122"]],AUTHORITY["EPSG","4047"]],UNIT["metre",1,AUTHORITY["EPSG","9001"]],PROJECTION["Equirectangular"],PARAMETER["latitude_of_origin",0],PARAMETER["central_meridian",0],PARAMETER["false_easting",0],PARAMETER["false_northing",0],AUTHORITY["EPSG","3786"],AXIS["X",EAST],AXIS["Y",NORTH]]',
     ll:[-1.7539371169976, 12.632997701986],
     xy:[-195029.12334755991, 1395621.9368162225],
@@ -210,13 +212,13 @@ var testPoints = [
     ll:[172.465, -40.7],
     xy:[2464770.343667, 6056137.861919]
   },{
-    code:'PROJCS["Rassadiran / Nakhl e Taqi",GEOGCS["Rassadiran",DATUM["Rassadiran",SPHEROID["International 1924",6378388,297,AUTHORITY["EPSG","7022"]],TOWGS84[-133.63,-157.5,-158.62,0,0,0,0],AUTHORITY["EPSG","6153"]],PRIMEM["Greenwich",0,AUTHORITY["EPSG","8901"]],UNIT["degree",0.01745329251994328,AUTHORITY["EPSG","9122"]],AUTHORITY["EPSG","4153"]],UNIT["metre",1,AUTHORITY["EPSG","9001"]],PROJECTION["Hotine_Oblique_Mercator"],PARAMETER["latitude_of_center",27.51882880555555],PARAMETER["longitude_of_center",52.60353916666667],PARAMETER["azimuth",0.5716611944444444],PARAMETER["rectified_grid_angle",0.5716611944444444],PARAMETER["scale_factor",0.999895934],PARAMETER["false_easting",658377.437],PARAMETER["false_northing",3044969.194],AUTHORITY["EPSG","2057"],AXIS["Easting",EAST],AXIS["Northing",NORTH]]',
-    ll:[52.6, 27.5],
-    xy:[658017.25458, 3043003.058818]
-  },{
-    code:'PROJCS["Rassadiran / Nakhl e Taqi",GEOGCS["Rassadiran",DATUM["D_Rassadiran",SPHEROID["International_1924",6378388,297]],PRIMEM["Greenwich",0],UNIT["Degree",0.017453292519943295]],PROJECTION["Hotine_Oblique_Mercator_Azimuth_Natural_Origin"],PARAMETER["latitude_of_center",27.51882880555555],PARAMETER["longitude_of_center",52.60353916666667],PARAMETER["azimuth",0.5716611944444444],PARAMETER["rectified_grid_angle",0.5716611944444444],PARAMETER["scale_factor",0.999895934],PARAMETER["false_easting",658377.437],PARAMETER["false_northing",3044969.194],UNIT["Meter",1]]',
-    ll:[52.6, 27.5],
-    xy:[658017.25458, 3043003.058818]
+    code: 'PROJCS["Rassadiran / Nakhl e Taqi", GEOGCS["Rassadiran", DATUM["Rassadiran", SPHEROID["International 1924",6378388,297, AUTHORITY["EPSG","7022"]], TOWGS84[-133.63,-157.5,-158.62,0,0,0,0], AUTHORITY["EPSG","6153"]], PRIMEM["Greenwich",0, AUTHORITY["EPSG","8901"]], UNIT["degree",0.0174532925199433, AUTHORITY["EPSG","9122"]], AUTHORITY["EPSG","4153"]], PROJECTION["Hotine_Oblique_Mercator_Azimuth_Center"], PARAMETER["latitude_of_center",27.51882880555555], PARAMETER["longitude_of_center",52.60353916666667], PARAMETER["azimuth",0.5716611944444444], PARAMETER["rectified_grid_angle",0.5716611944444444], PARAMETER["scale_factor",0.999895934], PARAMETER["false_easting",658377.437], PARAMETER["false_northing",3044969.194], UNIT["metre",1, AUTHORITY["EPSG","9001"]], AXIS["Easting",EAST], AXIS["Northing",NORTH], AUTHORITY["EPSG","2057"]]',
+    ll: [52.605, 27.5],
+    xy: [658511.261946, 3043003.05468],
+    acc: {
+      ll: 8,
+      xy: 6
+    }
   },{
     code:'PROJCS["SAD69 / Brazil Polyconic",GEOGCS["SAD69",DATUM["D_South_American_1969",SPHEROID["GRS_1967_SAD69",6378160,298.25]],PRIMEM["Greenwich",0],UNIT["Degree",0.017453292519943295]],PROJECTION["Polyconic"],PARAMETER["latitude_of_origin",0],PARAMETER["central_meridian",-54],PARAMETER["false_easting",5000000],PARAMETER["false_northing",10000000],UNIT["Meter",1]]',
     ll:[-49.221772553812, -0.34551739237581],
@@ -607,6 +609,78 @@ var testPoints = [
     code: '+proj=utm +zone=33',
     ll: [2, 1],
     xy: [-959006.4926646841, 113457.31956265299]
+  },
+  {
+    code: 'PROJCS["CUSTOM_OBLIQUE_MERCATOR", GEOGCS["WGS 84", DATUM["World Geodetic System 1984", SPHEROID["WGS 84", 6378137.0, 298.257223563]], PRIMEM["Greenwich", 0.0], UNIT["degree", 0.017453292519943295], AXIS["Geodetic latitude", NORTH], AXIS["Geodetic longitude", EAST]], PROJECTION["Hotine_Oblique_Mercator_Azimuth_Center", AUTHORITY["EPSG", "9815"]], PARAMETER["latitude_of_center", 37.50832038], PARAMETER["longitude_of_center", -122.25064809], PARAMETER["azimuth", 45.0], PARAMETER["rectified_grid_angle", -3.99], PARAMETER["scale_factor", 1.0], PARAMETER["false_easting", -361.25], PARAMETER["false_northing", 254.915], UNIT["foot", 0.3048], AXIS["Easting", EAST], AXIS["Northing", NORTH]]',
+    xy: [-361.2499999983702, 254.91500000283122],
+    ll: [-122.25064809, 37.50832038],
+    acc:{
+      ll: 3,
+      xy: 8
+    }
+  },
+  // Omerc Type A - #273  
+  {
+    code: '+proj=omerc +lat_0=4 +lonc=102.25 +alpha=323.0257964666666 +k=0.99984 +x_0=804671 +y_0=0 +no_uoff +gamma=323.1301023611111 +ellps=GRS80 +units=m +no_defs',
+    xy: [412597.532715, 338944.957259],
+    ll: [101.70979078430528, 3.06268465621428],
+    acc:{
+      ll: 2,
+      xy: -3
+    }
+  },
+  {
+    code: 'PROJCS["GDM2000 / Peninsula RSO", GEOGCS["GDM2000", DATUM["Geodetic_Datum_of_Malaysia_2000", SPHEROID["GRS 1980",6378137,298.257222101, AUTHORITY["EPSG","7019"]], AUTHORITY["EPSG","6742"]], PRIMEM["Greenwich",0, AUTHORITY["EPSG","8901"]], UNIT["degree",0.0174532925199433, AUTHORITY["EPSG","9122"]], AUTHORITY["EPSG","4742"]], PROJECTION["Hotine_Oblique_Mercator"], PARAMETER["latitude_of_center",4], PARAMETER["longitude_of_center",102.25], PARAMETER["azimuth",323.0257964666666], PARAMETER["rectified_grid_angle",323.1301023611111], PARAMETER["scale_factor",0.99984], PARAMETER["false_easting",804671], PARAMETER["false_northing",0], UNIT["metre",1, AUTHORITY["EPSG","9001"]], AXIS["Easting",EAST], AXIS["Northing",NORTH], AUTHORITY["EPSG","3375"]]',
+    xy: [412597.532715, 338944.957259],
+    ll: [101.70979078430528, 3.06268465621428],
+    acc:{
+      ll: 7,
+      xy: 6
+    }
+  },
+  // EPSG:3468
+  {
+    code: '+proj=omerc +lat_0=57 +lonc=-133.6666666666667 +alpha=323.1301023611111 +k=0.9999 +x_0=5000000 +y_0=-5000000 +no_uoff +gamma=323.1301023611111 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs',
+    xy: [1264314.74, -763162.04],
+    ll: [-128.115000029, 44.8150000066],
+    acc:{
+      ll: 9,
+      xy: 4
+    }
+  }, 
+  {
+    code: 'PROJCS["NAD83(NSRS2007) / Alaska zone 1", GEOGCS["NAD83(NSRS2007)", DATUM["NAD83_National_Spatial_Reference_System_2007", SPHEROID["GRS 1980",6378137,298.257222101, AUTHORITY["EPSG","7019"]], TOWGS84[0,0,0,0,0,0,0], AUTHORITY["EPSG","6759"]], PRIMEM["Greenwich",0, AUTHORITY["EPSG","8901"]], UNIT["degree",0.0174532925199433, AUTHORITY["EPSG","9122"]], AUTHORITY["EPSG","4759"]], PROJECTION["Hotine_Oblique_Mercator"], PARAMETER["latitude_of_center",57], PARAMETER["longitude_of_center",-133.6666666666667], PARAMETER["azimuth",323.1301023611111], PARAMETER["rectified_grid_angle",323.1301023611111], PARAMETER["scale_factor",0.9999], PARAMETER["false_easting",5000000], PARAMETER["false_northing",-5000000], UNIT["metre",1, AUTHORITY["EPSG","9001"]], AXIS["X",EAST], AXIS["Y",NORTH], AUTHORITY["EPSG","3468"]]',
+    xy: [1264314.74, -763162.04],
+    ll: [-128.115000029, 44.8150000066],
+    acc:{
+      ll: 9,
+      xy: 4
+    }
+  },
+  // Omerc Type B - #308
+  {
+    code: '+proj=omerc +lat_0=37.4769061 +lonc=141.0039618 +alpha=202.22 +k=1 +x_0=138 +y_0=77.65 +ellps=WGS84 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs',
+    xy: [168.2438, 64.1736],
+    ll: [141.003611, 37.476802],
+    acc:{
+      ll: 9,
+      xy: 4
+    }
+  },
+  {
+    code: 'PROJCS["UNK / Oblique_Mercator",GEOGCS["UNK",DATUM["Unknown datum",SPHEROID["WGS 84", 6378137.0, 298.257223563]],PRIMEM["Greenwich",0],UNIT["degree",0.017453292519943295]],PROJECTION["Oblique_Mercator"],PARAMETER["latitude_of_center",37.4769061],PARAMETER["longitude_of_center",141.0039618],PARAMETER["central_meridian",141.0039618],PARAMETER["azimuth",202.22],PARAMETER["scale_factor",1],PARAMETER["false_easting",138],PARAMETER["false_northing",77.65],UNIT["Meter",1]]',
+    xy: [168.2438, 64.1736],
+    ll: [141.003611, 37.476802],
+    acc:{
+      ll: 9,
+      xy: 4
+    }
+  },
+  // Test with Feet
+  {
+    code: 'PROJCS["UNK / Oblique_Mercator",GEOGCS["UNK",DATUM["Unknown datum",SPHEROID["WGS 84", 6378137.0, 298.257223563]],PRIMEM["Greenwich",0],UNIT["degree",0.017453292519943295]],PROJECTION["Oblique_Mercator"],PARAMETER["latitude_of_center",37.4769061],PARAMETER["longitude_of_center",141.0039618],PARAMETER["central_meridian",141.0039618],PARAMETER["azimuth",202.22],PARAMETER["scale_factor",1],PARAMETER["false_easting",138],PARAMETER["false_northing",77.65],UNIT["Foot_US",0.3048006096012192]]',
+    xy: [237.22488871325027, 33.43626458451221],
+    ll: [141.003611, 37.476802],
   },
   {
     code: 'PROJCS["WGS 84 / Pseudo-Mercator", GEOGCS["WGS 84", DATUM["World Geodetic System 1984", SPHEROID["WGS 84", 6378137.0, 0, AUTHORITY["EPSG","7030"]], AUTHORITY["EPSG","6326"]], PRIMEM["Greenwich", 0.0, AUTHORITY["EPSG","8901"]], UNIT["degree", 0.017453292519943295], AXIS["Geodetic latitude", NORTH], AXIS["Geodetic longitude", EAST], AUTHORITY["EPSG","4326"]], PROJECTION["Popular Visualisation Pseudo Mercator", AUTHORITY["EPSG","1024"]], PARAMETER["semi_minor", 6378137.0], PARAMETER["latitude_of_origin", 0.0], PARAMETER["central_meridian", 0.0], PARAMETER["scale_factor", 1.0], PARAMETER["false_easting", 0.0], PARAMETER["false_northing", 0.0], UNIT["m", 1.0], AXIS["Easting", EAST], AXIS["Northing", NORTH], AUTHORITY["EPSG","3857"]]',
