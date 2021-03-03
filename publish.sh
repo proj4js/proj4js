@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # get current version
-VERSION=$(npm ls --json=true proj4js | grep version | awk '{ print $2}'| sed -e 's/^"//'  -e 's/"$//')
+VERSION=$(node -e "console.log(require('./package.json').version)")
 
 # Build
 git checkout -b build
