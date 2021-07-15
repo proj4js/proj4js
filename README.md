@@ -113,6 +113,21 @@ proj4.defs can also be used to define a named alias:
 proj4.defs('urn:x-ogc:def:crs:EPSG:4326', proj4.defs('EPSG:4326'));
 ```
 
+## Axis order
+
+By default, proj4 uses `[x,y]` axis order for projected (cartesian) coordinate systems and `[x=longitude,y=latitude]` for geographic coordinates. To enforce the axis order of the provided proj or wkt string, use the
+```javascript
+proj4(fromProjection, toProjection).forward(coordinate, enforceAxis);
+proj4(fromProjection, toProjection).inverse(coordinate, enforceAxis);
+```
+signatures with `enforceAxis` set to `true`:
+```javascript
+proj4('+proj=longlat +ellps=WGS84 +datum=WGS84 +units=degrees +axis=neu', firstProjection).forward([41, -71], true);
+// [242075.00535055372, 750123.32090043]
+proj4('+proj=longlat +ellps=WGS84 +datum=WGS84 +units=degrees +axis=neu', firstProjection).inverse([242075.00535055372, 750123.32090043], true);
+//[40.99999999999986, -71]
+//the floating points to answer your question
+```
 
 ## Grid Based Datum Adjustments
 
