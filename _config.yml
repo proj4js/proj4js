@@ -1,0 +1,8 @@
+title: Proj4js
+description: JavaScript library to transform coordinates from one coordinate system to another, including datum transformations
+google_analytics: UA-46333772-1
+show_downloads: true
+theme: jekyll-theme-tactile
+
+gems:
+  - jekyll-mentions
