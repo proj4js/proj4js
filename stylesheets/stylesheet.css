@@ -152,7 +152,7 @@ a.button span {
   padding-left: 50px;
 }
 
-#download-zip, #download-tar-gz {
+#downloads {
   display: none;
 }
 #download-zip span {
