@@ -229,7 +229,7 @@
     var ENDED = -1;
     var whitespace = /\s/;
     var latin = /[A-Za-z]/;
-    var keyword = /[A-Za-z84]/;
+    var keyword = /[A-Za-z84_]/;
     var endThings = /[,\]]/;
     var digets = /[\d\.E\-\+]/;
     // const ignoredChar = /[\s_\-\/\(\)]/g;
@@ -4370,7 +4370,9 @@
       "Lambert_Conformal_Conic",
       "Lambert_Conformal_Conic_1SP",
       "Lambert_Conformal_Conic_2SP",
-      "lcc"
+      "lcc",
+      "Lambert Conic Conformal (1SP)",
+      "Lambert Conic Conformal (2SP)",
     ];
 
     var lcc = {
@@ -7166,7 +7168,7 @@
     proj4$1.nadgrid = nadgrid;
     proj4$1.transform = transform;
     proj4$1.mgrs = mgrs;
-    proj4$1.version = '2.7.5';
+    proj4$1.version = '2.7.5-alpha';
     includedProjections(proj4$1);
 
     return proj4$1;
