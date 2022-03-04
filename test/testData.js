@@ -801,6 +801,16 @@ var testPoints = [
       ll: 5,
       xy: 0
     }
+  },
+  // Geostationary - Ellipsoid - X Sweep
+  {
+    code: '+proj=geos +sweep=x +lon_0=-75 +h=35786023 +a=6378137.0 +b=6356752.314',
+    ll: [-95, 25],
+    xy: [-1920508.77, 2605680.03],
+    // acc: {
+    //   ll: 5,
+    //   xy: 0
+    // }
   }
 ];
 if (typeof module !== 'undefined') {
