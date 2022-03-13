@@ -801,6 +801,30 @@ var testPoints = [
       ll: 5,
       xy: 0
     }
+  },
+  // Geostationary - Ellipsoid - X Sweep
+  {
+    code: '+proj=geos +sweep=x +lon_0=-75 +h=35786023 +a=6378137.0 +b=6356752.314',
+    ll: [-95, 25],
+    xy: [-1920508.77, 2605680.03],
+  },
+  // Geostationary - Ellipsoid - Y Sweep
+  {
+    code: '+proj=geos +sweep=y +lon_0=-75 +h=35786023 +a=6378137.0 +b=6356752.314',
+    ll: [-95, 25],
+    xy: [-1925601.20, 2601922.01],
+  },
+  // Geostationary - Sphere - X Sweep
+  {
+    code: '+proj=geos +sweep=x +lon_0=-75 +h=35786023 +a=6378137.0 +b=6378137.0',
+    ll: [-95, 25],
+    xy: [-1919131.48, 2621384.15],
+  },
+  // Geostationary - Sphere - Y Sweep
+  {
+    code: '+proj=geos +sweep=y +lon_0=-75 +h=35786023 +a=6378137.0 +b=6378137.0',
+    ll: [-95, 25],
+    xy: [-1924281.93, 2617608.82],
   }
 ];
 if (typeof module !== 'undefined') {
