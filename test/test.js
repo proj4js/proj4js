@@ -167,6 +167,15 @@ function startTests(chai, proj4, testPoints) {
               assert.closeTo(ll.y, testPoint.ll[1], llEPSLN, 'y is close');
             });
           });
+          describe('proj coord object', function() {
+            it('should not be modified', function() {
+              var expected = {x: 100000, y: 100000};
+              var inpxy = {x: expected.x, y: expected.y};
+              proj4('EPSG:3857', proj4.WGS84, inpxy);
+
+              assert.deepEqual(inpxy, expected, "input is unmodified");
+            });
+          });
         });
       });
     });
