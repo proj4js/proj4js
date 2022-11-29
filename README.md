@@ -23,12 +23,12 @@ If you do not want to download anything, Proj4js is also hosted on [cdnjs](https
 The basic signature is:
 
 ```javascript
-proj4(fromProjection[, toProjection, coordinates])
+proj4([fromProjection, ]toProjection[, coordinates])
 ```
 
 Projections can be proj or wkt strings.
 
-Coordinates may an object of the form `{x:x,y:y}` or an array of the form `[x,y]`.
+Coordinates may be an object of the form `{x:x,y:y}` or an array of the form `[x,y]`.
 
 When all 3 arguments  are given, the result is that the coordinates are transformed from projection1 to projection 2. And returned in the same format that they were given in.
 
@@ -36,8 +36,15 @@ When all 3 arguments  are given, the result is that the coordinates are transfor
 var firstProjection = 'PROJCS["NAD83 / Massachusetts Mainland",GEOGCS["NAD83",DATUM["North_American_Datum_1983",SPHEROID["GRS 1980",6378137,298.257222101,AUTHORITY["EPSG","7019"]],AUTHORITY["EPSG","6269"]],PRIMEM["Greenwich",0,AUTHORITY["EPSG","8901"]],UNIT["degree",0.01745329251994328,AUTHORITY["EPSG","9122"]],AUTHORITY["EPSG","4269"]],UNIT["metre",1,AUTHORITY["EPSG","9001"]],PROJECTION["Lambert_Conformal_Conic_2SP"],PARAMETER["standard_parallel_1",42.68333333333333],PARAMETER["standard_parallel_2",41.71666666666667],PARAMETER["latitude_of_origin",41],PARAMETER["central_meridian",-71.5],PARAMETER["false_easting",200000],PARAMETER["false_northing",750000],AUTHORITY["EPSG","26986"],AXIS["X",EAST],AXIS["Y",NORTH]]';
 var secondProjection = "+proj=gnom +lat_0=90 +lon_0=0 +x_0=6300000 +y_0=6300000 +ellps=WGS84 +datum=WGS84 +units=m +no_defs";
 //I'm not going to redefine those two in latter examples.
-proj4(firstProjection,secondProjection,[2,5]);
-// [-2690666.2977344505, 3662659.885459918]
+proj4(firstProjection,secondProjection,[-122.305887, 58.9465872]);
+// [-2690575.447893817, 36622916.8071244564]
+```
+
+The library can also parse coordinates provided with an elevation, again as an object of the form `{x:x,y:y,z:z}` or an array of the form `[x,y,z]`.
+
+```javascript
+proj4(firstProjection,secondProjection,[-122.305887, 58.9465872,10]);
+// [-2690575.447893817, 36622916.8071244564, 10]
 ```
 
 If only 1 projection is given then it is assumed that it is being projected *from* WGS84 (fromProjection is WGS84).
@@ -50,10 +57,10 @@ proj4(firstProjection,[-71,41]);
 If no coordinates are given an object with two methods is returned, its methods are `forward` which projects from the first projection to the second and `inverse` which projects from the second to the first.
 
 ```javascript
-proj4(firstProjection,secondProjection).forward([2,5]);
-// [-2690666.2977344505, 3662659.885459918]
-proj4(secondProjection,firstProjection).inverse([2,5]);
-// [-2690666.2977344505, 3662659.885459918]
+proj4(firstProjection,secondProjection).forward([-122.305887, 58.9465872]);
+// [-2690575.447893817, 36622916.8071244564]
+proj4(secondProjection,firstProjection).inverse([-122.305887, 58.9465872]);
+// [-2690575.447893817, 36622916.8071244564]
 ```
 
 And as above if only one projection is given, it's assumed to be coming from wgs84:
@@ -62,9 +69,9 @@ And as above if only one projection is given, it's assumed to be coming from wgs
 proj4(firstProjection).forward([-71,41]);
 // [242075.00535055372, 750123.32090043]
 proj4(firstProjection).inverse([242075.00535055372, 750123.32090043]);
-//[-71, 40.99999999999986]
-//the floating points to answer your question
+// [-71, 40.99999999999986]
 ```
+Note: The generation of the floating point value `40.99999999999986` in this example represents the fact that some variance in precision is involved in any conversion between one coordinate reference system and another.
 
 ## Named Projections
 
@@ -151,31 +158,31 @@ $ npm install --save @types/proj4
 ## Developing
 To set up build tools make sure you have node and grunt-cli installed and then run `npm install`.
 
-To do the complete build and browser tests run:
+To do the complete build and browser tests run
 
 ```bash
 node_modules/.bin/grunt
 ```
 
-To run node tests run:
+To run node tests run
 
 ```bash
 npm test
 ```
 
-To run node tests with coverage run:
+To run node tests with coverage run
 
 ```bash
 npm test --coverage
 ```
 
-To create a build with only default projections (latlon and Mercator) run:
+To create a build with only default projections (latlon and Mercator) run
 
 ```bash
 node_modules/.bin/grunt build
 ```
 
-To create a build with only custom projections include a comma separated list of projections codes (the file name in 'lib/projections' without the '.js') after a colon, e.g.:
+To create a build with only custom projections include a comma separated list of projections codes (the file name in 'lib/projections' without the '.js') after a colon, e.g.
 
 ```bash
 node_modules/.bin/grunt build:tmerc
