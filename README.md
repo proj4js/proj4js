@@ -23,7 +23,7 @@ If you do not want to download anything, Proj4js is also hosted on [cdnjs](http:
 The basic signature is:
 
 ```javascript
-proj4(fromProjection, toProjection, [coordinates])
+proj4([fromProjection, ]toProjection[, coordinates])
 ```
 
 Projections can be proj or wkt strings.
