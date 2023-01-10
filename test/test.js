@@ -409,7 +409,67 @@ function startTests(chai, proj4, testPoints) {
       });
     });
 
-    describe('Nadgrids', function() {
+    describe('Nadgrids BETA2007', function() {
+      var tests = [
+        ['EPSG:31466', 'EPSG:4326', 2559552, 5670982, 6.850861772, 51.170707759, 0.0000001, 0.01],
+        ['EPSG:31466', 'EPSG:3857', 2559552, 5670982, 762634.443931574, 6651545.680265270, 0.01, 0.01],
+        ['EPSG:31466', 'EPSG:25832', 2559552, 5670982, 349757.381712518, 5671004.065049540, 0.01, 0.01],
+      ];
+
+      function initializeNadgrid(buffer) {
+        proj4.nadgrid('BETA2007.gsb', buffer);
+        proj4.defs('EPSG:31466', '+proj=tmerc +lat_0=0 +lon_0=6 +k=1 +x_0=2500000 +y_0=0 +ellps=bessel +nadgrids=BETA2007.gsb +units=m +no_defs +type=crs');
+        proj4.defs('EPSG:25832', '+proj=utm +zone=32 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs +type=crs');
+      }
+
+      before(function(done) {
+        if (typeof XMLHttpRequest !== 'undefined') {
+          const xhr = new XMLHttpRequest();
+          xhr.open('GET', 'BETA2007.gsb', true);
+          xhr.responseType = 'arraybuffer';
+          xhr.addEventListener('load', function() {
+            initializeNadgrid(xhr.response);
+            done();
+          });
+          xhr.addEventListener('error', done);
+          xhr.send();
+        } else if (typeof require === 'function') {
+          const fs = require('fs');
+          const path = require('path');
+          fs.readFile(path.join(__dirname, 'BETA2007.gsb'), function(err, data) {
+            if (err) {
+              done(err);
+            } else {
+              initializeNadgrid(data.buffer);
+              done();
+            }
+          })
+        }
+      });
+
+      tests.forEach(function(test) {
+        var fromProj = test[0];
+        var toProj = test[1];
+        var fromX = test[2];
+        var fromY = test[3];
+        var toX = test[4];
+        var toY = test[5];
+        var fromPrecision = test[6];
+        var toPrecision = test[7];
+        it('should transform ' + fromProj + ' to ' + toProj, function () {
+          var transformed = proj4(fromProj, toProj, [fromX, fromY]);
+          assert.approximately(transformed[0], toX, fromPrecision);
+          assert.approximately(transformed[1], toY, fromPrecision);
+        });
+        it('should transform ' + toProj + ' to ' + fromProj, function () {
+          var transformed = proj4(toProj, fromProj, [toX, toY]);
+          assert.approximately(transformed[0], fromX, toPrecision);
+          assert.approximately(transformed[1], fromY, toPrecision);
+        });
+      });
+    });
+
+    describe('Nadgrids ntv2', function() {
       var tests = [
         [-44.382211538462, 40.3768, -44.380749, 40.377457], // just inside the lower limit
         [-87.617788, 59.623262, -87.617659, 59.623441], // just inside the upper limit
