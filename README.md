@@ -40,7 +40,7 @@ proj4(firstProjection,secondProjection,[-122.305887, 58.9465872]);
 // [-2690575.447893817, 36622916.8071244564]
 ```
 
-The library can also parse coordinates provided with an elevation, again as an object of the form `{x:x,y:y,z:z}` or an array of the form `[x,y,z]`.
+The library can also parse coordinates provided with an elevation and measure, again as an object of the form `{x:x,y:y,z:z,m:m}` or an array of the form `[x,y,z,m]`.
 
 ```javascript
 proj4(firstProjection,secondProjection,[-122.305887, 58.9465872,10]);
