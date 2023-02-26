@@ -168,18 +168,17 @@ var testPoints = [
   {
     code:'PROJCS["Beduaram / TM 13 NE",GEOGCS["Beduaram",DATUM["Beduaram",SPHEROID["Clarke 1880 (IGN)",6378249.2,293.4660212936269,AUTHORITY["EPSG","7011"]],TOWGS84[-106,-87,188,0,0,0,0],AUTHORITY["EPSG","6213"]],PRIMEM["Greenwich",0,AUTHORITY["EPSG","8901"]],UNIT["degree",0.01745329251994328,AUTHORITY["EPSG","9122"]],AUTHORITY["EPSG","4213"]],UNIT["metre",1,AUTHORITY["EPSG","9001"]],PROJECTION["Transverse_Mercator"],PARAMETER["latitude_of_origin",0],PARAMETER["central_meridian",13],PARAMETER["scale_factor",0.9996],PARAMETER["false_easting",500000],PARAMETER["false_northing",0],AUTHORITY["EPSG","2931"],AXIS["X",EAST],AXIS["Y",NORTH]]',
     ll:[5, 25],
-    xy:[-308919.1234711099, 2788738.255936392],
-    acc:{
-      ll:5
-    }
+    xy:[-308919.1234711099, 2788738.255936392]
   },
   {
     code:'PROJCS["Beduaram / TM 13 NE",GEOGCS["Beduaram",DATUM["D_Beduaram",SPHEROID["Clarke_1880_IGN",6378249.2,293.4660212936269]],PRIMEM["Greenwich",0],UNIT["Degree",0.017453292519943295]],PROJECTION["Transverse_Mercator"],PARAMETER["latitude_of_origin",0],PARAMETER["central_meridian",13],PARAMETER["scale_factor",0.9996],PARAMETER["false_easting",500000],PARAMETER["false_northing",0],UNIT["Meter",1]]',
     ll:[5, 25],
-    xy:[-308919.1234711099, 2788738.255936392],
-    acc:{
-      ll:5
-    }
+    xy:[-308919.1234711099, 2788738.255936392]
+  },
+  {
+    code: '+proj=lcc +lat_1=49.5 +lat_0=49.5 +lon_0=0 +k_0=0.999877341 +x_0=600000 +y_0=1200000 +ellps=clrk80ign +pm=paris +towgs84=-168,-60,320,0,0,0,0 +units=m +no_defs +type=crs',
+    ll:[2.294482, 48.859045],
+    xy:[596916.561147926957, 1128733.073948238511]
   },
   {
     code:'PROJCS["S-JTSK (Ferro) / Krovak",GEOGCS["S-JTSK (Ferro)",DATUM["S_JTSK_Ferro",SPHEROID["Bessel 1841",6377397.155,299.1528128,AUTHORITY["EPSG","7004"]],AUTHORITY["EPSG","6818"]],PRIMEM["Ferro",-17.66666666666667,AUTHORITY["EPSG","8909"]],UNIT["degree",0.01745329251994328,AUTHORITY["EPSG","9122"]],AUTHORITY["EPSG","4818"]],UNIT["metre",1,AUTHORITY["EPSG","9001"]],PROJECTION["Krovak"],PARAMETER["latitude_of_center",49.5],PARAMETER["longitude_of_center",42.5],PARAMETER["azimuth",30.28813972222222],PARAMETER["pseudo_standard_parallel_1",78.5],PARAMETER["scale_factor",0.9999],PARAMETER["false_easting",0],PARAMETER["false_northing",0],AUTHORITY["EPSG","2065"],AXIS["Y",WEST],AXIS["X",SOUTH]]',
