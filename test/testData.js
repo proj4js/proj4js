@@ -291,6 +291,11 @@ var testPoints = [
     ll:[0, -72.5],
     xy:[0, -9334375.897187851]
   },{
+    // Test that lat_ts at a pole is handled correctly in stere projection
+    code:'+no_defs +units=m +ellps=GRS80 +lon_0=0 +proj=stere +lat_ts=90.0 +lat_0=90 +x_0=0 +y_0=0',
+    ll:[69.648700, 18.955781],
+    xy:[8527917.706, -3163255.729]
+  },{
     code:'PROJCS["WGS 84 / NSIDC Sea Ice Polar Stereographic South", GEOGCS["WGS 84", DATUM["World Geodetic System 1984", SPHEROID["WGS 84", 6378137.0, 298.257223563, AUTHORITY["EPSG","7030"]], AUTHORITY["EPSG","6326"]], PRIMEM["Greenwich", 0.0, AUTHORITY["EPSG","8901"]], UNIT["degree", 0.017453292519943295], AXIS["Geodetic longitude", EAST], AXIS["Geodetic latitude", NORTH], AUTHORITY["EPSG","4326"]], PROJECTION["Polar Stereographic (variant B)", AUTHORITY["EPSG","9829"]], PARAMETER["central_meridian", 0.0], PARAMETER["Standard_Parallel_1", -70.0], PARAMETER["false_easting", 0.0], PARAMETER["false_northing", 0.0], UNIT["m", 1.0], AXIS["Easting", "North along 90 deg East"], AXIS["Northing", "North along 0 deg"], AUTHORITY["EPSG","3976"]]',
     ll:[0, -72.5],
     xy:[0, 1910008.78441421]
@@ -642,7 +647,7 @@ var testPoints = [
       xy: 8
     }
   },
-  // Omerc Type A - #273  
+  // Omerc Type A - #273
   {
     code: '+proj=omerc +lat_0=4 +lonc=102.25 +alpha=323.0257964666666 +k=0.99984 +x_0=804671 +y_0=0 +no_uoff +gamma=323.1301023611111 +ellps=GRS80 +units=m +no_defs',
     xy: [412597.532715, 338944.957259],
@@ -670,7 +675,7 @@ var testPoints = [
       ll: 9,
       xy: 4
     }
-  }, 
+  },
   {
     code: 'PROJCS["NAD83(NSRS2007) / Alaska zone 1", GEOGCS["NAD83(NSRS2007)", DATUM["NAD83_National_Spatial_Reference_System_2007", SPHEROID["GRS 1980",6378137,298.257222101, AUTHORITY["EPSG","7019"]], TOWGS84[0,0,0,0,0,0,0], AUTHORITY["EPSG","6759"]], PRIMEM["Greenwich",0, AUTHORITY["EPSG","8901"]], UNIT["degree",0.0174532925199433, AUTHORITY["EPSG","9122"]], AUTHORITY["EPSG","4759"]], PROJECTION["Hotine_Oblique_Mercator"], PARAMETER["latitude_of_center",57], PARAMETER["longitude_of_center",-133.6666666666667], PARAMETER["azimuth",323.1301023611111], PARAMETER["rectified_grid_angle",323.1301023611111], PARAMETER["scale_factor",0.9999], PARAMETER["false_easting",5000000], PARAMETER["false_northing",-5000000], UNIT["metre",1, AUTHORITY["EPSG","9001"]], AXIS["X",EAST], AXIS["Y",NORTH], AUTHORITY["EPSG","3468"]]',
     xy: [1264314.74, -763162.04],
