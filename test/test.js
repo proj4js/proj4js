@@ -189,6 +189,14 @@ function startTests(chai, proj4, testPoints) {
         assert.closeTo(result.y, 180418.4380560551, 1e-6);
         assert.equal(result.z, undefined);
       });
+      it('should return null for transform of [0, 0] for EPSG:3413 -> EPSG:3857', function () {
+        var point = proj4.transform(
+          proj4.Proj('+proj=stere +lat_0=90 +lat_ts=70 +lon_0=-45 +k=1 +x_0=0 +y_0=0 +datum=WGS84 +units=m +no_defs'),
+          proj4.Proj('EPSG:3857'),
+          [0, 0]
+        );
+        assert.strictEqual(point, null);
+      });
       it('should ignore stuff it does not know', function () {
         var sweref99tm = '+proj=utm +zone=33 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs';
         var rt90 = '+lon_0=15.808277777799999 +lat_0=0.0 +k=1.0 +x_0=1500000.0 +y_0=0.0 +proj=tmerc +ellps=bessel +units=m +towgs84=414.1,41.3,603.1,-0.855,2.141,-7.023,0 +no_defs';
