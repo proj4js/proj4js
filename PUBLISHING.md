@@ -16,6 +16,7 @@ Then run the publish script
 afterwards don't forget to update the versions to be a prerelease of the next version, so if you just published 1.1.1 then:
 
     tin -v 1.1.2-alpha
-    git add package.json component.json bower.json
+    npm install
+    git add package.json package-lock.json component.json bower.json
     git commit -m 'update version to 1.1.2-alpha'
     git push origin master
