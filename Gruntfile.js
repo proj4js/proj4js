@@ -37,30 +37,16 @@ var projs = [
 module.exports = function (grunt) {
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
-    connect: {
-      server: {
-        options: {
-          port: process.env.PORT || 8080,
-          base: '.'
-        }
-      }
-    },
-    mocha_phantomjs: {
-      all: {
-        options: {
-          reporter: "dot",
-          urls: [ //my ide requries process.env.IP and PORT
-            "http://" + (process.env.IP || "127.0.0.1") + ":" + (process.env.PORT || "8080") + "/test/amd.html",
-            "http://" + (process.env.IP || "127.0.0.1") + ":" + (process.env.PORT || "8080") + "/test/opt.html"
-          ]
-        }
-      }
-    },
     jshint: {
       options: {
         jshintrc: "./.jshintrc"
       },
       all: ['./lib/*.js', './lib/*/*.js']
+    },
+    shell: {
+      npm_test_jest: {
+        command: 'npm run run-tests',
+      }
     },
     rollup: {
       options: {
@@ -95,8 +81,7 @@ module.exports = function (grunt) {
   grunt.loadNpmTasks('grunt-rollup');
   grunt.loadNpmTasks('grunt-contrib-uglify');
   grunt.loadNpmTasks('grunt-contrib-jshint');
-  grunt.loadNpmTasks('grunt-contrib-connect');
-  grunt.loadNpmTasks('grunt-mocha-phantomjs');
+  grunt.loadNpmTasks('grunt-shell');
   grunt.registerTask('custom',function(){
     grunt.task.run('rollup', 'uglify');
     var projections = this.args;
@@ -122,5 +107,5 @@ module.exports = function (grunt) {
     var args = this.args.length?this.args[0].split(','):['default'];
     grunt.task.run('jshint', 'custom:'+args.join(':'));
   });
-  grunt.registerTask('default', ['build:all', 'connect','mocha_phantomjs']);
+  grunt.registerTask('default', ['build:all', "shell:npm_test_jest"]);
 };
