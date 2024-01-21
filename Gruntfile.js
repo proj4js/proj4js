@@ -1,6 +1,7 @@
-var json = require('rollup-plugin-json');
-var nodeResolve = require('rollup-plugin-node-resolve');
-var replace = require('rollup-plugin-replace');
+var json = require('@rollup/plugin-json');
+var nodeResolve = require('@rollup/plugin-node-resolve');
+var replace = require('@rollup/plugin-replace');
+var commonjs = require('@rollup/plugin-commonjs');
 var pkg = require('./package.json');
 
 var projs = [
@@ -37,27 +38,44 @@ var projs = [
 module.exports = function (grunt) {
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
+    connect: {
+      server: {
+        options: {
+          port: process.env.PORT || 8080,
+          base: '.',
+          keepalive : true
+        }
+      }
+    },
+    mocha: {
+      test: {
+        options: {
+          reporter: "dot",
+          urls: [ //my ide requries process.env.IP and PORT
+            "http://" + (process.env.IP || "127.0.0.1") + ":" + (process.env.PORT || "8080") + "/test/amd.html",
+            "http://" + (process.env.IP || "127.0.0.1") + ":" + (process.env.PORT || "8080") + "/test/opt.html"
+          ]
+        }
+      }
+    },
     jshint: {
       options: {
         jshintrc: "./.jshintrc"
       },
       all: ['./lib/*.js', './lib/*/*.js']
     },
-    shell: {
-      npm_test_jest: {
-        command: 'npm run run-tests',
-      }
-    },
     rollup: {
       options: {
         format: "umd",
         moduleName: "proj4",
+        name: "proj4",
         plugins: [
           replace({
             __VERSION__: pkg.version
           }),
           json(),
-          nodeResolve()
+          nodeResolve(),
+          commonjs()
         ]
       },
       files: {
@@ -81,7 +99,8 @@ module.exports = function (grunt) {
   grunt.loadNpmTasks('grunt-rollup');
   grunt.loadNpmTasks('grunt-contrib-uglify');
   grunt.loadNpmTasks('grunt-contrib-jshint');
-  grunt.loadNpmTasks('grunt-shell');
+  grunt.loadNpmTasks('grunt-contrib-connect');
+  grunt.loadNpmTasks('grunt-mocha');
   grunt.registerTask('custom',function(){
     grunt.task.run('rollup', 'uglify');
     var projections = this.args;
@@ -107,5 +126,5 @@ module.exports = function (grunt) {
     var args = this.args.length?this.args[0].split(','):['default'];
     grunt.task.run('jshint', 'custom:'+args.join(':'));
   });
-  grunt.registerTask('default', ['build:all', "shell:npm_test_jest"]);
+  grunt.registerTask('default', ['build:all', 'connect','mocha']);
 };
