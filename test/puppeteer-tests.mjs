@@ -57,7 +57,6 @@ const server = http.createServer(function (request, response) {
       response.end(content, 'utf-8');
     }
   });
-
 });
 function timeoutPromise(timeout, callback) {
   return new Promise((resolve, reject) => {

@@ -14,9 +14,9 @@
     "build": "npm run rollup && grunt && npm run test:all",
     "build:tmerc": "npm run rollup && grunt build:tmerc  && npm run test:all",
     "rollup": "rollup -c",
-    "test": "npm run build && istanbul test node_modules/mocha/bin/_mocha test/test.js",
+    "test": "npm run build && istanbul test node_modules/mocha/bin/_mocha test/test-ci.mjs",
     "test:all": "npm run test:browser && npm run test:ci",
-    "test:browser": "node puppeteer-tests.mjs",
+    "test:browser": "node test/puppeteer-tests.mjs",
     "test:ci": "istanbul test node_modules/mocha/bin/_mocha test/test-ci.mjs"
   },
   "repository": {
