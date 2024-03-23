@@ -27,6 +27,7 @@ import robin from './lib/projections/robin';
 import geocent from './lib/projections/geocent';
 import tpers from './lib/projections/tpers';
 import geos from './lib/projections/geos';
+import eqearth from './lib/projections/eqearth';
 export default function(proj4){
   proj4.Proj.projections.add(tmerc);
   proj4.Proj.projections.add(etmerc);
@@ -57,4 +58,5 @@ export default function(proj4){
   proj4.Proj.projections.add(geocent);
   proj4.Proj.projections.add(tpers);
   proj4.Proj.projections.add(geos);
+  proj4.Proj.projections.add(eqearth);
 }

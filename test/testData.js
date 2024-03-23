@@ -856,6 +856,16 @@ var testPoints = [
     ll: [0, 0],
     xy: [0, 12367396.218459858],
   },
+  {
+    code: '+proj=eqearth +lon_0=0 +x_0=0 +y_0=0 +R=6371008.7714 +units=m +no_defs +type=crs',
+    ll: [16, 48],
+    xy: [1284600.7230114893, 5794915.366010354]
+  },
+  {
+    code: '+proj=eqearth +lon_0=150 +x_0=0 +y_0=0 +R=6371008.7714 +units=m +no_defs +type=crs',
+    ll: [16, 48],
+    xy: [-10758531.055221224, 5794915.366010354]
+  }
 ];
 if (typeof module !== 'undefined') {
   module.exports = testPoints;
