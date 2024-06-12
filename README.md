@@ -28,6 +28,8 @@ proj4([fromProjection, ]toProjection[, coordinates])
 
 Projections can be proj or wkt strings.
 
+Wkt strings must be in form of [version 1](https://docs.ogc.org/is/18-010r7/18-010r7.html#196) (earlier than 2015). Have a look at the [wkt-parser](https://github.com/proj4js/wkt-parser) for more info, or use proj strings instead.
+
 Coordinates may be an object of the form `{x:x,y:y}` or an array of the form `[x,y]`.
 
 When all 3 arguments  are given, the result is that the coordinates are transformed from projection1 to projection 2. And returned in the same format that they were given in.
