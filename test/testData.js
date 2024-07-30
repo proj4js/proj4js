@@ -865,6 +865,21 @@ var testPoints = [
     code: '+proj=eqearth +lon_0=150 +x_0=0 +y_0=0 +R=6371008.7714 +units=m +no_defs +type=crs',
     ll: [16, 48],
     xy: [-10758531.055221224, 5794915.366010354]
+  },
+  {
+    code: '+proj=bonne +lat_1=10 +lon_0=10',
+    ll: [4.9, 52.366667],
+    xy: [-347381.937958562, 4700204.94589969]
+  },
+  {
+    code: '+proj=bonne +a=6400000 +lat_1=0.5 +lat_2=2',
+    ll: [2, 1],
+    xy: [223368.11557252839, 55884.555246393575]
+  },
+  {
+    code: '+proj=bonne +ellps=GRS80 +lat_1=0.5 +lat_2=2',
+    ll: [2, 1],
+    xy: [222605.29609715697, 55321.139565494814]
   }
 ];
 if (typeof module !== 'undefined') {

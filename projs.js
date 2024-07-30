@@ -28,6 +28,7 @@ import geocent from './lib/projections/geocent';
 import tpers from './lib/projections/tpers';
 import geos from './lib/projections/geos';
 import eqearth from './lib/projections/eqearth';
+import bonne from './lib/projections/bonne';
 export default function(proj4){
   proj4.Proj.projections.add(tmerc);
   proj4.Proj.projections.add(etmerc);
@@ -59,4 +60,5 @@ export default function(proj4){
   proj4.Proj.projections.add(tpers);
   proj4.Proj.projections.add(geos);
   proj4.Proj.projections.add(eqearth);
+  proj4.Proj.projections.add(bonne);
 }
