@@ -151,7 +151,16 @@ function startTests(chai, proj4, testPoints) {
           });
           describe('proj object', function() {
             it('should work with a 2 element array', function() {
-              var xy = proj4(new proj4.Proj(testPoint.code), testPoint.ll);
+              const ll = [testPoint.ll[0], testPoint.ll[1]];
+              Object.freeze(ll);
+              var xy = proj4(new proj4.Proj(testPoint.code), ll);
+              assert.closeTo(xy[0], testPoint.xy[0], xyEPSLN, 'x is close');
+              assert.closeTo(xy[1], testPoint.xy[1], xyEPSLN, 'y is close');
+            });
+            it('should work wit a 3 element array', function() {
+              const llz = [testPoint.ll[0], testPoint.ll[1], 0];
+              Object.freeze(llz);
+              var xy = proj4(new proj4.Proj(testPoint.code), llz);
               assert.closeTo(xy[0], testPoint.xy[0], xyEPSLN, 'x is close');
               assert.closeTo(xy[1], testPoint.xy[1], xyEPSLN, 'y is close');
             });
