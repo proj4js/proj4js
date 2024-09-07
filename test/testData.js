@@ -244,12 +244,28 @@ var testPoints = [
     xy:[2000000, 325449.806286]
   },{
     code:'+proj=aeqd +lat_0=0 +lon_0=0 +x_0=0 +y_0=0 +datum=WGS84 +units=m +no_defs',
+    ll:[0, 0],
+    xy:[0, 0]
+  },{
+    code:'+proj=aeqd +lat_0=0 +lon_0=0 +x_0=0 +y_0=0 +datum=WGS84 +units=m +no_defs',
     ll:[2, 0],
     xy:[222638.98158654713, 0]
   },{
     code:'+proj=aeqd +lat_0=0 +lon_0=0 +x_0=0 +y_0=0 +datum=WGS84 +units=m +no_defs',
     ll:[89, 0],
-    xy:[9907434.680601358, 0]
+    xy:[9907434.680601347, 0]
+  },{
+    code:'+proj=aeqd +lat_0=0 +lon_0=0 +x_0=0 +y_0=0 +datum=WGS84 +units=m +no_defs',
+    ll:[0, -52],
+    xy:[0, -5763343.550010418 ]
+  },{
+    code:'+proj=aeqd +lat_0=0 +lon_0=0 +x_0=0 +y_0=0 +datum=WGS84 +units=m +no_defs',
+    ll:[145, 0],
+    xy:[ 16141326.16502467, 0]
+  },{
+    code:'+proj=aeqd +lat_0=0 +lon_0=0 +x_0=0 +y_0=0 +datum=WGS84 +units=m +no_defs',
+    ll:[-145, 0],
+    xy:[-16141326.16502467, 0]
   },{
 //    code:'+proj=aeqd +lat_0=0 +lon_0=0 +x_0=0 +y_0=0 +datum=WGS84 +units=m +no_defs',
 //    ll:[91, 0],
