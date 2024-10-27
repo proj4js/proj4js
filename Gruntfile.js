@@ -1,6 +1,7 @@
-var json = require('rollup-plugin-json');
-var nodeResolve = require('rollup-plugin-node-resolve');
-var replace = require('rollup-plugin-replace');
+var json = require('@rollup/plugin-json');
+var nodeResolve = require('@rollup/plugin-node-resolve');
+var replace = require('@rollup/plugin-replace');
+var commonjs = require('@rollup/plugin-commonjs');
 var pkg = require('./package.json');
 
 var projs = [
@@ -43,12 +44,13 @@ module.exports = function (grunt) {
       server: {
         options: {
           port: process.env.PORT || 8080,
-          base: '.'
+          base: '.',
+          keepalive : true
         }
       }
     },
-    mocha_phantomjs: {
-      all: {
+    mocha: {
+      test: {
         options: {
           reporter: "dot",
           urls: [ //my ide requries process.env.IP and PORT
@@ -68,12 +70,14 @@ module.exports = function (grunt) {
       options: {
         format: "umd",
         moduleName: "proj4",
+        name: "proj4",
         plugins: [
           replace({
             __VERSION__: pkg.version
           }),
           json(),
-          nodeResolve()
+          nodeResolve(),
+          commonjs()
         ]
       },
       files: {
@@ -98,7 +102,7 @@ module.exports = function (grunt) {
   grunt.loadNpmTasks('grunt-contrib-uglify');
   grunt.loadNpmTasks('grunt-contrib-jshint');
   grunt.loadNpmTasks('grunt-contrib-connect');
-  grunt.loadNpmTasks('grunt-mocha-phantomjs');
+  grunt.loadNpmTasks('grunt-mocha');
   grunt.registerTask('custom',function(){
     grunt.task.run('rollup', 'uglify');
     var projections = this.args;
@@ -124,5 +128,5 @@ module.exports = function (grunt) {
     var args = this.args.length?this.args[0].split(','):['default'];
     grunt.task.run('jshint', 'custom:'+args.join(':'));
   });
-  grunt.registerTask('default', ['build:all', 'connect','mocha_phantomjs']);
+  grunt.registerTask('default', ['build:all', 'connect','mocha']);
 };
