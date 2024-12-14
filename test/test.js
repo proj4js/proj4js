@@ -572,8 +572,8 @@ function startTests(chai, proj4, testPoints) {
       var converter;
 
       function initializeNadgrid(buffer) {
-        proj4.nadgrid('ntv2', buffer, false);
-        proj4.defs('ntv2_from', '+proj=longlat +ellps=clrk66 +nadgrids=@ignorable,ntv2,null');
+        proj4.nadgrid('ntv2', buffer, {includeErrorFields: false});
+        proj4.defs('ntv2_from', '+proj=longlat +ellps=clrk66 +nadgrids=@ntv2,null');
         proj4.defs('ntv2_to', '+proj=longlat +datum=WGS84 +no_defs');
         converter = proj4('ntv2_from', 'ntv2_to');
       }
