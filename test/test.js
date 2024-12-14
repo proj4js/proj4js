@@ -558,6 +558,83 @@ function startTests(chai, proj4, testPoints) {
         });
       });
     });
+
+
+    describe('Nadgrids ntv2 no error columns', function() {
+      var tests = [
+        [-44.382211538462, 40.3768, -44.380749, 40.377457], // just inside the lower limit
+        [-87.617788, 59.623262, -87.617659, 59.623441], // just inside the upper limit
+        [-44.5, 40.5, -44.498553, 40.500632], // inside the first square
+        [-60, 50, -59.999192, 50.000058], // a general point towards the middle of the grid
+        [0, 0, 0, 0] // fall back to null
+      ];
+
+      var converter;
+
+      function initializeNadgrid(buffer) {
+        proj4.nadgrid('ntv2', buffer, {includeErrorFields: false});
+        proj4.defs('ntv2_from', '+proj=longlat +ellps=clrk66 +nadgrids=@ntv2,null');
+        proj4.defs('ntv2_to', '+proj=longlat +datum=WGS84 +no_defs');
+        converter = proj4('ntv2_from', 'ntv2_to');
+      }
+
+      before(function(done) {
+        if (typeof XMLHttpRequest !== 'undefined') {
+          const xhr = new XMLHttpRequest();
+          xhr.open('GET', 'ntv2_0_downsampled_no_error_columns.gsb', true);
+          xhr.responseType = 'arraybuffer';
+          xhr.addEventListener('load', function() {
+            initializeNadgrid(xhr.response);
+            done();
+          });
+          xhr.addEventListener('error', done);
+          xhr.send();
+        } else if (typeof require === 'function') {
+          const fs = require('fs');
+          const path = require('path');
+          fs.readFile(path.join(__dirname, 'ntv2_0_downsampled_no_error_columns.gsb'), function(err, data) {
+            if (err) {
+              done(err);
+            } else {
+              initializeNadgrid(data.buffer);
+              done();
+            }
+          })
+        }
+      });
+
+      tests.forEach(function(test) {
+        var fromLng = test[0];
+        var fromLat = test[1];
+        var toLng = test[2];
+        var toLat = test[3];
+        it('should interpolate ' + [fromLng, fromLat] + ' to ' + [toLng, toLat], function () {
+          var actual = converter.forward([fromLng, fromLat]);
+          assert.approximately(actual[0], toLng, 0.000001);
+          assert.approximately(actual[1], toLat, 0.000001);
+        });
+      });
+
+      var inverseTests = [
+        [-44.5, 40.5, -44.498553, 40.500632],
+        [-60, 50, -59.999192, 50.000058]
+      ];
+
+      inverseTests.forEach(function(test) {
+        var fromLng = test[0];
+        var fromLat = test[1];
+        var toLng = test[2];
+        var toLat = test[3];
+        it('should inverse interpolate ' + [toLng, toLat] + ' to ' + [fromLng, fromLat], function () {
+          var actual = converter.inverse([toLng, toLat]);
+          assert.approximately(actual[0], fromLng, 0.000001);
+          assert.approximately(actual[1], fromLat, 0.000001);
+        });
+      });
+    });
+
+
+
   });
 }
 if(typeof process !== 'undefined'&&process.toString() === '[object process]'){

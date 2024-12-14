@@ -151,6 +151,15 @@ proj4.nadgrid('key', buffer);
 
 then use the given key in your definition, e.g. `+nadgrids=@key,null`. See [Grid Based Datum Adjustments](https://proj.org/usage/transformation.html?highlight=nadgrids#grid-based-datum-adjustments).
 
+Optionally, if your `.gsb` file does not contain latitude and longitude error columns, you can provide an `options` object argument to the `proj4.nadgrid` call, setting the `includeErrorFields` property to `false`, e.g:
+
+```javascript
+const buffer = fs.readFileSync('ntv2.gsb').buffer
+proj4.nadgrid('key', buffer, {includeErrorFields:false});
+```
+
+If the options argument is omitted, `includeErrorFields` is assumed to be true.
+
 ## TypeScript
 
 TypeScript implementation was added to the [DefinitelyTyped repository](https://github.com/DefinitelyTyped/DefinitelyTyped).
