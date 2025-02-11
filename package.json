@@ -10,14 +10,15 @@
     "doc": "docs"
   },
   "scripts": {
-    "prepare": "npm run build",
-    "build": "npm run rollup && grunt && npm run test:all",
-    "build:tmerc": "npm run rollup && grunt build:tmerc  && npm run test:all",
+    "prepare": "npm run build && npm run test:all",
+    "build": "grunt && npm run rollup",
+    "build:tmerc": "grunt build:tmerc && npm run rollup",
     "rollup": "rollup -c",
-    "test": "npm run build && istanbul test node_modules/mocha/bin/_mocha test/test-ci.mjs",
+    "test": "npm run build && npm run test:all",
+    "test:coverage": "nyc npm run test:ci",
     "test:all": "npm run test:browser && npm run test:ci",
     "test:browser": "node test/puppeteer-tests.mjs",
-    "test:ci": "istanbul test node_modules/mocha/bin/_mocha test/test-ci.mjs"
+    "test:ci": "npx -y mocha test/test-ci.mjs"
   },
   "repository": {
     "type": "git",
@@ -26,19 +27,19 @@
   "author": "",
   "license": "MIT",
   "devDependencies": {
-    "chai": "^5.0.0",
-    "grunt": "^1.6.1",
-    "grunt-cli": "^1.4.3",
-    "istanbul": "^0.4.5",
-    "mocha": "^10.2.0",
-    "rollup": "^4.9.6",
+    "@rollup/plugin-eslint": "^9.0.5",
     "@rollup/plugin-json": "^6.1.0",
     "@rollup/plugin-node-resolve": "^15.2.3",
     "@rollup/plugin-replace": "^5.0.5",
     "@rollup/plugin-terser": "^0.4.4",
-    "@rollup/plugin-eslint": "^9.0.5",
-    "tin": "~0.5.0",
-    "puppeteer": "^21.7.0"
+    "chai": "^5.0.0",
+    "grunt": "^1.6.1",
+    "grunt-cli": "^1.4.3",
+    "mocha": "^10.2.0",
+    "nyc": "^17.1.0",
+    "puppeteer": "^24.2.0",
+    "rollup": "^4.9.6",
+    "tin": "~0.5.0"
   },
   "dependencies": {
     "mgrs": "1.0.0",

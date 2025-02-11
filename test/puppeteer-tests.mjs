@@ -84,7 +84,7 @@ function timeoutPromise(timeout, callback) {
 
   // Launch the browser and open a new blank page
 
-  const browser = await puppeteer.launch({ headless: "new" });
+  const browser = await puppeteer.launch({ headless: "new", args: ['--no-sandbox'] });
   const page = await browser.newPage();
 
   // Navigate the page to a URL

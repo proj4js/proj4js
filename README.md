@@ -164,7 +164,7 @@ To do the complete build and browser tests run
 node_modules/.bin/grunt
 ```
 
-To run node tests run
+To run node and browser tests run
 
 ```bash
 npm test
@@ -173,7 +173,8 @@ npm test
 To run node tests with coverage run
 
 ```bash
-npm test --coverage
+npm run build
+npm run test:coverage
 ```
 
 To create a build with only default projections (latlon and Mercator) run
