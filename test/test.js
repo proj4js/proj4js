@@ -637,8 +637,10 @@ function startTests(chai, proj4, testPoints) {
 
   });
 }
-if(typeof process !== 'undefined'&&process.toString() === '[object process]'){
-  (function(){
-    startTests(require('chai'), require('../dist/proj4-src'), require('./testData'));
-  })();
+if (typeof module !== 'undefined') {
+  module.exports = startTests;
+} else if (typeof define === 'function') {
+  define(function () {
+    return startTests;
+  });
 }
