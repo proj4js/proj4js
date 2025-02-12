@@ -267,10 +267,14 @@ var testPoints = [
     ll:[-145, 0],
     xy:[-16141326.16502467, 0]
   },{
-//    code:'+proj=aeqd +lat_0=0 +lon_0=0 +x_0=0 +y_0=0 +datum=WGS84 +units=m +no_defs',
-//    ll:[91, 0],
-//    xy:[10130073.6622, 0]
-//  },{
+   code:'+proj=aeqd +lat_0=0 +lon_0=0 +x_0=0 +y_0=0 +datum=WGS84 +units=m +no_defs',
+   ll:[91, 0],
+   xy:[10130073.6622, 0]
+  },{
+    code:'+proj=aeqd +lat_0=83.6625 +lon_0=-29.8333 +x_0=0 +y_0=0 +datum=WGS84 +units=m +no_defs',
+    ll:[150.1667, 87.38418697931058],
+    xy:[0, 1000000]
+  },{
     code:'+proj=aeqd +lat_0=0 +lon_0=0 +x_0=0 +y_0=0 +a=6371000 +b=6371000 +units=m +no_defs',
     ll:[91, 0],
     xy:[10118738.32, 0.00]
