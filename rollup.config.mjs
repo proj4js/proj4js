@@ -3,6 +3,7 @@ import nodeResolve from "@rollup/plugin-node-resolve"
 import terser from "@rollup/plugin-terser"
 import replace from "@rollup/plugin-replace"
 import eslint from '@rollup/plugin-eslint';
+import commonjs from "@rollup/plugin-commonjs";
 
 export default {
   input: './lib/index.js',
@@ -28,5 +29,6 @@ export default {
     }),
     json(),
     nodeResolve(),
+    commonjs()
   ]
 };
