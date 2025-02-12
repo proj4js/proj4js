@@ -1,6 +1,6 @@
 {
   "name": "proj4",
-  "version": "2.10.1-alpha",
+  "version": "2.15.1-alpha",
   "description": "Proj4js is a JavaScript library to transform point coordinates from one coordinate system to another, including datum transformations.",
   "homepage": "https://proj4js.github.io/proj4js/",
   "main": "dist/proj4-src.js",
@@ -10,13 +10,15 @@
     "doc": "docs"
   },
   "scripts": {
-    "prepare": "grunt",
-    "build": "grunt",
-    "serve": "grunt connect",
-    "build:tmerc": "grunt build:tmerc",
-    "test": "npm run build && istanbul test node_modules/mocha/bin/_mocha test/test.js",
-    "run-tests": "istanbul test node_modules/mocha/bin/_mocha test/test.js"
-
+    "prepare": "npm run build && npm run test:all",
+    "build": "grunt && npm run rollup",
+    "build:tmerc": "grunt build:tmerc && npm run rollup",
+    "rollup": "rollup -c",
+    "test": "npm run build && npm run test:all",
+    "test:coverage": "nyc npm run test:ci",
+    "test:all": "npm run test:browser && npm run test:ci",
+    "test:browser": "node test/puppeteer-tests.mjs",
+    "test:ci": "npx -y mocha test/test-ci.mjs"
   },
   "repository": {
     "type": "git",
@@ -25,30 +27,22 @@
   "author": "",
   "license": "MIT",
   "devDependencies": {
-    "chai": "~4.1.2",
-    "curl-amd": "^0.8.12",
-    "grunt": "^1.0.1",
-    "grunt-cli": "~1.2.0",
-    "grunt-contrib-connect": "~1.0.2",
-    "grunt-contrib-jshint": "~3.2.0",
-    "grunt-contrib-uglify": "~5.2.1",
-    "grunt-mocha": "^1.2.0",
-    "grunt-rollup": "^12.0.0",
-    "istanbul": "~0.4.5",
-    "mocha": "4.0.0",
-    "rollup": "^4.9.5",
+    "@rollup/plugin-eslint": "^9.0.5",
     "@rollup/plugin-json": "^6.1.0",
     "@rollup/plugin-node-resolve": "^15.2.3",
     "@rollup/plugin-replace": "^5.0.5",
-    "@rollup/plugin-commonjs": "^25.0.7",
+    "@rollup/plugin-terser": "^0.4.4",
+    "chai": "^5.0.0",
+    "grunt": "^1.6.1",
+    "grunt-cli": "^1.4.3",
+    "mocha": "^10.2.0",
+    "nyc": "^17.1.0",
+    "puppeteer": "^24.2.0",
+    "rollup": "^4.9.6",
     "tin": "~0.5.0"
   },
   "dependencies": {
     "mgrs": "1.0.0",
-    "wkt-parser": "^1.3.3",
-    "geographiclib-geodesic": "^2.0.0"
-  },
-  "overrides": {
-    "mocha": "4.0.0"
+    "wkt-parser": "^1.4.0"
   }
 }

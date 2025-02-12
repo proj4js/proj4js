@@ -10,7 +10,7 @@ git add dist -f
 git commit -m "build $VERSION"
 
 # Tag and push
-git tag $VERSION
+git tag -f v$VERSION -m "$VERSION"
 git push --tags git@github.com:proj4js/proj4js.git $VERSION
 
 # Publish

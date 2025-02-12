@@ -1,4 +1,4 @@
-# PROJ4JS [![Build Status](https://api.travis-ci.org/proj4js/proj4js.svg?branch=master)](https://travis-ci.org/proj4js/proj4js)
+# PROJ4JS ![Build Status](https://github.com/proj4js/proj4js/actions/workflows/build-and-test.yml/badge.svg)
 
 Proj4js is a JavaScript library to transform point coordinates from one coordinate system to another, including datum transformations.
 Originally a port of [PROJ](https://proj.org/) ([then known as PROJ.4](https://proj.org/faq.html#what-happened-to-proj-4)) and GCTCP C ([Archive](https://web.archive.org/web/20130523091752/http://edcftp.cr.usgs.gov/pub/software/gctpc/)) it is
@@ -27,6 +27,8 @@ proj4([fromProjection, ]toProjection[, coordinates])
 ```
 
 Projections can be proj or wkt strings.
+
+Wkt strings must be in form of [version 1](https://docs.ogc.org/is/18-010r7/18-010r7.html#196) (earlier than 2015). Have a look at the [wkt-parser](https://github.com/proj4js/wkt-parser) for more info, or use proj strings instead.
 
 Coordinates may be an object of the form `{x:x,y:y}` or an array of the form `[x,y]`.
 
@@ -111,6 +113,8 @@ instead of writing out the whole proj definition, by default proj4 has the follo
     - 'GOOGLE'
     - 'EPSG:900913'
     - 'EPSG:102113'
+- EPSG:32601 to EPSG:32660 (WGS84 / UTM zones 1 to 60 North)
+- EPSG:32701 to EPSG:32760 (WGS84 / UTM zones 1 to 60 South)
 
 Defined projections can also be accessed through the proj4.defs function (`proj4.defs('EPSG:4326')`).
 
@@ -147,6 +151,15 @@ proj4.nadgrid('key', buffer);
 
 then use the given key in your definition, e.g. `+nadgrids=@key,null`. See [Grid Based Datum Adjustments](https://proj.org/usage/transformation.html?highlight=nadgrids#grid-based-datum-adjustments).
 
+Optionally, if your `.gsb` file does not contain latitude and longitude error columns, you can provide an `options` object argument to the `proj4.nadgrid` call, setting the `includeErrorFields` property to `false`, e.g:
+
+```javascript
+const buffer = fs.readFileSync('ntv2.gsb').buffer
+proj4.nadgrid('key', buffer, {includeErrorFields:false});
+```
+
+If the options argument is omitted, `includeErrorFields` is assumed to be true.
+
 ## TypeScript
 
 TypeScript implementation was added to the [DefinitelyTyped repository](https://github.com/DefinitelyTyped/DefinitelyTyped).
@@ -164,7 +177,7 @@ To do the complete build and browser tests run
 node_modules/.bin/grunt
 ```
 
-To run node tests run
+To run node and browser tests run
 
 ```bash
 npm test
@@ -173,7 +186,8 @@ npm test
 To run node tests with coverage run
 
 ```bash
-npm test --coverage
+npm run build
+npm run test:coverage
 ```
 
 To create a build with only default projections (latlon and Mercator) run
