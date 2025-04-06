@@ -32,6 +32,7 @@
     "@rollup/plugin-node-resolve": "^15.2.3",
     "@rollup/plugin-replace": "^5.0.5",
     "@rollup/plugin-terser": "^0.4.4",
+    "@rollup/plugin-commonjs": "^25.0.7",
     "chai": "^5.0.0",
     "grunt": "^1.6.1",
     "grunt-cli": "^1.4.3",
@@ -42,6 +43,7 @@
     "tin": "~0.5.0"
   },
   "dependencies": {
+    "geographiclib-geodesic": "^2.1.1",
     "mgrs": "1.0.0",
     "wkt-parser": "^1.4.0"
   }
