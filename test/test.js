@@ -250,7 +250,7 @@ function startTests(chai, proj4, testPoints) {
           319180,
           6399862,
           0,
-          1000,
+          1000
         ]);
         assert.closeTo(rslt[0], 1271137.927561178, 0.000001);
         assert.closeTo(rslt[1], 6404230.291456626, 0.000001);
@@ -346,22 +346,22 @@ function startTests(chai, proj4, testPoints) {
       });
       it('should throw when passed null', function() {
         assert.throws(function() {
-            proj4('+proj=utm +zone=31', [null, 0]);
+          proj4('+proj=utm +zone=31', [null, 0]);
         }, 'coordinates must be finite numbers', 'should work');
       });
       it('should throw when passed NaN', function() {
         assert.throws(function() {
-            proj4('+proj=utm +zone=31', [0, NaN]);
+          proj4('+proj=utm +zone=31', [0, NaN]);
         }, 'coordinates must be finite numbers', 'should work');
       });
       it('should throw when passed Infinity', function() {
         assert.throws(function() {
-            proj4('+proj=utm +zone=31', [Infinity, 0]);
+          proj4('+proj=utm +zone=31', [Infinity, 0]);
         }, 'coordinates must be finite numbers', 'should work');
       });
       it('should throw when passed -Infinity', function() {
         assert.throws(function() {
-            proj4('+proj=utm +zone=31', [-Infinity, 0]);
+          proj4('+proj=utm +zone=31', [-Infinity, 0]);
         }, 'coordinates must be finite numbers', 'should work');
       });
     });
@@ -408,7 +408,7 @@ function startTests(chai, proj4, testPoints) {
       describe('Defs and Datum definition', function() {
         proj4.defs("EPSG:5514", "+proj=krovak +lat_0=49.5 +lon_0=24.83333333333333 +alpha=30.28813972222222 +k=0.9999 +x_0=0 +y_0=0 +ellps=bessel +pm=greenwich +units=m +no_defs +towgs84=570.8,85.7,462.8,4.998,1.587,5.261,3.56");
         var point = proj4.transform(proj4.Proj("WGS84"), proj4.Proj("EPSG:5514"),
-                                proj4.toPoint([12.806988, 49.452262]));
+          proj4.toPoint([12.806988, 49.452262]));
         it("Longitude of point from WGS84 correct.", function() {
           assert.equal(point.x.toPrecision(8), "-868208.61", "Longitude of point from WGS84 correct.");
         });
@@ -416,7 +416,7 @@ function startTests(chai, proj4, testPoints) {
           assert.equal(point.y.toPrecision(9), "-1095793.64", "Latitude of point from WGS84 correct.");
         });
         var point2 = proj4.transform(proj4.Proj("WGS84"), proj4.Proj("EPSG:5514"),
-                                proj4.toPoint([12.806988, 49.452262]));
+          proj4.toPoint([12.806988, 49.452262]));
         it("Longitude of point from WGS84 with second call for EPSG:5514 correct.", function() {
           assert.equal(point2.x.toPrecision(8), "-868208.61", "Longitude of point from WGS84 correct.");
         });
@@ -430,7 +430,7 @@ function startTests(chai, proj4, testPoints) {
       var tests = [
         ['EPSG:31466', 'EPSG:4326', 2559552, 5670982, 6.850861772, 51.170707759, 0.0000001, 0.01],
         ['EPSG:31466', 'EPSG:3857', 2559552, 5670982, 762634.443931574, 6651545.680265270, 0.01, 0.01],
-        ['EPSG:31466', 'EPSG:25832', 2559552, 5670982, 349757.381712518, 5671004.065049540, 0.01, 0.01],
+        ['EPSG:31466', 'EPSG:25832', 2559552, 5670982, 349757.381712518, 5671004.065049540, 0.01, 0.01]
       ];
 
       function initializeNadgrid(buffer) {

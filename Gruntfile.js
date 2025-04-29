@@ -31,13 +31,9 @@ var projs = [
   'eqearth',
   'bonne'
 ];
-var urls = [ //my ide requries process.env.IP and PORT
-"http://" + (process.env.IP || "127.0.0.1") + ":" + (process.env.PORT || "8080") + "/test/amd.html",
-"http://" + (process.env.IP || "127.0.0.1") + ":" + (process.env.PORT || "8080") + "/test/opt.html"
-];
 module.exports = function (grunt) {
   grunt.initConfig({
-    pkg: grunt.file.readJSON('package.json'),
+    pkg: grunt.file.readJSON('package.json')
   });
 
   grunt.registerTask('custom',function(){

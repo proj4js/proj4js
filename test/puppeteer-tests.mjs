@@ -10,7 +10,7 @@ const port = process.env.PORT || 8080; // use port 8080 unless there exists a pr
 const server = http.createServer(function (request, response) {
   let filePath = request.url;
 
-  if (filePath == '/') {
+  if (filePath === '/') {
     filePath = 'index.html';
   }
   else {
@@ -41,7 +41,7 @@ const server = http.createServer(function (request, response) {
 
   fs.readFile(filePath, function (error, content) {
     if (error) {
-      if (error.code == 'ENOENT') {
+      if (error.code === 'ENOENT') {
         fs.readFile('public/404.html', function (error, content) {
           response.writeHead(404, { 'Content-Type': 'text/html' });
           response.end(content, 'utf-8');
@@ -60,22 +60,22 @@ const server = http.createServer(function (request, response) {
 });
 function timeoutPromise(timeout, callback) {
   return new Promise((resolve, reject) => {
-      // Set up the timeout
-      const timer = setTimeout(() => {
-          reject(new Error(`Promise timed out after ${timeout} ms`));
-      }, timeout);
+    // Set up the timeout
+    const timer = setTimeout(() => {
+      reject(new Error(`Promise timed out after ${timeout} ms`));
+    }, timeout);
 
-      // Set up the real work
-      callback(
-          (value) => {
-              clearTimeout(timer);
-              resolve(value);
-          },
-          (error) => {
-              clearTimeout(timer);
-              reject(error);
-          }
-      );
+    // Set up the real work
+    callback(
+      (value) => {
+        clearTimeout(timer);
+        resolve(value);
+      },
+      (error) => {
+        clearTimeout(timer);
+        reject(error);
+      }
+    );
   });
 }
 (async () => {
@@ -94,7 +94,7 @@ function timeoutPromise(timeout, callback) {
   await page.setViewport({ width: 1080, height: 1024 });
 
   // Type into search box
-  const testResult = await timeoutPromise(10000, (resolve, reject) => {
+  const testResult = await timeoutPromise(10000, (resolve) => {
     page.on('console', consoleMessage => {
       if (consoleMessage.type() === 'log') {
         const res = JSON.parse(consoleMessage.text());
