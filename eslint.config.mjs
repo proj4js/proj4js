@@ -5,6 +5,7 @@ export default [
   stylistic.configs.customize({
     indent: 2,
     quotes: 'single',
+    quoteProps: 'as-needed',
     semi: true,
     braceStyle: '1tbs',
     commaDangle: 'never'
@@ -20,8 +21,8 @@ export default [
       }
     },
     rules: {
-      'curly': 'error',
-      'eqeqeq': 'error',
+      curly: 'error',
+      eqeqeq: 'error',
       'no-use-before-define': ['error', { functions: false }],
       'no-undef': 'error',
       'no-unused-vars': 'error'
