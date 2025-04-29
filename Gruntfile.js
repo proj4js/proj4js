@@ -49,11 +49,11 @@ module.exports = function (grunt) {
       projections.map(function (proj) {
         return 'import ' + proj + ' from \'./lib/projections/' + proj + '\';';
       }).join('\n'),
-      'export default function(proj4){',
+      'export default function (proj4) {',
       projections.map(function (proj) {
         return '  proj4.Proj.projections.add(' + proj + ');';
       }).join('\n'),
-      '}'
+      '}', ''
     ].join('\n'));
   });
   grunt.registerTask('build', function () {
