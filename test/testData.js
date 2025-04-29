@@ -8,7 +8,7 @@ var testPoints = [
     ll: [37.33761240175515, 55.60447049026976]
   },
   {code: 'PROJCS["CH1903 / LV03",GEOGCS["CH1903",DATUM["D_CH1903",SPHEROID["Bessel_1841",6377397.155,299.1528128]],PRIMEM["Greenwich",0],UNIT["Degree",0.017453292519943295]],PROJECTION["Hotine_Oblique_Mercator_Azimuth_Center"],PARAMETER["latitude_of_center",46.95240555555556],PARAMETER["longitude_of_center",7.439583333333333],PARAMETER["azimuth",90],PARAMETER["scale_factor",1],PARAMETER["false_easting",600000],PARAMETER["false_northing",200000],UNIT["Meter",1]]',
-  xy: [660013.4882918689, 185172.17110117766],
+    xy: [660013.4882918689, 185172.17110117766],
     ll: [8.225, 46.815],
     acc:{
       xy: 0.1,
@@ -32,7 +32,7 @@ var testPoints = [
     ll: [-71.11881762742996,42.37346263960867]
   },
   {code:'PROJCS["NAD83 / Massachusetts Mainland", GEOGCS["NAD83", DATUM["North American Datum 1983", SPHEROID["GRS 1980", 6378137.0, 298.257222101, AUTHORITY["EPSG","7019"]], TOWGS84[0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], AUTHORITY["EPSG","6269"]], PRIMEM["Greenwich", 0.0, AUTHORITY["EPSG","8901"]], UNIT["degree", 0.017453292519943295], AXIS["Geodetic longitude", EAST], AXIS["Geodetic latitude", NORTH], AUTHORITY["EPSG","4269"]], PROJECTION["Lambert_Conformal_Conic_2SP", AUTHORITY["EPSG","9802"]], PARAMETER["central_meridian", -71.5], PARAMETER["latitude_of_origin", 41.0], PARAMETER["standard_parallel_1", 42.68333333333334], PARAMETER["false_easting", 200000.0], PARAMETER["false_northing", 750000.0], PARAMETER["scale_factor", 1.0], PARAMETER["standard_parallel_2", 41.71666666666667], UNIT["m", 1.0], AXIS["Easting", EAST], AXIS["Northing", NORTH], AUTHORITY["EPSG","26986"]]',
-   xy: [ 231394.84,902621.11],
+    xy: [ 231394.84,902621.11],
     ll: [-71.11881762742996,42.37346263960867]
   },
   {code: 'PROJCS["Asia_North_Equidistant_Conic",GEOGCS["GCS_WGS_1984",DATUM["D_WGS_1984",SPHEROID["WGS_1984",6378137,298.257223563]],PRIMEM["Greenwich",0],UNIT["Degree",0.017453292519943295]],PROJECTION["Equidistant_Conic"],PARAMETER["False_Easting",0],PARAMETER["False_Northing",0],PARAMETER["Central_Meridian",95],PARAMETER["Standard_Parallel_1",15],PARAMETER["Standard_Parallel_2",65],PARAMETER["Latitude_Of_Origin",30],UNIT["Meter",1]]',
@@ -267,9 +267,9 @@ var testPoints = [
     ll:[-145, 0],
     xy:[-16141326.16502467, 0]
   },{
-   code:'+proj=aeqd +lat_0=0 +lon_0=0 +x_0=0 +y_0=0 +datum=WGS84 +units=m +no_defs',
-   ll:[91, 0],
-   xy:[10130073.6622, 0]
+    code:'+proj=aeqd +lat_0=0 +lon_0=0 +x_0=0 +y_0=0 +datum=WGS84 +units=m +no_defs',
+    ll:[91, 0],
+    xy:[10130073.6622, 0]
   },{
     code:'+proj=aeqd +lat_0=83.6625 +lon_0=-29.8333 +x_0=0 +y_0=0 +datum=WGS84 +units=m +no_defs',
     ll:[150.1667, 87.38418697931058],
@@ -391,7 +391,7 @@ var testPoints = [
   {
     code: 'PROJCS["JAD2001 / Jamaica Metric Grid",GEOGCS["JAD2001",DATUM["Jamaica_2001",SPHEROID["WGS 84",6378137,298.257223563,AUTHORITY["EPSG","7030"]],TOWGS84[0,0,0,0,0,0,0],AUTHORITY["EPSG","6758"]],PRIMEM["Greenwich",0,AUTHORITY["EPSG","8901"]],UNIT["degree",0.0174532925199433,AUTHORITY["EPSG","9122"]],AUTHORITY["EPSG","4758"]],PROJECTION["Lambert_Conformal_Conic_1SP"],PARAMETER["latitude_of_origin",18],PARAMETER["central_meridian",-77],PARAMETER["scale_factor",1],PARAMETER["false_easting",750000],PARAMETER["false_northing",650000],UNIT["metre",1,AUTHORITY["EPSG","9001"]],AXIS["Easting",EAST],AXIS["Northing",NORTH],AUTHORITY["EPSG","3448"]]',
     xy: [7578825.28673236, 11374595.814939449],
-    ll: [44.2312, 76.4860],
+    ll: [44.2312, 76.4860]
   },
   {
     code:"+proj=tmerc +lat_0=49 +lon_0=-2 +k=0.9996012717 +x_0=400000 +y_0=-100000 +ellps=airy +datum=OSGB36 +units=m +no_defs",
@@ -733,7 +733,7 @@ var testPoints = [
   {
     code: 'PROJCS["UNK / Oblique_Mercator",GEOGCS["UNK",DATUM["Unknown datum",SPHEROID["WGS 84", 6378137.0, 298.257223563]],PRIMEM["Greenwich",0],UNIT["degree",0.017453292519943295]],PROJECTION["Oblique_Mercator"],PARAMETER["latitude_of_center",37.4769061],PARAMETER["longitude_of_center",141.0039618],PARAMETER["central_meridian",141.0039618],PARAMETER["azimuth",202.22],PARAMETER["scale_factor",1],PARAMETER["false_easting",138],PARAMETER["false_northing",77.65],UNIT["Foot_US",0.3048006096012192]]',
     xy: [237.22488871325027, 33.43626458451221],
-    ll: [141.003611, 37.476802],
+    ll: [141.003611, 37.476802]
   },
   {
     code: 'PROJCS["WGS 84 / Pseudo-Mercator", GEOGCS["WGS 84", DATUM["World Geodetic System 1984", SPHEROID["WGS 84", 6378137.0, 0, AUTHORITY["EPSG","7030"]], AUTHORITY["EPSG","6326"]], PRIMEM["Greenwich", 0.0, AUTHORITY["EPSG","8901"]], UNIT["degree", 0.017453292519943295], AXIS["Geodetic latitude", NORTH], AXIS["Geodetic longitude", EAST], AUTHORITY["EPSG","4326"]], PROJECTION["Popular Visualisation Pseudo Mercator", AUTHORITY["EPSG","1024"]], PARAMETER["semi_minor", 6378137.0], PARAMETER["latitude_of_origin", 0.0], PARAMETER["central_meridian", 0.0], PARAMETER["scale_factor", 1.0], PARAMETER["false_easting", 0.0], PARAMETER["false_northing", 0.0], UNIT["m", 1.0], AXIS["Easting", EAST], AXIS["Northing", NORTH], AUTHORITY["EPSG","3857"]]',
@@ -839,47 +839,47 @@ var testPoints = [
   {
     code: '+proj=geos +sweep=x +lon_0=-75 +h=35786023 +a=6378137.0 +b=6356752.314',
     ll: [-95, 25],
-    xy: [-1920508.77, 2605680.03],
+    xy: [-1920508.77, 2605680.03]
   },
   // Geostationary - Ellipsoid - Y Sweep
   {
     code: '+proj=geos +sweep=y +lon_0=-75 +h=35786023 +a=6378137.0 +b=6356752.314',
     ll: [-95, 25],
-    xy: [-1925601.20, 2601922.01],
+    xy: [-1925601.20, 2601922.01]
   },
   // Geostationary - Sphere - X Sweep
   {
     code: '+proj=geos +sweep=x +lon_0=-75 +h=35786023 +a=6378137.0 +b=6378137.0',
     ll: [-95, 25],
-    xy: [-1919131.48, 2621384.15],
+    xy: [-1919131.48, 2621384.15]
   },
   // Geostationary - Sphere - Y Sweep
   {
     code: '+proj=geos +sweep=y +lon_0=-75 +h=35786023 +a=6378137.0 +b=6378137.0',
     ll: [-95, 25],
-    xy: [-1924281.93, 2617608.82],
+    xy: [-1924281.93, 2617608.82]
   },
   // WKT - Arctic Polar Stereographic
   {
     code: 'PROJCS["WGS 84 / Arctic Polar Stereographic",GEOGCS["WGS 84",DATUM["WGS_1984",SPHEROID["WGS 84",6378137,298.257223563,AUTHORITY["EPSG","7030"]],AUTHORITY["EPSG","6326"]],PRIMEM["Greenwich",0,AUTHORITY["EPSG","8901"]],UNIT["degree",0.0174532925199433,AUTHORITY["EPSG","9122"]],AUTHORITY["EPSG","4326"]],PROJECTION["Polar_Stereographic"],PARAMETER["latitude_of_origin",71],PARAMETER["central_meridian",0],PARAMETER["false_easting",0],PARAMETER["false_northing",0],UNIT["metre",1,AUTHORITY["EPSG","9001"]],AUTHORITY["EPSG","3995"]]',
     ll: [0, 90],
-    xy: [0, 0],
+    xy: [0, 0]
   },
   {
     code: 'PROJCS["WGS 84 / Arctic Polar Stereographic",GEOGCS["WGS 84",DATUM["WGS_1984",SPHEROID["WGS 84",6378137,298.257223563,AUTHORITY["EPSG","7030"]],AUTHORITY["EPSG","6326"]],PRIMEM["Greenwich",0,AUTHORITY["EPSG","8901"]],UNIT["degree",0.0174532925199433,AUTHORITY["EPSG","9122"]],AUTHORITY["EPSG","4326"]],PROJECTION["Polar_Stereographic"],PARAMETER["latitude_of_origin",71],PARAMETER["central_meridian",0],PARAMETER["false_easting",0],PARAMETER["false_northing",0],UNIT["metre",1,AUTHORITY["EPSG","9001"]],AUTHORITY["EPSG","3995"]]',
     ll: [0, 0],
-    xy: [0, -12367396.218459858],
+    xy: [0, -12367396.218459858]
   },
   // WKT - Antarctic Polar Stereographic
   {
     code: 'PROJCS["WGS 84 / Antarctic Polar Stereographic",GEOGCS["WGS 84",DATUM["WGS_1984",SPHEROID["WGS 84",6378137,298.257223563,AUTHORITY["EPSG","7030"]],AUTHORITY["EPSG","6326"]],PRIMEM["Greenwich",0,AUTHORITY["EPSG","8901"]],UNIT["degree",0.01745329251994328,AUTHORITY["EPSG","9122"]],AUTHORITY["EPSG","4326"]],UNIT["metre",1,AUTHORITY["EPSG","9001"]],PROJECTION["Polar_Stereographic"],PARAMETER["latitude_of_origin",-71],PARAMETER["central_meridian",0],PARAMETER["scale_factor",1],PARAMETER["false_easting",0],PARAMETER["false_northing",0],AUTHORITY["EPSG","3031"]]',
     ll: [0, -90],
-    xy: [0, 0],
+    xy: [0, 0]
   },
   {
     code: 'PROJCS["WGS 84 / Antarctic Polar Stereographic",GEOGCS["WGS 84",DATUM["WGS_1984",SPHEROID["WGS 84",6378137,298.257223563,AUTHORITY["EPSG","7030"]],AUTHORITY["EPSG","6326"]],PRIMEM["Greenwich",0,AUTHORITY["EPSG","8901"]],UNIT["degree",0.01745329251994328,AUTHORITY["EPSG","9122"]],AUTHORITY["EPSG","4326"]],UNIT["metre",1,AUTHORITY["EPSG","9001"]],PROJECTION["Polar_Stereographic"],PARAMETER["latitude_of_origin",-71],PARAMETER["central_meridian",0],PARAMETER["scale_factor",1],PARAMETER["false_easting",0],PARAMETER["false_northing",0],AUTHORITY["EPSG","3031"]]',
     ll: [0, 0],
-    xy: [0, 12367396.218459858],
+    xy: [0, 12367396.218459858]
   },
   {
     code: '+proj=eqearth +lon_0=0 +x_0=0 +y_0=0 +R=6371008.7714 +units=m +no_defs +type=crs',

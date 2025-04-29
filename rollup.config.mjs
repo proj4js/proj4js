@@ -2,7 +2,6 @@ import json from "@rollup/plugin-json"
 import nodeResolve from "@rollup/plugin-node-resolve"
 import terser from "@rollup/plugin-terser"
 import replace from "@rollup/plugin-replace"
-import eslint from '@rollup/plugin-eslint';
 import commonjs from "@rollup/plugin-commonjs";
 
 export default {
@@ -10,7 +9,7 @@ export default {
   output: [{
     file: './dist/proj4-src.js',
     format: 'umd',
-    name: 'proj4',
+    name: 'proj4'
   },
   {
     file: './dist/proj4.js',
@@ -19,10 +18,6 @@ export default {
     plugins: [terser()]
   }],
   plugins: [
-    eslint({
-      fix: true,
-      include: ['./lib/*.js', './lib/*/*.js']
-    }),
     replace({
       preventAssignment: true,
       __VERSION__: process.env.npm_package_version
