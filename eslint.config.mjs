@@ -1,31 +1,33 @@
-import stylisticJs from "@stylistic/eslint-plugin-js";
-import globals from "globals";
+import stylistic from '@stylistic/eslint-plugin';
+import globals from 'globals';
 
 export default [
+  stylistic.configs.customize({
+    indent: 2,
+    quotes: 'single',
+    semi: true,
+    braceStyle: '1tbs',
+    commaDangle: 'never'
+  }),
   {
-    files: ["**/*.js", "**/*.mjs"],
+    files: ['**/*.js', '**/*.mjs'],
     languageOptions: {
-      ecmaVersion: "latest",
-      sourceType: "module",
+      ecmaVersion: 'latest',
+      sourceType: 'module',
       globals: {
         ...globals.browser,
         ...globals.node
       }
     },
-    plugins: {
-      '@stylistic/js': stylisticJs
-    },
     rules: {
-      curly: "error",
-      eqeqeq: "error",
-      "no-use-before-define": ["error", { functions: false }],
-      "no-undef": "error",
-      "no-unused-vars": "error",
-      "@stylistic/js/indent": ["error", 2],
-      "comma-dangle": ["error", "never"]
+      'curly': 'error',
+      'eqeqeq': 'error',
+      'no-use-before-define': ['error', { functions: false }],
+      'no-undef': 'error',
+      'no-unused-vars': 'error'
     }
   },
-  {files: ['test/**/*.js', 'test/**/*.mjs'],
+  { files: ['test/**/*.js', 'test/**/*.mjs'],
     languageOptions: {
       globals: {
         ...globals.browser,

@@ -29,7 +29,7 @@ import tpers from './lib/projections/tpers';
 import geos from './lib/projections/geos';
 import eqearth from './lib/projections/eqearth';
 import bonne from './lib/projections/bonne';
-export default function(proj4){
+export default function (proj4) {
   proj4.Proj.projections.add(tmerc);
   proj4.Proj.projections.add(etmerc);
   proj4.Proj.projections.add(utm);
