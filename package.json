@@ -35,7 +35,7 @@
     "@rollup/plugin-node-resolve": "^15.2.3",
     "@rollup/plugin-replace": "^5.0.5",
     "@rollup/plugin-terser": "^0.4.4",
-    "@stylistic/eslint-plugin-js": "^4.2.0",
+    "@stylistic/eslint-plugin": "^4.2.0",
     "chai": "^5.0.0",
     "eslint": "^9.25.1",
     "grunt": "^1.6.1",
