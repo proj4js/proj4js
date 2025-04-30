@@ -12,10 +12,13 @@ const __dirname = path.dirname(__filename);
 const dbPath = path.resolve(__dirname, '../proj.db');
 const db = new sqlite3.Database(dbPath);
 
-// Create a set to track existing datum names (case-insensitive)
-const existingDatumNames = new Set(
-  Object.values(datums).map(datum => datum.datumName.toLowerCase())
-);
+for (const key in datums) {
+  if (key === datums[key].datumName && datums[datums[key].datumName] === datums[key]) {
+    delete datums[key];
+  }
+}
+
+const databaseDatumNames = new Set();
 
 // Query proj.db for Helmert transforms with method_code = 9606
 db.all(
@@ -23,12 +26,12 @@ db.all(
           ht.source_crs_code, 
           ht.tx, ht.ty, ht.tz, 
           ht.rx, ht.ry, ht.rz, 
-          ht.scale_difference, 
-          gd.auth_name AS authority, 
-          gd.code, 
+          ht.scale_difference,
           ht.accuracy, 
-          cv.name AS datum_name,
-          e.name AS ellipse_name
+          gd.name AS datum_name,
+          cv.name AS datum_code,
+          e.name AS ellipse_name,
+          ht.method_code
    FROM helmert_transformation ht
    JOIN crs_view cv 
      ON ht.source_crs_auth_name = cv.auth_name 
@@ -44,10 +47,10 @@ db.all(
      ON gd.ellipsoid_auth_name = e.auth_name
     AND gd.ellipsoid_code = e.code
    WHERE ht.deprecated = 0 
-     AND ht.method_code = 9606 -- Filter by Position Vector transformation
+     AND ht.method_code IN (9606, 9607) -- Include both Position Vector and Coordinate Frame transformations
      AND (ht.target_crs_auth_name = 'EPSG' AND ht.target_crs_code IN ('4326', '7019', '4258')) -- WGS84, GRS80, ETRS89
      AND cv.type != 'vertical' -- Exclude vertical datums
-   ORDER BY ht.accuracy ASC`, // Assuming lower accuracy values are better
+   ORDER BY ht.method_code ASC, ht.accuracy ASC`, // Sort by method_code (9606 first, then 9607), then by accuracy`, // Assuming lower accuracy values are better
   (err, rows) => {
     if (err) {
       console.error('Error querying proj.db:', err);
@@ -58,41 +61,34 @@ db.all(
       const normalizedDatumName = row.datum_name.toLowerCase();
 
       // Skip if the datumName already exists (case-insensitive)
-      if (existingDatumNames.has(normalizedDatumName)) {
-        // return;
+      if (databaseDatumNames.has(normalizedDatumName)) {
+        return;
+      }
+
+      if (row.method_code === 9607 && row.rx) {
+        row.rx = -row.rx;
+        row.ry = -row.ry;
+        row.rz = -row.rz;
       }
 
       // Construct the towgs84 string from tx, ty, tz, rx, ry, rz, and scale_difference
-      const towgs84 = `${row.tx},${row.ty},${row.tz},${row.rx || 0},${row.ry || 0},${row.rz || 0},${row.scale_difference || 0}`;
+      const towgs84 = row.rx ? `${row.tx},${row.ty},${row.tz},${row.rx},${row.ry},${row.rz},${row.scale_difference}` : `${row.tx},${row.ty},${row.tz}`;
 
-      // Use auth:code as the key for new entries
-      const key = `${row.authority}_${row.code}`;
-      datums[key] = {
-        towgs84,
-        ellipse: row.ellipse_name || 'unknown', // Use the retrieved ellipse name
-        datumName: row.datum_name
+      datums[`${row.source_crs_auth_name}_${row.source_crs_code}`] = {
+        towgs84
       };
 
-      // Add the normalized datumName to the set to prevent future duplicates
-      existingDatumNames.add(normalizedDatumName);
+      databaseDatumNames.add(normalizedDatumName);
     });
-
-    // Remove duplicates based on datumName
-    const uniqueDatums = {};
-    const seenDatumNames = new Set();
-    for (const [key, datum] of Object.entries(datums)) {
-      const normalizedDatumName = datum.datumName.toLowerCase();
-      if (!seenDatumNames.has(normalizedDatumName)) {
-        uniqueDatums[key] = datum;
-        seenDatumNames.add(normalizedDatumName);
-      }
-    }
 
     // Write updated datums back to Datum.js
     const datumFilePath = path.resolve(__dirname, '../lib/constants/Datum.js');
-    const updatedContent = `var datums = ${JSON.stringify(uniqueDatums, null, 2)};\n\n`
+    const updatedContent = `var datums = ${JSON.stringify(datums, null, 2)};\n\n`
       + `for (var key in datums) {\n`
       + `  var datum = datums[key];\n`
+      + `  if (!datum.datumName) {\n`
+      + `    continue;\n`
+      + `  }\n`
       + `  datums[datum.datumName] = datum;\n`
       + `}\n\n`
       + `export default datums;`;

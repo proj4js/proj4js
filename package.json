@@ -19,7 +19,7 @@
     "format": "npm run lint -- --fix",
     "test": "npm run build && npm run test:all",
     "test:coverage": "nyc npm run test:ci",
-    "test:all": "npm run test:browser && npm run test:ci",
+    "test:all": "npm run test:ci && npm run test:browser",
     "test:browser": "node test/puppeteer-tests.mjs",
     "test:ci": "npx -y mocha test/test-ci.mjs --reporter dot"
   },
