@@ -37,7 +37,7 @@ function startTests(chai, proj4, testPoints) {
   describe('proj4', function () {
     describe('core', function () {
       testPoints.forEach(function (testPoint) {
-        describe(testPoint.code, function () {
+        describe(typeof testPoint.code === 'object' ? testPoint.code.name : testPoint.code, function () {
           var xyAcc = 2,
             llAcc = 6;
           if ('acc' in testPoint) {
@@ -154,7 +154,7 @@ function startTests(chai, proj4, testPoints) {
               assert.closeTo(xy[0], testPoint.xy[0], xyEPSLN, 'x is close');
               assert.closeTo(xy[1], testPoint.xy[1], xyEPSLN, 'y is close');
             });
-            it('should work wit a 3 element array', function () {
+            it('should work with a 3 element array', function () {
               const llz = [testPoint.ll[0], testPoint.ll[1], 0];
               Object.freeze(llz);
               var xy = proj4(new proj4.Proj(testPoint.code), llz);
