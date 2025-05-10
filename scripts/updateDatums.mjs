@@ -4,6 +4,18 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 import datums from '../lib/constants/Datum.js'; // Import the datums object directly
 
+const DATUM_OVERRIDES = {
+  EPSG_4149: {
+    towgs84: '674.374,15.056,405.346'
+  },
+  EPSG_4267: {
+    towgs84: '-8.0,160.0,176.0'
+  },
+  EPSG_4818: {
+    towgs84: '589,76,480'
+  }
+};
+
 // Get the current file's directory
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -47,10 +59,17 @@ db.all(
      ON gd.ellipsoid_auth_name = e.auth_name
     AND gd.ellipsoid_code = e.code
    WHERE ht.deprecated = 0 
-     AND ht.method_code IN (9606, 9607) -- Include both Position Vector and Coordinate Frame transformations
+     AND ht.method_code IN (9606, 9607, 9603)
      AND (ht.target_crs_auth_name = 'EPSG' AND ht.target_crs_code IN ('4326', '7019', '4258')) -- WGS84, GRS80, ETRS89
      AND cv.type != 'vertical' -- Exclude vertical datums
-   ORDER BY ht.method_code ASC, ht.accuracy ASC`, // Sort by method_code (9606 first, then 9607), then by accuracy`, // Assuming lower accuracy values are better
+   ORDER BY
+     ht.accuracy ASC,
+     CASE ht.method_code 
+       WHEN 9606 THEN 1
+       WHEN 9607 THEN 2
+       WHEN 9603 THEN 3
+       ELSE 4
+     END ASC`, // Sort by method_code (9606 first, then 9607), then by accuracy`, // Assuming lower accuracy values are better
   (err, rows) => {
     if (err) {
       console.error('Error querying proj.db:', err);
@@ -80,6 +99,8 @@ db.all(
 
       databaseDatumNames.add(normalizedDatumName);
     });
+
+    Object.assign(datums, DATUM_OVERRIDES);
 
     // Write updated datums back to Datum.js
     const datumFilePath = path.resolve(__dirname, '../lib/constants/Datum.js');
