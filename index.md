@@ -26,9 +26,7 @@ The basic signature is:
 proj4([fromProjection, ]toProjection[, coordinates])
 ```
 
-Projections can be proj or wkt strings.
-
-Wkt strings must be in form of [version 1](https://docs.ogc.org/is/18-010r7/18-010r7.html#196) (earlier than 2015). Have a look at the [wkt-parser](https://github.com/proj4js/wkt-parser) for more info, or use proj strings instead.
+Projections can be proj or wkt strings, or PROJJSON objects.
 
 Coordinates may be an object of the form `{x:x,y:y}` or an array of the form `[x,y]`.
 
@@ -140,9 +138,15 @@ proj4('+proj=longlat +ellps=WGS84 +datum=WGS84 +units=degrees +axis=neu', firstP
 //the floating points to answer your question
 ```
 
+## Datum Transformations
+
+Proj4js has built-in Helmert transformations for many datums to transform to and from WGS84, which is used as pivot for datum transformations. If a datum is not available or not accurate enough for the desired region, custom Helmert transformations or grid based datum adjustments are supported.
+
+WKT1 definitions can contain a `TOWGS84` parameter. For proj strings, `towgs84` or `nadgrids` can be specified. When using WKT2 or PROJJSON definitions, if a `BOUNDCRS` with an `ABRIDGEDTRANDFORMATION` to WGS84 is provided, Helmert transformation parameters (like `+towgs84=` in proj strings) or the name of the parameter file (like `+nadgrids=` in proj strings) will be extracted from it.
+
 ## Grid Based Datum Adjustments
 
-To use `+nadgrids=` in a proj definition, first read your NTv2 `.gsb` file (e.g. from https://github.com/OSGeo/proj-datumgrid) into an ArrayBuffer, then pass it to `proj4.nadgrid`. E.g:
+To use `+nadgrids=` in a proj definition or a WKT2/PROJJSON `ABRIDGEDTRANSFORM` with an `NTv2` method, first read your NTv2 `.gsb` file (e.g. from https://github.com/OSGeo/proj-datumgrid) into an ArrayBuffer, then pass it to `proj4.nadgrid`. E.g:
 
 ```javascript
 const buffer = fs.readFileSync('ntv2.gsb').buffer
@@ -150,6 +154,15 @@ proj4.nadgrid('key', buffer);
 ```
 
 then use the given key in your definition, e.g. `+nadgrids=@key,null`. See [Grid Based Datum Adjustments](https://proj.org/usage/transformation.html?highlight=nadgrids#grid-based-datum-adjustments).
+
+Optionally, if your `.gsb` file does not contain latitude and longitude error columns, you can provide an `options` object argument to the `proj4.nadgrid` call, setting the `includeErrorFields` property to `false`, e.g:
+
+```javascript
+const buffer = fs.readFileSync('ntv2.gsb').buffer
+proj4.nadgrid('key', buffer, {includeErrorFields:false});
+```
+
+If the options argument is omitted, `includeErrorFields` is assumed to be true.
 
 ## TypeScript
 
@@ -168,7 +181,7 @@ To do the complete build and browser tests run
 node_modules/.bin/grunt
 ```
 
-To run node tests run
+To run node and browser tests run
 
 ```bash
 npm test
@@ -177,7 +190,8 @@ npm test
 To run node tests with coverage run
 
 ```bash
-npm test --coverage
+npm run build
+npm run test:coverage
 ```
 
 To create a build with only default projections (latlon and Mercator) run
