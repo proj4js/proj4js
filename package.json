@@ -48,6 +48,6 @@
   "dependencies": {
     "geographiclib-geodesic": "^2.1.1",
     "mgrs": "1.0.0",
-    "wkt-parser": "^1.5.0"
+    "wkt-parser": "^1.5.1"
   }
 }
