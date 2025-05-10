@@ -9454,7 +9454,7 @@
   proj4.nadgrid = nadgrid;
   proj4.transform = transform;
   proj4.mgrs = mgrs;
-  proj4.version = '2.15.1-alpha';
+  proj4.version = '2.16.0';
   includedProjections(proj4);
 
   return proj4;
