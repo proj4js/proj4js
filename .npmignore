@@ -1,5 +1,4 @@
-*~
-.c9revisions
-coverage
+.github
+.nyc_output
 test
 scripts
