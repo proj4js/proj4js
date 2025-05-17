@@ -2,7 +2,7 @@
 
 // Start the main app logic.
 
-function startTests(chai, proj4, testPoints) {
+function startTests(chai, proj4, fromArrayBuffer, testPoints) {
   var assert = chai.assert;
   proj4.defs([
     ['EPSG:102018', '+proj=gnom +lat_0=90 +lon_0=0 +x_0=6300000 +y_0=6300000 +ellps=WGS84 +datum=WGS84 +units=m +no_defs'],
@@ -617,6 +617,73 @@ function startTests(chai, proj4, testPoints) {
       ];
 
       inverseTests.forEach(function (test) {
+        var fromLng = test[0];
+        var fromLat = test[1];
+        var toLng = test[2];
+        var toLat = test[3];
+        it('should inverse interpolate ' + [toLng, toLat] + ' to ' + [fromLng, fromLat], function () {
+          var actual = converter.inverse([toLng, toLat]);
+          assert.approximately(actual[0], fromLng, 0.000001);
+          assert.approximately(actual[1], fromLat, 0.000001);
+        });
+      });
+    });
+
+    describe('Nadgrids GeoTIFF with subgrids', function () {
+      var tests = [
+        [-70.370, 53.354, 513165.91761279816, 5917993.370260495], // a point with only one subgrid to choose from
+        [-72.54931, 46.69361, 377510.4532706324, 5173107.843165382], // a point with multiple overlapping subgrids to choose from
+        [-80, 44.92, -208368.553747228, 4996155.4666270735] // just inside lower left corner
+      ];
+
+      var converter;
+
+      async function initializeNadgrid(buffer) {
+        await proj4.nadgrid('ca_nrc_NA83SCRS', buffer).ready;
+        proj4.defs('EPSG:32188', '+proj=tmerc +lat_0=0 +lon_0=-73.5 +k=0.9999 +x_0=304800 +y_0=0 +ellps=GRS80 +nadgrids=ca_nrc_NA83SCRS +units=m +no_defs +type=crs');
+        converter = proj4('EPSG:4326', 'EPSG:32188');
+      }
+
+      before(function (done) {
+        if (typeof XMLHttpRequest !== 'undefined') {
+          const xhr = new XMLHttpRequest();
+          xhr.open('GET', 'ca_nrc_NA83SCRS.tif', true);
+          xhr.responseType = 'arraybuffer';
+          xhr.addEventListener('load', function () {
+            fromArrayBuffer(xhr.response).then((tiff) => {
+              initializeNadgrid(tiff).then(() => done());
+            });
+          });
+          xhr.addEventListener('error', done);
+          xhr.send();
+        } else if (typeof require === 'function') {
+          const fs = require('fs');
+          const path = require('path');
+          fs.readFile(path.join(__dirname, 'ca_nrc_NA83SCRS.tif'), function (err, data) {
+            if (err) {
+              done(err);
+            } else {
+              fromArrayBuffer(data.buffer).then((tiff) => {
+                initializeNadgrid(tiff).then(() => done());
+              });
+            }
+          });
+        }
+      });
+
+      tests.forEach(function (test) {
+        var fromLng = test[0];
+        var fromLat = test[1];
+        var toLng = test[2];
+        var toLat = test[3];
+        it('should interpolate ' + [fromLng, fromLat] + ' to ' + [toLng, toLat], function () {
+          var actual = converter.forward([fromLng, fromLat]);
+          assert.approximately(actual[0], toLng, 0.000001);
+          assert.approximately(actual[1], toLat, 0.000001);
+        });
+      });
+
+      tests.forEach(function (test) {
         var fromLng = test[0];
         var fromLat = test[1];
         var toLng = test[2];

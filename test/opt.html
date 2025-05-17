@@ -10,6 +10,7 @@
   <script src="../node_modules/chai/chai.js" type="module"></script>
   <script src="testData.js"></script>
   <script src="../dist/proj4.js"></script>
+  <script src="../node_modules/geotiff/dist-browser/geotiff.js"></script>
   <script src="test.js"></script>
   <script type="module">
     import * as chai from '../node_modules/chai/chai.js';
@@ -21,7 +22,7 @@
       timeout: 300000,
       checkLeaks: false
     });
-    startTests(chai,proj4,testPoints);
+    startTests(chai,proj4,GeoTIFF.fromArrayBuffer,testPoints);
     mocha.run();
   </script>
 </body>
