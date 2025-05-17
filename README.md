@@ -169,11 +169,9 @@ If the options argument is omitted, `includeErrorFields` is assumed to be true.
 ### GeoTIFF format (.tif)
 To use `+nadgrids=` in a proj definition or a WKT2/PROJJSON `ABRIDGEDTRANSFORM` with a `GeoTIFF` method, first read your `.tif` file (e.g. from https://github.com/OSGeo/PROJ-data or https://cdn.proj.org/) into a GeoTIFF instance from the [GeoTIFF.js library](https://github.com/geotiffjs/geotiff.js/), then pass it to `proj4.nadgrid`. E.g:
 ```javascript
-import { fromArrayBuffer} from "geotiff";
-const response = await fetch('ca_nrc_NA83SCRS.tif');
-const arrayBuffer = await response.arrayBuffer();
-const tiff = await fromArrayBuffer(arrayBuffer);
-proj4.nadgrid('ca_nrc_NA83SCRS.tif', tiff);
+import { fromUrl} from "geotiff";
+const tiff = await fromUrl('ca_nrc_NA83SCRS.tif');
+await proj4.nadgrid('ca_nrc_NA83SCRS.tif', tiff).ready;
 ```
 
 Then use the given key in your definition, e.g. `proj4.defs("EPSG:32188","+proj=tmerc +lat_0=0 +lon_0=-73.5 +k=0.9999 +x_0=304800 +y_0=0 +ellps=GRS80 +nadgrids=ca_nrc_NA83SCRS.tif +units=m +no_defs +type=crs");` noting the `+nadgrids=ca_nrc_NA83SCRS.tif` parameter.
