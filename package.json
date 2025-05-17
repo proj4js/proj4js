@@ -5,10 +5,6 @@
   "homepage": "https://proj4js.github.io/proj4js/",
   "main": "dist/proj4-src.js",
   "module": "lib/index.js",
-  "directories": {
-    "test": "test",
-    "doc": "docs"
-  },
   "scripts": {
     "prepare": "npm run build && npm run test:all",
     "build": "grunt && npm run rollup",
