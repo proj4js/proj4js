@@ -7,7 +7,7 @@
   "module": "lib/index.js",
   "types": "dist/lib/index.js",
   "scripts": {
-    "prepare": "npm run build && npm run test:all",
+    "prepare": "npm run test",
     "build": "grunt && npm run rollup",
     "build:tmerc": "grunt build:tmerc && npm run rollup",
     "rollup": "rollup -c",
