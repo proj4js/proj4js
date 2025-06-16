@@ -5,19 +5,21 @@
   "homepage": "https://proj4js.github.io/proj4js/",
   "main": "dist/proj4-src.js",
   "module": "lib/index.js",
+  "types": "dist/lib/index.js",
   "scripts": {
     "prepare": "npm run build && npm run test:all",
     "build": "grunt && npm run rollup",
     "build:tmerc": "grunt build:tmerc && npm run rollup",
     "rollup": "rollup -c",
-    "pretest": "npm run lint",
+    "pretest": "npm run lint && npm run types",
     "lint": "eslint *.js *.mjs scripts lib test",
     "format": "npm run lint -- --fix",
     "test": "npm run build && npm run test:all",
     "test:coverage": "nyc npm run test:ci",
     "test:all": "npm run test:ci && npm run test:browser",
     "test:browser": "node test/puppeteer-tests.mjs",
-    "test:ci": "npx -y mocha test/test-ci.mjs --reporter dot"
+    "test:ci": "npx -y mocha test/test-ci.mjs --reporter dot",
+    "types": "tsc"
   },
   "repository": {
     "type": "git",
@@ -40,7 +42,8 @@
     "mocha": "^10.2.0",
     "nyc": "^17.1.0",
     "puppeteer": "^24.2.0",
-    "rollup": "^4.9.6"
+    "rollup": "^4.9.6",
+    "typescript": "^5.8.3"
   },
   "dependencies": {
     "geographiclib-geodesic": "^2.1.1",
