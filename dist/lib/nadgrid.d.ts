@@ -1,0 +1,107 @@
+/**
+ * @overload
+ * @param {string} key - The key to associate with the loaded grid.
+ * @param {ArrayBuffer} data - The NTv2 grid data as an ArrayBuffer.
+ * @param {NTV2GridOptions} [options] - Optional parameters for loading the grid.
+ * @returns {NADGrid} - The loaded NAD grid information.
+ */
+export default function nadgrid(key: string, data: ArrayBuffer, options?: NTV2GridOptions): NADGrid;
+/**
+ * @overload
+ * @param {string} key - The key to associate with the loaded grid.
+ * @param {import('geotiff').GeoTIFF} data - The GeoTIFF instance to read the grid from.
+ * @returns {{ready: Promise<NADGrid>}} - A promise that resolves to the loaded grid information.
+ */
+export default function nadgrid(key: string, data: import("geotiff").GeoTIFF): {
+    ready: Promise<NADGrid>;
+};
+/**
+ * Given a proj4 value for nadgrids, return an array of loaded grids
+ * @param {string} nadgrids A comma-separated list of grid names, optionally prefixed with '@' to indicate optional grids.
+ * @returns
+ */
+export function getNadgrids(nadgrids: string): NadgridInfo[];
+export type NadgridInfo = {
+    /**
+     * The name of the NAD grid or 'null' if not specified.
+     */
+    name: string;
+    /**
+     * Indicates if the grid is mandatory (true) or optional (false).
+     */
+    mandatory: boolean;
+    /**
+     * The loaded NAD grid object, or null if not loaded or not applicable.
+     */
+    grid: any;
+    /**
+     * True if the grid is explicitly 'null', otherwise false.
+     */
+    isNull: boolean;
+};
+export type NTV2GridOptions = {
+    /**
+     * Whether to include error fields in the subgrids.
+     */
+    includeErrorFields?: boolean;
+};
+export type NadgridHeader = {
+    /**
+     * Number of fields in the header.
+     */
+    nFields?: number;
+    /**
+     * Number of fields in each subgrid header.
+     */
+    nSubgridFields?: number;
+    /**
+     * Number of subgrids in the file.
+     */
+    nSubgrids: number;
+    /**
+     * Type of shift (e.g., "SECONDS").
+     */
+    shiftType?: string;
+    /**
+     * Source ellipsoid semi-major axis.
+     */
+    fromSemiMajorAxis?: number;
+    /**
+     * Source ellipsoid semi-minor axis.
+     */
+    fromSemiMinorAxis?: number;
+    /**
+     * Target ellipsoid semi-major axis.
+     */
+    toSemiMajorAxis?: number;
+    /**
+     * Target ellipsoid semi-minor axis.
+     */
+    toSemiMinorAxis?: number;
+};
+export type Subgrid = {
+    /**
+     * Lower left corner of the grid in radians [longitude, latitude].
+     */
+    ll: Array<number>;
+    /**
+     * Grid spacing in radians [longitude interval, latitude interval].
+     */
+    del: Array<number>;
+    /**
+     * Number of columns in the grid [longitude columns, latitude columns].
+     */
+    lim: Array<number>;
+    /**
+     * Total number of grid nodes.
+     */
+    count?: number;
+    /**
+     * Mapped node values for the grid.
+     */
+    cvs: any[];
+};
+export type NADGrid = {
+    header: NadgridHeader;
+    subgrids: Array<Subgrid>;
+};
