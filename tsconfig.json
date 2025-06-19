@@ -8,7 +8,6 @@
     "declarationDir": "dist",
   },
   "include": [
-    "lib/index.d.ts",
     "lib/**/*.js",
-  ],
+  ]
 }
