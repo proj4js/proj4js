@@ -6,6 +6,7 @@
   "main": "dist/proj4-src.js",
   "module": "lib/index.js",
   "types": "dist/index.d.ts",
+  "funding": "https://github.com/sponsors/ahocevar",
   "scripts": {
     "prepare": "npm run test",
     "build": "grunt && npm run rollup && shx cp index.d.ts dist/",
