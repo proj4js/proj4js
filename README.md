@@ -178,10 +178,10 @@ Then use the given key in your definition, e.g. `proj4.defs("EPSG:32188","+proj=
 
 ## TypeScript
 
-TypeScript implementation was added to the [DefinitelyTyped repository](https://github.com/DefinitelyTyped/DefinitelyTyped).
+Since v2.19.6, TypeScript type definitions are included in the npm package. The `@types/proj4` package is no longer required and should be removed.
 
 ```bash
-$ npm install --save @types/proj4
+$ npm uninstall @types/proj4
 ```
 
 ## Developing
