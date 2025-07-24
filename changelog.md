@@ -1,5 +1,7 @@
 Change log
 ===
+- 2.19.0: TypeScript type definitions are now included. When upgrading, please uninstall the `@types/proj4` package.
+
 - 2.2.1: Documentation fixes and added proj4.defs('name') as an alias for proj4.defs['name'];
 
 - 2.1.4: dist folder is added back in after accidentally omitting it in 2.1.1
