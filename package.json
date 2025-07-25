@@ -5,11 +5,11 @@
   "homepage": "https://proj4js.github.io/proj4js/",
   "main": "dist/proj4-src.js",
   "module": "lib/index.js",
-  "types": "dist/index.d.ts",
+  "types": "dist/lib/index.d.ts",
   "funding": "https://github.com/sponsors/ahocevar",
   "scripts": {
     "prepare": "npm run test",
-    "build": "grunt && npm run rollup && shx cp index.d.ts dist/",
+    "build": "grunt && npm run rollup",
     "build:tmerc": "grunt build:tmerc && npm run rollup",
     "rollup": "rollup -c",
     "pretest": "npm run lint && npm run types",
@@ -44,7 +44,6 @@
     "nyc": "^17.1.0",
     "puppeteer": "^24.2.0",
     "rollup": "^4.9.6",
-    "shx": "^0.4.0",
     "typescript": "^5.8.3"
   },
   "dependencies": {
