@@ -5,7 +5,7 @@
   "homepage": "https://proj4js.github.io/proj4js/",
   "main": "dist/proj4-src.js",
   "module": "lib/index.js",
-  "types": "dist/lib/index.d.ts",
+  "types": "dist/index.d.ts",
   "funding": "https://github.com/sponsors/ahocevar",
   "scripts": {
     "prepare": "npm run test",
