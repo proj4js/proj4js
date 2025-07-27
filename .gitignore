@@ -4,5 +4,6 @@ node_modules
 coverage
 projs.js
 .DS_STORE
-dist
+dist/*
+!dist/index.d.ts
 .nyc_output/
