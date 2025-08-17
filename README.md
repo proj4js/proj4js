@@ -113,6 +113,8 @@ instead of writing out the whole proj definition, by default proj4 has the follo
     - 'EPSG:102113'
 - EPSG:32601 to EPSG:32660 (WGS84 / UTM zones 1 to 60 North)
 - EPSG:32701 to EPSG:32760 (WGS84 / UTM zones 1 to 60 South)
+- EPSG:5041 (WGS 84 / UPS North (E,N))
+- EPSG:5042 (WGS 84 / UPS South (E,N))
 
 Defined projections can also be accessed through the proj4.defs function (`proj4.defs('EPSG:4326')`).
 
