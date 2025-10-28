@@ -695,6 +695,84 @@ function startTests(chai, proj4, fromArrayBuffer, testPoints) {
         });
       });
     });
+
+    describe('+over flag', function () {
+      it('should not wrap longitude with +over (eqc)', function () {
+        var projWithOver = proj4('+proj=eqc +lat_ts=0 +lon_0=0 +x_0=0 +y_0=0 +a=6371007 +b=6371007 +units=m +no_defs +over');
+        var projWithoutOver = proj4('+proj=eqc +lat_ts=0 +lon_0=0 +x_0=0 +y_0=0 +a=6371007 +b=6371007 +units=m +no_defs');
+        var resultWithOver = projWithOver.forward([200, 0]);
+        var resultWithoutOver = projWithoutOver.forward([200, 0]);
+        assert.isTrue(Math.abs(resultWithOver[0] - resultWithoutOver[0]) > 1000, 'x differs');
+        var expectedX = 200 * Math.PI / 180 * 6371007;
+        assert.closeTo(resultWithOver[0], expectedX, 1e-2, 'x is close');
+      });
+
+      it('should handle coordinates beyond 360 degrees', function () {
+        var proj = proj4('+proj=eqc +lat_ts=0 +lon_0=0 +x_0=0 +y_0=0 +a=6371007 +b=6371007 +units=m +no_defs +over');
+        var result = proj.forward([400, 0]);
+        var expectedX = 400 * Math.PI / 180 * 6371007;
+        assert.closeTo(result[0], expectedX, 1e-2, 'x is close');
+      });
+
+      it('should not wrap longitude with +over (merc)', function () {
+        var projWithOver = proj4('+proj=merc +lon_0=0 +k=1 +x_0=0 +y_0=0 +datum=WGS84 +units=m +no_defs +over');
+        var projWithoutOver = proj4('+proj=merc +lon_0=0 +k=1 +x_0=0 +y_0=0 +datum=WGS84 +units=m +no_defs');
+        var resultWithOver = projWithOver.forward([200, 45]);
+        var resultWithoutOver = projWithoutOver.forward([200, 45]);
+        assert.isTrue(Math.abs(resultWithOver[0] - resultWithoutOver[0]) > 1000, 'x differs');
+      });
+
+      it('should preserve longitude in inverse with +over', function () {
+        var proj = proj4('+proj=eqc +lat_ts=0 +lon_0=0 +x_0=0 +y_0=0 +a=6371007 +b=6371007 +units=m +no_defs +over');
+        var forward = proj.forward([200, 30]);
+        var inverse = proj.inverse(forward);
+        assert.closeTo(inverse[0], 200, 1e-6, 'lng is close');
+        assert.closeTo(inverse[1], 30, 1e-6, 'lat is close');
+      });
+
+      it('should wrap longitude in inverse without +over', function () {
+        var proj = proj4('+proj=eqc +lat_ts=0 +lon_0=0 +x_0=0 +y_0=0 +a=6371007 +b=6371007 +units=m +no_defs');
+        var forward = proj.forward([200, 30]);
+        var inverse = proj.inverse(forward);
+        assert.closeTo(inverse[0], -160, 1e-6, 'lng is close');
+        assert.closeTo(inverse[1], 30, 1e-6, 'lat is close');
+      });
+
+      it('should behave identically with and without +over for normal range', function () {
+        var projWithOver = proj4('+proj=eqc +lat_ts=0 +lon_0=0 +x_0=0 +y_0=0 +a=6371007 +b=6371007 +units=m +no_defs +over');
+        var projWithoutOver = proj4('+proj=eqc +lat_ts=0 +lon_0=0 +x_0=0 +y_0=0 +a=6371007 +b=6371007 +units=m +no_defs');
+        var testPoints = [
+          [0, 0],
+          [45, 30],
+          [-90, -45],
+          [180, 60],
+          [-180, -60]
+        ];
+        testPoints.forEach(function (point) {
+          var resultWithOver = projWithOver.forward(point);
+          var resultWithoutOver = projWithoutOver.forward(point);
+          assert.closeTo(resultWithOver[0], resultWithoutOver[0], 1e-6, 'x is close');
+          assert.closeTo(resultWithOver[1], resultWithoutOver[1], 1e-6, 'y is close');
+        });
+      });
+
+      it('should support round trip with +over', function () {
+        var proj = proj4('+proj=merc +lon_0=0 +k=1 +x_0=0 +y_0=0 +datum=WGS84 +units=m +no_defs +over');
+        var wgs84 = [250, 40];
+        var mercResult = proj.forward(wgs84);
+        var backToWgs84 = proj.inverse(mercResult);
+        assert.closeTo(backToWgs84[0], wgs84[0], 1e-6, 'lng is close');
+        assert.closeTo(backToWgs84[1], wgs84[1], 1e-6, 'lat is close');
+      });
+
+      it('should handle 180 degree boundary', function () {
+        var projWithOver = proj4('+proj=eqc +lat_ts=0 +lon_0=0 +x_0=0 +y_0=0 +a=6371007 +b=6371007 +units=m +no_defs +over');
+        var projWithoutOver = proj4('+proj=eqc +lat_ts=0 +lon_0=0 +x_0=0 +y_0=0 +a=6371007 +b=6371007 +units=m +no_defs');
+        var resultWithOver = projWithOver.forward([180, 0]);
+        var resultWithoutOver = projWithoutOver.forward([180, 0]);
+        assert.closeTo(resultWithOver[0], resultWithoutOver[0], 1e-6, 'x is close');
+      });
+    });
   });
 }
 if (typeof module !== 'undefined') {
