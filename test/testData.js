@@ -700,6 +700,15 @@ var testPoints = [
     xy: [5112279.911077, -4143196.76625]
   },
   {
+    code: '+proj=moll +lon_0=10 +R=6400000',
+    ll: [-90, 85],
+    xy: [-2080158.10954, 8855229.1452],
+    acc: {
+      ll: 3,
+      xy: 3
+    }
+  },
+  {
     code: '+proj=ob_tran +o_proj=moll +o_lat_p=45 +o_lon_p=-90',
     ll: [-2, -1],
     xy: [-7421459.0847, -5444548.62239],
@@ -739,6 +748,24 @@ var testPoints = [
     code: '+proj=ob_tran +o_proj=moll +o_lon_1=-11 +o_lon_2=6 +o_lat_1=-3 +o_lat_2=3 +x_0=10000 +y_0=50000',
     ll: [-90, 85],
     xy: [3725830.5914, -7713738.5789],
+    acc: {
+      ll: 3,
+      xy: 3
+    }
+  },
+  {
+    code: '+proj=ob_tran +o_proj=moll +o_lon_1=-11 +o_lon_2=6 +o_lat_1=-3 +o_lat_2=3 +x_0=10000 +y_0=50000 +R=6400000',
+    ll: [-90, 85],
+    xy: [3738567.7284, -7740351.1488],
+    acc: {
+      ll: 3,
+      xy: 3
+    }
+  },
+  {
+    code: '+proj=ob_tran +o_proj=moll +o_lon_1=-11 +o_lon_2=6 +o_lat_1=-3 +o_lat_2=3 +x_0=10000 +y_0=50000 +R=6400000 +lon_0=10',
+    ll: [-90, 85],
+    xy: [3873527.2908, -7670610.4363],
     acc: {
       ll: 3,
       xy: 3
