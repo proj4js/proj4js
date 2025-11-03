@@ -736,9 +736,9 @@ var testPoints = [
     }
   },
   {
-    code: '+proj=ob_tran +o_proj=moll +o_lon_1=-11 +o_lon_2=6 +o_lat_1=-3 +o_lat_2=3',
+    code: '+proj=ob_tran +o_proj=moll +o_lon_1=-11 +o_lon_2=6 +o_lat_1=-3 +o_lat_2=3 +x_0=10000 +y_0=50000',
     ll: [-90, 85],
-    xy: [3715830.5914, -7763738.5789],
+    xy: [3725830.5914, -7713738.5789],
     acc: {
       ll: 3,
       xy: 3
