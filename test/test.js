@@ -773,6 +773,120 @@ function startTests(chai, proj4, fromArrayBuffer, testPoints) {
         assert.closeTo(resultWithOver[0], resultWithoutOver[0], 1e-6, 'x is close');
       });
     });
+
+    describe('ob_tran projection', function () {
+      it('should error no +o_proj supplied', function () {
+        assert.throws(function () {
+          proj4('+proj=ob_tran');
+        }, 'Missing parameter: o_proj', 'should work');
+      });
+
+      it('should error if +o_proj is also ob_tran', function () {
+        assert.throws(function () {
+          proj4('+proj=ob_tran +o_proj=ob_tran');
+        }, 'Invalid value for o_proj: ob_tran', 'should work');
+      });
+
+      it('should error if +o_proj is not a valid projection name', function () {
+        assert.throws(function () {
+          proj4('+proj=ob_tran +o_proj=something_that_will_never_exist');
+        }, 'Could not get projection name from: +proj=something_that_will_never_exist', 'should work');
+      });
+
+      it('should error if +o_lat_p is provided, but not +o_lon_p', function () {
+        assert.throws(function () {
+          proj4('+proj=ob_tran +o_proj=moll +o_lat_p=30');
+        }, 'Missing parameter: o_lon_p', 'should work');
+      });
+
+      it('should error if +o_lon_p is provided, but not +o_lat_p', function () {
+        assert.throws(function () {
+          proj4('+proj=ob_tran +o_proj=moll +o_lon_p=30');
+        }, 'Missing parameter: o_lat_p.', 'should work');
+      });
+
+      it('should error if parameters are NaN', function () {
+        [
+          ['+o_lat_p=30 +o_lon_p=foo', 'o_lon_p: foo'],
+          ['+o_lat_p=foo +o_lon_p=30', 'o_lat_p: foo'],
+          ['+o_lon_p=30 +o_lat_p=foo', 'o_lat_p: foo'],
+          ['+o_lon_p=foo +o_lat_p=30', 'o_lon_p: foo'],
+          ['+o_alpha=1.0.0 +o_lon_c=0 +o_lat_c=foo', 'o_lat_c: foo'],
+          ['+o_lon_1=-0- +o_lon_2=1.1e2 +o_lat_1=-10 +o_lat_2=FF2', 'o_lat_2: FF2']
+        ].forEach(function ([params, errorMsg]) {
+          assert.throws(function () {
+            proj4('+proj=ob_tran +o_proj=moll +' + params);
+          }, 'Invalid value for ' + errorMsg, 'should work');
+        });
+      });
+
+      it('shouldn\'t matter the order in which the user inputs parameters', function () {
+        const tests = [
+          [
+            'o_lon_p', 'x_0', 'o_lat_p'
+          ],
+          [
+            'lon_0', 'y_0', 'o_lon_1', 'o_lat_2', 'o_lat_1', 'o_lon_2'
+          ],
+          [
+            'o_lon_1', 'o_lon_c', 'o_alpha', 'o_lat_c'
+          ]
+        ];
+        tests.forEach(function (test) {
+          const str = '+proj=ob_tran +o_proj=moll '
+            + test.map(function (p, i) { return '+' + p + '=' + (30 + i); })
+              .join(' ');
+
+          assert.doesNotThrow(function () {
+            proj4(str);
+          }, undefined, undefined, 'should work');
+        });
+      });
+
+      it('should throw an error if o_lat_c is 90', function () {
+        const tests = [90, -90];
+        tests.forEach(function (test) {
+          const str = '+proj=ob_tran +o_proj=moll +o_lat_c=' + test + ' +o_lon_c=0 +o_alpha=1';
+          assert.throws(function () {
+            proj4(str);
+          }, 'Invalid value for o_lat_c: ' + test + ' should be < 90°', 'should work');
+        });
+      });
+
+      it('should throw an error if o_lat_1 is 90', function () {
+        const tests = [90, -90];
+        tests.forEach(function (test) {
+          const str = '+proj=ob_tran +o_proj=moll +o_lat_1=' + test + ' +o_lon_1=0 +o_lat_2=45 +o_lon_2=90';
+          assert.throws(function () {
+            proj4(str);
+          }, 'Invalid value for o_lat_1: ' + test + ' should be < 90°', 'should work');
+        });
+      });
+
+      it('should throw an error if o_lat_2 is 90', function () {
+        const tests = [90, -90];
+        tests.forEach(function (test) {
+          const str = '+proj=ob_tran +o_proj=moll +o_lat_2=' + test + ' +o_lon_1=0 +o_lat_1=45 +o_lon_2=90';
+          assert.throws(function () {
+            proj4(str);
+          }, 'Invalid value for o_lat_2: ' + test + ' should be < 90°', 'should work');
+        });
+      });
+
+      it('should throw an error if o_lat_1 = o_lat_2', function () {
+        const str = '+proj=ob_tran +o_proj=moll +o_lat_2=45 +o_lon_1=0 +o_lat_1=45 +o_lon_2=90';
+        assert.throws(function () {
+          proj4(str);
+        }, 'Invalid value for o_lat_1 and o_lat_2: o_lat_1 should be different from o_lat_2', 'should work');
+      });
+
+      it('should throw an error if o_lat_1 is 0', function () {
+        const str = '+proj=ob_tran +o_proj=moll +o_lat_2=45 +o_lon_1=0 +o_lat_1=0 +o_lon_2=90';
+        assert.throws(function () {
+          proj4(str);
+        }, 'Invalid value for o_lat_1: o_lat_1 should be different from zero', 'should work');
+      });
+    });
   });
 }
 if (typeof module !== 'undefined') {
