@@ -763,9 +763,18 @@ var testPoints = [
     }
   },
   {
-    code: '+proj=ob_tran +o_proj=moll +o_lon_1=-11 +o_lon_2=6 +o_lat_1=-3 +o_lat_2=3 +x_0=10000 +y_0=50000 +R=6400000 +lon_0=10',
-    ll: [-90, 85],
-    xy: [3873527.2908, -7670610.4363],
+    code: '+proj=ob_tran +o_proj=moll +R=6378137.0  +o_lon_p=0  +o_lat_p=0  +lon_0=180',
+    ll: [10, 20],
+    xy: [-1384841.18787, 7581707.88240],
+    acc: {
+      ll: 3,
+      xy: 3
+    }
+  },
+  {
+    code: '+proj=ob_tran +o_proj=moll +o_lon_p=0  +o_lat_p=0  +lon_0=180 +R=6400000 +ellps=clrk80ign +pm=paris',
+    ll: [10, 20],
+    xy: [-1068593.9375, 7685891.0261],
     acc: {
       ll: 3,
       xy: 3
