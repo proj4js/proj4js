@@ -700,6 +700,87 @@ var testPoints = [
     xy: [5112279.911077, -4143196.76625]
   },
   {
+    code: '+proj=moll +lon_0=10 +R=6400000',
+    ll: [-90, 85],
+    xy: [-2080158.10954, 8855229.1452],
+    acc: {
+      ll: 3,
+      xy: 3
+    }
+  },
+  {
+    code: '+proj=ob_tran +o_proj=moll +o_lat_p=45 +o_lon_p=-90',
+    ll: [-2, -1],
+    xy: [-7421459.0847, -5444548.62239],
+    acc: {
+      ll: 5,
+      xy: 0
+    }
+  },
+  {
+    code: '+proj=ob_tran +o_proj=eqearth +o_lat_p=85 +o_lon_p=10',
+    ll: [20, 11],
+    xy: [2841069.7339, 808313.2811],
+    acc: {
+      ll: 1,
+      xy: -4
+    }
+  },
+  {
+    code: '+proj=ob_tran +o_proj=moll +o_alpha=5 +o_lon_c=40 +o_lat_c=-10',
+    ll: [10, 5],
+    xy: [-154995.9625, -8241537.7451],
+    acc: {
+      ll: 3,
+      xy: 3
+    }
+  },
+  {
+    code: '+proj=ob_tran +o_proj=moll +o_lon_1=-180 +o_lon_2=180 +o_lat_1=-3 +o_lat_2=3',
+    ll: [10, 5],
+    xy: [-938419.6738, -8448989.1020],
+    acc: {
+      ll: 3,
+      xy: 3
+    }
+  },
+  {
+    code: '+proj=ob_tran +o_proj=moll +o_lon_1=-11 +o_lon_2=6 +o_lat_1=-3 +o_lat_2=3 +x_0=10000 +y_0=50000',
+    ll: [-90, 85],
+    xy: [3725830.5914, -7713738.5789],
+    acc: {
+      ll: 3,
+      xy: 3
+    }
+  },
+  {
+    code: '+proj=ob_tran +o_proj=moll +o_lon_1=-11 +o_lon_2=6 +o_lat_1=-3 +o_lat_2=3 +x_0=10000 +y_0=50000 +R=6400000',
+    ll: [-90, 85],
+    xy: [3738567.7284, -7740351.1488],
+    acc: {
+      ll: 3,
+      xy: 3
+    }
+  },
+  {
+    code: '+proj=ob_tran +o_proj=moll +R=6378137.0  +o_lon_p=0  +o_lat_p=0  +lon_0=180',
+    ll: [10, 20],
+    xy: [-1384841.18787, 7581707.88240],
+    acc: {
+      ll: 3,
+      xy: 3
+    }
+  },
+  {
+    code: '+proj=ob_tran +o_proj=moll +o_lon_p=0  +o_lat_p=0  +lon_0=180 +R=6400000 +ellps=clrk80ign +pm=paris',
+    ll: [10, 20],
+    xy: [-1068593.9375, 7685891.0261],
+    acc: {
+      ll: 3,
+      xy: 3
+    }
+  },
+  {
     code: 'PROJCS["Mount Dillon / Tobago Grid",GEOGCS["Mount Dillon",DATUM["Mount_Dillon",SPHEROID["Clarke 1858",6378293.645208759,294.2606763692654,AUTHORITY["EPSG","7007"]],AUTHORITY["EPSG","6157"]],PRIMEM["Greenwich",0,AUTHORITY["EPSG","8901"]],UNIT["degree",0.01745329251994328,AUTHORITY["EPSG","9122"]],AUTHORITY["EPSG","4157"]],UNIT["Clarke\'s link",0.201166195164,AUTHORITY["EPSG","9039"]],PROJECTION["Cassini_Soldner"],PARAMETER["latitude_of_origin",11.25217861111111],PARAMETER["central_meridian",-60.68600888888889],PARAMETER["false_easting",187500],PARAMETER["false_northing",180000],AUTHORITY["EPSG","2066"],AXIS["Easting",EAST],AXIS["Northing",NORTH]]',
     ll: [-60.676753018, 11.2487234308],
     xy: [192524.3061766178, 178100.2740019509],

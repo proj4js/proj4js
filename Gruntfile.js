@@ -29,7 +29,8 @@ var projs = [
   'tpers',
   'geos',
   'eqearth',
-  'bonne'
+  'bonne',
+  'ob_tran'
 ];
 module.exports = function (grunt) {
   grunt.initConfig({
