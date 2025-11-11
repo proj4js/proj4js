@@ -334,6 +334,12 @@ function startTests(chai, proj4, fromArrayBuffer, testPoints) {
           assert.deepEqual(res, [500000, 0]);
         });
       });
+      describe('projjson', function () {
+        it('parses projjson', function () {
+          proj4.defs('EPSG:4269', { $schema: 'https://proj.org/schemas/v0.7/projjson.schema.json', type: 'GeographicCRS', name: 'NAD83', datum: { type: 'GeodeticReferenceFrame', name: 'North American Datum 1983', ellipsoid: { name: 'GRS 1980', semi_major_axis: 6378137, inverse_flattening: 298.257222101 } }, coordinate_system: { subtype: 'ellipsoidal', axis: [{ name: 'Geodetic latitude', abbreviation: 'Lat', direction: 'north', unit: 'degree' }, { name: 'Geodetic longitude', abbreviation: 'Lon', direction: 'east', unit: 'degree' }] }, scope: 'Geodesy.', area: 'North America - onshore and offshore: Canada - Alberta; British Columbia; Manitoba; New Brunswick; Newfoundland and Labrador; Northwest Territories; Nova Scotia; Nunavut; Ontario; Prince Edward Island; Quebec; Saskatchewan; Yukon. Puerto Rico. United States (USA) - Alabama; Alaska; Arizona; Arkansas; California; Colorado; Connecticut; Delaware; Florida; Georgia; Hawaii; Idaho; Illinois; Indiana; Iowa; Kansas; Kentucky; Louisiana; Maine; Maryland; Massachusetts; Michigan; Minnesota; Mississippi; Missouri; Montana; Nebraska; Nevada; New Hampshire; New Jersey; New Mexico; New York; North Carolina; North Dakota; Ohio; Oklahoma; Oregon; Pennsylvania; Rhode Island; South Carolina; South Dakota; Tennessee; Texas; Utah; Vermont; Virginia; Washington; West Virginia; Wisconsin; Wyoming. US Virgin Islands. British Virgin Islands.', bbox: { south_latitude: 14.92, west_longitude: 167.65, north_latitude: 86.45, east_longitude: -40.73 }, id: { authority: 'EPSG', code: 4269 } });
+          assert.equal(proj4.defs['EPSG:4269'].projName, 'longlat');
+        });
+      });
     });
     describe('errors', function () {
       it('should throw an error for an unknown ref', function () {
