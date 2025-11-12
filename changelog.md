@@ -1,5 +1,7 @@
 Change log
 ===
+- 2.20.0: Include WGS84 UTM zones 1-60 North/South and WGS84 UPS North/South; add support for `+over`; add general oblique transformation; make projjson work with `proj4.defs(code, projjson)`
+
 - 2.19.0: TypeScript type definitions are now included. When upgrading, please uninstall the `@types/proj4` package.
 
 - 2.2.1: Documentation fixes and added proj4.defs('name') as an alias for proj4.defs['name'];
