@@ -340,6 +340,12 @@ function startTests(chai, proj4, fromArrayBuffer, testPoints) {
           assert.equal(proj4.defs['EPSG:4269'].projName, 'longlat');
         });
       });
+      it('can be used to remove a definition', function () {
+        proj4.defs('tempdef', '+proj=merc +lon_0=5.937 +lat_ts=45.027 +ellps=sphere');
+        assert.typeOf(proj4.defs['tempdef'], 'object');
+        proj4.defs('tempdef', null);
+        assert.isUndefined(proj4.defs['tempdef']);
+      });
     });
     describe('errors', function () {
       it('should throw an error for an unknown ref', function () {
