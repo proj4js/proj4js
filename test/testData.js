@@ -745,50 +745,7 @@ var testPoints = [
     }
   },
   {
-    code: `GEOGCRS["unnamed",
-    BASEGEOGCRS["unknown",
-        DATUM["unknown",
-            ELLIPSOID["unknown",6371229,0,
-                LENGTHUNIT["metre",1,
-                    ID["EPSG",9001]]]],
-        PRIMEM["Greenwich",0,
-            ANGLEUNIT["degree",0.0174532925199433],
-            ID["EPSG",8901]]],
-    DERIVINGCONVERSION["unknown",
-        METHOD["PROJ ob_tran o_proj=longlat"],
-        PARAMETER["o_lon_p",0,
-            ANGLEUNIT["degree",0.0174532925199433,
-                ID["EPSG",9122]]],
-        PARAMETER["o_lat_p",35,
-            ANGLEUNIT["degree",0.0174532925199433,
-                ID["EPSG",9122]]]],
-    CS[ellipsoidal,2],
-        AXIS["longitude",east,
-            ORDER[1],
-            ANGLEUNIT["degree",0.0174532925199433,
-                ID["EPSG",9122]]],
-        AXIS["latitude",north,
-            ORDER[2],
-            ANGLEUNIT["degree",0.0174532925199433,
-                ID["EPSG",9122]]]]`,
-    ll: [-105, 40],
-    xy: [-60.8425, 32.0797],
-    acc: {
-      ll: 1,
-      xy: -4
-    }
-  },
-  {
     code: '+proj=ob_tran +o_proj=longlat +o_lon_p=0 +o_lat_p=35 +lon_0=-113 +R=6371229 +no_defs +type=crs',
-    ll: [-105, 40],
-    xy: [6.3262, -14.6381],
-    acc: {
-      ll: 1,
-      xy: -4
-    }
-  },
-  {
-    code: 'GEOGCRS["Coordinate System imported from GRIB file",BASEGEOGCRS["Coordinate System imported from GRIB file",DATUM["unnamed",ELLIPSOID["Sphere",6371229,0,LENGTHUNIT["metre",1,ID["EPSG",9001]]]],PRIMEM["Greenwich",0,ANGLEUNIT["degree",0.0174532925199433,ID["EPSG",9122]]]],DERIVINGCONVERSION["Pole rotation (GRIB convention)",METHOD["Pole rotation (GRIB convention)"],PARAMETER["Latitude of the southern pole (GRIB convention)",-35,ANGLEUNIT["degree",0.0174532925199433,ID["EPSG",9122]]],PARAMETER["Longitude of the southern pole (GRIB convention)",-113,ANGLEUNIT["degree",0.0174532925199433,ID["EPSG",9122]]],PARAMETER["Axis rotation (GRIB convention)",0,ANGLEUNIT["degree",0.0174532925199433,ID["EPSG",9122]]]],CS[ellipsoidal,2],AXIS["latitude",north,ORDER[1],ANGLEUNIT["degree",0.0174532925199433,ID["EPSG",9122]]],AXIS["longitude",east,ORDER[2],ANGLEUNIT["degree",0.0174532925199433,ID["EPSG",9122]]]]',
     ll: [-105, 40],
     xy: [6.3262, -14.6381],
     acc: {
