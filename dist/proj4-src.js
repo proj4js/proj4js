@@ -10552,7 +10552,7 @@
     nadgrid,
     transform,
     mgrs,
-    version: '2.20.2'
+    version: '2.20.2-alpha'
   });
   includedProjections(proj4);
 
