@@ -727,6 +727,42 @@ var testPoints = [
     }
   },
   {
+    code: '+proj=ob_tran +o_proj=eqearth +o_lat_p=85 +o_lon_p=10',
+    ll: [20, 11],
+    xy: [2841069.7339, 808313.2811],
+    acc: {
+      ll: 1,
+      xy: -4
+    }
+  },
+  {
+    code: '+proj=ob_tran +o_proj=longlat +o_lon_p=0 +o_lat_p=35',
+    ll: [-105, 40],
+    xy: [-60.8425, 32.0797],
+    acc: {
+      ll: 1,
+      xy: -4
+    }
+  },
+  {
+    code: '+proj=ob_tran +o_proj=longlat +o_lon_p=0 +o_lat_p=35 +lon_0=-113 +R=6371229 +no_defs +type=crs',
+    ll: [-105, 40],
+    xy: [6.3262, -14.6381],
+    acc: {
+      ll: 1,
+      xy: -4
+    }
+  },
+  {
+    code: '+proj=ob_tran +o_proj=longlat +o_lon_p=0 +o_lat_p=31.758312 +lon_0=-92.402969 +R=6371229 +no_defs +type=crs',
+    ll: [-105, 40],
+    xy: [-10.0777, -17.2983],
+    acc: {
+      ll: 1,
+      xy: -4
+    }
+  },
+  {
     code: '+proj=ob_tran +o_proj=moll +o_alpha=5 +o_lon_c=40 +o_lat_c=-10',
     ll: [10, 5],
     xy: [-154995.9625, -8241537.7451],
