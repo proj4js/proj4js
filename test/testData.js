@@ -2554,6 +2554,12 @@ var testPoints = [
     code: '+proj=bonne +ellps=GRS80 +lat_1=0.5 +lat_2=2',
     ll: [2, 1],
     xy: [222605.29609715697, 55321.139565494814]
+  },
+  {
+    code: 
+      {"$schema": "https://proj.org/schemas/v0.7/projjson.schema.json","type": "ProjectedCRS","name": "Amersfoort / RD New","base_crs": {"type": "GeographicCRS","name": "Amersfoort","datum": {"type": "GeodeticReferenceFrame","name": "Amersfoort","ellipsoid": {"name": "Bessel 1841","semi_major_axis": 6377397.155,"inverse_flattening": 299.1528128}},"coordinate_system": {"subtype": "ellipsoidal","axis": [{"name": "Geodetic latitude","abbreviation": "Lat","direction": "north","unit": "degree"},{"name": "Geodetic longitude","abbreviation": "Lon","direction": "east","unit": "degree"}]},"id": {"authority": "EPSG","code": 4289}},"conversion": {"name": "RD New","method": {"name": "Oblique Stereographic","id": {"authority": "EPSG","code": 9809}},"parameters": [{"name": "Latitude of natural origin","value": 52.1561605555556,"unit": "degree","id": {"authority": "EPSG","code": 8801}},{"name": "Longitude of natural origin","value": 5.38763888888889,"unit": "degree","id": {"authority": "EPSG","code": 8802}},{"name": "Scale factor at natural origin","value": 0.9999079,"unit": "unity","id": {"authority": "EPSG","code": 8805}},{"name": "False easting","value": 155000,"unit": "metre","id": {"authority": "EPSG","code": 8806}},{"name": "False northing","value": 463000,"unit": "metre","id": {"authority": "EPSG","code": 8807}}]},"coordinate_system": {"subtype": "Cartesian","axis": [{"name": "Easting","abbreviation": "X","direction": "east","unit": "metre"},{"name": "Northing","abbreviation": "Y","direction": "north","unit": "metre"}]},"scope": "Engineering survey, topographic mapping.","area": "Netherlands - onshore, including Waddenzee, Dutch Wadden Islands and 12-mile offshore coastal zone.","bbox": {"south_latitude": 50.75,"west_longitude": 3.2,"north_latitude": 53.7,"east_longitude": 7.22},"id": {"authority": "EPSG","code": 28992}},
+    ll: [5.2, 52.25],
+    xy: [142216.10, 473567.13]
   }
 ];
 if (typeof module !== 'undefined') {
