@@ -16,6 +16,32 @@ const DATUM_OVERRIDES = {
   }
 };
 
+// Conversion factor from proj.db unit_of_measure: conv_factor is to radians.
+// arc-second conv_factor = 4.84813681109535e-06
+const ARC_SECOND_IN_RADIANS = 4.84813681109535e-06;
+
+// Rotation unit conversion factors to arcseconds
+// key: rotation_uom_code, value: multiply DB value by this to get arcseconds
+const ROTATION_TO_ARCSEC = {
+  9104: 1, // arc-second (already correct)
+  9109: 1e-06 / ARC_SECOND_IN_RADIANS, // microradian
+  9101: 1.0 / ARC_SECOND_IN_RADIANS, // radian
+  1031: 0.001, // milliarc-second
+  9113: 1.57079632679489e-06 / ARC_SECOND_IN_RADIANS // centesimal second
+};
+
+// Scale unit conversion factors to parts per million
+const SCALE_TO_PPM = {
+  9202: 1, // parts per million (already correct)
+  1028: 0.001 // parts per billion -> ppm
+};
+
+// Translation unit conversion factors to metres
+const TRANSLATION_TO_METRE = {
+  9001: 1, // metre (already correct)
+  1025: 0.001 // millimetre -> metre
+};
+
 // Get the current file's directory
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -43,7 +69,10 @@ db.all(
           gd.name AS datum_name,
           cv.name AS datum_code,
           e.name AS ellipse_name,
-          ht.method_code
+          ht.method_code,
+          ht.rotation_uom_code,
+          ht.scale_difference_uom_code,
+          ht.translation_uom_code
    FROM helmert_transformation ht
    JOIN crs_view cv 
      ON ht.source_crs_auth_name = cv.auth_name 
@@ -84,14 +113,41 @@ db.all(
         return;
       }
 
-      if (row.method_code === 9607 && row.rx) {
-        row.rx = -row.rx;
-        row.ry = -row.ry;
-        row.rz = -row.rz;
+      // Round converted values to 6 decimal places to avoid floating-point artifacts
+      const round6 = v => Math.round(v * 1e6) / 1e6;
+
+      // Convert translation values to metres
+      const txMetres = round6(row.tx * (TRANSLATION_TO_METRE[row.translation_uom_code] || 1));
+      const tyMetres = round6(row.ty * (TRANSLATION_TO_METRE[row.translation_uom_code] || 1));
+      const tzMetres = round6(row.tz * (TRANSLATION_TO_METRE[row.translation_uom_code] || 1));
+
+      // Convert rotation values to arcseconds
+      let rxArcsec = row.rx ? round6(row.rx * (ROTATION_TO_ARCSEC[row.rotation_uom_code] || 1)) : 0;
+      let ryArcsec = row.ry ? round6(row.ry * (ROTATION_TO_ARCSEC[row.rotation_uom_code] || 1)) : 0;
+      let rzArcsec = row.rz ? round6(row.rz * (ROTATION_TO_ARCSEC[row.rotation_uom_code] || 1)) : 0;
+
+      // Convert scale difference to ppm
+      const scalePpm = round6(row.scale_difference * (SCALE_TO_PPM[row.scale_difference_uom_code] || 1));
+
+      if (row.method_code === 9607 && rxArcsec) {
+        rxArcsec = -rxArcsec;
+        ryArcsec = -ryArcsec;
+        rzArcsec = -rzArcsec;
       }
 
       // Construct the towgs84 string from tx, ty, tz, rx, ry, rz, and scale_difference
-      const towgs84 = row.rx ? `${row.tx},${row.ty},${row.tz},${row.rx},${row.ry},${row.rz},${row.scale_difference}` : `${row.tx},${row.ty},${row.tz}`;
+      const towgs84 = rxArcsec ? `${txMetres},${tyMetres},${tzMetres},${rxArcsec},${ryArcsec},${rzArcsec},${scalePpm}` : `${txMetres},${tyMetres},${tzMetres}`;
+
+      // Warn about unknown unit codes so future database changes don't silently produce wrong values
+      if (row.rotation_uom_code && !ROTATION_TO_ARCSEC[row.rotation_uom_code]) {
+        console.warn(`Unknown rotation UOM code ${row.rotation_uom_code} for ${row.source_crs_auth_name}_${row.source_crs_code}`);
+      }
+      if (row.scale_difference_uom_code && !SCALE_TO_PPM[row.scale_difference_uom_code]) {
+        console.warn(`Unknown scale UOM code ${row.scale_difference_uom_code} for ${row.source_crs_auth_name}_${row.source_crs_code}`);
+      }
+      if (row.translation_uom_code && !TRANSLATION_TO_METRE[row.translation_uom_code]) {
+        console.warn(`Unknown translation UOM code ${row.translation_uom_code} for ${row.source_crs_auth_name}_${row.source_crs_code}`);
+      }
 
       datums[`${row.source_crs_auth_name}_${row.source_crs_code}`] = {
         towgs84
@@ -104,7 +160,15 @@ db.all(
 
     // Write updated datums back to Datum.js
     const datumFilePath = path.resolve(__dirname, '../lib/constants/Datum.js');
-    const updatedContent = `var datums = ${JSON.stringify(datums, null, 2)};\n\n`
+    // Format the datums object with single quotes and unquoted property names
+    const datumEntries = Object.entries(datums).map(([key, value]) => {
+      const props = Object.entries(value).map(([pk, pv]) => {
+        const formattedValue = typeof pv === 'string' ? `'${pv}'` : JSON.stringify(pv);
+        return `    ${pk}: ${formattedValue}`;
+      }).join(',\n');
+      return `  ${key}: {\n${props}\n  }`;
+    }).join(',\n');
+    const updatedContent = `var datums = {\n${datumEntries}\n};\n\n`
       + `for (var key in datums) {\n`
       + `  var datum = datums[key];\n`
       + `  if (!datum.datumName) {\n`
@@ -112,7 +176,7 @@ db.all(
       + `  }\n`
       + `  datums[datum.datumName] = datum;\n`
       + `}\n\n`
-      + `export default datums;`;
+      + `export default datums;\n`;
     fs.writeFileSync(datumFilePath, updatedContent, 'utf-8');
     console.log('Datum.js updated successfully!');
   }
