@@ -195,6 +195,16 @@ function startTests(chai, proj4, fromArrayBuffer, testPoints) {
         assert.closeTo(result.y, 180418.4380560551, 1e-6);
         assert.equal(result.z, undefined);
       });
+      it('should convert a geographic point without height to geocentric (x,y,z)', function () {
+        var epsg4978 = '+proj=geocent +datum=WGS84 +units=m +no_defs';
+        var result = proj4(epsg4978).forward({
+          x: -7.76166,
+          y: 39.19685
+        });
+        assert.closeTo(result.x, 4904199.584207411, 0.000001);
+        assert.closeTo(result.y, -668448.8153664203, 0.000001);
+        assert.closeTo(result.z, 4009276.930771821, 0.000001);
+      });
       it('should return null for transform of [0, 0] for EPSG:3413 -> EPSG:3857', function () {
         var point = proj4.transform(
           proj4.Proj('+proj=stere +lat_0=90 +lat_ts=70 +lon_0=-45 +k=1 +x_0=0 +y_0=0 +datum=WGS84 +units=m +no_defs'),
