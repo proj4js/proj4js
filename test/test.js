@@ -196,14 +196,22 @@ function startTests(chai, proj4, fromArrayBuffer, testPoints) {
         assert.equal(result.z, undefined);
       });
       it('should convert a geographic point without height to geocentric (x,y,z)', function () {
-        var epsg4978 = '+proj=geocent +datum=WGS84 +units=m +no_defs';
-        var result = proj4(epsg4978).forward({
+        var epsg4978Proj = '+proj=geocent +datum=WGS84 +units=m +no_defs';
+        var resultProj = proj4(epsg4978Proj).forward({
           x: -7.76166,
           y: 39.19685
         });
-        assert.closeTo(result.x, 4904199.584207411, 0.000001);
-        assert.closeTo(result.y, -668448.8153664203, 0.000001);
-        assert.closeTo(result.z, 4009276.930771821, 0.000001);
+        assert.closeTo(resultProj.x, 4904199.584207411, 0.000001);
+        assert.closeTo(resultProj.y, -668448.8153664203, 0.000001);
+        assert.closeTo(resultProj.z, 4009276.930771821, 0.000001);
+        var epsg4978Json = { $schema: 'https://proj.org/schemas/v0.7/projjson.schema.json', type: 'GeodeticCRS', name: 'WGS 84', datum_ensemble: { name: 'World Geodetic System 1984 ensemble', members: [{ name: 'World Geodetic System 1984 (Transit)', id: { authority: 'EPSG', code: 1166 } }, { name: 'World Geodetic System 1984 (G730)', id: { authority: 'EPSG', code: 1152 } }, { name: 'World Geodetic System 1984 (G873)', id: { authority: 'EPSG', code: 1153 } }, { name: 'World Geodetic System 1984 (G1150)', id: { authority: 'EPSG', code: 1154 } }, { name: 'World Geodetic System 1984 (G1674)', id: { authority: 'EPSG', code: 1155 } }, { name: 'World Geodetic System 1984 (G1762)', id: { authority: 'EPSG', code: 1156 } }, { name: 'World Geodetic System 1984 (G2139)', id: { authority: 'EPSG', code: 1309 } }, { name: 'World Geodetic System 1984 (G2296)', id: { authority: 'EPSG', code: 1383 } }], ellipsoid: { name: 'WGS 84', semi_major_axis: 6378137, inverse_flattening: 298.257223563 }, accuracy: '2.0', id: { authority: 'EPSG', code: 6326 } }, coordinate_system: { subtype: 'Cartesian', axis: [{ name: 'Geocentric X', abbreviation: 'X', direction: 'geocentricX', unit: 'metre' }, { name: 'Geocentric Y', abbreviation: 'Y', direction: 'geocentricY', unit: 'metre' }, { name: 'Geocentric Z', abbreviation: 'Z', direction: 'geocentricZ', unit: 'metre' }] }, scope: 'Geodesy. Navigation and positioning using GPS satellite system.', area: 'World.', bbox: { south_latitude: -90, west_longitude: -180, north_latitude: 90, east_longitude: 180 }, id: { authority: 'EPSG', code: 4978 } };
+        var resultJson = proj4(epsg4978Json).forward({
+          x: -7.76166,
+          y: 39.19685
+        });
+        assert.closeTo(resultJson.x, 4904199.584207411, 0.000001);
+        assert.closeTo(resultJson.y, -668448.8153664203, 0.000001);
+        assert.closeTo(resultJson.z, 4009276.930771821, 0.000001);
       });
       it('should return null for transform of [0, 0] for EPSG:3413 -> EPSG:3857', function () {
         var point = proj4.transform(
