@@ -2560,6 +2560,24 @@ var testPoints = [
       { $schema: 'https://proj.org/schemas/v0.7/projjson.schema.json', type: 'ProjectedCRS', name: 'Amersfoort / RD New', base_crs: { type: 'GeographicCRS', name: 'Amersfoort', datum: { type: 'GeodeticReferenceFrame', name: 'Amersfoort', ellipsoid: { name: 'Bessel 1841', semi_major_axis: 6377397.155, inverse_flattening: 299.1528128 } }, coordinate_system: { subtype: 'ellipsoidal', axis: [{ name: 'Geodetic latitude', abbreviation: 'Lat', direction: 'north', unit: 'degree' }, { name: 'Geodetic longitude', abbreviation: 'Lon', direction: 'east', unit: 'degree' }] }, id: { authority: 'EPSG', code: 4289 } }, conversion: { name: 'RD New', method: { name: 'Oblique Stereographic', id: { authority: 'EPSG', code: 9809 } }, parameters: [{ name: 'Latitude of natural origin', value: 52.1561605555556, unit: 'degree', id: { authority: 'EPSG', code: 8801 } }, { name: 'Longitude of natural origin', value: 5.38763888888889, unit: 'degree', id: { authority: 'EPSG', code: 8802 } }, { name: 'Scale factor at natural origin', value: 0.9999079, unit: 'unity', id: { authority: 'EPSG', code: 8805 } }, { name: 'False easting', value: 155000, unit: 'metre', id: { authority: 'EPSG', code: 8806 } }, { name: 'False northing', value: 463000, unit: 'metre', id: { authority: 'EPSG', code: 8807 } }] }, coordinate_system: { subtype: 'Cartesian', axis: [{ name: 'Easting', abbreviation: 'X', direction: 'east', unit: 'metre' }, { name: 'Northing', abbreviation: 'Y', direction: 'north', unit: 'metre' }] }, scope: 'Engineering survey, topographic mapping.', area: 'Netherlands - onshore, including Waddenzee, Dutch Wadden Islands and 12-mile offshore coastal zone.', bbox: { south_latitude: 50.75, west_longitude: 3.2, north_latitude: 53.7, east_longitude: 7.22 }, id: { authority: 'EPSG', code: 28992 } },
     ll: [5.2, 52.25],
     xy: [142216.10, 473567.13]
+  },
+  {
+    code: '+proj=sinu +lon_0=0 +x_0=0 +y_0=0 +a=6371007.181 +b=6371007.181 +datum=wgs84 +units=m +no_defs',
+    ll: [-104.43258313171073, 39.99999999641088],
+    xy: [-8920228.524652023, 4426742.909145328],
+    acc: { xy: 2, ll: 4 }
+  },
+  {
+    code: 'PROJCS["unnamed",GEOGCS["Unknown datum based upon the custom spheroid",DATUM["Not specified (based on custom spheroid)",SPHEROID["Custom spheroid",6371007.181,0]],PRIMEM["Greenwich",0],UNIT["degree",0.0174532925199433,AUTHORITY["EPSG","9122"]]],PROJECTION["Sinusoidal"],PARAMETER["longitude_of_center",0],PARAMETER["false_easting",0],PARAMETER["false_northing",0],UNIT["Meter",1],AXIS["Easting",EAST],AXIS["Northing",NORTH]]',
+    ll: [-104.43258313171073, 39.99999999641088],
+    xy: [-8920228.524652023, 4426742.909145328],
+    acc: { xy: 2, ll: 4 }
+  },
+  {
+    code: { $schema: 'https://proj.org/schemas/v0.7/projjson.schema.json', type: 'ProjectedCRS', name: 'unnamed', base_crs: { name: 'Unknown datum based upon the custom spheroid', datum: { type: 'GeodeticReferenceFrame', name: 'Not specified (based on custom spheroid)', ellipsoid: { name: 'Custom spheroid', radius: 6371007.181 } }, coordinate_system: { subtype: 'ellipsoidal', axis: [{ name: 'Longitude', abbreviation: 'lon', direction: 'east', unit: 'degree' }, { name: 'Latitude', abbreviation: 'lat', direction: 'north', unit: 'degree' }] } }, conversion: { name: 'unnamed', method: { name: 'Sinusoidal' }, parameters: [{ name: 'Longitude of natural origin', value: 0, unit: 'degree', id: { authority: 'EPSG', code: 8802 } }, { name: 'False easting', value: 0, unit: { type: 'LinearUnit', name: 'Meter', conversion_factor: 1 }, id: { authority: 'EPSG', code: 8806 } }, { name: 'False northing', value: 0, unit: { type: 'LinearUnit', name: 'Meter', conversion_factor: 1 }, id: { authority: 'EPSG', code: 8807 } }] }, coordinate_system: { subtype: 'Cartesian', axis: [{ name: 'Easting', abbreviation: '', direction: 'east', unit: { type: 'LinearUnit', name: 'Meter', conversion_factor: 1 } }, { name: 'Northing', abbreviation: '', direction: 'north', unit: { type: 'LinearUnit', name: 'Meter', conversion_factor: 1 } }] } },
+    ll: [-104.43258313171073, 39.99999999641088],
+    xy: [-8920228.524652023, 4426742.909145328],
+    acc: { xy: 2, ll: 4 }
   }
 ];
 if (typeof module !== 'undefined') {
