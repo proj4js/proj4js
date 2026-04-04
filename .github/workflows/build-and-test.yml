@@ -8,15 +8,15 @@ on:
 
 jobs:
   build:
-    name: Build and test
+    name: Build
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
     - name: Use Node.js 22.x
-      uses: actions/setup-node@v3
+      uses: actions/setup-node@v4
       with:
-        node-version: 22.x
+        node-version: 24.x
         cache: 'npm'
     - run: npm ci
     - uses: actions/upload-artifact@v4
@@ -24,46 +24,65 @@ jobs:
         name: dist
         path: dist/
 
+  test-node:
+    name: Test (Node.js ${{ matrix.node-version }})
+    needs: build
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [20.x, 22.x, 24.x]
+        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
+
+    steps:
+    - uses: actions/checkout@v4
+    - uses: actions/download-artifact@v4
+      with:
+        name: dist
+        path: dist/
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v4
+      with:
+        node-version: ${{ matrix.node-version }}
+        cache: 'npm'
+    - run: npm ci --ignore-scripts
+    - run: npm run test:node
+
+  test-browser:
+    name: Test (Browser/Chromium)
+    needs: build
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+    - uses: actions/download-artifact@v4
+      with:
+        name: dist
+        path: dist/
+    - name: Use Node.js 24.x
+      uses: actions/setup-node@v4
+      with:
+        node-version: 24.x
+        cache: 'npm'
+    - run: npm ci --ignore-scripts
+    - run: npx playwright install --with-deps chromium
+    - run: npm run test:browser
+
   test-coverage:
     name: Test coverage
     needs: build
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v3
-    - uses: actions/download-artifact@v4
-      with:
-        name: dist
-        path: dist
-    - name: Use Node.js 22.x
-      uses: actions/setup-node@v3
-      with:
-        node-version: 22.x
-        cache: 'npm'
-    - run: npm install --no-save nyc chai
-    - run: npm run test:coverage
-
-  
-  test-node:
-    name: Test older node versions
-    needs: build
-    runs-on: ubuntu-latest
-
-    strategy:
-      matrix:
-        node-version: [16.x, 18.x, 20.x]
-        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
-
-    steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
     - uses: actions/download-artifact@v4
       with:
         name: dist
         path: dist/
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v3
+    - name: Use Node.js 24.x
+      uses: actions/setup-node@v4
       with:
-        node-version: ${{ matrix.node-version }}
+        node-version: 24.x
         cache: 'npm'
-    - run: npm install --no-save chai
-    - run: npm run test:ci
+    - run: npm ci --ignore-scripts
+    - run: npm run test:coverage

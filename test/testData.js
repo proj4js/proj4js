@@ -2580,10 +2580,4 @@ var testPoints = [
     acc: { xy: 2, ll: 4 }
   }
 ];
-if (typeof module !== 'undefined') {
-  module.exports = testPoints;
-} else if (typeof define === 'function') {
-  define(function () {
-    return testPoints;
-  });
-}
+export default testPoints;
