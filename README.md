@@ -179,12 +179,12 @@ await proj4.nadgrid('ca_nrc_NA83SCRS.tif', tiff).ready;
 Then use the given key in your definition, e.g. `proj4.defs("EPSG:32188","+proj=tmerc +lat_0=0 +lon_0=-73.5 +k=0.9999 +x_0=304800 +y_0=0 +ellps=GRS80 +nadgrids=ca_nrc_NA83SCRS.tif +units=m +no_defs +type=crs");` noting the `+nadgrids=ca_nrc_NA83SCRS.tif` parameter.
 
 ## Developing
-To set up build tools make sure you have node and grunt-cli installed and then run `npm install`.
+To set up build tools make sure you have node installed and then run `npm install`.
 
-To do the complete build and browser tests run
+To do the complete build run
 
 ```bash
-node_modules/.bin/grunt
+npm run build
 ```
 
 To run node and browser tests run
@@ -203,16 +203,16 @@ npm run test:coverage
 To create a build with only default projections (latlon and Mercator) run
 
 ```bash
-node_modules/.bin/grunt build
+node scripts/build.mjs default
 ```
 
-To create a build with only custom projections include a comma separated list of projections codes (the file name in 'lib/projections' without the '.js') after a colon, e.g.
+To create a build with only custom projections include a comma separated list of projections codes (the file name in 'lib/projections' without the '.js'), e.g.
 
 ```bash
-node_modules/.bin/grunt build:tmerc
+node scripts/build.mjs tmerc
 #includes transverse Mercator
-node_modules/.bin/grunt build:lcc
+node scripts/build.mjs lcc
 #includes lambert conformal conic
-node_modules/.bin/grunt build:omerc,moll
+node scripts/build.mjs omerc,moll
 #includes oblique Mercator and Mollweide
 ```

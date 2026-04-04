@@ -6,6 +6,9 @@
     "emitDeclarationOnly": true,
     "declaration": true,
     "declarationDir": "dist",
+    "lib": [
+      "es2020", "dom"
+    ]
   },
   "include": [
     "lib/**/*.js",
