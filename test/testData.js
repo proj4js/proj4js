@@ -7,6 +7,26 @@ var testPoints = [
     xy: [4156404, 7480076.5],
     ll: [37.33761240175515, 55.60447049026976]
   },
+  /* eck6: Eckert VI with authalic sphere WKT datum (Not_specified_based_on_Authalic_Sphere → datum=none) */
+  { code: 'PROJCS["Sphere_Eckert_VI",GEOGCS["GCS_Sphere",DATUM["Not_specified_based_on_Authalic_Sphere",SPHEROID["Sphere",6371000,0]],PRIMEM["Greenwich",0],UNIT["Degree",0.017453292519943295]],PROJECTION["Eckert_VI"],PARAMETER["False_Easting",0],PARAMETER["False_Northing",0],PARAMETER["Central_Meridian",0],UNIT["Meter",1]]',
+    xy: [12697777.70, 3747394.62],
+    ll: [145.0, 30.0]
+  },
+  /* eck6: Eckert VI with D_Sphere WKT datum → datum=none */
+  { code: 'PROJCS["Sphere_Eckert_VI",GEOGCS["GCS_Sphere",DATUM["D_Sphere",SPHEROID["Sphere",6371000,0]],PRIMEM["Greenwich",0],UNIT["Degree",0.017453292519943295]],PROJECTION["Eckert_VI"],PARAMETER["False_Easting",0],PARAMETER["False_Northing",0],PARAMETER["Central_Meridian",0],UNIT["Meter",1]]',
+    xy: [12697777.70, 3747394.62],
+    ll: [145.0, 30.0]
+  },
+  /* eck6: Eckert VI with WGS84 datum (forces spherical, different result) */
+  { code: 'PROJCS["World_Eckert_VI",GEOGCS["GCS_WGS_1984",DATUM["WGS_1984",SPHEROID["WGS_1984",6378137,298.257223563]],PRIMEM["Greenwich",0],UNIT["Degree",0.017453292519943295]],PROJECTION["Eckert_VI"],PARAMETER["False_Easting",0],PARAMETER["False_Northing",0],PARAMETER["Central_Meridian",0],UNIT["Meter",1]]',
+    xy: [12712002.16, 3751592.57],
+    ll: [145.0, 30.0]
+  },
+  /* sinu: Sinusoidal with authalic sphere WKT datum → datum=none */
+  { code: 'PROJCS["Sphere_Sinusoidal",GEOGCS["GCS_Sphere",DATUM["Not_specified_based_on_Authalic_Sphere",SPHEROID["Sphere",6371000,0]],PRIMEM["Greenwich",0],UNIT["Degree",0.017453292519943295]],PROJECTION["Sinusoidal"],PARAMETER["False_Easting",0],PARAMETER["False_Northing",0],PARAMETER["Central_Meridian",0],UNIT["Meter",1]]',
+    xy: [736106.55, 5893331.11],
+    ll: [11.0, 53.0]
+  },
   { code: 'PROJCS["CH1903 / LV03",GEOGCS["CH1903",DATUM["D_CH1903",SPHEROID["Bessel_1841",6377397.155,299.1528128]],PRIMEM["Greenwich",0],UNIT["Degree",0.017453292519943295]],PROJECTION["Hotine_Oblique_Mercator_Azimuth_Center"],PARAMETER["latitude_of_center",46.95240555555556],PARAMETER["longitude_of_center",7.439583333333333],PARAMETER["azimuth",90],PARAMETER["scale_factor",1],PARAMETER["false_easting",600000],PARAMETER["false_northing",200000],UNIT["Meter",1]]',
     xy: [660013.4882918689, 185172.17110117766],
     ll: [8.225, 46.815],

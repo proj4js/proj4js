@@ -20,6 +20,7 @@ const allProjs = [
   'nzmg',
   'mill',
   'sinu',
+  'eck6',
   'moll',
   'eqdc',
   'vandg',
