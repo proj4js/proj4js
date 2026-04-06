@@ -5,7 +5,7 @@ Publishing
 
 1. Make sure you have the latest from the main branch:
 
-       git pull origin master
+       git pull origin main
 
 2. Update `changelog.md` with the changes since the last release, then commit:
 
@@ -31,4 +31,4 @@ Publishing
        npm version x.y.(z+1)-alpha --no-git-tag-version
        git add package.json package-lock.json
        git commit -m 'update version to x.y.(z+1)-alpha'
-       git push origin master
+       git push origin main
