@@ -1,0 +1,49 @@
+name: Draft GitHub Release
+
+on:
+  push:
+    tags:
+      - 'v*.*.*'
+
+jobs:
+  release:
+    name: Draft release
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24.x
+          cache: 'npm'
+      - run: npm ci
+      - name: Create dist archive
+        run: zip -r dist.zip dist/
+      - name: Draft release
+        uses: softprops/action-gh-release@v2
+        with:
+          draft: true
+          generate_release_notes: true
+          files: dist.zip
+
+  update-gh-pages:
+    name: Update gh-pages
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: gh-pages
+      - name: Fetch tagged commit
+        run: git fetch origin ${{ github.sha }}
+      - name: Copy README.md to index.md
+        run: git show ${{ github.sha }}:README.md > index.md
+      - name: Commit and push
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add index.md
+          git diff --cached --quiet || git commit -m "update index.md for ${{ github.ref_name }}"
+          git push
