@@ -17,6 +17,7 @@ import poly from './lib/projections/poly';
 import nzmg from './lib/projections/nzmg';
 import mill from './lib/projections/mill';
 import sinu from './lib/projections/sinu';
+import eck6 from './lib/projections/eck6';
 import moll from './lib/projections/moll';
 import eqdc from './lib/projections/eqdc';
 import vandg from './lib/projections/vandg';
@@ -50,6 +51,7 @@ export default function (proj4) {
   proj4.Proj.projections.add(nzmg);
   proj4.Proj.projections.add(mill);
   proj4.Proj.projections.add(sinu);
+  proj4.Proj.projections.add(eck6);
   proj4.Proj.projections.add(moll);
   proj4.Proj.projections.add(eqdc);
   proj4.Proj.projections.add(vandg);
