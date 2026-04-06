@@ -14,7 +14,11 @@ npm install proj4
 
 or download `dist.zip` from the [latest release](https://github.com/proj4js/proj4js/releases) and grab `proj4.js` from it.
 
-If you do not want to download anything, Proj4js is also hosted on [cdnjs](https://www.cdnjs.com/libraries/proj4js) for direct use in your browser applications.
+If you do not want to download anything, Proj4js is also available via [jsDelivr](https://www.jsdelivr.com/package/npm/proj4) for direct use in your browser applications:
+
+```html
+<script src="https://cdn.jsdelivr.net/npm/proj4/dist/proj4.js"></script>
+```
 
 ## Using
 
