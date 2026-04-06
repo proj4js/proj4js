@@ -416,7 +416,7 @@ var testPoints = [
     ll: [-16.10000000237, 32.879999998812]
   },
   { code: 'PROJCS["NAD27 / UTM zone 14N",GEOGCS["NAD27 Coordinate System",DATUM["D_North American Datum 1927 (NAD27)",SPHEROID["Clarke_1866",6378206.4,294.97869821391]],PRIMEM["Greenwich",0],UNIT["Degree",0.017453292519943295]],PROJECTION["Transverse_Mercator"],PARAMETER["false_easting",500000],PARAMETER["false_northing",0],PARAMETER["latitude_of_origin",0],PARAMETER["central_meridian",-99],PARAMETER["scale_factor",0.9996],UNIT["Meter (m)",1]]',
-    xy: [2026074.9192811155, 12812891.606450122],
+    xy: [2026166.2893436982, 12813075.367330592],
     ll: [51.517955776474096, 61.56941794249017]
   },
   {
@@ -892,14 +892,14 @@ var testPoints = [
   {
     code: 'PROJCS["World Equidistant Cylindrical (Sphere)",GEOGCS["Unspecified datum based upon the GRS 1980 Authalic Sphere",DATUM["Not_specified_based_on_GRS_1980_Authalic_Sphere",SPHEROID["GRS 1980 Authalic Sphere",6371007,0,AUTHORITY["EPSG","7048"]],AUTHORITY["EPSG","6047"]],PRIMEM["Greenwich",0,AUTHORITY["EPSG","8901"]],UNIT["degree",0.01745329251994328,AUTHORITY["EPSG","9122"]],AUTHORITY["EPSG","4047"]],UNIT["metre",1,AUTHORITY["EPSG","9001"]],PROJECTION["Equirectangular"],PARAMETER["latitude_of_origin",0],PARAMETER["central_meridian",0],PARAMETER["false_easting",0],PARAMETER["false_northing",0],AUTHORITY["EPSG","3786"],AXIS["X",EAST],AXIS["Y",NORTH]]',
     ll: [-1.7539371169976, 12.632997701986],
-    xy: [-195029.12334755991, 1395621.9368162225],
+    xy: [-195029.1233475599, 1404726.7961850422],
     acc: {
       ll: 2
     }
   }, {
     code: 'PROJCS["World Equidistant Cylindrical (Sphere)",GEOGCS["Unspecified datum based upon the GRS 1980 Authalic Sphere",DATUM["D_",SPHEROID["GRS_1980_Authalic_Sphere",6371007,0]],PRIMEM["Greenwich",0],UNIT["Degree",0.017453292519943295]],PROJECTION["Equidistant_Cylindrical"],PARAMETER["central_meridian",0],PARAMETER["false_easting",0],PARAMETER["false_northing",0],UNIT["Meter",1]]',
     ll: [-1.7539371169976, 12.632997701986],
-    xy: [-195029.12334755991, 1395621.9368162225],
+    xy: [-195029.1233475599, 1404726.7961850422],
     acc: {
       ll: 2
     }
@@ -907,7 +907,7 @@ var testPoints = [
   {
     code: { $schema: 'https://proj.org/schemas/v0.7/projjson.schema.json', type: 'ProjectedCRS', name: 'World Equidistant Cylindrical (Sphere)', base_crs: { type: 'GeographicCRS', name: 'Unspecified datum based upon the GRS 1980 Authalic Sphere', datum: { type: 'GeodeticReferenceFrame', name: 'Not specified (based on GRS 1980 Authalic Sphere)', ellipsoid: { name: 'GRS 1980 Authalic Sphere', radius: 6371007 } }, coordinate_system: { subtype: 'ellipsoidal', axis: [{ name: 'Geodetic latitude', abbreviation: 'Lat', direction: 'north', unit: 'degree' }, { name: 'Geodetic longitude', abbreviation: 'Lon', direction: 'east', unit: 'degree' }] }, id: { authority: 'EPSG', code: 4047 } }, conversion: { name: 'World Equidistant Cylindrical (Sphere)', method: { name: 'Equidistant Cylindrical (Spherical)', id: { authority: 'EPSG', code: 1029 } }, parameters: [{ name: 'Latitude of 1st standard parallel', value: 0, unit: 'degree', id: { authority: 'EPSG', code: 8823 } }, { name: 'Longitude of natural origin', value: 0, unit: 'degree', id: { authority: 'EPSG', code: 8802 } }, { name: 'False easting', value: 0, unit: 'metre', id: { authority: 'EPSG', code: 8806 } }, { name: 'False northing', value: 0, unit: 'metre', id: { authority: 'EPSG', code: 8807 } }] }, coordinate_system: { subtype: 'Cartesian', axis: [{ name: 'Easting', abbreviation: 'X', direction: 'east', unit: 'metre' }, { name: 'Northing', abbreviation: 'Y', direction: 'north', unit: 'metre' }] }, scope: 'Web mapping and visualisation.', area: 'World.', bbox: { south_latitude: -90, west_longitude: -180, north_latitude: 90, east_longitude: 180 }, id: { authority: 'EPSG', code: 4088 } },
     ll: [-1.7539371169976, 12.632997701986],
-    xy: [-195029.12334755991, 1395621.9368162225],
+    xy: [-195029.1233475599, 1404726.7961850422],
     acc: {
       ll: 2
     }
@@ -1045,21 +1045,21 @@ var testPoints = [
   }, {
     code: 'PROJCS["Sphere_Miller_Cylindrical",GEOGCS["GCS_Sphere",DATUM["D_Sphere",SPHEROID["Sphere",6371000,0]],PRIMEM["Greenwich",0],UNIT["Degree",0.017453292519943295]],PROJECTION["Miller_Cylindrical"],PARAMETER["False_Easting",0],PARAMETER["False_Northing",0],PARAMETER["Central_Meridian",0],UNIT["Meter",1]]',
     ll: [-1.3973289073953, 12.649176474268513],
-    xy: [-155375.88535614178, 1404635.2633403721],
+    xy: [-155375.88535614178, 1413894.115522094],
     acc: {
       ll: 3
     }
   }, {
     code: 'PROJCS["Sphere_Miller_Cylindrical",GEOGCS["GCS_Sphere",DATUM["Not_specified_based_on_Authalic_Sphere",SPHEROID["Sphere",6371000,0]],PRIMEM["Greenwich",0],UNIT["Degree",0.017453292519943295]],PROJECTION["Miller_Cylindrical"],PARAMETER["False_Easting",0],PARAMETER["False_Northing",0],PARAMETER["Central_Meridian",0],UNIT["Meter",1],AUTHORITY["EPSG","53003"]]',
     ll: [-1.3973289073953, 12.649176474268513],
-    xy: [-155375.88535614178, 1404635.2633403721],
+    xy: [-155375.88535614178, 1413894.115522094],
     acc: {
       ll: 3
     }
   }, {
     code: { $schema: 'https://proj.org/schemas/v0.7/projjson.schema.json', type: 'ProjectedCRS', name: 'Sphere_Miller_Cylindrical', base_crs: { type: 'GeographicCRS', name: 'Unknown datum based upon the Authalic Sphere', datum: { type: 'GeodeticReferenceFrame', name: 'Not specified (based on Authalic Sphere)', ellipsoid: { name: 'Sphere', radius: 6371000 } }, coordinate_system: { subtype: 'ellipsoidal', axis: [{ name: 'Longitude', abbreviation: 'lon', direction: 'east', unit: { type: 'AngularUnit', name: 'Degree', conversion_factor: 0.0174532925199433 } }, { name: 'Latitude', abbreviation: 'lat', direction: 'north', unit: { type: 'AngularUnit', name: 'Degree', conversion_factor: 0.0174532925199433 } }] } }, conversion: { name: 'Sphere_Miller_Cylindrical', method: { name: 'Miller Cylindrical' }, parameters: [{ name: 'Longitude of natural origin', value: 0, unit: { type: 'AngularUnit', name: 'Degree', conversion_factor: 0.0174532925199433 }, id: { authority: 'EPSG', code: 8802 } }, { name: 'False easting', value: 0, unit: 'metre', id: { authority: 'EPSG', code: 8806 } }, { name: 'False northing', value: 0, unit: 'metre', id: { authority: 'EPSG', code: 8807 } }] }, coordinate_system: { subtype: 'Cartesian', axis: [{ name: 'Easting', abbreviation: 'E', direction: 'east', unit: 'metre' }, { name: 'Northing', abbreviation: 'N', direction: 'north', unit: 'metre' }] }, scope: 'Not known.', area: 'World.', bbox: { south_latitude: -90, west_longitude: -180, north_latitude: 90, east_longitude: 180 }, id: { authority: 'ESRI', code: 53003 } },
     ll: [-1.3973289073953, 12.649176474268513],
-    xy: [-155375.88535614178, 1404635.2633403721],
+    xy: [-155375.88535614178, 1413894.115522094],
     acc: {
       ll: 3
     }
@@ -1095,7 +1095,7 @@ var testPoints = [
         BBOX[-90,-180,90,180]],
     ID["ESRI",53003]]`,
     ll: [-1.3973289073953, 12.649176474268513],
-    xy: [-155375.88535614178, 1404635.2633403721],
+    xy: [-155375.88535614178, 1413894.115522094],
     acc: {
       ll: 3
     }
@@ -2562,21 +2562,21 @@ var testPoints = [
     xy: [142216.10, 473567.13]
   },
   {
-    code: '+proj=sinu +lon_0=0 +x_0=0 +y_0=0 +a=6371007.181 +b=6371007.181 +datum=wgs84 +units=m +no_defs',
+    code: '+proj=sinu +lon_0=0 +x_0=0 +y_0=0 +a=6371007.181 +b=6371007.181 +units=m +no_defs',
     ll: [-104.43258313171073, 39.99999999641088],
-    xy: [-8920228.524652023, 4426742.909145328],
+    xy: [-8895604.157333, 4447802.078667],
     acc: { xy: 2, ll: 4 }
   },
   {
     code: 'PROJCS["unnamed",GEOGCS["Unknown datum based upon the custom spheroid",DATUM["Not specified (based on custom spheroid)",SPHEROID["Custom spheroid",6371007.181,0]],PRIMEM["Greenwich",0],UNIT["degree",0.0174532925199433,AUTHORITY["EPSG","9122"]]],PROJECTION["Sinusoidal"],PARAMETER["longitude_of_center",0],PARAMETER["false_easting",0],PARAMETER["false_northing",0],UNIT["Meter",1],AXIS["Easting",EAST],AXIS["Northing",NORTH]]',
     ll: [-104.43258313171073, 39.99999999641088],
-    xy: [-8920228.524652023, 4426742.909145328],
+    xy: [-8895604.157333, 4447802.078667],
     acc: { xy: 2, ll: 4 }
   },
   {
     code: { $schema: 'https://proj.org/schemas/v0.7/projjson.schema.json', type: 'ProjectedCRS', name: 'unnamed', base_crs: { name: 'Unknown datum based upon the custom spheroid', datum: { type: 'GeodeticReferenceFrame', name: 'Not specified (based on custom spheroid)', ellipsoid: { name: 'Custom spheroid', radius: 6371007.181 } }, coordinate_system: { subtype: 'ellipsoidal', axis: [{ name: 'Longitude', abbreviation: 'lon', direction: 'east', unit: 'degree' }, { name: 'Latitude', abbreviation: 'lat', direction: 'north', unit: 'degree' }] } }, conversion: { name: 'unnamed', method: { name: 'Sinusoidal' }, parameters: [{ name: 'Longitude of natural origin', value: 0, unit: 'degree', id: { authority: 'EPSG', code: 8802 } }, { name: 'False easting', value: 0, unit: { type: 'LinearUnit', name: 'Meter', conversion_factor: 1 }, id: { authority: 'EPSG', code: 8806 } }, { name: 'False northing', value: 0, unit: { type: 'LinearUnit', name: 'Meter', conversion_factor: 1 }, id: { authority: 'EPSG', code: 8807 } }] }, coordinate_system: { subtype: 'Cartesian', axis: [{ name: 'Easting', abbreviation: '', direction: 'east', unit: { type: 'LinearUnit', name: 'Meter', conversion_factor: 1 } }, { name: 'Northing', abbreviation: '', direction: 'north', unit: { type: 'LinearUnit', name: 'Meter', conversion_factor: 1 } }] } },
     ll: [-104.43258313171073, 39.99999999641088],
-    xy: [-8920228.524652023, 4426742.909145328],
+    xy: [-8895604.157333, 4447802.078667],
     acc: { xy: 2, ll: 4 }
   }
 ];
