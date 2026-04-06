@@ -12,7 +12,7 @@ Depending on your preferences
 npm install proj4
 ```
 
-or manually grab `proj4.js` from the [latest release](https://github.com/proj4js/proj4js/releases)'s `dist/` folder.
+or download `dist.zip` from the [latest release](https://github.com/proj4js/proj4js/releases) and grab `proj4.js` from it.
 
 If you do not want to download anything, Proj4js is also hosted on [cdnjs](https://www.cdnjs.com/libraries/proj4js) for direct use in your browser applications.
 
