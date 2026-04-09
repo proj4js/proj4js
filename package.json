@@ -41,10 +41,18 @@
     "@vitest/browser-playwright": "^4.1.2",
     "@vitest/coverage-v8": "^4.1.2",
     "eslint": "^9.25.1",
-    "geotiff": "^2.1.4-beta.0",
+    "geotiff": "^3.0.5",
     "rollup": "^4.9.6",
     "typescript": "^5.8.3",
     "vitest": "^4.1.2"
+  },
+  "peerDependencies": {
+    "geotiff": "*"
+  },
+  "peerDependenciesMeta": {
+    "geotiff": {
+      "optional": true
+    }
   },
   "dependencies": {
     "mgrs": "1.0.0",
