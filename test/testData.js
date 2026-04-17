@@ -740,110 +740,63 @@ var testPoints = [
   {
     code: '+proj=ob_tran +o_proj=moll +o_lat_p=45 +o_lon_p=-90',
     ll: [-2, -1],
-    xy: [-7421459.0847, -5444548.62239],
-    acc: {
-      ll: 5,
-      xy: 0
-    }
+    xy: [-7421459.08469763, -5444548.62238893]
   },
   {
     code: '+proj=ob_tran +o_proj=eqearth +o_lat_p=85 +o_lon_p=10',
     ll: [20, 11],
-    xy: [2841069.7339, 808313.2811],
-    acc: {
-      ll: 1,
-      xy: -4
-    }
-  },
-  {
-    code: '+proj=ob_tran +o_proj=eqearth +o_lat_p=85 +o_lon_p=10',
-    ll: [20, 11],
-    xy: [2841069.7339, 808313.2811],
-    acc: {
-      ll: 1,
-      xy: -4
-    }
+    xy: [2841069.73392768, 808313.281062982]
   },
   {
     code: '+proj=ob_tran +o_proj=longlat +o_lon_p=0 +o_lat_p=35',
     ll: [-105, 40],
-    xy: [-60.8425, 32.0797],
-    acc: {
-      ll: 1,
-      xy: -4
-    }
+    xy: [-60.8425058899586, 32.0797099050498]
+
   },
   {
     code: '+proj=ob_tran +o_proj=longlat +o_lon_p=0 +o_lat_p=35 +lon_0=-113 +R=6371229 +no_defs +type=crs',
     ll: [-105, 40],
-    xy: [6.3262, -14.6381],
-    acc: {
-      ll: 1,
-      xy: -4
-    }
+    xy: [6.32623159167842, -14.6380639304457]
   },
   {
     code: '+proj=ob_tran +o_proj=longlat +o_lon_p=0 +o_lat_p=31.758312 +lon_0=-92.402969 +R=6371229 +no_defs +type=crs',
     ll: [-105, 40],
-    xy: [-10.0777, -17.2983],
-    acc: {
-      ll: 1,
-      xy: -4
-    }
+    xy: [-10.0776833744144, -17.2983149595925]
+  },
+  {
+    code: '+proj=ob_tran +o_proj=longlat +o_lon_p=0 +o_lat_p=60.31 +lon_0=327.63 +a=6371229 +no_defs',
+    ll: [116, -32],
+    xy: [153.441735338947, -5.89482638862363]
   },
   {
     code: '+proj=ob_tran +o_proj=moll +o_alpha=5 +o_lon_c=40 +o_lat_c=-10',
     ll: [10, 5],
-    xy: [-154995.9625, -8241537.7451],
-    acc: {
-      ll: 3,
-      xy: 3
-    }
+    xy: [-154995.962452491, -8241537.7450648]
   },
   {
     code: '+proj=ob_tran +o_proj=moll +o_lon_1=-180 +o_lon_2=180 +o_lat_1=-3 +o_lat_2=3',
     ll: [10, 5],
-    xy: [-938419.6738, -8448989.1020],
-    acc: {
-      ll: 3,
-      xy: 3
-    }
+    xy: [-938419.673847826, -8448989.10202702]
   },
   {
     code: '+proj=ob_tran +o_proj=moll +o_lon_1=-11 +o_lon_2=6 +o_lat_1=-3 +o_lat_2=3 +x_0=10000 +y_0=50000',
     ll: [-90, 85],
-    xy: [3725830.5914, -7713738.5789],
-    acc: {
-      ll: 3,
-      xy: 3
-    }
+    xy: [3725830.59144467, -7713738.57893275]
   },
   {
     code: '+proj=ob_tran +o_proj=moll +o_lon_1=-11 +o_lon_2=6 +o_lat_1=-3 +o_lat_2=3 +x_0=10000 +y_0=50000 +R=6400000',
     ll: [-90, 85],
-    xy: [3738567.7284, -7740351.1488],
-    acc: {
-      ll: 3,
-      xy: 3
-    }
+    xy: [3738567.72835796, -7740351.14880248]
   },
   {
     code: '+proj=ob_tran +o_proj=moll +R=6378137.0  +o_lon_p=0  +o_lat_p=0  +lon_0=180',
     ll: [10, 20],
-    xy: [-1384841.18787, 7581707.88240],
-    acc: {
-      ll: 3,
-      xy: 3
-    }
+    xy: [-1384841.18787246, 7581707.88240173]
   },
   {
     code: '+proj=ob_tran +o_proj=moll +o_lon_p=0  +o_lat_p=0  +lon_0=180 +R=6400000 +ellps=clrk80ign +pm=paris',
     ll: [10, 20],
-    xy: [-1068593.9375, 7685891.0261],
-    acc: {
-      ll: 3,
-      xy: 3
-    }
+    xy: [-1068593.93749222, 7685891.02613628]
   },
   {
     code: 'PROJCS["Mount Dillon / Tobago Grid",GEOGCS["Mount Dillon",DATUM["Mount_Dillon",SPHEROID["Clarke 1858",6378293.645208759,294.2606763692654,AUTHORITY["EPSG","7007"]],AUTHORITY["EPSG","6157"]],PRIMEM["Greenwich",0,AUTHORITY["EPSG","8901"]],UNIT["degree",0.01745329251994328,AUTHORITY["EPSG","9122"]],AUTHORITY["EPSG","4157"]],UNIT["Clarke\'s link",0.201166195164,AUTHORITY["EPSG","9039"]],PROJECTION["Cassini_Soldner"],PARAMETER["latitude_of_origin",11.25217861111111],PARAMETER["central_meridian",-60.68600888888889],PARAMETER["false_easting",187500],PARAMETER["false_northing",180000],AUTHORITY["EPSG","2066"],AXIS["Easting",EAST],AXIS["Northing",NORTH]]',
