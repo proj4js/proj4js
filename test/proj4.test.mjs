@@ -319,6 +319,35 @@ describe('proj4', function () {
     assert.closeTo(rslt.y, 10.2, 0.000001);
   });
 
+  it('should respect the vertical axis when enforceAxis is true', function () {
+    var enu = '+proj=longlat +ellps=WGS84 +datum=WGS84 +units=degrees +axis=enu';
+    var ned = '+proj=longlat +ellps=WGS84 +datum=WGS84 +units=degrees +axis=ned';
+    var arrayResult = proj4(enu, ned).forward([10, 20, 30], true);
+    assert.equal(arrayResult[0], 20, 'array: first (north) is input y');
+    assert.equal(arrayResult[1], 10, 'array: second (east) is input x');
+    assert.equal(arrayResult[2], -30, 'array: third (down) negates input z');
+    var pointResult = proj4(enu, ned).forward({ x: 10, y: 20, z: 30 }, true);
+    assert.equal(pointResult.x, 20, 'point: x (north) is input y');
+    assert.equal(pointResult.y, 10, 'point: y (east) is input x');
+    assert.equal(pointResult.z, -30, 'point: z (down) negates input z');
+  });
+
+  it('should handle non-trivial axis reordering with enforceAxis', function () {
+    var neu = '+proj=longlat +axis=neu';
+    var uen = '+proj=longlat +axis=uen';
+    // neu source [north=10, east=20, up=30] → uen dest [up, east, north]
+    var r1 = proj4(neu, uen).forward([10, 20, 30], true);
+    assert.equal(r1[0], 30, 'neu→uen: first (up) is input up');
+    assert.equal(r1[1], 20, 'neu→uen: second (east) is input east');
+    assert.equal(r1[2], 10, 'neu→uen: third (north) is input north');
+    // uen source [up=10, east=20, north=30] → uen dest: round-trip should be identity
+    var r2 = proj4(uen, uen).forward([10, 20, 30], true);
+    assert.equal(r2[0], 10, 'uen→uen: round-trip preserves first');
+    assert.equal(r2[1], 20, 'uen→uen: round-trip preserves second');
+    // r2[2] is the north component (y in ENU space), which goes through D2R/R2D in longlat
+    assert.closeTo(r2[2], 30, 1e-6, 'uen→uen: round-trip preserves third');
+  });
+
   it('axes should be invertable with proj4.transform()', function () {
     var enu = '+proj=longlat +axis=enu';
     var esu = '+proj=longlat +axis=esu';
