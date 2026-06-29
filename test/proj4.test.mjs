@@ -873,4 +873,15 @@ describe('proj4', function () {
       }, 'Invalid value for o_lat_1: o_lat_1 should be different from zero', 'should work');
     });
   });
+
+  describe('nzmg projection', function () {
+    var proj = proj4('+proj=nzmg +lat_0=-41 +lon_0=173 +x_0=2510000 +y_0=6023150 +ellps=intl +no_defs');
+    var nzmg = [2152713.585, 5442524.565];
+    it('should round trip through inverse and forward', function () {
+      var lonlat = proj.inverse(nzmg);
+      var backToNzmg = proj.forward(lonlat);
+      assert.closeTo(backToNzmg[0], nzmg[0], 1e-2, 'easting is close');
+      assert.closeTo(backToNzmg[1], nzmg[1], 1e-2, 'northing is close');
+    });
+  });
 });
