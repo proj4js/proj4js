@@ -1346,6 +1346,19 @@ var testPoints = [
     ll: [2, 48],
     xy: [249325.62485355, -187277.841415147]
   }, {
+    // lon_0 omitted: defaults to 0, same result as +lon_0=0
+    code: '+proj=aeqd +lat_0=51.5 +datum=WGS84 +units=m +no_defs',
+    ll: [2, 48],
+    xy: [149325.62485313, -387277.84141508]
+  }, {
+    code: '+proj=merc +a=6378137 +b=6378137 +units=m +no_defs',
+    ll: [10, 45],
+    xy: [1113194.90793274, 5621521.48619207]
+  }, {
+    code: '+proj=lcc +lat_1=33 +lat_2=45 +lat_0=39 +datum=WGS84 +units=m +no_defs',
+    ll: [-100, 40],
+    xy: [-6880442.71344780, 4330863.47097279]
+  }, {
     code: '+proj=laea +lat_0=2 +lon_0=1 +x_0=0 +y_0=0 +a=6371000 +b=6371000  +units=m +no_defs',
     ll: [1, 2],
     xy: [0, 0]
