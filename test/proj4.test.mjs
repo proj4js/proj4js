@@ -42,6 +42,15 @@ describe('proj2proj', function () {
     assert.closeTo(rslt[0], 1271137.927561178, 0.000001);
     assert.closeTo(rslt[1], 6404230.291456626, 0.000001);
   });
+  it('should wrap longitude into the 0..360 range with +lon_wrap', function () {
+    var wgs84 = '+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs';
+    var wrapped = '+proj=longlat +ellps=WGS84 +datum=WGS84 +lon_wrap=180 +no_defs';
+    assert.closeTo(proj4(wgs84, wrapped).forward([-170, 40])[0], 190, 0.000001);
+    assert.closeTo(proj4(wgs84, wrapped).forward([-180, 0])[0], 180, 0.000001);
+    assert.closeTo(proj4(wgs84, wrapped).forward([10, 0])[0], 10, 0.000001);
+    // without +lon_wrap the longitude stays in the -180..180 range
+    assert.closeTo(proj4(wgs84, wgs84).forward([-170, 40])[0], -170, 0.000001);
+  });
 });
 
 describe('proj4', function () {
