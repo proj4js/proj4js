@@ -27,6 +27,19 @@ describe('parse', function () {
   });
 });
 
+describe('ellipsoid', function () {
+  it('plessis uses 6355863 as the semi-minor axis, not the inverse flattening', function () {
+    // 6355863 is Plessis 1817's semi-minor axis b (rf is ~308.64), not an inverse
+    // flattening; reading it as rf produces a near-sphere. Expected values from PROJ 9.5.1
+    // (with the near-sphere bug the northing was 6444643.06 instead of 6413002.84).
+    var wgs84 = '+proj=longlat +datum=WGS84 +no_defs';
+    var plessis = '+proj=merc +ellps=plessis +lon_0=0 +x_0=0 +y_0=0 +units=m +no_defs';
+    var rslt = proj4(wgs84, plessis).forward([10, 50]);
+    assert.closeTo(rslt[0], 1112913.211791, 0.001);
+    assert.closeTo(rslt[1], 6413002.836941, 0.001);
+  });
+});
+
 describe('proj2proj', function () {
   it('should work transforming from one projection to another', function () {
     var sweref99tm = '+proj=utm +zone=33 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs';
