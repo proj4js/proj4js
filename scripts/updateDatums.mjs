@@ -1,4 +1,4 @@
-import sqlite3 from 'sqlite3';
+import { DatabaseSync } from 'node:sqlite';
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
@@ -48,7 +48,7 @@ const __dirname = path.dirname(__filename);
 
 // Open proj.db
 const dbPath = path.resolve(__dirname, '../proj.db');
-const db = new sqlite3.Database(dbPath);
+const db = new DatabaseSync(dbPath, { readOnly: true });
 
 for (const key in datums) {
   if (key === datums[key].datumName && datums[datums[key].datumName] === datums[key]) {
@@ -59,8 +59,8 @@ for (const key in datums) {
 const databaseDatumNames = new Set();
 
 // Query proj.db for Helmert transforms with method_code = 9606
-db.all(
-  `SELECT ht.source_crs_auth_name, 
+const rows = db.prepare(
+  `SELECT ht.source_crs_auth_name,
           ht.source_crs_code, 
           ht.tx, ht.ty, ht.tz, 
           ht.rx, ht.ry, ht.rz, 
@@ -98,86 +98,81 @@ db.all(
        WHEN 9607 THEN 2
        WHEN 9603 THEN 3
        ELSE 4
-     END ASC`, // Sort by method_code (9606 first, then 9607), then by accuracy`, // Assuming lower accuracy values are better
-  (err, rows) => {
-    if (err) {
-      console.error('Error querying proj.db:', err);
-      return;
-    }
+     END ASC` // Sort by method_code (9606 first, then 9607), then by accuracy, assuming lower accuracy values are better
+).all();
+db.close();
 
-    rows.forEach((row) => {
-      const normalizedDatumName = row.datum_name.toLowerCase();
+rows.forEach((row) => {
+  const normalizedDatumName = row.datum_name.toLowerCase();
 
-      // Skip if the datumName already exists (case-insensitive)
-      if (databaseDatumNames.has(normalizedDatumName)) {
-        return;
-      }
-
-      // Round converted values to 6 decimal places to avoid floating-point artifacts
-      const round6 = v => Math.round(v * 1e6) / 1e6;
-
-      // Convert translation values to metres
-      const txMetres = round6(row.tx * (TRANSLATION_TO_METRE[row.translation_uom_code] || 1));
-      const tyMetres = round6(row.ty * (TRANSLATION_TO_METRE[row.translation_uom_code] || 1));
-      const tzMetres = round6(row.tz * (TRANSLATION_TO_METRE[row.translation_uom_code] || 1));
-
-      // Convert rotation values to arcseconds
-      let rxArcsec = row.rx ? round6(row.rx * (ROTATION_TO_ARCSEC[row.rotation_uom_code] || 1)) : 0;
-      let ryArcsec = row.ry ? round6(row.ry * (ROTATION_TO_ARCSEC[row.rotation_uom_code] || 1)) : 0;
-      let rzArcsec = row.rz ? round6(row.rz * (ROTATION_TO_ARCSEC[row.rotation_uom_code] || 1)) : 0;
-
-      // Convert scale difference to ppm
-      const scalePpm = round6(row.scale_difference * (SCALE_TO_PPM[row.scale_difference_uom_code] || 1));
-
-      if (row.method_code === 9607 && rxArcsec) {
-        rxArcsec = -rxArcsec;
-        ryArcsec = -ryArcsec;
-        rzArcsec = -rzArcsec;
-      }
-
-      // Construct the towgs84 string from tx, ty, tz, rx, ry, rz, and scale_difference
-      const towgs84 = rxArcsec ? `${txMetres},${tyMetres},${tzMetres},${rxArcsec},${ryArcsec},${rzArcsec},${scalePpm}` : `${txMetres},${tyMetres},${tzMetres}`;
-
-      // Warn about unknown unit codes so future database changes don't silently produce wrong values
-      if (row.rotation_uom_code && !ROTATION_TO_ARCSEC[row.rotation_uom_code]) {
-        console.warn(`Unknown rotation UOM code ${row.rotation_uom_code} for ${row.source_crs_auth_name}_${row.source_crs_code}`);
-      }
-      if (row.scale_difference_uom_code && !SCALE_TO_PPM[row.scale_difference_uom_code]) {
-        console.warn(`Unknown scale UOM code ${row.scale_difference_uom_code} for ${row.source_crs_auth_name}_${row.source_crs_code}`);
-      }
-      if (row.translation_uom_code && !TRANSLATION_TO_METRE[row.translation_uom_code]) {
-        console.warn(`Unknown translation UOM code ${row.translation_uom_code} for ${row.source_crs_auth_name}_${row.source_crs_code}`);
-      }
-
-      datums[`${row.source_crs_auth_name}_${row.source_crs_code}`] = {
-        towgs84
-      };
-
-      databaseDatumNames.add(normalizedDatumName);
-    });
-
-    Object.assign(datums, DATUM_OVERRIDES);
-
-    // Write updated datums back to Datum.js
-    const datumFilePath = path.resolve(__dirname, '../lib/constants/Datum.js');
-    // Format the datums object with single quotes and unquoted property names
-    const datumEntries = Object.entries(datums).map(([key, value]) => {
-      const props = Object.entries(value).map(([pk, pv]) => {
-        const formattedValue = typeof pv === 'string' ? `'${pv}'` : JSON.stringify(pv);
-        return `    ${pk}: ${formattedValue}`;
-      }).join(',\n');
-      return `  ${key}: {\n${props}\n  }`;
-    }).join(',\n');
-    const updatedContent = `var datums = {\n${datumEntries}\n};\n\n`
-      + `for (var key in datums) {\n`
-      + `  var datum = datums[key];\n`
-      + `  if (!datum.datumName) {\n`
-      + `    continue;\n`
-      + `  }\n`
-      + `  datums[datum.datumName] = datum;\n`
-      + `}\n\n`
-      + `export default datums;\n`;
-    fs.writeFileSync(datumFilePath, updatedContent, 'utf-8');
-    console.log('Datum.js updated successfully!');
+  // Skip if the datumName already exists (case-insensitive)
+  if (databaseDatumNames.has(normalizedDatumName)) {
+    return;
   }
-);
+
+  // Round converted values to 6 decimal places to avoid floating-point artifacts
+  const round6 = v => Math.round(v * 1e6) / 1e6;
+
+  // Convert translation values to metres
+  const txMetres = round6(row.tx * (TRANSLATION_TO_METRE[row.translation_uom_code] || 1));
+  const tyMetres = round6(row.ty * (TRANSLATION_TO_METRE[row.translation_uom_code] || 1));
+  const tzMetres = round6(row.tz * (TRANSLATION_TO_METRE[row.translation_uom_code] || 1));
+
+  // Convert rotation values to arcseconds
+  let rxArcsec = row.rx ? round6(row.rx * (ROTATION_TO_ARCSEC[row.rotation_uom_code] || 1)) : 0;
+  let ryArcsec = row.ry ? round6(row.ry * (ROTATION_TO_ARCSEC[row.rotation_uom_code] || 1)) : 0;
+  let rzArcsec = row.rz ? round6(row.rz * (ROTATION_TO_ARCSEC[row.rotation_uom_code] || 1)) : 0;
+
+  // Convert scale difference to ppm
+  const scalePpm = round6(row.scale_difference * (SCALE_TO_PPM[row.scale_difference_uom_code] || 1));
+
+  if (row.method_code === 9607 && rxArcsec) {
+    rxArcsec = -rxArcsec;
+    ryArcsec = -ryArcsec;
+    rzArcsec = -rzArcsec;
+  }
+
+  // Construct the towgs84 string from tx, ty, tz, rx, ry, rz, and scale_difference
+  const towgs84 = rxArcsec ? `${txMetres},${tyMetres},${tzMetres},${rxArcsec},${ryArcsec},${rzArcsec},${scalePpm}` : `${txMetres},${tyMetres},${tzMetres}`;
+
+  // Warn about unknown unit codes so future database changes don't silently produce wrong values
+  if (row.rotation_uom_code && !ROTATION_TO_ARCSEC[row.rotation_uom_code]) {
+    console.warn(`Unknown rotation UOM code ${row.rotation_uom_code} for ${row.source_crs_auth_name}_${row.source_crs_code}`);
+  }
+  if (row.scale_difference_uom_code && !SCALE_TO_PPM[row.scale_difference_uom_code]) {
+    console.warn(`Unknown scale UOM code ${row.scale_difference_uom_code} for ${row.source_crs_auth_name}_${row.source_crs_code}`);
+  }
+  if (row.translation_uom_code && !TRANSLATION_TO_METRE[row.translation_uom_code]) {
+    console.warn(`Unknown translation UOM code ${row.translation_uom_code} for ${row.source_crs_auth_name}_${row.source_crs_code}`);
+  }
+
+  datums[`${row.source_crs_auth_name}_${row.source_crs_code}`] = {
+    towgs84
+  };
+
+  databaseDatumNames.add(normalizedDatumName);
+});
+
+Object.assign(datums, DATUM_OVERRIDES);
+
+// Write updated datums back to Datum.js
+const datumFilePath = path.resolve(__dirname, '../lib/constants/Datum.js');
+// Format the datums object with single quotes and unquoted property names
+const datumEntries = Object.entries(datums).map(([key, value]) => {
+  const props = Object.entries(value).map(([pk, pv]) => {
+    const formattedValue = typeof pv === 'string' ? `'${pv}'` : JSON.stringify(pv);
+    return `    ${pk}: ${formattedValue}`;
+  }).join(',\n');
+  return `  ${key}: {\n${props}\n  }`;
+}).join(',\n');
+const updatedContent = `var datums = {\n${datumEntries}\n};\n\n`
+  + `for (var key in datums) {\n`
+  + `  var datum = datums[key];\n`
+  + `  if (!datum.datumName) {\n`
+  + `    continue;\n`
+  + `  }\n`
+  + `  datums[datum.datumName] = datum;\n`
+  + `}\n\n`
+  + `export default datums;\n`;
+fs.writeFileSync(datumFilePath, updatedContent, 'utf-8');
+console.log('Datum.js updated successfully!');
