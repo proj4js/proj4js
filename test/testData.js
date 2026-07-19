@@ -2610,6 +2610,16 @@ var testPoints = [
     xy: [343065.9150369169, 2254539.6570760156]
   },
   {
+    code: '+proj=vandg +R=6371000 +lon_0=0 +x_0=0 +y_0=0 +units=m +no_defs',
+    ll: [0, 45],
+    xy: [0, 5363026.34343254]
+  },
+  {
+    code: '+proj=vandg +R=6371000 +lon_0=0 +x_0=0 +y_0=0 +units=m +no_defs',
+    ll: [45, 0],
+    xy: [5003771.699005143, 0]
+  },
+  {
     code: '+proj=merc +ellps=plessis +lon_0=0 +x_0=0 +y_0=0 +units=m +no_defs',
     ll: [10, 50],
     xy: [1112913.211791464, 6413002.836941121]
