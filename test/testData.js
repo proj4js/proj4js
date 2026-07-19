@@ -2604,7 +2604,6 @@ var testPoints = [
     ll: [90, -70],
     xy: [343065.9150369169, 2254539.6570760156]
   },
-  // plessis: 6355863 is the semi-minor axis, not the inverse flattening (values from PROJ 9.5.1)
   {
     code: '+proj=merc +ellps=plessis +lon_0=0 +x_0=0 +y_0=0 +units=m +no_defs',
     ll: [10, 50],
