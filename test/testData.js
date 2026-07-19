@@ -2603,6 +2603,11 @@ var testPoints = [
     code: '+proj=lcc +lat_0=-90.0 +lon_0=81.0 +lat_1=-72.66666666666674 +lat_2=-75.3333333333334 +x_0=0.0 +y_0=0.0 +ellps=GRS80 +no_defs',
     ll: [90, -70],
     xy: [343065.9150369169, 2254539.6570760156]
+  },
+  {
+    code: '+proj=merc +ellps=plessis +lon_0=0 +x_0=0 +y_0=0 +units=m +no_defs',
+    ll: [10, 50],
+    xy: [1112913.211791464, 6413002.836941121]
   }
 ];
 export default testPoints;
