@@ -2112,6 +2112,17 @@ var testPoints = [
     ll: [2, 1],
     xy: [2516532.477709202, 139083.35793371277]
   },
+  // etmerc on a sphere (es=0) is exact, see https://github.com/proj4js/proj4js/issues/394
+  {
+    code: '+proj=etmerc +a=6400000 +b=6400000 +lat_1=0.5 +lat_2=2 +n=0.5',
+    ll: [2, 1],
+    xy: [223413.4664063224, 111769.14504058579]
+  },
+  {
+    code: '+proj=tmerc +a=6378137 +b=6378137 +lon_0=11.598056919260632 +x_0=1.0621731827420435e-09 +y_0=-5375403.8751633102 +k=1.0 +units=m +wktext +no_defs',
+    ll: [12, 55],
+    xy: [25664.088897589172, 747241.858826519]
+  },
   {
     code: '+proj=utm +zone=30 +ellps=GRS80 +lat_1=0.5 +lat_2=2 +n=0.5',
     ll: [2, 1],
