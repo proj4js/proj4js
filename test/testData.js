@@ -2112,9 +2112,10 @@ var testPoints = [
     ll: [2, 1],
     xy: [2516532.477709202, 139083.35793371277]
   },
-  // etmerc on a sphere (es=0) is exact, see https://github.com/proj4js/proj4js/issues/394
+  // tmerc on a sphere uses the exact spherical form, as PROJ does.
+  // https://github.com/proj4js/proj4js/issues/394
   {
-    code: '+proj=etmerc +a=6400000 +b=6400000 +lat_1=0.5 +lat_2=2 +n=0.5',
+    code: '+proj=tmerc +a=6400000 +b=6400000 +lat_1=0.5 +lat_2=2 +n=0.5',
     ll: [2, 1],
     xy: [223413.4664063224, 111769.14504058579]
   },
