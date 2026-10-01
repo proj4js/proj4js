@@ -2581,6 +2581,12 @@ var testPoints = [
     xy: [142216.10, 473567.13]
   },
   {
+    // ESRI WKT from a shapefile .prj, without a TOWGS84 clause (#537)
+    code: 'PROJCS["RD_New",GEOGCS["GCS_Amersfoort",DATUM["D_Amersfoort",SPHEROID["Bessel_1841",6377397.155,299.1528128]],PRIMEM["Greenwich",0.0],UNIT["Degree",0.0174532925199433]],PROJECTION["Double_Stereographic"],PARAMETER["False_Easting",155000.0],PARAMETER["False_Northing",463000.0],PARAMETER["Central_Meridian",5.38763888888889],PARAMETER["Scale_Factor",0.9999079],PARAMETER["Latitude_Of_Origin",52.1561605555556],UNIT["Meter",1.0]]',
+    ll: [5.2, 52.25],
+    xy: [142216.10, 473567.13]
+  },
+  {
     code: '+proj=sinu +lon_0=0 +x_0=0 +y_0=0 +a=6371007.181 +b=6371007.181 +units=m +no_defs',
     ll: [-104.43258313171073, 39.99999999641088],
     xy: [-8895604.157333, 4447802.078667],
