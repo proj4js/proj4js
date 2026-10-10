@@ -1,4 +1,5 @@
 import tmerc from './lib/projections/tmerc';
+import tmerc_approx from './lib/projections/tmerc_approx';
 import etmerc from './lib/projections/etmerc';
 import utm from './lib/projections/utm';
 import sterea from './lib/projections/sterea';
@@ -33,6 +34,7 @@ import bonne from './lib/projections/bonne';
 import ob_tran from './lib/projections/ob_tran';
 export default function (proj4) {
   proj4.Proj.projections.add(tmerc);
+  proj4.Proj.projections.add(tmerc_approx);
   proj4.Proj.projections.add(etmerc);
   proj4.Proj.projections.add(utm);
   proj4.Proj.projections.add(sterea);
