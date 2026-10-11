@@ -565,6 +565,90 @@ describe('proj4', function () {
         proj4('+proj=etmerc +a=6400000 +b=6400000');
       }, 'Incorrect elliptical usage', 'should work');
     });
+    it('should keep extra properties returned by a projection', function () {
+      proj4.Proj.projections.add({
+        names: ['labelled_test'],
+        init: function () {},
+        forward: function (pt) {
+          return Object.assign({}, pt, { label: 'custom' });
+        },
+        inverse: function (pt) {
+          return pt;
+        }
+      });
+      var result = proj4('WGS84', '+proj=labelled_test +ellps=WGS84').forward({ x: 1, y: 2 });
+      assert.deepEqual(Object.keys(result).sort(), ['label', 'x', 'y']);
+    });
+    it('should keep non-enumerable properties returned by a projection', function () {
+      proj4.Proj.projections.add({
+        names: ['hidden_test'],
+        init: function () {},
+        forward: function (pt) {
+          var out = { x: pt.x, y: pt.y, z: pt.z };
+          Object.defineProperty(out, 'm', { value: 7 });
+          return out;
+        },
+        inverse: function (pt) {
+          return pt;
+        }
+      });
+      var result = proj4('WGS84', '+proj=hidden_test +ellps=WGS84').forward({ x: 1, y: 2 });
+      assert.deepEqual(Object.keys(result).sort(), ['x', 'y']);
+      assert.equal(result.m, 7);
+    });
+    it('should keep symbol properties returned by a projection', function () {
+      var marker = Symbol('metadata');
+      proj4.Proj.projections.add({
+        names: ['symbol_test'],
+        init: function () {},
+        forward: function (pt) {
+          return { x: pt.x, y: pt.y, z: pt.z, [marker]: 'custom' };
+        },
+        inverse: function (pt) {
+          return { x: pt.x, y: pt.y, z: pt.z, [marker]: 'custom' };
+        }
+      });
+      var dest = '+proj=symbol_test +ellps=WGS84';
+      assert.equal(proj4('WGS84', dest).forward({ x: 1, y: 2 })[marker], 'custom');
+      assert.equal(proj4('WGS84', dest, { x: 1, y: 2 })[marker], 'custom');
+      assert.equal(proj4.transform(proj4.Proj('WGS84'), proj4.Proj(dest), { x: 1, y: 2 })[marker], 'custom');
+      assert.equal(proj4(dest, 'EPSG:3857', { x: 1, y: 2 })[marker], 'custom');
+    });
+    it('should keep properties a projection adds to its input', function () {
+      var marker = Symbol('metadata');
+      proj4.Proj.projections.add({
+        names: ['mutating_test'],
+        init: function () {},
+        forward: function (pt) {
+          pt[marker] = 'custom';
+          Object.defineProperty(pt, 'note', { value: 7 });
+          return pt;
+        },
+        inverse: function (pt) {
+          return pt;
+        }
+      });
+      var dest = '+proj=mutating_test +ellps=WGS84';
+      var results = [
+        proj4('EPSG:3857', dest).forward({ x: 1000, y: 2000 }),
+        proj4('EPSG:3857', dest, { x: 1000, y: 2000 }),
+        proj4('WGS84', dest, { x: 1, y: 2 })
+      ];
+      results.forEach(function (result) {
+        assert.equal(result[marker], 'custom');
+        assert.equal(result.note, 7);
+        assert.notProperty(result, 'z');
+      });
+    });
+    it('should keep m on object input', function () {
+      var result = proj4('EPSG:3857', 'WGS84', { x: 1000, y: 2000, m: 7 });
+      assert.deepEqual(Object.keys(result).sort(), ['m', 'x', 'y']);
+      assert.equal(result.m, 7);
+    });
+    it('should not throw for out of range spherical tmerc points', function () {
+      var result = proj4('WGS84', '+proj=tmerc +lon_0=15 +R=6371000').forward([105, 0]);
+      assert.isNotOk(isFinite(result[0]) || isFinite(result[1]), 'should not be finite');
+    });
   });
   describe('utility', function () {
     it('should have MGRS available in the proj4.util namespace', function () {
