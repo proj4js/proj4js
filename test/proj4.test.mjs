@@ -517,6 +517,11 @@ describe('proj4', function () {
         proj4('+proj=utm +zone=31', [-Infinity, 0]);
       }, 'coordinates must be finite numbers', 'should work');
     });
+    it('should throw for etmerc on a sphere', function () {
+      assert.throws(function () {
+        proj4('+proj=etmerc +a=6400000 +b=6400000');
+      }, 'Incorrect elliptical usage', 'should work');
+    });
   });
   describe('utility', function () {
     it('should have MGRS available in the proj4.util namespace', function () {

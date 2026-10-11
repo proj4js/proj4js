@@ -2,6 +2,7 @@ import { writeFileSync } from 'fs';
 
 const allProjs = [
   'tmerc',
+  'tmerc_approx',
   'etmerc',
   'utm',
   'sterea',
