@@ -582,6 +582,23 @@ describe('proj4', function () {
         assert.equal(point2.y.toPrecision(9), '-1095793.64', 'Latitude of point from WGS84 correct.');
       });
     });
+    describe('Datum shift for geographic CRS without TOWGS84', function () {
+      var geocent = '+proj=geocent +datum=WGS84 +units=m +no_defs +type=crs';
+      var input = [3785368, 893986, 5038059];
+      function assertDbRef(result) {
+        assert.closeTo(result[0], 13.289722, 0.000001, 'Longitude correct.');
+        assert.closeTo(result[1], 52.518405, 0.000001, 'Latitude correct.');
+        assert.closeTo(result[2], 11.345461, 0.001, 'Height correct.');
+      }
+      it('applies the datum shift for a WKT2 GEOGCRS', function () {
+        var wkt = 'GEOGCRS["DB_REF",DATUM["Deutsche Bahn Reference System",ELLIPSOID["Bessel 1841",6377397.155,299.1528128,LENGTHUNIT["metre",1]]],PRIMEM["Greenwich",0,ANGLEUNIT["degree",0.0174532925199433]],CS[ellipsoidal,3],AXIS["geodetic latitude (Lat)",north,ORDER[1],ANGLEUNIT["degree",0.0174532925199433]],AXIS["geodetic longitude (Lon)",east,ORDER[2],ANGLEUNIT["degree",0.0174532925199433]],AXIS["ellipsoidal height (h)",up,ORDER[3],LENGTHUNIT["metre",1]],ID["EPSG",5830]]';
+        assertDbRef(proj4(geocent, wkt, input));
+      });
+      it('applies the datum shift for a PROJJSON GeographicCRS', function () {
+        var projjson = { $schema: 'https://proj.org/schemas/v0.7/projjson.schema.json', type: 'GeographicCRS', name: 'DB_REF', datum: { type: 'GeodeticReferenceFrame', name: 'Deutsche Bahn Reference System', ellipsoid: { name: 'Bessel 1841', semi_major_axis: 6377397.155, inverse_flattening: 299.1528128 } }, coordinate_system: { subtype: 'ellipsoidal', axis: [{ name: 'Geodetic latitude', abbreviation: 'Lat', direction: 'north', unit: 'degree' }, { name: 'Geodetic longitude', abbreviation: 'Lon', direction: 'east', unit: 'degree' }, { name: 'Ellipsoidal height', abbreviation: 'h', direction: 'up', unit: 'metre' }] }, id: { authority: 'EPSG', code: 5830 } };
+        assertDbRef(proj4(geocent, projjson, input));
+      });
+    });
   });
 
   describe('Nadgrids BETA2007', function () {

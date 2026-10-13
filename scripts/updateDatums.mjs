@@ -67,6 +67,8 @@ const rows = db.prepare(
           ht.scale_difference,
           ht.accuracy, 
           gd.name AS datum_name,
+          gd.auth_name AS datum_auth_name,
+          gd.code AS datum_auth_code,
           cv.name AS datum_code,
           e.name AS ellipse_name,
           ht.method_code,
@@ -100,9 +102,32 @@ const rows = db.prepare(
        ELSE 4
      END ASC` // Sort by method_code (9606 first, then 9607), then by accuracy, assuming lower accuracy values are better
 ).all();
-db.close();
+
+// Transformations are usually defined for the 2D geographic CRS only. Other
+// geodetic CRSs on the same datum (geographic 3D, geocentric) need the same
+// towgs84, because WKT2/PROJJSON definitions are looked up by their own code.
+const siblingCrsQuery = db.prepare(
+  `SELECT auth_name, code
+   FROM geodetic_crs
+   WHERE datum_auth_name = ? AND datum_code = ? AND deprecated = 0`
+);
+// CRSs with their own transformation, and per datum the source CRSs in rows order
+const sourceKeys = new Set();
+const datumSources = new Map();
 
 rows.forEach((row) => {
+  const sourceKey = `${row.source_crs_auth_name}_${row.source_crs_code}`;
+  const datumId = `${row.datum_auth_name}:${row.datum_auth_code}`;
+  sourceKeys.add(sourceKey);
+  if (!datumSources.has(datumId)) {
+    datumSources.set(datumId, {
+      authName: row.datum_auth_name,
+      code: row.datum_auth_code,
+      sources: []
+    });
+  }
+  datumSources.get(datumId).sources.push({ key: sourceKey, authName: row.source_crs_auth_name });
+
   const normalizedDatumName = row.datum_name.toLowerCase();
 
   // Skip if the datumName already exists (case-insensitive)
@@ -146,7 +171,7 @@ rows.forEach((row) => {
     console.warn(`Unknown translation UOM code ${row.translation_uom_code} for ${row.source_crs_auth_name}_${row.source_crs_code}`);
   }
 
-  datums[`${row.source_crs_auth_name}_${row.source_crs_code}`] = {
+  datums[sourceKey] = {
     towgs84
   };
 
@@ -154,6 +179,53 @@ rows.forEach((row) => {
 });
 
 Object.assign(datums, DATUM_OVERRIDES);
+
+// Give sibling CRSs without their own transformation the towgs84 of a source
+// CRS on the same datum, preferring one from the same authority
+datumSources.forEach((datum) => {
+  const available = datum.sources.filter(source => datums[source.key] && datums[source.key].towgs84);
+  if (!available.length) {
+    return;
+  }
+  siblingCrsQuery.all(datum.authName, datum.code).forEach((crs) => {
+    const siblingKey = `${crs.auth_name}_${crs.code}`;
+    if (sourceKeys.has(siblingKey)) {
+      return;
+    }
+    const source = available.find(candidate => candidate.authName === crs.auth_name) || available[0];
+    datums[siblingKey] = {
+      towgs84: datums[source.key].towgs84
+    };
+  });
+});
+
+// A zero shift on a WGS84-like ellipsoid gives the same result as no datum
+// shift at all (PJD_NODATUM), so such entries are redundant. On other
+// ellipsoids, a zero shift still means a conversion through geocentric
+// coordinates, so those entries are kept.
+const WGS84_A = 6378137;
+const WGS84_RF = 298.257223563;
+const crsEllipsoids = new Map(db.prepare(
+  `SELECT gcrs.auth_name, gcrs.code, e.semi_major_axis, e.inv_flattening
+   FROM geodetic_crs gcrs
+   JOIN geodetic_datum gd
+     ON gcrs.datum_auth_name = gd.auth_name
+    AND gcrs.datum_code = gd.code
+   JOIN ellipsoid e
+     ON gd.ellipsoid_auth_name = e.auth_name
+    AND gd.ellipsoid_code = e.code
+   WHERE e.uom_auth_name = 'EPSG' AND e.uom_code = 9001` // metre
+).all().map(row => [`${row.auth_name}_${row.code}`, row]));
+db.close();
+
+for (const key in datums) {
+  const ellipsoid = crsEllipsoids.get(key);
+  if (ellipsoid && datums[key].towgs84 === '0,0,0'
+    && ellipsoid.semi_major_axis === WGS84_A
+    && Math.abs(ellipsoid.inv_flattening - WGS84_RF) < 1e-5) {
+    delete datums[key];
+  }
+}
 
 // Write updated datums back to Datum.js
 const datumFilePath = path.resolve(__dirname, '../lib/constants/Datum.js');
