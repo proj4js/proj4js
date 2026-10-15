@@ -491,6 +491,49 @@ describe('proj4', function () {
       assert.isUndefined(proj4.defs['tempdef']);
     });
   });
+  describe('WGS84 redefinition', function () {
+    it('should use the current WGS84 definition for datum shifts', function () {
+      var original = proj4.defs('WGS84');
+      var ed50 = '+proj=utm +zone=31 +ellps=intl +towgs84=-87,-98,-121,0,0,0,0 +units=m';
+      var osgb = '+proj=tmerc +lat_0=49 +lon_0=-2 +k=0.9996012717 +x_0=400000 +y_0=-100000 +ellps=airy +towgs84=446.448,-125.157,542.06,0.15,0.247,0.842,-20.489 +units=m';
+      var before = proj4(ed50, osgb).forward([500000, 5500000], true);
+      try {
+        proj4.defs('WGS84', '+proj=longlat +datum=WGS84 +axis=neu +no_defs');
+        var after = proj4(ed50, osgb).forward([500000, 5500000], true);
+        assert.notDeepEqual(after, before, 'redefinition should be used');
+      } finally {
+        proj4.defs('WGS84', original);
+      }
+    });
+    it('should throw when WGS84 is undefined', function () {
+      var original = proj4.defs('WGS84');
+      try {
+        proj4.defs('WGS84', null);
+        assert.throws(function () {
+          proj4('+proj=longlat +ellps=intl +towgs84=-87,-98,-121', '+proj=longlat +ellps=airy +towgs84=446,-125,542', [3, 50]);
+        }, 'Could not parse');
+      } finally {
+        proj4.defs('WGS84', original);
+      }
+    });
+    it('should keep throwing for an invalid WGS84 definition', function () {
+      var original = proj4.defs('WGS84');
+      var from = '+proj=longlat +ellps=intl +towgs84=-87,-98,-121';
+      var to = '+proj=longlat +ellps=airy +towgs84=446,-125,542';
+      proj4(from, to, [3, 50]);
+      try {
+        proj4.defs('WGS84', '+proj=invalid');
+        assert.throws(function () {
+          proj4(from, to, [3, 50]);
+        });
+        assert.throws(function () {
+          proj4(from, to, [3, 50]);
+        });
+      } finally {
+        proj4.defs('WGS84', original);
+      }
+    });
+  });
   describe('errors', function () {
     it('should throw an error for an unknown ref', function () {
       assert.throws(function () {
@@ -521,6 +564,90 @@ describe('proj4', function () {
       assert.throws(function () {
         proj4('+proj=etmerc +a=6400000 +b=6400000');
       }, 'Incorrect elliptical usage', 'should work');
+    });
+    it('should keep extra properties returned by a projection', function () {
+      proj4.Proj.projections.add({
+        names: ['labelled_test'],
+        init: function () {},
+        forward: function (pt) {
+          return Object.assign({}, pt, { label: 'custom' });
+        },
+        inverse: function (pt) {
+          return pt;
+        }
+      });
+      var result = proj4('WGS84', '+proj=labelled_test +ellps=WGS84').forward({ x: 1, y: 2 });
+      assert.deepEqual(Object.keys(result).sort(), ['label', 'x', 'y']);
+    });
+    it('should keep non-enumerable properties returned by a projection', function () {
+      proj4.Proj.projections.add({
+        names: ['hidden_test'],
+        init: function () {},
+        forward: function (pt) {
+          var out = { x: pt.x, y: pt.y, z: pt.z };
+          Object.defineProperty(out, 'm', { value: 7 });
+          return out;
+        },
+        inverse: function (pt) {
+          return pt;
+        }
+      });
+      var result = proj4('WGS84', '+proj=hidden_test +ellps=WGS84').forward({ x: 1, y: 2 });
+      assert.deepEqual(Object.keys(result).sort(), ['x', 'y']);
+      assert.equal(result.m, 7);
+    });
+    it('should keep symbol properties returned by a projection', function () {
+      var marker = Symbol('metadata');
+      proj4.Proj.projections.add({
+        names: ['symbol_test'],
+        init: function () {},
+        forward: function (pt) {
+          return { x: pt.x, y: pt.y, z: pt.z, [marker]: 'custom' };
+        },
+        inverse: function (pt) {
+          return { x: pt.x, y: pt.y, z: pt.z, [marker]: 'custom' };
+        }
+      });
+      var dest = '+proj=symbol_test +ellps=WGS84';
+      assert.equal(proj4('WGS84', dest).forward({ x: 1, y: 2 })[marker], 'custom');
+      assert.equal(proj4('WGS84', dest, { x: 1, y: 2 })[marker], 'custom');
+      assert.equal(proj4.transform(proj4.Proj('WGS84'), proj4.Proj(dest), { x: 1, y: 2 })[marker], 'custom');
+      assert.equal(proj4(dest, 'EPSG:3857', { x: 1, y: 2 })[marker], 'custom');
+    });
+    it('should keep properties a projection adds to its input', function () {
+      var marker = Symbol('metadata');
+      proj4.Proj.projections.add({
+        names: ['mutating_test'],
+        init: function () {},
+        forward: function (pt) {
+          pt[marker] = 'custom';
+          Object.defineProperty(pt, 'note', { value: 7 });
+          return pt;
+        },
+        inverse: function (pt) {
+          return pt;
+        }
+      });
+      var dest = '+proj=mutating_test +ellps=WGS84';
+      var results = [
+        proj4('EPSG:3857', dest).forward({ x: 1000, y: 2000 }),
+        proj4('EPSG:3857', dest, { x: 1000, y: 2000 }),
+        proj4('WGS84', dest, { x: 1, y: 2 })
+      ];
+      results.forEach(function (result) {
+        assert.equal(result[marker], 'custom');
+        assert.equal(result.note, 7);
+        assert.notProperty(result, 'z');
+      });
+    });
+    it('should keep m on object input', function () {
+      var result = proj4('EPSG:3857', 'WGS84', { x: 1000, y: 2000, m: 7 });
+      assert.deepEqual(Object.keys(result).sort(), ['m', 'x', 'y']);
+      assert.equal(result.m, 7);
+    });
+    it('should not throw for out of range spherical tmerc points', function () {
+      var result = proj4('WGS84', '+proj=tmerc +lon_0=15 +R=6371000').forward([105, 0]);
+      assert.isNotOk(isFinite(result[0]) || isFinite(result[1]), 'should not be finite');
     });
   });
   describe('utility', function () {
