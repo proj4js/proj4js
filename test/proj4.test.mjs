@@ -582,6 +582,53 @@ describe('proj4', function () {
         assert.equal(point2.y.toPrecision(9), '-1095793.64', 'Latitude of point from WGS84 correct.');
       });
     });
+    it('applies coordinate-frame rotations in a WKT2 BOUNDCRS', function () {
+      var wkt = `BOUNDCRS[
+        SOURCECRS[
+          GEOGCRS["WGS 72",
+            DATUM["World Geodetic System 1972",
+              ELLIPSOID["WGS 72",6378135,298.26,LENGTHUNIT["metre",1]]],
+            PRIMEM["Greenwich",0,ANGLEUNIT["degree",0.0174532925199433]],
+            CS[ellipsoidal,3],
+            AXIS["Longitude",east,ORDER[1],ANGLEUNIT["degree",0.0174532925199433]],
+            AXIS["Latitude",north,ORDER[2],ANGLEUNIT["degree",0.0174532925199433]],
+            AXIS["Height",up,ORDER[3],LENGTHUNIT["metre",1]]]],
+        TARGETCRS[
+          GEOGCRS["WGS 84",
+            DATUM["World Geodetic System 1984",
+              ELLIPSOID["WGS 84",6378137,298.257223563,LENGTHUNIT["metre",1]]],
+            PRIMEM["Greenwich",0,ANGLEUNIT["degree",0.0174532925199433]],
+            CS[ellipsoidal,3],
+            AXIS["Longitude",east,ORDER[1],ANGLEUNIT["degree",0.0174532925199433]],
+            AXIS["Latitude",north,ORDER[2],ANGLEUNIT["degree",0.0174532925199433]],
+            AXIS["Height",up,ORDER[3],LENGTHUNIT["metre",1]]]],
+        ABRIDGEDTRANSFORMATION["WGS 72 to WGS 84",
+          METHOD["Coordinate Frame rotation (geog3D domain)",ID["EPSG",1038]],
+          PARAMETER["X-axis translation",0,ID["EPSG",8605]],
+          PARAMETER["Y-axis translation",0,ID["EPSG",8606]],
+          PARAMETER["Z-axis translation",4.5,ID["EPSG",8607]],
+          PARAMETER["X-axis rotation",0,ID["EPSG",8608]],
+          PARAMETER["Y-axis rotation",0,ID["EPSG",8609]],
+          PARAMETER["Z-axis rotation",-0.554,ID["EPSG",8610]],
+          PARAMETER["Scale difference",1.000000219,ID["EPSG",8611]]]]`;
+      var geocent = '+proj=geocent +datum=WGS84 +units=m';
+      // IOGP Guidance Note 7-2, sections 4.1.1 and 4.2.3.
+      var expected = [3657660.7752770266, 255778.42921804037, 5201387.7480142895];
+      var positionVector = wkt.replace('Coordinate Frame rotation', 'Position Vector transformation')
+        .replace('1038', '1037').replace('-0.554', '0.554');
+      proj4.defs('coordinate-frame', wkt);
+      [wkt, 'coordinate-frame', positionVector].forEach(function (definition) {
+        var converter = proj4(definition, geocent);
+        var actual = converter.forward([4, 55, 0]);
+        expected.forEach(function (value, i) {
+          assert.closeTo(actual[i], value, 0.0001);
+        });
+        var inverse = converter.inverse(expected);
+        assert.closeTo(inverse[0], 4, 0.000000001);
+        assert.closeTo(inverse[1], 55, 0.000000001);
+        assert.closeTo(inverse[2], 0, 0.0001);
+      });
+    });
     describe('Datum shift for geographic CRS without TOWGS84', function () {
       var geocent = '+proj=geocent +datum=WGS84 +units=m +no_defs +type=crs';
       var input = [3785368, 893986, 5038059];
