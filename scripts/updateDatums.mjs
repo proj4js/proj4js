@@ -199,6 +199,51 @@ datumSources.forEach((datum) => {
   });
 });
 
+// CRSs with a prime meridian other than Greenwich, e.g. S-JTSK/05 (Ferro), are
+// connected to WGS 84 through a longitude rotation to a Greenwich CRS of the
+// same ellipsoid. proj4js applies the prime meridian itself, so they get the
+// towgs84 of that CRS.
+db.prepare(
+  `SELECT ot.source_crs_auth_name, ot.source_crs_code,
+          ot.target_crs_auth_name, ot.target_crs_code
+   FROM other_transformation ot
+   JOIN geodetic_crs gcrs
+     ON ot.source_crs_auth_name = gcrs.auth_name
+    AND ot.source_crs_code = gcrs.code
+   JOIN geodetic_datum gd
+     ON gcrs.datum_auth_name = gd.auth_name
+    AND gcrs.datum_code = gd.code
+   JOIN prime_meridian pm
+     ON gd.prime_meridian_auth_name = pm.auth_name
+    AND gd.prime_meridian_code = pm.code
+   JOIN geodetic_crs tcrs
+     ON ot.target_crs_auth_name = tcrs.auth_name
+    AND ot.target_crs_code = tcrs.code
+   JOIN geodetic_datum td
+     ON tcrs.datum_auth_name = td.auth_name
+    AND tcrs.datum_code = td.code
+   WHERE ot.deprecated = 0
+     AND ot.method_auth_name = 'EPSG' AND ot.method_code = 9601 -- Longitude rotation
+     AND ot.param1_value = pm.longitude -- by the prime meridian of the source CRS
+     AND ot.param1_uom_auth_name = pm.uom_auth_name
+     AND ot.param1_uom_code = pm.uom_code
+     AND td.prime_meridian_auth_name = 'EPSG' AND td.prime_meridian_code = 8901 -- to a Greenwich CRS
+     AND td.ellipsoid_auth_name = gd.ellipsoid_auth_name -- of the same ellipsoid
+     AND td.ellipsoid_code = gd.ellipsoid_code
+   ORDER BY ot.auth_name, ot.code`
+).all().forEach((row) => {
+  const sourceKey = `${row.source_crs_auth_name}_${row.source_crs_code}`;
+  const targetKey = `${row.target_crs_auth_name}_${row.target_crs_code}`;
+  if (sourceKeys.has(sourceKey) || sourceKey in DATUM_OVERRIDES) {
+    return;
+  }
+  if (datums[targetKey] && datums[targetKey].towgs84) {
+    datums[sourceKey] = {
+      towgs84: datums[targetKey].towgs84
+    };
+  }
+});
+
 // A zero shift on a WGS84-like ellipsoid gives the same result as no datum
 // shift at all (PJD_NODATUM), so such entries are redundant. On other
 // ellipsoids, a zero shift still means a conversion through geocentric
