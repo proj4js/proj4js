@@ -2655,6 +2655,36 @@ var testPoints = [
     code: '+proj=merc +ellps=plessis +lon_0=0 +x_0=0 +y_0=0 +units=m +no_defs',
     ll: [10, 50],
     xy: [1112913.211791464, 6413002.836941121]
+  },
+  {
+    code: '+proj=utm +zone=1 +ellps=WGS72 +units=m +no_defs',
+    ll: [-177.78, 75.6],
+    xy: [478347.584886, 8390693.131553]
+  },
+  {
+    code: '+proj=utm +zone=1 +ellps=WGS72 +units=m +no_defs',
+    ll: [-176.22, 8.4],
+    xy: [585872.032216, 928604.062033]
+  },
+  {
+    code: '+proj=tmerc +lat_0=0 +lon_0=39 +k=1 +x_0=13500000 +y_0=0 +ellps=GSK2011 +units=m +no_defs',
+    ll: [40.5, 55.75],
+    xy: [13594188.454925, 6181746.788489]
+  },
+  {
+    code: '+proj=tmerc +lat_0=0 +lon_0=39 +k=1 +x_0=7500000 +y_0=0 +ellps=PZ90 +units=m +no_defs',
+    ll: [40.5, 55.75],
+    xy: [7594188.446509, 6181746.424936]
+  },
+  {
+    code: '+proj=tmerc +lat_0=0 +lon_0=9 +k=0.9996 +x_0=500000 +y_0=0 +ellps=danish +units=m +no_defs',
+    ll: [10.5, 56.0],
+    xy: [593530.07673, 6206154.182981]
+  },
+  {
+    code: '+proj=utm +zone=31 +ellps=APL4.9 +units=m +no_defs',
+    ll: [4.5, 52.0],
+    xy: [602972.986873, 5762099.87792]
   }
 ];
 export default testPoints;
