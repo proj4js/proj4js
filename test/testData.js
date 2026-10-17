@@ -731,16 +731,47 @@ var testPoints = [
   {
     code: '+proj=ortho',
     ll: [20, 10],
-    xy: [2148527.0455346, 1100248.54773536],
-    acc: {
-      ll: 1,
-      xy: -4
-    }
+    xy: [2148527.0455346, 1100248.54773536]
   },
   {
     code: '+proj=ortho +lat_0=10 +lon_0=20 +x_0=500000 +y_0=200000 +R=6378137 +units=m +no_defs',
     ll: [24, 13],
     xy: [933513.16904843, 536434.69158115]
+  },
+  {
+    code: '+proj=ortho +lat_0=37.6289686531 +lon_0=-122.3939412704 +alpha=27.7928209333 +k=0.9999968 +x_0=0 +y_0=0 +ellps=GRS80 +units=us-ft +no_defs',
+    ll: [-122.39, 37.62],
+    xy: [2532.630130, -2356.763474]
+  },
+  {
+    code: '+proj=ortho +lat_0=37.6289686531 +lon_0=-122.3939412704 +alpha=27.7928209333 +k=0.9999968 +x_0=0 +y_0=0 +ellps=GRS80 +units=us-ft +no_defs',
+    ll: [-122.30, 37.70],
+    xy: [11978.040149, 35566.977582]
+  },
+  {
+    code: '+proj=ortho +lat_0=37.6289686531 +lon_0=-122.3939412704 +alpha=27.7928209333 +k=0.9999968 +x_0=0 +y_0=0 +ellps=GRS80 +units=us-ft +no_defs',
+    ll: [-122.50, 37.55],
+    xy: [-13801.112916, -39759.633826]
+  },
+  {
+    code: 'PROJCRS["NAD83(2011) / San Francisco SFO-B18 (ftUS)",BASEGEOGCRS["NAD83(2011)",DATUM["NAD83 (National Spatial Reference System 2011)",ELLIPSOID["GRS 1980",6378137,298.257222101,LENGTHUNIT["metre",1]],ANCHOREPOCH[2010]],PRIMEM["Greenwich",0,ANGLEUNIT["degree",0.0174532925199433]],ID["EPSG",6318]],CONVERSION["San Francisco International Airport B18 grid (ftUS)",METHOD["Local Orthographic",ID["EPSG",1130]],PARAMETER["Latitude of projection centre",37.6289686531,ANGLEUNIT["degree",0.0174532925199433],ID["EPSG",8811]],PARAMETER["Longitude of projection centre",-122.3939412704,ANGLEUNIT["degree",0.0174532925199433],ID["EPSG",8812]],PARAMETER["Azimuth at projection centre",27.7928209333,ANGLEUNIT["degree",0.0174532925199433],ID["EPSG",8813]],PARAMETER["Scale factor at projection centre",0.9999968,SCALEUNIT["unity",1],ID["EPSG",8815]],PARAMETER["Easting at projection centre",0,LENGTHUNIT["US survey foot",0.304800609601219],ID["EPSG",8816]],PARAMETER["Northing at projection centre",0,LENGTHUNIT["US survey foot",0.304800609601219],ID["EPSG",8817]]],CS[Cartesian,2],AXIS["easting (X)",east,ORDER[1],LENGTHUNIT["US survey foot",0.304800609601219]],AXIS["northing (Y)",north,ORDER[2],LENGTHUNIT["US survey foot",0.304800609601219]],USAGE[SCOPE["Engineering survey."],AREA["USA - California - San Francisco international airport."],BBOX[37.58,-122.43,37.66,-122.33]],ID["EPSG",10622]]',
+    ll: [-122.39, 37.62],
+    xy: [2532.630130, -2356.763474]
+  },
+  {
+    code: 'PROJCRS["unknown",BASEGEOGCRS["unknown",DATUM["Unknown based on WGS 84 ellipsoid",ELLIPSOID["WGS 84",6378137,298.257223563,LENGTHUNIT["metre",1],ID["EPSG",7030]]],PRIMEM["Greenwich",0,ANGLEUNIT["degree",0.0174532925199433],ID["EPSG",8901]]],CONVERSION["unknown",METHOD["Orthographic",ID["EPSG",9840]],PARAMETER["Latitude of natural origin",45,ANGLEUNIT["degree",0.0174532925199433],ID["EPSG",8801]],PARAMETER["Longitude of natural origin",10,ANGLEUNIT["degree",0.0174532925199433],ID["EPSG",8802]],PARAMETER["False easting",0,LENGTHUNIT["metre",1],ID["EPSG",8806]],PARAMETER["False northing",0,LENGTHUNIT["metre",1],ID["EPSG",8807]]],CS[Cartesian,2],AXIS["(E)",east,ORDER[1],LENGTHUNIT["metre",1,ID["EPSG",9001]]],AXIS["(N)",north,ORDER[2],LENGTHUNIT["metre",1,ID["EPSG",9001]]]]',
+    ll: [20, 50],
+    xy: [713323.113541, 599326.102436]
+  },
+  {
+    code: '+proj=ortho +lat_0=90 +lon_0=10 +alpha=30 +ellps=WGS84',
+    ll: [40, 80],
+    xy: [962297.005914, -555582.435405]
+  },
+  {
+    code: '+proj=ortho +lat_0=89.999 +lon_0=170 +ellps=WGS84',
+    ll: [-134, 0],
+    xy: [5287715.2159034945, -3566608.199499034]
   },
   {
     code: '+proj=ob_tran +o_proj=moll +o_lat_p=45 +o_lon_p=-90',
