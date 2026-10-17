@@ -94,13 +94,15 @@ const rows = db.prepare(
      AND (ht.target_crs_auth_name = 'EPSG' AND ht.target_crs_code IN ('4326', '7019', '4258')) -- WGS84, GRS80, ETRS89
      AND cv.type != 'vertical' -- Exclude vertical datums
    ORDER BY
+     ht.accuracy IS NULL, -- SQLite sorts NULL first, so put unknown accuracy last
+     ht.auth_name != 'EPSG', -- PROJ uses EPSG's own transformations for EPSG CRSs
      ht.accuracy ASC,
-     CASE ht.method_code 
+     CASE ht.method_code
        WHEN 9606 THEN 1
        WHEN 9607 THEN 2
        WHEN 9603 THEN 3
        ELSE 4
-     END ASC` // Sort by method_code (9606 first, then 9607), then by accuracy, assuming lower accuracy values are better
+     END ASC` // Sort EPSG first, then by accuracy (lower values are better), then by method_code (9606 first, then 9607)
 ).all();
 
 // Transformations are usually defined for the 2D geographic CRS only. Other
