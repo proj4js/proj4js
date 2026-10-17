@@ -485,7 +485,7 @@ var testPoints = [
       xy: -1 // 10  m
     }
   },
-  {
+  {
     code: `PROJCRS["ED50 / UTM zone 31N",
     BASEGEOGCRS["ED50",
         DATUM["European Datum 1950",
@@ -523,11 +523,11 @@ var testPoints = [
         SCOPE["Engineering survey, topographic mapping."],
         AREA["Europe - between 0°E and 6°E - Andorra; Denmark (North Sea); France - offshore; Germany - offshore; Netherlands - offshore; Norway including Svalbard - onshore and offshore; Spain - onshore (mainland and Balearic Islands); United Kingdom - offshore UKCS."],
         BBOX[38.56,0,82.45,6]],
-    ID["EPSG",23031]]`,
-    xy: [436121.18066199, 6095460.599199235],
-    ll: [2, 55]
+    ID["EPSG",23031]]`,
+    xy: [436121.18066199, 6095460.599199235],
+    ll: [2, 55]
   },
-  {
+  {
     code: `GEOGCRS["Guam 1963",
     DATUM["Guam 1963",
         ELLIPSOID["Clarke 1866",6378206.4,294.978698213898,
@@ -546,14 +546,14 @@ var testPoints = [
         AREA["Guam - onshore. Northern Mariana Islands - onshore."],
         BBOX[13.18,144.58,20.61,146.12]],
     ID["EPSG",4675],
-    REMARK["Replaced by NAD83(HARN) alias Guam Geodetic Network 1993 (CRS code 4152) from 1995."]]`,
-    xy: [144.7475967428, 13.4485638406],
-    ll: [144.75, 13.45],
-    acc: {
-      xy: 6
-    }
+    REMARK["Replaced by NAD83(HARN) alias Guam Geodetic Network 1993 (CRS code 4152) from 1995."]]`,
+    xy: [144.7475967428, 13.4485638406],
+    ll: [144.75, 13.45],
+    acc: {
+      xy: 6
+    }
   },
-  {
+  {
     code: `PROJCRS["Palestine 1923 / Palestine Belt",
     BASEGEOGCRS["Palestine 1923",
         DATUM["Palestine 1923",
@@ -591,9 +591,9 @@ var testPoints = [
         SCOPE["Engineering survey, topographic mapping."],
         AREA["Israel - onshore; Jordan; Palestine - onshore."],
         BBOX[29.18,34.17,33.38,39.31]],
-    ID["EPSG",28192]]`,
-    xy: [169034.799975744, 1131921.485691935],
-    ll: [35.2, 31.78]
+    ID["EPSG",28192]]`,
+    xy: [169034.799975744, 1131921.485691935],
+    ll: [35.2, 31.78]
   },
   { code: 'PROJCS["World_Mollweide",GEOGCS["GCS_WGS_1984",DATUM["WGS_1984",SPHEROID["WGS_1984",6378137,298.257223563]],PRIMEM["Greenwich",0],UNIT["Degree",0.017453292519943295]],PROJECTION["Mollweide"],PARAMETER["False_Easting",0],PARAMETER["False_Northing",0],PARAMETER["Central_Meridian",0],UNIT["Meter",1],AUTHORITY["EPSG","54009"]]',
     xy: [3891383.58309223, 6876758.9933288],
