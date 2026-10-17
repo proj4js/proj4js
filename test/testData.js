@@ -1367,6 +1367,81 @@ var testPoints = [
     ll: [2, 48],
     xy: [149325.62485313, -387277.84141508]
   }, {
+    code: '+proj=aeqd +guam +lat_0=13.4724663527778 +lon_0=144.748750705556 +x_0=50000 +y_0=50000 +ellps=clrk66 +units=m +no_defs',
+    ll: [144.65, 13.25],
+    xy: [39297.740978, 25391.286938],
+    acc: {
+      ll: 9
+    }
+  }, {
+    code: '+proj=aeqd +guam +lat_0=13.4724663527778 +lon_0=144.748750705556 +x_0=50000 +y_0=50000 +ellps=clrk66 +units=m +no_defs',
+    ll: [144.9, 13.6],
+    xy: [66368.143215, 64113.966687],
+    acc: {
+      ll: 9
+    }
+  }, {
+    code: '+proj=aeqd +guam +lat_0=13.4724663527778 +lon_0=144.748750705556 +x_0=50000 +y_0=50000 +ellps=clrk66 +units=m +no_defs',
+    ll: [144.95, 13.65],
+    xy: [71774.548050, 69649.387823],
+    acc: {
+      ll: 9
+    }
+  }, {
+    code: '+proj=aeqd +guam +lat_0=13.4724663527778 +lon_0=144.748750705556 +x_0=50000 +y_0=50000 +ellps=clrk66 +units=m +no_defs',
+    ll: [145.01, 13.7],
+    xy: [78260.398752, 75187.121677],
+    acc: {
+      ll: 9
+    }
+  }, {
+    code: '+proj=aeqd +guam=f +lat_0=13.4724663527778 +lon_0=144.748750705556 +x_0=50000 +y_0=50000 +ellps=clrk66 +units=m +no_defs',
+    ll: [145.01, 13.7],
+    xy: [78260.467153, 75186.955979],
+    acc: {
+      ll: 9
+    }
+  }, {
+    code: `PROJCRS["Guam 1963 / Guam SPCS",
+    BASEGEOGCRS["Guam 1963",
+        DATUM["Guam 1963",
+            ELLIPSOID["Clarke 1866",6378206.4,294.978698213898,
+                LENGTHUNIT["metre",1]]],
+        PRIMEM["Greenwich",0,
+            ANGLEUNIT["degree",0.0174532925199433]]],
+    CONVERSION["Guam SPCS",
+        METHOD["Guam Projection",
+            ID["EPSG",9831]],
+        PARAMETER["Latitude of natural origin",13.4724663527778,
+            ANGLEUNIT["degree",0.0174532925199433],
+            ID["EPSG",8801]],
+        PARAMETER["Longitude of natural origin",144.748750705556,
+            ANGLEUNIT["degree",0.0174532925199433],
+            ID["EPSG",8802]],
+        PARAMETER["False easting",50000,
+            LENGTHUNIT["metre",1],
+            ID["EPSG",8806]],
+        PARAMETER["False northing",50000,
+            LENGTHUNIT["metre",1],
+            ID["EPSG",8807]]],
+    CS[Cartesian,2],
+        AXIS["easting (X)",east,
+            ORDER[1],
+            LENGTHUNIT["metre",1]],
+        AXIS["northing (Y)",north,
+            ORDER[2],
+            LENGTHUNIT["metre",1]],
+    USAGE[
+        SCOPE["Cadastre, engineering survey, topographic mapping (large and medium scale)."],
+        AREA["Guam - onshore."],
+        BBOX[13.18,144.58,13.7,145.01]],
+    ID["EPSG",3993]]`,
+    ll: [144.65, 13.25],
+    xy: [39297.740978, 25391.286938],
+    acc: {
+      ll: 9
+    }
+  }, {
     code: '+proj=merc +a=6378137 +b=6378137 +units=m +no_defs',
     ll: [10, 45],
     xy: [1113194.90793274, 5621521.48619207]

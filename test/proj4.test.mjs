@@ -65,6 +65,12 @@ describe('proj2proj', function () {
     // without +lon_wrap the longitude stays in the -180..180 range
     assert.closeTo(proj4(wgs84, wgs84).forward([-170, 40])[0], -170, 0.000001);
   });
+  it('should ignore +guam when the eccentricity is zero', function () {
+    var aeqd = '+proj=aeqd +lat_0=13.4724663527778 +lon_0=144.748750705556 +x_0=50000 +y_0=50000 +ellps=clrk66 +R_A +units=m';
+    var guam = aeqd.replace('+proj=aeqd', '+proj=aeqd +guam');
+    assert.deepEqual(proj4(guam, [145.01, 13.7]), proj4(aeqd, [145.01, 13.7]));
+    assert.deepEqual(proj4(guam).inverse([78260.4, 75187.1]), proj4(aeqd).inverse([78260.4, 75187.1]));
+  });
 });
 
 describe('proj4', function () {
