@@ -34,7 +34,8 @@ const allProjs = [
   'geos',
   'eqearth',
   'bonne',
-  'ob_tran'
+  'ob_tran',
+  'col_urban'
 ];
 
 const arg = process.argv[2];
