@@ -2585,6 +2585,78 @@ var testPoints = [
     xy: [222605.29609715697, 55321.139565494814]
   },
   {
+    code: '+proj=col_urban +lat_0=4.68048611111111 +lon_0=-74.1465916666667 +x_0=92334.879 +y_0=109320.965 +h_0=2550 +ellps=GRS80 +units=m +no_defs',
+    ll: [-74.25, 4.8],
+    xy: [80859.032960, 122543.174293]
+  },
+  {
+    code: 'PROJCS["MAGNA_Bogota_DC_2005",GEOGCS["GCS_MAGNA",DATUM["D_MAGNA",SPHEROID["GRS_1980",6378137.0,298.257222101]],PRIMEM["Greenwich",0.0],UNIT["Degree",0.0174532925199433]],PROJECTION["IGAC_Plano_Cartesiano"],PARAMETER["False_Easting",92334.879],PARAMETER["False_Northing",109320.965],PARAMETER["Longitude_Of_Center",-74.1465916666667],PARAMETER["Latitude_Of_Center",4.68048611111111],PARAMETER["Height",2550.0],UNIT["Meter",1.0]]',
+    ll: [-74.25, 4.8],
+    xy: [80859.032960, 122543.174293]
+  },
+  {
+    code: 'PROJCS["MAGNA_Bogota_DC_2005",GEOGCS["GCS_MAGNA",DATUM["D_MAGNA",SPHEROID["GRS_1980",6378137.0,298.257222101]],PRIMEM["Greenwich",0.0],UNIT["Degree",0.0174532925199433]],PROJECTION["IGAC_Plano_Cartesiano"],PARAMETER["False_Easting",302935.95472440944],PARAMETER["False_Northing",358664.5833333333],PARAMETER["Longitude_Of_Center",-74.1465916666667],PARAMETER["Latitude_Of_Center",4.68048611111111],PARAMETER["Height",8366.141732283464],UNIT["Foot",0.3048]]',
+    ll: [-74.25, 4.8],
+    xy: [265285.541208, 402044.535080]
+  },
+  {
+    code: `PROJCRS["MAGNA-SIRGAS / Bogota urban grid",
+    BASEGEOGCRS["MAGNA-SIRGAS",
+        DATUM["Marco Geocentrico Nacional de Referencia",
+            ELLIPSOID["GRS 1980",6378137,298.257222101,
+                LENGTHUNIT["metre",1]]],
+        PRIMEM["Greenwich",0,
+            ANGLEUNIT["degree",0.0174532925199433]],
+        ID["EPSG",4686]],
+    CONVERSION["Bogota urban grid",
+        METHOD["Colombia Urban",
+            ID["EPSG",1052]],
+        PARAMETER["Latitude of natural origin",4.68048611111111,
+            ANGLEUNIT["degree",0.0174532925199433],
+            ID["EPSG",8801]],
+        PARAMETER["Longitude of natural origin",-74.1465916666667,
+            ANGLEUNIT["degree",0.0174532925199433],
+            ID["EPSG",8802]],
+        PARAMETER["False easting",92334.879,
+            LENGTHUNIT["metre",1],
+            ID["EPSG",8806]],
+        PARAMETER["False northing",109320.965,
+            LENGTHUNIT["metre",1],
+            ID["EPSG",8807]],
+        PARAMETER["Projection plane origin height",2550,
+            LENGTHUNIT["metre",1],
+            ID["EPSG",1039]]],
+    CS[Cartesian,2],
+        AXIS["northing (N)",north,
+            ORDER[1],
+            LENGTHUNIT["metre",1]],
+        AXIS["easting (E)",east,
+            ORDER[2],
+            LENGTHUNIT["metre",1]],
+    USAGE[
+        SCOPE["Cadastre, engineering survey, topographic mapping (large scale)."],
+        AREA["Colombia - Bogota DC city."],
+        BBOX[4.45,-74.27,4.85,-73.98]],
+    ID["EPSG",6247]]`,
+    ll: [-74.25, 4.8],
+    xy: [80859.032960, 122543.174293]
+  },
+  {
+    code: { $schema: 'https://proj.org/schemas/v0.7/projjson.schema.json', type: 'ProjectedCRS', name: 'MAGNA-SIRGAS / Bogota urban grid', base_crs: { type: 'GeographicCRS', name: 'MAGNA-SIRGAS', datum: { type: 'GeodeticReferenceFrame', name: 'Marco Geocentrico Nacional de Referencia', ellipsoid: { name: 'GRS 1980', semi_major_axis: 6378137, inverse_flattening: 298.257222101 } }, coordinate_system: { subtype: 'ellipsoidal', axis: [{ name: 'Geodetic latitude', abbreviation: 'Lat', direction: 'north', unit: 'degree' }, { name: 'Geodetic longitude', abbreviation: 'Lon', direction: 'east', unit: 'degree' }] }, id: { authority: 'EPSG', code: 4686 } }, conversion: { name: 'Bogota urban grid', method: { name: 'Colombia Urban', id: { authority: 'EPSG', code: 1052 } }, parameters: [{ name: 'Latitude of natural origin', value: 4.68048611111111, unit: 'degree', id: { authority: 'EPSG', code: 8801 } }, { name: 'Longitude of natural origin', value: -74.1465916666667, unit: 'degree', id: { authority: 'EPSG', code: 8802 } }, { name: 'False easting', value: 92334.879, unit: 'metre', id: { authority: 'EPSG', code: 8806 } }, { name: 'False northing', value: 109320.965, unit: 'metre', id: { authority: 'EPSG', code: 8807 } }, { name: 'Projection plane origin height', value: 2550, unit: 'metre', id: { authority: 'EPSG', code: 1039 } }] }, coordinate_system: { subtype: 'Cartesian', axis: [{ name: 'Northing', abbreviation: 'N', direction: 'north', unit: 'metre' }, { name: 'Easting', abbreviation: 'E', direction: 'east', unit: 'metre' }] }, scope: 'Cadastre, engineering survey, topographic mapping (large scale).', area: 'Colombia - Bogota DC city.', bbox: { south_latitude: 4.45, west_longitude: -74.27, north_latitude: 4.85, east_longitude: -73.98 }, id: { authority: 'EPSG', code: 6247 } },
+    ll: [-74.25, 4.8],
+    xy: [80859.032960, 122543.174293]
+  },
+  {
+    code: '+proj=col_urban +lat_0=6.22920888888889 +lon_0=-75.5648869444444 +x_0=835378.647 +y_0=1180816.875 +h_0=1510 +ellps=GRS80 +units=m +no_defs',
+    ll: [-75.6, 6.25],
+    xy: [831492.037889, 1183116.786034]
+  },
+  {
+    code: '+proj=col_urban +lat_0=-4.19768404722222 +lon_0=-69.9428110583333 +x_0=25978.217 +y_0=27501.365 +h_0=89.7 +ellps=GRS80 +units=m +no_defs',
+    ll: [-69.92, -4.21],
+    xy: [28510.761812, 26139.407986]
+  },
+  {
     code:
       { $schema: 'https://proj.org/schemas/v0.7/projjson.schema.json', type: 'ProjectedCRS', name: 'Amersfoort / RD New', base_crs: { type: 'GeographicCRS', name: 'Amersfoort', datum: { type: 'GeodeticReferenceFrame', name: 'Amersfoort', ellipsoid: { name: 'Bessel 1841', semi_major_axis: 6377397.155, inverse_flattening: 299.1528128 } }, coordinate_system: { subtype: 'ellipsoidal', axis: [{ name: 'Geodetic latitude', abbreviation: 'Lat', direction: 'north', unit: 'degree' }, { name: 'Geodetic longitude', abbreviation: 'Lon', direction: 'east', unit: 'degree' }] }, id: { authority: 'EPSG', code: 4289 } }, conversion: { name: 'RD New', method: { name: 'Oblique Stereographic', id: { authority: 'EPSG', code: 9809 } }, parameters: [{ name: 'Latitude of natural origin', value: 52.1561605555556, unit: 'degree', id: { authority: 'EPSG', code: 8801 } }, { name: 'Longitude of natural origin', value: 5.38763888888889, unit: 'degree', id: { authority: 'EPSG', code: 8802 } }, { name: 'Scale factor at natural origin', value: 0.9999079, unit: 'unity', id: { authority: 'EPSG', code: 8805 } }, { name: 'False easting', value: 155000, unit: 'metre', id: { authority: 'EPSG', code: 8806 } }, { name: 'False northing', value: 463000, unit: 'metre', id: { authority: 'EPSG', code: 8807 } }] }, coordinate_system: { subtype: 'Cartesian', axis: [{ name: 'Easting', abbreviation: 'X', direction: 'east', unit: 'metre' }, { name: 'Northing', abbreviation: 'Y', direction: 'north', unit: 'metre' }] }, scope: 'Engineering survey, topographic mapping.', area: 'Netherlands - onshore, including Waddenzee, Dutch Wadden Islands and 12-mile offshore coastal zone.', bbox: { south_latitude: 50.75, west_longitude: 3.2, north_latitude: 53.7, east_longitude: 7.22 }, id: { authority: 'EPSG', code: 28992 } },
     ll: [5.2, 52.25],
