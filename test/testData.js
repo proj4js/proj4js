@@ -2298,6 +2298,32 @@ var testPoints = [
       xy: 4
     }
   },
+  // Laborde Grid of Madagascar, EPSG:8441 and the Paris meridian variant EPSG:29701
+  {
+    code: '+proj=labrd +lat_0=-18.9 +lon_0=46.4372291666667 +azi=18.9 +k=0.9995 +x_0=400000 +y_0=800000 +ellps=intl +units=m +no_defs',
+    ll: [49.3, -12.3],
+    xy: [711811.892707, 1527801.825885]
+  },
+  {
+    code: '+proj=labrd +lat_0=-18.9 +lon_0=46.4372291666667 +azi=18.9 +k=0.9995 +x_0=400000 +y_0=800000 +ellps=intl +units=m +no_defs',
+    ll: [47.5, -18.9],
+    xy: [511921.054153, 799665.520468]
+  },
+  {
+    code: '+proj=labrd +lat_0=-18.9 +lon_0=46.4372291666667 +azi=18.9 +k=0.9995 +x_0=400000 +y_0=800000 +ellps=intl +units=m +no_defs',
+    ll: [45.5, -25.0],
+    xy: [305005.339702, 124581.518921]
+  },
+  {
+    code: '+proj=labrd +lat_0=-18.9 +lon_0=44.1 +azi=18.9 +k=0.9995 +x_0=400000 +y_0=800000 +ellps=intl +pm=paris +units=m +no_defs',
+    ll: [47.5, -18.9],
+    xy: [511921.054153, 799665.520468]
+  },
+  {
+    code: 'PROJCS["WGS_1984_Laborde_Grid",GEOGCS["GCS_WGS_1984",DATUM["D_WGS_1984",SPHEROID["WGS_1984",6378137.0,298.257223563]],PRIMEM["Greenwich",0.0],UNIT["Degree",0.0174532925199433]],PROJECTION["Laborde_Oblique_Mercator"],PARAMETER["False_Easting",400000.0],PARAMETER["False_Northing",800000.0],PARAMETER["Scale_Factor",0.9995],PARAMETER["Azimuth",18.9],PARAMETER["Longitude_Of_Center",46.4372291666667],PARAMETER["Latitude_Of_Center",-18.9],UNIT["Meter",1.0]]',
+    ll: [45.5, -25.0],
+    xy: [305009.297736, 124592.893246]
+  },
   {
     code: 'PROJCS["UNK / Oblique_Mercator",GEOGCS["UNK",DATUM["Unknown datum",SPHEROID["WGS 84", 6378137.0, 298.257223563]],PRIMEM["Greenwich",0],UNIT["degree",0.017453292519943295]],PROJECTION["Oblique_Mercator"],PARAMETER["latitude_of_center",37.4769061],PARAMETER["longitude_of_center",141.0039618],PARAMETER["central_meridian",141.0039618],PARAMETER["azimuth",202.22],PARAMETER["scale_factor",1],PARAMETER["false_easting",138],PARAMETER["false_northing",77.65],UNIT["Meter",1]]',
     xy: [168.2438, 64.1736],
