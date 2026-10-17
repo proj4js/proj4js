@@ -254,6 +254,11 @@ describe('proj4', function () {
       );
       assert.strictEqual(point, null);
     });
+    it('should return NaN when the Cassini inverse does not converge', function () {
+      var ll = proj4('+proj=cass +ellps=WGS84 +lat_0=0 +lon_0=0 +x_0=0 +y_0=0 +units=m').inverse([20000000, 20000000]);
+      assert.isNaN(ll[0]);
+      assert.isNaN(ll[1]);
+    });
     it('should ignore stuff it does not know', function () {
       var sweref99tm = '+proj=utm +zone=33 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs';
       var rt90 = '+lon_0=15.808277777799999 +lat_0=0.0 +k=1.0 +x_0=1500000.0 +y_0=0.0 +proj=tmerc +ellps=bessel +units=m +towgs84=414.1,41.3,603.1,-0.855,2.141,-7.023,0 +no_defs';
@@ -982,6 +987,14 @@ describe('proj4', function () {
       assert.throws(function () {
         proj4(str);
       }, 'Invalid value for o_lat_1: o_lat_1 should be different from zero', 'should work');
+    });
+
+    it('should return NaN when the inverse of +o_proj fails', function () {
+      ['+o_lat_p=45', '+o_lat_p=0'].forEach(function (pole) {
+        var ll = proj4('+proj=ob_tran +o_proj=cass ' + pole + ' +o_lon_p=0 +lat_0=0 +x_0=0 +y_0=0 +ellps=WGS84').inverse([20000000, 20000000]);
+        assert.isNaN(ll[0]);
+        assert.isNaN(ll[1]);
+      });
     });
   });
 
