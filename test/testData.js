@@ -868,6 +868,91 @@ var testPoints = [
       xy: -4
     }
   },
+  // EPSG:28191 Palestine Grid near the eastern edge of its area
+  {
+    code: '+proj=cass +lat_0=31.7340969444444 +lon_0=35.2120805555556 +x_0=170251.555 +y_0=126867.909 +a=6378300.789 +b=6356566.435 +units=m +no_defs',
+    ll: [38.9, 29.6],
+    xy: [527457.211011, -104030.118271]
+  },
+  {
+    code: '+proj=cass +lat_0=31.7340969444444 +lon_0=35.2120805555556 +x_0=170251.555 +y_0=126867.909 +a=6378300.789 +b=6356566.435 +units=m +no_defs',
+    ll: [39.2, 33.2],
+    xy: [542017.845773, 296518.539786]
+  },
+  // EPSG:8044 Gusterberg Grid (Ferro)
+  {
+    code: '+proj=cass +lat_0=48.0384638888889 +lon_0=31.8041805555556 +x_0=0 +y_0=0 +a=6376045 +rf=310 +pm=ferro +units=m +no_defs',
+    ll: [16.8, 48.2],
+    xy: [197801.326209, 21384.315889]
+  },
+  // EPSG:3139 Vanua Levu Grid, hyperbolic Cassini-Soldner
+  {
+    code: '+proj=cass +hyperbolic +lat_0=-16.25 +lon_0=179.333333333333 +x_0=251727.9155424 +y_0=334519.953768 +a=6378306.3696 +b=6356571.996 +units=link +no_defs',
+    ll: [179.3, -16.5],
+    xy: [1233640.540365, 1525372.049640]
+  },
+  {
+    code: '+proj=cass +hyperbolic +lat_0=-16.25 +lon_0=179.333333333333 +x_0=251727.9155424 +y_0=334519.953768 +a=6378306.3696 +b=6356571.996 +units=link +no_defs',
+    ll: [178.6, -16.95],
+    xy: [863036.735058, 1277121.960902]
+  },
+  {
+    code: '+proj=cass +hyperbolic +lat_0=-16.25 +lon_0=179.333333333333 +x_0=251727.9155424 +y_0=334519.953768 +a=6378306.3696 +b=6356571.996 +units=link +no_defs',
+    ll: [-179.85, -16.8],
+    xy: [1684092.488568, 1359463.322514]
+  },
+  // The south pole, outside the area
+  {
+    code: '+proj=cass +hyperbolic +lat_0=-16.25 +lon_0=179.333333333333 +x_0=251727.9155424 +y_0=334519.953768 +a=6378306.3696 +b=6356571.996 +units=link +no_defs',
+    ll: [179.333333333333, -90],
+    xy: [1251331.8, -27951239.624015]
+  },
+  // PROJ enables the variant on presence, even with an empty value
+  {
+    code: '+proj=cass +lat_0=-16.25 +lon_0=179.333333333333 +x_0=251727.9155424 +y_0=334519.953768 +a=6378306.3696 +b=6356571.996 +units=link +no_defs +hyperbolic=',
+    ll: [178.6, -16.95],
+    xy: [863036.735058, 1277121.960902]
+  },
+  // EPSG:3139 as WKT2, with the Vanua Levu 1915 to WGS 84 shift
+  {
+    code: `PROJCRS["Vanua Levu 1915 / Vanua Levu Grid",
+    BASEGEOGCRS["Vanua Levu 1915",
+        DATUM["Vanua Levu 1915",
+            ELLIPSOID["Clarke 1880 (international foot)",20926202,293.466307655635,
+                LENGTHUNIT["foot",0.3048]]],
+        PRIMEM["Greenwich",0,
+            ANGLEUNIT["degree",0.0174532925199433]],
+        ID["EPSG",4748]],
+    CONVERSION["Vanua Levu Grid",
+        METHOD["Hyperbolic Cassini-Soldner",
+            ID["EPSG",9833]],
+        PARAMETER["Latitude of natural origin",-16.25,
+            ANGLEUNIT["degree",0.0174532925199433],
+            ID["EPSG",8801]],
+        PARAMETER["Longitude of natural origin",179.333333333333,
+            ANGLEUNIT["degree",0.0174532925199433],
+            ID["EPSG",8802]],
+        PARAMETER["False easting",1251331.8,
+            LENGTHUNIT["link",0.201168],
+            ID["EPSG",8806]],
+        PARAMETER["False northing",1662888.5,
+            LENGTHUNIT["link",0.201168],
+            ID["EPSG",8807]]],
+    CS[Cartesian,2],
+        AXIS["northing (X)",north,
+            ORDER[1],
+            LENGTHUNIT["link",0.201168]],
+        AXIS["easting (Y)",east,
+            ORDER[2],
+            LENGTHUNIT["link",0.201168]],
+    USAGE[
+        SCOPE["Cadastre, engineering survey, topographic mapping (large scale)."],
+        AREA["Fiji - Vanua Levu and Taveuni."],
+        BBOX[-17.07,178.42,-16.1,-179.77]],
+    ID["EPSG",3139]]`,
+    ll: [179.3, -16.5],
+    xy: [1235587.291175, 1524665.150084]
+  },
   // {
   //   code: 'EPSG:3975',
   //   ll: [-9.764450683, 25.751953],
