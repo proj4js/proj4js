@@ -13,6 +13,7 @@ import laea from './lib/projections/laea';
 import aea from './lib/projections/aea';
 import gnom from './lib/projections/gnom';
 import cea from './lib/projections/cea';
+import labrd from './lib/projections/labrd';
 import eqc from './lib/projections/eqc';
 import poly from './lib/projections/poly';
 import nzmg from './lib/projections/nzmg';
@@ -48,6 +49,7 @@ export default function (proj4) {
   proj4.Proj.projections.add(aea);
   proj4.Proj.projections.add(gnom);
   proj4.Proj.projections.add(cea);
+  proj4.Proj.projections.add(labrd);
   proj4.Proj.projections.add(eqc);
   proj4.Proj.projections.add(poly);
   proj4.Proj.projections.add(nzmg);
