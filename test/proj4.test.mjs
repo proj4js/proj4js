@@ -449,6 +449,36 @@ describe('proj4', function () {
     assert.closeTo(result.y, 50, 0.000001);
   });
 
+  it('should give westings for south and west orientated WKT1 without AXIS', function () {
+    var lo15 = 'PROJCS["Hartebeesthoek94 / Lo15",GEOGCS["Hartebeesthoek94",DATUM["Hartebeesthoek94",SPHEROID["WGS 84",6378137,298.257223563,AUTHORITY["EPSG","7030"]],AUTHORITY["EPSG","6148"]],PRIMEM["Greenwich",0,AUTHORITY["EPSG","8901"]],UNIT["degree",0.0174532925199433,AUTHORITY["EPSG","9122"]],AUTHORITY["EPSG","4148"]],PROJECTION["Transverse_Mercator_South_Orientated"],PARAMETER["latitude_of_origin",0],PARAMETER["central_meridian",15],PARAMETER["scale_factor",1],PARAMETER["false_easting",0],PARAMETER["false_northing",0],UNIT["metre",1,AUTHORITY["EPSG","9001"]],AUTHORITY["EPSG","2046"]]';
+    var faroe = 'PROJCS["ETRS89 / Faroe Lambert",GEOGCS["ETRS89",DATUM["European_Terrestrial_Reference_System_1989",SPHEROID["GRS 1980",6378137,298.257222101,AUTHORITY["EPSG","7019"]],AUTHORITY["EPSG","6258"]],PRIMEM["Greenwich",0,AUTHORITY["EPSG","8901"]],UNIT["degree",0.0174532925199433,AUTHORITY["EPSG","9122"]],AUTHORITY["EPSG","4258"]],PROJECTION["Lambert_Conic_Conformal_(West_Orientated)"],PARAMETER["Latitude of natural origin",62],PARAMETER["Longitude of natural origin",-9],PARAMETER["Scale factor at natural origin",1],PARAMETER["False easting",500000],PARAMETER["False northing",500000],UNIT["metre",1,AUTHORITY["EPSG","9001"]],AUTHORITY["EPSG","3145"]]';
+    var ws = proj4('WGS84', lo15).forward([14.5, -22.95], true);
+    assert.closeTo(ws[0], 51280.5851456271, 0.01, 'westing');
+    assert.closeTo(ws[1], 2539087.6449357755, 0.01, 'southing');
+    var shifted = lo15.replace('"false_easting",0', '"false_easting",1000').replace('"false_northing",0', '"false_northing",2000');
+    ws = proj4('WGS84', shifted).forward([14.5, -22.95], true);
+    assert.closeTo(ws[0], 52280.5851456271, 0.01, 'westing with a false westing');
+    assert.closeTo(ws[1], 2541087.6449357755, 0.01, 'southing with a false southing');
+    var wn = proj4('WGS84', faroe).forward([-6.8, 62], true);
+    assert.closeTo(wn[0], 384745.9423668215, 0.01, 'westing');
+    assert.closeTo(wn[1], 501953.9021221676, 0.01, 'northing');
+  });
+
+  it('should keep the WKT2 and PROJJSON axis order of west orientated Lambert', function () {
+    var faroe = testPoints.filter(function (p) {
+      return typeof p.code === 'object' ? p.code.name === 'ETRS89 / Faroe Lambert' : p.code.indexOf('PROJCRS["ETRS89 / Faroe Lambert"') === 0;
+    });
+    assert.equal(faroe.length, 2);
+    faroe.forEach(function (p) {
+      var nw = proj4('WGS84', p.code).forward([-6.8, 62], true);
+      assert.closeTo(nw[0], 501953.9021221676, 0.01, 'northing');
+      assert.closeTo(nw[1], 384745.9423668215, 0.01, 'westing');
+      var ll = proj4('WGS84', p.code).inverse(nw, true);
+      assert.closeTo(ll[0], -6.8, 1e-8, 'longitude');
+      assert.closeTo(ll[1], 62, 1e-8, 'latitude');
+    });
+  });
+
   describe('defs', function () {
     assert.equal(proj4.defs('testmerc'), proj4.defs['testmerc']);
     proj4.defs('foo', '+proj=merc +lon_0=5.937 +lat_ts=45.027 +ellps=sphere');
