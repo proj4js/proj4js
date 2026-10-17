@@ -897,6 +897,61 @@ var testPoints = [
     }
   },
   {
+    code: '+proj=eqc +lat_ts=0 +lat_0=0 +lon_0=0 +x_0=0 +y_0=0 +ellps=WGS84 +units=m +no_defs',
+    ll: [30, 45],
+    xy: [3339584.723798, 4984944.377978]
+  },
+  {
+    code: '+proj=eqc +lat_ts=0 +lat_0=0 +lon_0=0 +x_0=0 +y_0=0 +ellps=WGS84 +units=m +no_defs',
+    ll: [-150, 75],
+    xy: [-16697923.618991, 8326937.587280]
+  },
+  {
+    code: '+proj=eqc +lat_ts=30 +lat_0=20 +lon_0=10 +x_0=500000 +y_0=200000 +ellps=WGS84 +units=m +no_defs',
+    ll: [25, 0],
+    xy: [1947294.203763, -2012366.254172]
+  },
+  {
+    code: '+proj=eqc +lat_ts=30 +lat_0=20 +lon_0=10 +x_0=500000 +y_0=200000 +ellps=WGS84 +units=m +no_defs',
+    ll: [-5, -60],
+    xy: [-947294.203763, -8666439.073662]
+  },
+  {
+    code: '+proj=eqc +lat_ts=-40 +lat_0=-30 +lon_0=120 +x_0=0 +y_0=0 +ellps=GRS80 +units=m +no_defs',
+    ll: [100, -45],
+    xy: [-1707877.139184, -1664830.980013]
+  },
+  {
+    code: 'PROJCS["WGS 84 / World Equidistant Cylindrical",GEOGCS["WGS 84",DATUM["WGS_1984",SPHEROID["WGS 84",6378137,298.257223563,AUTHORITY["EPSG","7030"]],AUTHORITY["EPSG","6326"]],PRIMEM["Greenwich",0,AUTHORITY["EPSG","8901"]],UNIT["degree",0.0174532925199433,AUTHORITY["EPSG","9122"]],AUTHORITY["EPSG","4326"]],PROJECTION["Equirectangular"],PARAMETER["standard_parallel_1",0],PARAMETER["central_meridian",0],PARAMETER["false_easting",0],PARAMETER["false_northing",0],UNIT["metre",1,AUTHORITY["EPSG","9001"]],AXIS["Easting",EAST],AXIS["Northing",NORTH],AUTHORITY["EPSG","4087"]]',
+    ll: [0, 60],
+    xy: [0, 6654072.819491]
+  },
+  {
+    code: '+proj=eqc +lat_ts=30 +lat_0=10 +lon_0=0 +x_0=0 +y_0=0 +R=6371000 +units=m +no_defs',
+    ll: [45, 70],
+    xy: [4333393.406076, 6671695.598674]
+  },
+  {
+    code: 'PROJCS["World_Plate_Carree",GEOGCS["GCS_WGS_1984",DATUM["D_WGS_1984",SPHEROID["WGS_1984",6378137.0,298.257223563]],PRIMEM["Greenwich",0.0],UNIT["Degree",0.0174532925199433]],PROJECTION["Plate_Carree"],PARAMETER["False_Easting",0.0],PARAMETER["False_Northing",0.0],PARAMETER["Central_Meridian",0.0],UNIT["Meter",1.0]]',
+    ll: [50, 30],
+    xy: [5565974.539664, 3320113.39794]
+  },
+  {
+    code: 'PROJCS["Moon_2000_Equidistant_Cylindrical",GEOGCS["GCS_Moon_2000",DATUM["D_Moon_2000",SPHEROID["Moon_2000_IAU_IAG",1737400.0,0.0]],PRIMEM["Reference_Meridian",0.0],UNIT["Degree",0.0174532925199433]],PROJECTION["Equidistant_Cylindrical_Ellipsoidal"],PARAMETER["False_Easting",0.0],PARAMETER["False_Northing",0.0],PARAMETER["Central_Meridian",0.0],PARAMETER["Standard_Parallel_1",0.0],UNIT["Meter",1.0]]',
+    ll: [50, 30],
+    xy: [1516167.521207, 909700.512724]
+  },
+  {
+    code: '+proj=eqc +R=6371000 +units=m +no_defs',
+    ll: [0, 90],
+    xy: [0, 10007543.39801]
+  },
+  {
+    code: '+proj=eqc +lat_ts=30 +lat_0=-30 +R=6371000 +units=m +no_defs',
+    ll: [10, 90],
+    xy: [962976.312461, 13343391.197347]
+  },
+  {
     code: 'PROJCS["Segara / NEIEZ",GEOGCS["Segara",DATUM["Gunung_Segara",SPHEROID["Bessel 1841",6377397.155,299.1528128,AUTHORITY["EPSG","7004"]],AUTHORITY["EPSG","6613"]],PRIMEM["Greenwich",0,AUTHORITY["EPSG","8901"]],UNIT["degree",0.01745329251994328,AUTHORITY["EPSG","9122"]],AUTHORITY["EPSG","4613"]],UNIT["metre",1,AUTHORITY["EPSG","9001"]],PROJECTION["Mercator_1SP"],PARAMETER["central_meridian",110],PARAMETER["scale_factor",0.997],PARAMETER["false_easting",3900000],PARAMETER["false_northing",900000],AUTHORITY["EPSG","3000"],AXIS["X",EAST],AXIS["Y",NORTH]]',
     ll: [116.65547897884308, -0.6595605286983485],
     xy: [4638523.040740433, 827245.2586932715]
