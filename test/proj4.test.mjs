@@ -228,6 +228,51 @@ describe('proj4', function () {
       assert.closeTo(result.y, 180418.4380560551, 1e-6);
       assert.equal(result.z, undefined);
     });
+    it('should convert the WGS84 geocentric origin to geodetic coordinates', function () {
+      var projection = proj4('+proj=geocent +datum=WGS84 +units=m +no_defs');
+      var result = projection.inverse([0, 0, 0]);
+      assert.closeTo(result[0], 0, 1e-12);
+      assert.closeTo(result[1], 90, 1e-12);
+      assert.closeTo(result[2], -6356752.314245179, 1e-6);
+      var roundTrip = projection.forward(result);
+      roundTrip.forEach(function (coordinate) {
+        assert.closeTo(coordinate, 0, 1e-6);
+      });
+    });
+    it('should use the center convention within the near-origin tolerance', function () {
+      var projection = proj4('+proj=geocent +datum=WGS84 +units=m +no_defs');
+      // The existing center branch uses RR / a < 1e-12 (about 6.4 micrometers).
+      [[1e-6, -1e-6, 1e-6], [-1e-6, 1e-6, -1e-6]].forEach(function (point) {
+        var result = projection.inverse(point);
+        assert.closeTo(result[0], 0, 1e-12);
+        assert.closeTo(result[1], 90, 1e-12);
+        assert.closeTo(result[2], -6356752.314245179, 1e-6);
+      });
+    });
+    it('should retain the normal inverse beyond the near-origin tolerance', function () {
+      var projection = proj4('+proj=geocent +datum=WGS84 +units=m +no_defs');
+      [1e-5, -1e-5].forEach(function (z) {
+        var result = projection.inverse([0, 0, z]);
+        assert.closeTo(result[0], 0, 1e-12);
+        assert.closeTo(result[1], z > 0 ? 90 : -90, 1e-12);
+        assert.closeTo(result[2], -6356752.314245179 + Math.abs(z), 1e-9);
+      });
+    });
+    it('should convert a geocentric origin object and retain extra properties', function () {
+      var projection = proj4('+proj=geocent +datum=WGS84 +units=m +no_defs');
+      var result = projection.inverse({ x: 0, y: 0, z: 0, m: 123 });
+      assert.closeTo(result.x, 0, 1e-12);
+      assert.closeTo(result.y, 90, 1e-12);
+      assert.closeTo(result.z, -6356752.314245179, 1e-6);
+      assert.equal(result.m, 123);
+    });
+    it('should use the sphere radius for the geocentric origin height', function () {
+      var projection = proj4('+proj=geocent +a=6371000 +b=6371000 +units=m +no_defs');
+      var result = proj4(projection.oProj, '+proj=longlat +a=6371000 +b=6371000 +no_defs', [0, 0, 0]);
+      assert.closeTo(result[0], 0, 1e-12);
+      assert.closeTo(result[1], 90, 1e-12);
+      assert.closeTo(result[2], -6371000, 1e-6);
+    });
     it('should convert a geographic point without height to geocentric (x,y,z)', function () {
       var epsg4978Proj = '+proj=geocent +datum=WGS84 +units=m +no_defs';
       var resultProj = proj4(epsg4978Proj).forward({
