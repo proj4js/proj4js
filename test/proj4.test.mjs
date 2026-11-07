@@ -985,6 +985,47 @@ describe('proj4', function () {
     });
   });
 
+  describe('moll projection', function () {
+    var proj = proj4('EPSG:4326', '+proj=moll +lon_0=0 +x_0=0 +y_0=0 +ellps=WGS84');
+
+    it('should round trip points on the edge of the map', function () {
+      [[180, 0], [-180, 0], [180, -60], [-180, 60], [0, 90], [0, -90]].forEach(function (lonlat) {
+        var result = proj.inverse(proj.forward(lonlat));
+        assert.closeTo(result[0], lonlat[0], 1e-6, 'lng is close for ' + lonlat);
+        assert.closeTo(result[1], lonlat[1], 1e-6, 'lat is close for ' + lonlat);
+      });
+    });
+
+    it('should keep the hemisphere of the poles', function () {
+      var poleY = 1.4142135623731 * 6378137;
+      assert.closeTo(proj.inverse([0, poleY])[1], 90, 1e-3, 'north pole');
+      assert.closeTo(proj.inverse([0, -poleY])[1], -90, 1e-3, 'south pole');
+    });
+
+    it('should return NaN for points east or west of the map', function () {
+      [[-17912187.334735576, -8989370.410319714], [18100000, 0], [-18100000, 0]].forEach(function (xy) {
+        var result = proj.inverse(xy);
+        assert.isNaN(result[0], 'lng is NaN for ' + xy);
+        assert.isNaN(result[1], 'lat is NaN for ' + xy);
+      });
+    });
+
+    it('should return NaN for points north or south of the map', function () {
+      [[0, 9100000], [0, -9100000]].forEach(function (xy) {
+        var result = proj.inverse(xy);
+        assert.isNaN(result[0], 'lng is NaN for ' + xy);
+        assert.isNaN(result[1], 'lat is NaN for ' + xy);
+      });
+    });
+
+    it('should return NaN for points outside the map with an oblique transformation', function () {
+      var oblique = proj4('EPSG:4326', '+proj=ob_tran +o_proj=moll +o_lat_p=45 +o_lon_p=-90');
+      var result = oblique.inverse([0, -20000000]);
+      assert.isNaN(result[0], 'lng is NaN');
+      assert.isNaN(result[1], 'lat is NaN');
+    });
+  });
+
   describe('nzmg projection', function () {
     var proj = proj4('+proj=nzmg +lat_0=-41 +lon_0=173 +x_0=2510000 +y_0=6023150 +ellps=intl +no_defs');
     var nzmg = [2152713.585, 5442524.565];
