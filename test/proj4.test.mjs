@@ -27,6 +27,14 @@ describe('parse', function () {
   });
 });
 
+describe('omitted defaults', function () {
+  it('treats a missing +x_0 and +y_0 as 0', function () {
+    const xy = proj4('+proj=laea +lat_0=52 +lon_0=10 +ellps=WGS84', [-74, 40.7]);
+    assert.closeTo(xy[0], -5450494.77, 1e-1);
+    assert.closeTo(xy[1], 2444543.68, 1e-1);
+  });
+});
+
 describe('proj2proj', function () {
   it('should work transforming from one projection to another', function () {
     var sweref99tm = '+proj=utm +zone=33 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs';
