@@ -27,6 +27,14 @@ describe('parse', function () {
   });
 });
 
+describe('aeqd', function () {
+  it('wraps the inverse longitude into range', function () {
+    const def = '+proj=aeqd +lat_0=-20 +lon_0=170 +x_0=0 +y_0=0 +datum=WGS84 +units=m +no_defs';
+    const lonlat = proj4(def, 'WGS84', proj4('WGS84', def, [-175, -20]));
+    assert.closeTo(lonlat[0], -175, 1e-6);
+  });
+});
+
 describe('proj2proj', function () {
   it('should work transforming from one projection to another', function () {
     var sweref99tm = '+proj=utm +zone=33 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs';
