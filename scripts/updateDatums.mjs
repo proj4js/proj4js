@@ -56,7 +56,8 @@ for (const key in datums) {
   }
 }
 
-const databaseDatumNames = new Set();
+// Source CRSs that already have a transformation (the best one, by rows order)
+const processedSources = new Set();
 
 // Query proj.db for Helmert transforms with method_code = 9606
 const rows = db.prepare(
@@ -128,10 +129,8 @@ rows.forEach((row) => {
   }
   datumSources.get(datumId).sources.push({ key: sourceKey, authName: row.source_crs_auth_name });
 
-  const normalizedDatumName = row.datum_name.toLowerCase();
-
-  // Skip if the datumName already exists (case-insensitive)
-  if (databaseDatumNames.has(normalizedDatumName)) {
+  // Skip if a better transformation for this source CRS was already used
+  if (processedSources.has(sourceKey)) {
     return;
   }
 
@@ -178,7 +177,7 @@ rows.forEach((row) => {
     towgs84
   };
 
-  databaseDatumNames.add(normalizedDatumName);
+  processedSources.add(sourceKey);
 });
 
 Object.assign(datums, DATUM_OVERRIDES);
