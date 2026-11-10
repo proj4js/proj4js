@@ -231,15 +231,39 @@ for (const key in datums) {
 
 // Write updated datums back to Datum.js
 const datumFilePath = path.resolve(__dirname, '../lib/constants/Datum.js');
+// Entries with only a towgs84 are written once per towgs84 value, with the
+// keys that use it, to keep the file small. Other entries are written as is.
+const objectEntries = [];
+const keysByTowgs84 = new Map();
+Object.entries(datums).forEach(([key, value]) => {
+  const props = Object.keys(value);
+  if (props.length === 1 && props[0] === 'towgs84') {
+    if (!keysByTowgs84.has(value.towgs84)) {
+      keysByTowgs84.set(value.towgs84, []);
+    }
+    keysByTowgs84.get(value.towgs84).push(key);
+  } else {
+    objectEntries.push([key, value]);
+  }
+});
 // Format the datums object with single quotes and unquoted property names
-const datumEntries = Object.entries(datums).map(([key, value]) => {
+const datumEntries = objectEntries.map(([key, value]) => {
   const props = Object.entries(value).map(([pk, pv]) => {
     const formattedValue = typeof pv === 'string' ? `'${pv}'` : JSON.stringify(pv);
     return `    ${pk}: ${formattedValue}`;
   }).join(',\n');
   return `  ${key}: {\n${props}\n  }`;
 }).join(',\n');
+const towgs84Entries = Array.from(keysByTowgs84).map(([towgs84, keys]) => `  '${towgs84}': '${keys.join(' ')}'`).join(',\n');
 const updatedContent = `var datums = {\n${datumEntries}\n};\n\n`
+  + `// towgs84 values and the space separated keys of the datums that use them\n`
+  + `var towgs84s = {\n${towgs84Entries}\n};\n\n`
+  + `for (var towgs84 in towgs84s) {\n`
+  + `  var keys = towgs84s[towgs84].split(' ');\n`
+  + `  for (var i = 0; i < keys.length; i++) {\n`
+  + `    datums[keys[i]] = { towgs84: towgs84 };\n`
+  + `  }\n`
+  + `}\n\n`
   + `for (var key in datums) {\n`
   + `  var datum = datums[key];\n`
   + `  if (!datum.datumName) {\n`
