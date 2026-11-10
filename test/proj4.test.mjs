@@ -471,6 +471,11 @@ describe('proj4', function () {
         var crs2 = proj4(s2);
         assert.equal(crs1.oProj.a, crs2.oProj.a);
       });
+      it('should parse wkt with parentheses as delimiters', function () {
+        var brackets = 'PROJCS["ETRS89 / UTM zone 32N",GEOGCS["ETRS89",DATUM["European_Terrestrial_Reference_System_1989",SPHEROID["GRS 1980",6378137,298.257222101]],PRIMEM["Greenwich",0],UNIT["degree",0.0174532925199433]],PROJECTION["Transverse_Mercator"],PARAMETER["latitude_of_origin",0],PARAMETER["central_meridian",9],PARAMETER["scale_factor",0.9996],PARAMETER["false_easting",500000],PARAMETER["false_northing",0],UNIT["metre",1]]';
+        var parentheses = brackets.replace(/\[/g, '(').replace(/\]/g, ')');
+        assert.deepEqual(proj4(parentheses).forward([9.5, 53.5]), proj4(brackets).forward([9.5, 53.5]));
+      });
       it('should handled defined points correctly', function () {
         var prj = '+proj=utm +zone=31';
         var proj = proj4(prj);
