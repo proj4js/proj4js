@@ -151,14 +151,17 @@ rows.forEach((row) => {
   // Convert scale difference to ppm
   const scalePpm = round6(row.scale_difference * (SCALE_TO_PPM[row.scale_difference_uom_code] || 1));
 
-  if (row.method_code === 9607 && rxArcsec) {
+  // A 7-parameter transformation can have rx = 0 and still rotate around y or z
+  const sevenParams = Boolean(rxArcsec || ryArcsec || rzArcsec || scalePpm);
+
+  if (row.method_code === 9607 && sevenParams) {
     rxArcsec = -rxArcsec;
     ryArcsec = -ryArcsec;
     rzArcsec = -rzArcsec;
   }
 
   // Construct the towgs84 string from tx, ty, tz, rx, ry, rz, and scale_difference
-  const towgs84 = rxArcsec ? `${txMetres},${tyMetres},${tzMetres},${rxArcsec},${ryArcsec},${rzArcsec},${scalePpm}` : `${txMetres},${tyMetres},${tzMetres}`;
+  const towgs84 = sevenParams ? `${txMetres},${tyMetres},${tzMetres},${rxArcsec},${ryArcsec},${rzArcsec},${scalePpm}` : `${txMetres},${tyMetres},${tzMetres}`;
 
   // Warn about unknown unit codes so future database changes don't silently produce wrong values
   if (row.rotation_uom_code && !ROTATION_TO_ARCSEC[row.rotation_uom_code]) {
