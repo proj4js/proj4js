@@ -2964,6 +2964,16 @@ var testPoints = [
       xy: 6
     }
   },
+  // eqc: latitude 90 came back as -90 (adjust_lat)
+  {
+    code: '+proj=eqc +R=6371000 +x_0=0 +y_0=0 +lon_0=0',
+    ll: [10, 90],
+    xy: [1111949.2664455874, 10007543.398010286],
+    acc: {
+      ll: 11,
+      xy: 6
+    }
+  },
   // vandg: close to the origin the formulas lost the digits; within 1e-10 of the equator or the central meridian y or lon was 0
   {
     code: '+proj=vandg +R=6371000 +x_0=0 +y_0=0 +lon_0=0',
