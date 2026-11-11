@@ -2931,6 +2931,28 @@ var testPoints = [
     code: '+proj=utm +zone=31 +ellps=APL4.9 +units=m +no_defs',
     ll: [4.5, 52.0],
     xy: [602972.986873, 5762099.87792]
+  },
+  // Precision near the equator, the poles and the origin. Expected values
+  // from a 50-digit computation.
+  // tmerc sphere: |lon| > 90 on the equator gave y = 0 instead of pi * R * k0
+  {
+    code: '+proj=tmerc +R=6371000 +k=0.999 +x_0=0 +y_0=0 +lon_0=0 +lat_0=0',
+    ll: [120, 0],
+    xy: [8381948.4225466992, 19995071.709224552],
+    acc: {
+      ll: 11,
+      xy: 6
+    }
+  },
+  // tmerc sphere: close to the equator acos() lost half the digits
+  {
+    code: '+proj=tmerc +R=6371000 +k=0.999 +x_0=0 +y_0=0 +lon_0=0 +lat_0=0',
+    ll: [2, 1e-7],
+    xy: [222212.59457055129, 0.011115144217327468],
+    acc: {
+      ll: 11,
+      xy: 6
+    }
   }
 ];
 export default testPoints;
