@@ -2953,6 +2953,16 @@ var testPoints = [
       ll: 11,
       xy: 6
     }
+  },
+  // laea sphere, oblique: the inverse gave longitude 0 instead of 90
+  {
+    code: '+proj=laea +lat_0=45 +R=6371000 +x_0=0 +y_0=0 +lon_0=0',
+    ll: [90, -10],
+    xy: [9473745.8826114854, -1181205.6198054144],
+    acc: {
+      ll: 11,
+      xy: 6
+    }
   }
 ];
 export default testPoints;

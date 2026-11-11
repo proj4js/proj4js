@@ -2,6 +2,7 @@ import { describe, it, assert, beforeAll } from 'vitest';
 import { fromArrayBuffer } from 'geotiff';
 import proj4 from '../lib/index.js';
 import testPoints from './testData.js';
+import precisionPoints from './precisionData.js';
 
 async function loadTestFile(filename) {
   if (typeof window !== 'undefined') {
@@ -998,6 +999,33 @@ describe('proj4', function () {
       var backToNzmg = proj.forward(lonlat);
       assert.closeTo(backToNzmg[0], nzmg[0], 1e-2, 'easting is close');
       assert.closeTo(backToNzmg[1], nzmg[1], 1e-2, 'northing is close');
+    });
+  });
+
+  describe('precision near the poles and the centres', function () {
+    var R = 6371000;
+    var D2R = Math.PI / 180;
+    // great-circle distance in metres between two points given in radians
+    function distance(lam1, phi1, lam2, phi2) {
+      var a = Math.sin((phi2 - phi1) / 2);
+      var b = Math.sin((lam2 - lam1) / 2);
+      return 2 * R * Math.asin(Math.sqrt(a * a + Math.cos(phi1) * Math.cos(phi2) * b * b));
+    }
+    precisionPoints.forEach(function (testPoint) {
+      describe(testPoint.code + ' ' + testPoint.ll.join(' '), function () {
+        it('forward is within 1e-6 m', function () {
+          var xy = proj4(testPoint.code, testPoint.ll);
+          var err = testPoint.fwd === 'eqc'
+            ? distance(xy[0] / R, xy[1] / R, testPoint.xy[0] / R, testPoint.xy[1] / R)
+            : Math.hypot(xy[0] - testPoint.xy[0], xy[1] - testPoint.xy[1]);
+          assert.isBelow(err, 1e-6, 'forward error in metres');
+        });
+        it('inverse is within 1e-6 m', function () {
+          var ll = proj4(testPoint.code).inverse(testPoint.xy);
+          var err = distance(ll[0] * D2R, ll[1] * D2R, testPoint.ll[0] * D2R, testPoint.ll[1] * D2R);
+          assert.isBelow(err, 1e-6, 'inverse error in metres');
+        });
+      });
     });
   });
 });
