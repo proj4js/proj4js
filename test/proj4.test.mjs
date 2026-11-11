@@ -289,6 +289,11 @@ describe('proj4', function () {
       assert.equal(rslt.m, 1000);
       assert.equal(rslt.method(), 'correct answer');
     });
+    it('should keep m with proj4.transform between projected CRSs', function () {
+      var rslt = proj4.transform(proj4.Proj('EPSG:3857'), proj4.Proj('+proj=utm +zone=31 +datum=WGS84'), { x: 1000, y: 2000, m: 7 });
+      assert.deepEqual(Object.keys(rslt).sort(), ['m', 'x', 'y']);
+      assert.equal(rslt.m, 7);
+    });
   });
   describe('points array', function () {
     it('should ignore stuff it does not know', function () {
@@ -494,6 +499,38 @@ describe('proj4', function () {
       assert.typeOf(proj4.defs['tempdef'], 'object');
       proj4.defs('tempdef', null);
       assert.isUndefined(proj4.defs['tempdef']);
+    });
+  });
+  describe('WGS84 redefinition', function () {
+    it('should use the current WGS84 definition for datum shifts', function () {
+      var original = proj4.defs('WGS84');
+      var ed50 = '+proj=utm +zone=31 +ellps=intl +towgs84=-87,-98,-121,0,0,0,0 +units=m';
+      var osgb = '+proj=tmerc +lat_0=49 +lon_0=-2 +k=0.9996012717 +x_0=400000 +y_0=-100000 +ellps=airy +towgs84=446.448,-125.157,542.06,0.15,0.247,0.842,-20.489 +units=m';
+      var before = proj4(ed50, osgb).forward([500000, 5500000], true);
+      try {
+        proj4.defs('WGS84', '+proj=longlat +datum=WGS84 +axis=neu +no_defs');
+        var after = proj4(ed50, osgb).forward([500000, 5500000], true);
+        assert.notDeepEqual(after, before, 'redefinition should be used');
+      } finally {
+        proj4.defs('WGS84', original);
+      }
+    });
+    it('should keep throwing for an invalid WGS84 definition', function () {
+      var original = proj4.defs('WGS84');
+      var from = '+proj=longlat +ellps=intl +towgs84=-87,-98,-121';
+      var to = '+proj=longlat +ellps=airy +towgs84=446,-125,542';
+      proj4(from, to, [3, 50]);
+      try {
+        proj4.defs('WGS84', '+proj=invalid');
+        assert.throws(function () {
+          proj4(from, to, [3, 50]);
+        });
+        assert.throws(function () {
+          proj4(from, to, [3, 50]);
+        });
+      } finally {
+        proj4.defs('WGS84', original);
+      }
     });
   });
   describe('errors', function () {
