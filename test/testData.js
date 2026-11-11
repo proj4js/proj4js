@@ -2983,6 +2983,16 @@ var testPoints = [
       ll: 11,
       xy: 6
     }
+  },
+  // eqearth: the inverse gave NaN at the poles
+  {
+    code: '+proj=eqearth +R=6371000 +x_0=0 +y_0=0 +lon_0=0',
+    ll: [30, 90],
+    xy: [1702743.8797029482, 8392918.138591881],
+    acc: {
+      ll: 9,
+      xy: 6
+    }
   }
 ];
 export default testPoints;
