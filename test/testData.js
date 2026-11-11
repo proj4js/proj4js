@@ -2963,6 +2963,26 @@ var testPoints = [
       ll: 11,
       xy: 6
     }
+  },
+  // vandg: close to the origin the formulas lost the digits; within 1e-10 of the equator or the central meridian y or lon was 0
+  {
+    code: '+proj=vandg +R=6371000 +x_0=0 +y_0=0 +lon_0=0',
+    ll: [1e-06, 1e-06],
+    xy: [0.11119492664455873, 0.11119492664455874],
+    acc: {
+      ll: 11,
+      xy: 6
+    }
+  },
+  // vandg: close to the origin the formulas lost the digits; within 1e-10 of the equator or the central meridian y or lon was 0
+  {
+    code: '+proj=vandg +R=6371000 +x_0=0 +y_0=0 +lon_0=0',
+    ll: [10, 3e-09],
+    xy: [1111949.2664455874, 0.00033358477993369337],
+    acc: {
+      ll: 11,
+      xy: 6
+    }
   }
 ];
 export default testPoints;
