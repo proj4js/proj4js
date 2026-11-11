@@ -68,5 +68,17 @@ export default [
     ll: [180, 39.9999999],
     xy: [-18903137.529574985, 10007543.386890794],
     fwd: 'eqc'
+  },
+  // moll: near the poles the Newton iteration stopped early and the inverse clamped sin(theta)
+  {
+    code: '+proj=moll +R=6371000 +x_0=0 +y_0=0 +lon_0=0',
+    ll: [-179, -89.99999],
+    xy: [-591.0783918084689, -9009954.6009776294]
+  },
+  // moll: near the poles the Newton iteration stopped early and the inverse clamped sin(theta)
+  {
+    code: '+proj=moll +R=6371000 +x_0=0 +y_0=0 +lon_0=0',
+    ll: [100, 89.99],
+    xy: [33021.103249211675, 9009905.5922611956]
   }
 ];
