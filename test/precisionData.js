@@ -61,5 +61,12 @@ export default [
     code: '+proj=tpers +lat_0=45 +R=6371000 +h=3000000 +x_0=0 +y_0=0 +lon_0=0',
     ll: [0, 45],
     xy: [0.0, 0.0]
+  },
+  // ob_tran: the rotated latitude from asin() lost precision near the rotated pole
+  {
+    code: '+proj=ob_tran +o_proj=eqc +o_lat_p=40 +o_lon_p=10 +R=6371000',
+    ll: [180, 39.9999999],
+    xy: [-18903137.529574985, 10007543.386890794],
+    fwd: 'eqc'
   }
 ];
