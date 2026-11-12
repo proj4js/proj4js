@@ -3,6 +3,7 @@ import fs from 'fs';
 import path from 'path';
 import datums from '../lib/constants/Datum.js'; // Import datums directly
 import ellipsoids from '../lib/constants/Ellipsoid.js'; // Import ellipsoids directly
+import epsgHeader from './epsgVersion.mjs';
 import { fileURLToPath } from 'url';
 
 // Get the current file's directory
@@ -23,15 +24,11 @@ const datumEllipses = new Set(Object.values(datums).map(datum => datum.ellipse))
 // so the resulting `undefined` is not a missing ellipsoid
 const missingEllipses = [...datumEllipses].filter(ellipse => ellipse && !ellipsoidSet.has(ellipse));
 
-// If no missing ellipses, exit early
-if (missingEllipses.length === 0) {
-  console.log('No missing ellipses found.');
-  process.exit(0);
-}
-
 // Open proj.db
 const dbPath = path.resolve(__dirname, '../proj.db');
 const db = new DatabaseSync(dbPath, { readOnly: true });
+const ellipsoidFilePath = path.resolve(__dirname, '../lib/constants/Ellipsoid.js');
+const header = epsgHeader(db, ellipsoidFilePath);
 
 // Query the ellipsoid table for missing ellipses
 const placeholders = missingEllipses.map(() => '?').join(',');
@@ -53,7 +50,7 @@ const query = `
     AND e.deprecated = (SELECT MIN(e2.deprecated) FROM ellipsoid e2 WHERE e2.name = e.name)
 `;
 
-const rows = db.prepare(query).all(...missingEllipses);
+const rows = missingEllipses.length > 0 ? db.prepare(query).all(...missingEllipses) : [];
 db.close();
 
 // Report names that have no counterpart in proj.db, so they don't go unnoticed
@@ -61,11 +58,6 @@ const found = new Set(rows.map(row => row.ellipseName));
 const unresolved = missingEllipses.filter(name => !found.has(name));
 if (unresolved.length > 0) {
   console.warn(`No proj.db ellipsoid named: ${unresolved.join(', ')}`);
-}
-
-if (rows.length === 0) {
-  console.log('No ellipsoids to add.');
-  process.exit(0);
 }
 
 // Add missing ellipsoids to the ellipsoids object
@@ -85,7 +77,6 @@ rows.forEach((row) => {
 });
 
 // Write the updated ellipsoids object back to Ellipsoid.js
-const ellipsoidFilePath = path.resolve(__dirname, '../lib/constants/Ellipsoid.js');
-const ellipsoidContent = `var ellipsoids = ${JSON.stringify(ellipsoids, null, 2)};\n\nexport default ellipsoids;`;
+const ellipsoidContent = `${header}\nvar ellipsoids = ${JSON.stringify(ellipsoids, null, 2)};\n\nexport default ellipsoids;`;
 fs.writeFileSync(ellipsoidFilePath, ellipsoidContent, 'utf-8');
 console.log(`Ellipsoid.js updated successfully with ${rows.length} missing ellipsoids.`);
