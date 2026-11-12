@@ -465,6 +465,16 @@ describe('proj4', function () {
     assert.closeTo(result.y, 50, 0.000001);
   });
 
+  it('should use south/west axes of S-JTSK/05 (Ferro) with enforceAxis', function () {
+    var wkt = 'PROJCRS["S-JTSK/05 (Ferro) / Modified Krovak",BASEGEOGCRS["S-JTSK/05 (Ferro)",DATUM["System of the Unified Trigonometrical Cadastral Network/05 (Ferro)",ELLIPSOID["Bessel 1841",6377397.155,299.1528128,LENGTHUNIT["metre",1]]],PRIMEM["Ferro",-17.6666666666667,ANGLEUNIT["degree",0.0174532925199433]],ID["EPSG",5229]],CONVERSION["Modified Krovak",METHOD["Krovak Modified",ID["EPSG",1042]],PARAMETER["Latitude of projection centre",49.5,ANGLEUNIT["degree",0.0174532925199433],ID["EPSG",8811]],PARAMETER["Longitude of origin",42.5,ANGLEUNIT["degree",0.0174532925199433],ID["EPSG",8833]],PARAMETER["Co-latitude of cone axis",30.2881397222222,ANGLEUNIT["degree",0.0174532925199433],ID["EPSG",1036]],PARAMETER["Latitude of pseudo standard parallel",78.5,ANGLEUNIT["degree",0.0174532925199433],ID["EPSG",8818]],PARAMETER["Scale factor on pseudo standard parallel",0.9999,SCALEUNIT["unity",1],ID["EPSG",8819]],PARAMETER["False easting",5000000,LENGTHUNIT["metre",1],ID["EPSG",8806]],PARAMETER["False northing",5000000,LENGTHUNIT["metre",1],ID["EPSG",8807]]],CS[Cartesian,2],AXIS["southing (X)",south,ORDER[1],LENGTHUNIT["metre",1]],AXIS["westing (Y)",west,ORDER[2],LENGTHUNIT["metre",1]],USAGE[SCOPE["Engineering survey, topographic mapping."],AREA["Czechia."],BBOX[48.58,12.09,51.06,18.86]],ID["EPSG",5224]]';
+    var result = proj4('EPSG:4326', wkt).forward([15.5, 49.8], true);
+    assert.closeTo(result[0], 6084718.397045, 0.001, 'first axis is southing');
+    assert.closeTo(result[1], 5670165.120345, 0.001, 'second axis is westing');
+    var inverse = proj4('EPSG:4326', wkt).inverse(result, true);
+    assert.closeTo(inverse[0], 15.5, 1e-6);
+    assert.closeTo(inverse[1], 49.8, 1e-6);
+  });
+
   describe('defs', function () {
     assert.equal(proj4.defs('testmerc'), proj4.defs['testmerc']);
     proj4.defs('foo', '+proj=merc +lon_0=5.937 +lat_ts=45.027 +ellps=sphere');
