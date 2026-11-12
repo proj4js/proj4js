@@ -1141,4 +1141,29 @@ describe('proj4', function () {
       assert.closeTo(backToNzmg[1], nzmg[1], 1e-2, 'northing is close');
     });
   });
+
+  describe('false easting and northing', function () {
+    // Expected values from PROJ 9.8.1 (pyproj 3.8.0)
+    [
+      ['+proj=sinu +lon_0=0 +datum=WGS84', [10, 20], [1047470.863099, 2214366.254172]],
+      ['+proj=sinu +lon_0=0 +R=6371000', [10, 20], [1045890.520367, 2225898.532891]],
+      ['+proj=eck6 +lon_0=0 +R=6371000', [10, 20], [933586.226665, 2513870.558229]],
+      ['+proj=geos +h=35785831 +lon_0=0 +datum=WGS84', [10, 20], [1028290.592279, 2137974.287095]],
+      ['+proj=geos +h=35785831 +lon_0=0 +sweep=x +datum=WGS84', [10, 20], [1026460.709778, 2138852.595352]],
+      ['+proj=geos +h=35785831 +lon_0=0 +R=6371000', [10, 20], [1026689.736776, 2148993.198365]],
+      ['+proj=tpers +h=5500000 +lat_0=40 +lon_0=-100 +datum=WGS84', [-95, 45], [391418.390962, 565091.963641]],
+      ['+proj=tpers +h=5500000 +lat_0=40 +lon_0=-100 +tilt=10 +azi=20 +datum=WGS84', [-95, 45], [171658.897625, 660889.110984]],
+      ['+proj=stere +lat_0=0 +lon_0=0 +k=1 +datum=WGS84', [10, 20], [1082511.900944, 2253698.369404]]
+    ].forEach(function (testCase) {
+      var proj = proj4(testCase[0] + ' +x_0=1000 +y_0=2000');
+      it('should apply +x_0 and +y_0 in ' + testCase[0], function () {
+        var xy = proj.forward(testCase[1]);
+        assert.closeTo(xy[0], testCase[2][0], 1e-3, 'x is close');
+        assert.closeTo(xy[1], testCase[2][1], 1e-3, 'y is close');
+        var lonlat = proj.inverse(testCase[2]);
+        assert.closeTo(lonlat[0], testCase[1][0], 1e-8, 'lon is close');
+        assert.closeTo(lonlat[1], testCase[1][1], 1e-8, 'lat is close');
+      });
+    });
+  });
 });
