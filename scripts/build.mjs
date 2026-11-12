@@ -16,6 +16,7 @@ const allProjs = [
   'aea',
   'gnom',
   'cea',
+  'labrd',
   'eqc',
   'poly',
   'nzmg',
