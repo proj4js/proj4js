@@ -3,6 +3,7 @@ import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import datums from '../lib/constants/Datum.js'; // Import the datums object directly
+import epsgHeader from './epsgVersion.mjs';
 
 const DATUM_OVERRIDES = {
   EPSG_4149: {
@@ -49,6 +50,8 @@ const __dirname = path.dirname(__filename);
 // Open proj.db
 const dbPath = path.resolve(__dirname, '../proj.db');
 const db = new DatabaseSync(dbPath, { readOnly: true });
+const datumFilePath = path.resolve(__dirname, '../lib/constants/Datum.js');
+const header = epsgHeader(db, datumFilePath);
 
 for (const key in datums) {
   if (key === datums[key].datumName && datums[datums[key].datumName] === datums[key]) {
@@ -277,7 +280,6 @@ for (const key in datums) {
 }
 
 // Write updated datums back to Datum.js
-const datumFilePath = path.resolve(__dirname, '../lib/constants/Datum.js');
 // Entries with only a towgs84 are written once per towgs84 value, with the
 // keys that use it, to keep the file small. Other entries are written as is.
 const objectEntries = [];
@@ -302,7 +304,7 @@ const datumEntries = objectEntries.map(([key, value]) => {
   return `  ${key}: {\n${props}\n  }`;
 }).join(',\n');
 const towgs84Entries = Array.from(keysByTowgs84).map(([towgs84, keys]) => `  '${towgs84}': '${keys.join(' ')}'`).join(',\n');
-const updatedContent = `var datums = {\n${datumEntries}\n};\n\n`
+const updatedContent = `${header}\nvar datums = {\n${datumEntries}\n};\n\n`
   + `// towgs84 values and the space separated keys of the datums that use them\n`
   + `var towgs84s = {\n${towgs84Entries}\n};\n\n`
   + `for (var towgs84 in towgs84s) {\n`
