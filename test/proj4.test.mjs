@@ -234,6 +234,13 @@ describe('proj4', function () {
       assert.closeTo(result.y, 180418.4380560551, 1e-6);
       assert.equal(result.z, undefined);
     });
+    it('should convert the WGS84 geocentric origin to geodetic coordinates', function () {
+      var projection = proj4('+proj=geocent +datum=WGS84 +units=m +no_defs');
+      var result = projection.inverse([0, 0, 0]);
+      assert.closeTo(result[0], 0, 1e-12);
+      assert.closeTo(result[1], 90, 1e-12);
+      assert.closeTo(result[2], -6356752.314245179, 1e-6);
+    });
     it('should convert a geographic point without height to geocentric (x,y,z)', function () {
       var epsg4978Proj = '+proj=geocent +datum=WGS84 +units=m +no_defs';
       var resultProj = proj4(epsg4978Proj).forward({
