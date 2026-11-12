@@ -1085,7 +1085,7 @@ describe('proj4', function () {
     });
   });
 
-  describe('inverse of world projections at the edge of the map', function () {
+  describe('inverse of world projections beyond ±180° and the poles', function () {
     [
       '+proj=moll +ellps=WGS84',
       '+proj=eqearth +ellps=WGS84',
@@ -1100,7 +1100,7 @@ describe('proj4', function () {
       var north = proj.forward([0, 90])[1];
       var south = proj.forward([0, -90])[1];
 
-      it('should invert the poles of ' + def + ' and clamp points past its edge to the same hemisphere', function () {
+      it('should invert the poles of ' + def + ' and clamp coordinates beyond them and ±180° to the same hemisphere', function () {
         [
           [[0, north], [0, 90]],
           [[0, south], [0, -90]],
@@ -1116,7 +1116,7 @@ describe('proj4', function () {
       });
 
       if (def.indexOf('vandg') === -1) {
-        it('should not clamp the longitude of points past the edge of ' + def + ' with +over', function () {
+        it('should not clamp longitudes beyond ±180° of ' + def + ' with +over', function () {
           var over = proj4('EPSG:4326', def + ' +over');
           assert.closeTo(over.inverse([1.5 * east, 0])[0], 270, 1e-6);
           assert.closeTo(over.inverse([-1.5 * east, 0])[0], -270, 1e-6);
