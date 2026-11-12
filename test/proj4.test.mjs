@@ -65,6 +65,22 @@ describe('proj2proj', function () {
     // without +lon_wrap the longitude stays in the -180..180 range
     assert.closeTo(proj4(wgs84, wgs84).forward([-170, 40])[0], -170, 0.000001);
   });
+  it('should project on the authalic sphere with +R_A', function () {
+    // expected values from PROJ 9.8.1 (pyproj 3.8.0)
+    var wgs84 = '+proj=longlat +datum=WGS84';
+    var vandg = proj4(wgs84, '+proj=vandg +R_A +lon_0=0 +x_0=0 +y_0=0 +datum=WGS84 +units=m', [100, 40]);
+    assert.closeTo(vandg[0], 10588284.01043823, 0.001);
+    assert.closeTo(vandg[1], 4976256.734505635, 0.001);
+    var mill = proj4(wgs84, '+proj=mill +R_A +lat_0=0 +lon_0=0 +x_0=0 +y_0=0 +datum=WGS84 +units=m', [100, 40]);
+    assert.closeTo(mill[0], 11119505.197809098, 0.001);
+    assert.closeTo(mill[1], 4674067.696470851, 0.001);
+    var merc = proj4(wgs84, '+proj=merc +R_A +lon_0=0 +x_0=0 +y_0=0 +ellps=WGS84 +units=m', [10, 50]);
+    assert.closeTo(merc[0], 1111950.5197809099, 0.001);
+    assert.closeTo(merc[1], 6439069.852898816, 0.001);
+    var ll = proj4(wgs84, '+proj=merc +R_A +lon_0=0 +x_0=0 +y_0=0 +ellps=WGS84 +units=m').inverse(merc);
+    assert.closeTo(ll[0], 10, 1e-9);
+    assert.closeTo(ll[1], 50, 1e-9);
+  });
   it('should ignore +guam when the eccentricity is zero', function () {
     var aeqd = '+proj=aeqd +lat_0=13.4724663527778 +lon_0=144.748750705556 +x_0=50000 +y_0=50000 +ellps=clrk66 +R_A +units=m';
     var guam = aeqd.replace('+proj=aeqd', '+proj=aeqd +guam');
