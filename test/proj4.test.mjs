@@ -56,6 +56,30 @@ describe('proj2proj', function () {
       assert.closeTo(ll[1], 12.19, 0.000001, alias + ' lat is close');
     });
   });
+  it('should default +x_0, +y_0, +lat_0 and +lon_0 to 0', function () {
+    var wgs84 = '+proj=longlat +datum=WGS84';
+    [
+      'aea +lat_1=30 +lat_2=60',
+      'cass',
+      'cea',
+      'eqdc +lat_1=30 +lat_2=60',
+      'gnom +lat_0=45',
+      'laea +lat_0=45',
+      'mill',
+      'omerc +lat_0=45 +alpha=30 +lonc=10',
+      'poly',
+      'somerc +lat_0=46',
+      'sterea +lat_0=45',
+      'vandg'
+    ].forEach(function (params) {
+      var short = '+proj=' + params + ' +ellps=WGS84';
+      var full = short + ' +x_0=0 +y_0=0 +lon_0=0' + (params.indexOf('+lat_0') === -1 ? ' +lat_0=0' : '');
+      var xy = proj4(wgs84, short, [11, 47]);
+      assert.isFalse(isNaN(xy[0]) || isNaN(xy[1]), params + ' gives numbers');
+      assert.deepEqual(xy, proj4(wgs84, full, [11, 47]), params + ' forward');
+      assert.deepEqual(proj4(wgs84, short).inverse(xy), proj4(wgs84, full).inverse(xy), params + ' inverse');
+    });
+  });
   it('should wrap longitude into the 0..360 range with +lon_wrap', function () {
     var wgs84 = '+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs';
     var wrapped = '+proj=longlat +ellps=WGS84 +datum=WGS84 +lon_wrap=180 +no_defs';
