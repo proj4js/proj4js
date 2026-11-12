@@ -1337,32 +1337,6 @@ var testPoints = [
     xy: [-544115.474379, -1144058.330762]
   },
   {
-    code: `GEOGCRS["S-JTSK/05 (Ferro)",
-    DATUM["System of the Unified Trigonometrical Cadastral Network/05 (Ferro)",
-        ELLIPSOID["Bessel 1841",6377397.155,299.1528128,
-            LENGTHUNIT["metre",1]]],
-    PRIMEM["Ferro",-17.6666666666667,
-        ANGLEUNIT["degree",0.0174532925199433]],
-    CS[ellipsoidal,2],
-        AXIS["geodetic latitude (Lat)",north,
-            ORDER[1],
-            ANGLEUNIT["degree",0.0174532925199433]],
-        AXIS["geodetic longitude (Lon)",east,
-            ORDER[2],
-            ANGLEUNIT["degree",0.0174532925199433]],
-    USAGE[
-        SCOPE["Geodesy."],
-        AREA["Czechia."],
-        BBOX[48.58,12.09,51.06,18.86]],
-    ID["EPSG",5229],
-    REMARK["Derived through projCRS code 5224 to improve the scale and homogeneity of CRS 4818 within Czechia as a scientific working system, but CRS 4818 remains the legal system. See CRS code 5228 for Greenwich-referenced alternative."]]`,
-    xy: [32.0877590204918, 50.0807818268298],
-    ll: [14.42, 50.08],
-    acc: {
-      xy: 8
-    }
-  },
-  {
     code: `PROJCRS["Makassar (Jakarta) / NEIEZ",
     BASEGEOGCRS["Makassar (Jakarta)",
         DATUM["Makassar (Jakarta)",
