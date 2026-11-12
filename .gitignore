@@ -7,3 +7,4 @@ projs.js
 dist/*
 !dist/index.d.ts
 .nyc_output/
+proj.db

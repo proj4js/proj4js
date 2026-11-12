@@ -43,6 +43,12 @@ Bug fixes need a test that fails without the fix, and new features need tests th
 
 Keep code comments concise. They should help readers understand code that isn't self-explanatory, not describe the reasoning or history behind a change; that belongs in the pull request. Don't add decorative comment banners (such as the dashed-line comments in older GCTP-derived code).
 
+## Datums and ellipsoids
+
+`lib/constants/Datum.js` and `lib/constants/Ellipsoid.js` are generated from PROJ's `proj.db`. To add or correct a datum or ellipsoid, update the generating scripts and run them as described in [scripts/readme.md](scripts/readme.md), instead of editing the generated files by hand.
+
+The first line of each of these files names the EPSG version of the `proj.db` they were last updated with. The `proj.db` you use must not have an older EPSG version; the scripts refuse to run otherwise.
+
 ## Before submitting
 
 Make sure `npm test` passes; it includes linting, type checking and the full test suite.
