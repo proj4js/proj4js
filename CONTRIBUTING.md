@@ -35,7 +35,7 @@ Bug fixes need a test that fails without the fix, and new features need tests th
 
 - Write as few tests as needed. Use the smallest input that exercises the code path, and don't assert the same behavior twice.
 - Add tests to an existing test file and follow its conventions, instead of creating a new file.
-- Provide a proof that expected values are correct, e.g. by using a publicly published formula or a common tool (e.g. [PROJ](https://proj.org)'s `cs2cs` or `projinfo`).
+- Provide a proof that expected values are correct, e.g. by using a publicly published formula or a common tool (e.g. [PROJ](https://proj.org)'s `cs2cs` or `projinfo`). If the report is about CRS codes, use the same codes with PROJ. Include the output of `projinfo -s <source> -t <target>`, which shows the transformation PROJ used.
 - Use test points inside the area of use of the CRS.
 - Leave existing tests alone unless the expected behavior has changed. If an existing test has to change, explain why in the pull request description.
 
