@@ -56,6 +56,12 @@ describe('proj2proj', function () {
       assert.closeTo(ll[1], 12.19, 0.000001, alias + ' lat is close');
     });
   });
+  it('should default +x_0, +y_0, +lat_0 and +lon_0 to 0', function () {
+    // aea has no defaults of its own and needs all four. Expected values from PROJ's cs2cs
+    var xy = proj4('+proj=aea +lat_1=30 +lat_2=60 +ellps=WGS84', [11, 47]);
+    assert.closeTo(xy[0], 805886.990474, 1e-6);
+    assert.closeTo(xy[1], 5057500.013063, 1e-6);
+  });
   it('should wrap longitude into the 0..360 range with +lon_wrap', function () {
     var wgs84 = '+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs';
     var wrapped = '+proj=longlat +ellps=WGS84 +datum=WGS84 +lon_wrap=180 +no_defs';
