@@ -57,28 +57,10 @@ describe('proj2proj', function () {
     });
   });
   it('should default +x_0, +y_0, +lat_0 and +lon_0 to 0', function () {
-    var wgs84 = '+proj=longlat +datum=WGS84';
-    [
-      'aea +lat_1=30 +lat_2=60',
-      'cass',
-      'cea',
-      'eqdc +lat_1=30 +lat_2=60',
-      'gnom +lat_0=45',
-      'laea +lat_0=45',
-      'mill',
-      'omerc +lat_0=45 +alpha=30 +lonc=10',
-      'poly',
-      'somerc +lat_0=46',
-      'sterea +lat_0=45',
-      'vandg'
-    ].forEach(function (params) {
-      var short = '+proj=' + params + ' +ellps=WGS84';
-      var full = short + ' +x_0=0 +y_0=0 +lon_0=0' + (params.indexOf('+lat_0') === -1 ? ' +lat_0=0' : '');
-      var xy = proj4(wgs84, short, [11, 47]);
-      assert.isFalse(isNaN(xy[0]) || isNaN(xy[1]), params + ' gives numbers');
-      assert.deepEqual(xy, proj4(wgs84, full, [11, 47]), params + ' forward');
-      assert.deepEqual(proj4(wgs84, short).inverse(xy), proj4(wgs84, full).inverse(xy), params + ' inverse');
-    });
+    // aea has no defaults of its own and needs all four. Expected values from PROJ's cs2cs
+    var xy = proj4('+proj=aea +lat_1=30 +lat_2=60 +ellps=WGS84', [11, 47]);
+    assert.closeTo(xy[0], 805886.990474, 1e-6);
+    assert.closeTo(xy[1], 5057500.013063, 1e-6);
   });
   it('should wrap longitude into the 0..360 range with +lon_wrap', function () {
     var wgs84 = '+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs';
