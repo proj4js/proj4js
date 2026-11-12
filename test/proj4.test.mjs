@@ -1085,6 +1085,46 @@ describe('proj4', function () {
     });
   });
 
+  describe('inverse of world projections at the edge of the map', function () {
+    [
+      '+proj=moll +ellps=WGS84',
+      '+proj=eqearth +ellps=WGS84',
+      '+proj=robin +R=6371000',
+      '+proj=sinu +R=6371000 +x_0=0 +y_0=0',
+      '+proj=sinu +ellps=WGS84 +x_0=0 +y_0=0',
+      '+proj=eck6 +R=6371000 +lon_0=0 +x_0=0 +y_0=0',
+      '+proj=vandg +R=6371000 +lon_0=0 +x_0=0 +y_0=0'
+    ].forEach(function (def) {
+      var proj = proj4('EPSG:4326', def);
+      var east = proj.forward([180, 0])[0];
+      var north = proj.forward([0, 90])[1];
+      var south = proj.forward([0, -90])[1];
+
+      it('should invert the poles of ' + def + ' and clamp points past its edge to the same hemisphere', function () {
+        [
+          [[0, north], [0, 90]],
+          [[0, south], [0, -90]],
+          [[1.5 * east, 0], [180, 0]],
+          [[-1.5 * east, 0], [-180, 0]],
+          [[0, 3 * north], [0, 90]],
+          [[0, 3 * south], [0, -90]]
+        ].forEach(function (pair) {
+          var result = proj.inverse(pair[0]);
+          assert.closeTo(result[0], pair[1][0], 1e-6, 'lng is close for ' + pair[0]);
+          assert.closeTo(result[1], pair[1][1], 1e-5, 'lat is close for ' + pair[0]);
+        });
+      });
+
+      if (def.indexOf('vandg') === -1) {
+        it('should not clamp the longitude of points past the edge of ' + def + ' with +over', function () {
+          var over = proj4('EPSG:4326', def + ' +over');
+          assert.closeTo(over.inverse([1.5 * east, 0])[0], 270, 1e-6);
+          assert.closeTo(over.inverse([-1.5 * east, 0])[0], -270, 1e-6);
+        });
+      }
+    });
+  });
+
   describe('nzmg projection', function () {
     var proj = proj4('+proj=nzmg +lat_0=-41 +lon_0=173 +x_0=2510000 +y_0=6023150 +ellps=intl +no_defs');
     var nzmg = [2152713.585, 5442524.565];
