@@ -6,6 +6,12 @@
   "main": "dist/proj4-src.js",
   "module": "lib/index.js",
   "types": "dist/index.d.ts",
+  "files": [
+    "dist",
+    "lib",
+    "projs.js",
+    "AUTHORS"
+  ],
   "funding": "https://github.com/sponsors/ahocevar",
   "scripts": {
     "prepare": "npm run build",
