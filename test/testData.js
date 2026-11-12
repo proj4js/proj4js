@@ -27,6 +27,19 @@ var testPoints = [
     xy: [736106.55, 5893331.11],
     ll: [11.0, 53.0]
   },
+  /* somerc with ellipsoids that have no rf (expected values from PROJ 9.5.1) */
+  { code: '+proj=somerc +lat_0=46.95 +lon_0=7.44 +k_0=1 +x_0=600000 +y_0=200000 +a=6377397.155 +b=6356078.962818189 +units=m',
+    xy: [642585.8442794053, 205709.9770510003],
+    ll: [8, 47]
+  },
+  { code: '+proj=somerc +lat_0=46.95 +lon_0=7.44 +k_0=1 +x_0=600000 +y_0=200000 +ellps=clrk66 +units=m',
+    xy: [642592.3259674027, 205710.59947651805],
+    ll: [8, 47]
+  },
+  { code: '+proj=somerc +lat_0=46.95 +lon_0=7.44 +k_0=1 +x_0=600000 +y_0=200000 +R=6371000 +units=m',
+    xy: [642467.1196738584, 205711.40399884622],
+    ll: [8, 47]
+  },
   { code: 'PROJCS["CH1903 / LV03",GEOGCS["CH1903",DATUM["D_CH1903",SPHEROID["Bessel_1841",6377397.155,299.1528128]],PRIMEM["Greenwich",0],UNIT["Degree",0.017453292519943295]],PROJECTION["Hotine_Oblique_Mercator_Azimuth_Center"],PARAMETER["latitude_of_center",46.95240555555556],PARAMETER["longitude_of_center",7.439583333333333],PARAMETER["azimuth",90],PARAMETER["scale_factor",1],PARAMETER["false_easting",600000],PARAMETER["false_northing",200000],UNIT["Meter",1]]',
     xy: [660013.4882918689, 185172.17110117766],
     ll: [8.225, 46.815],
