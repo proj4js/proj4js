@@ -11,7 +11,6 @@ const allProjs = [
   'omerc',
   'lcc',
   'krovak',
-  'mod_krovak',
   'cass',
   'laea',
   'aea',

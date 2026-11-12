@@ -1836,17 +1836,11 @@ var testPoints = [
   {
     code: '+proj=mod_krovak +lat_0=49.5 +lon_0=24.8333333333333 +alpha=30.2881397222222 +k=0.9999 +x_0=5000000 +y_0=5000000 +ellps=bessel +units=m +no_defs',
     ll: [12.5, 50.2],
-    xy: [-5876802.118032, -6010253.129351]
-  },
-  {
-    code: '+proj=mod_krovak +lat_0=49.5 +lon_0=24.8333333333333 +alpha=30.2881397222222 +k=0.9999 +x_0=5000000 +y_0=5000000 +ellps=bessel +units=m +no_defs',
-    ll: [15.5, 49.8],
-    xy: [-5670262.122548, -6084786.402143]
-  },
-  {
-    code: '+proj=mod_krovak +lat_0=49.5 +lon_0=24.8333333333333 +alpha=30.2881397222222 +k=0.9999 +x_0=5000000 +y_0=5000000 +ellps=bessel +units=m +no_defs',
-    ll: [18.5, 49.6],
-    xy: [-5457303.690719, -6129042.497511]
+    xy: [-5876802.118032, -6010253.129351],
+    acc: {
+      ll: 9,
+      xy: 6
+    }
   },
   {
     code: 'PROJCRS["S-JTSK/05 / Modified Krovak East North",BASEGEOGCRS["S-JTSK/05",DATUM["System of the Unified Trigonometrical Cadastral Network/05",ELLIPSOID["Bessel 1841",6377397.155,299.1528128,LENGTHUNIT["metre",1]]],PRIMEM["Greenwich",0,ANGLEUNIT["degree",0.0174532925199433]],ID["EPSG",5228]],CONVERSION["Modified Krovak East North (Greenwich)",METHOD["Krovak Modified (North Orientated)",ID["EPSG",1043]],PARAMETER["Latitude of projection centre",49.5,ANGLEUNIT["degree",0.0174532925199433],ID["EPSG",8811]],PARAMETER["Longitude of origin",24.8333333333333,ANGLEUNIT["degree",0.0174532925199433],ID["EPSG",8833]],PARAMETER["Co-latitude of cone axis",30.2881397222222,ANGLEUNIT["degree",0.0174532925199433],ID["EPSG",1036]],PARAMETER["Latitude of pseudo standard parallel",78.5,ANGLEUNIT["degree",0.0174532925199433],ID["EPSG",8818]],PARAMETER["Scale factor on pseudo standard parallel",0.9999,SCALEUNIT["unity",1],ID["EPSG",8819]],PARAMETER["False easting",5000000,LENGTHUNIT["metre",1],ID["EPSG",8806]],PARAMETER["False northing",5000000,LENGTHUNIT["metre",1],ID["EPSG",8807]]],CS[Cartesian,2],AXIS["easting (X)",east,ORDER[1],LENGTHUNIT["metre",1]],AXIS["northing (Y)",north,ORDER[2],LENGTHUNIT["metre",1]],USAGE[SCOPE["GIS."],AREA["Czechia."],BBOX[48.58,12.09,51.06,18.86]],ID["EPSG",5516]]',

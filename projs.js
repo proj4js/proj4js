@@ -8,7 +8,6 @@ import somerc from './lib/projections/somerc';
 import omerc from './lib/projections/omerc';
 import lcc from './lib/projections/lcc';
 import krovak from './lib/projections/krovak';
-import mod_krovak from './lib/projections/mod_krovak';
 import cass from './lib/projections/cass';
 import laea from './lib/projections/laea';
 import aea from './lib/projections/aea';
@@ -44,7 +43,6 @@ export default function (proj4) {
   proj4.Proj.projections.add(omerc);
   proj4.Proj.projections.add(lcc);
   proj4.Proj.projections.add(krovak);
-  proj4.Proj.projections.add(mod_krovak);
   proj4.Proj.projections.add(cass);
   proj4.Proj.projections.add(laea);
   proj4.Proj.projections.add(aea);
