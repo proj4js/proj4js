@@ -2765,6 +2765,15 @@ var testPoints = [
       xy: 4
     }
   },
+  // EPSG:2056
+  {
+    code: '+proj=omerc +lat_0=46.9524055555556 +lonc=7.43958333333333 +alpha=90 +gamma=90 +k_0=1 +x_0=2600000 +y_0=1200000 +ellps=bessel +towgs84=674.374,15.056,405.346,0,0,0,0 +units=m +no_defs',
+    xy: [2660013.5437408807, 1185171.9817243235],
+    ll: [8.225, 46.815],
+    acc: {
+      xy: 4
+    }
+  },
   {
     code: 'PROJCS["NAD83(NSRS2007) / Alaska zone 1", GEOGCS["NAD83(NSRS2007)", DATUM["NAD83_National_Spatial_Reference_System_2007", SPHEROID["GRS 1980",6378137,298.257222101, AUTHORITY["EPSG","7019"]], TOWGS84[0,0,0,0,0,0,0], AUTHORITY["EPSG","6759"]], PRIMEM["Greenwich",0, AUTHORITY["EPSG","8901"]], UNIT["degree",0.0174532925199433, AUTHORITY["EPSG","9122"]], AUTHORITY["EPSG","4759"]], PROJECTION["Hotine_Oblique_Mercator"], PARAMETER["latitude_of_center",57], PARAMETER["longitude_of_center",-133.6666666666667], PARAMETER["azimuth",323.1301023611111], PARAMETER["rectified_grid_angle",323.1301023611111], PARAMETER["scale_factor",0.9999], PARAMETER["false_easting",5000000], PARAMETER["false_northing",-5000000], UNIT["metre",1, AUTHORITY["EPSG","9001"]], AXIS["X",EAST], AXIS["Y",NORTH], AUTHORITY["EPSG","3468"]]',
     xy: [1264314.74, -763162.04],
