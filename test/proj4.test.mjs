@@ -77,6 +77,15 @@ describe('proj2proj', function () {
     assert.deepEqual(proj4(guam, [145.01, 13.7]), proj4(aeqd, [145.01, 13.7]));
     assert.deepEqual(proj4(guam).inverse([78260.4, 75187.1]), proj4(aeqd).inverse([78260.4, 75187.1]));
   });
+  it('should project on the authalic sphere with +R_A and keep the datum ellipsoid', function () {
+    // Expected values from PROJ's cs2cs EPSG:4326 ESRI:54003 and EPSG:4267 EPSG:9311
+    var mill = proj4('+proj=mill +R_A +lon_0=0 +x_0=0 +y_0=0 +datum=WGS84 +units=m +no_defs', [100, 40]);
+    assert.closeTo(mill[0], 11119505.197809, 1e-6);
+    assert.closeTo(mill[1], 4698879.749326, 1e-6);
+    var laea = proj4('+proj=longlat +datum=NAD27', '+proj=laea +R_A +lat_0=45 +lon_0=-100 +x_0=0 +y_0=0 +datum=NAD27 +units=m +no_defs', [-90, 40]);
+    assert.closeTo(laea[0], 850045.547649, 1e-6);
+    assert.closeTo(laea[1], -504360.108327, 1e-6);
+  });
 });
 
 describe('proj4', function () {
