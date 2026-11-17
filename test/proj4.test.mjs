@@ -76,6 +76,13 @@ describe('proj2proj', function () {
     var guam = aeqd.replace('+proj=aeqd', '+proj=aeqd +guam');
     assert.deepEqual(proj4(guam, [145.01, 13.7]), proj4(aeqd, [145.01, 13.7]));
     assert.deepEqual(proj4(guam).inverse([78260.4, 75187.1]), proj4(aeqd).inverse([78260.4, 75187.1]));
+    // Expected values from PROJ 9.9.0 (`proj` / `proj -I` with the same definition)
+    var xy = proj4(guam, [145.01, 13.7]);
+    assert.closeTo(xy[0], 78223.166121, 1e-6);
+    assert.closeTo(xy[1], 75315.649858, 1e-6);
+    var ll = proj4(guam).inverse([78260.4, 75187.1]);
+    assert.closeTo(ll[0], 145.0103433775, 1e-10);
+    assert.closeTo(ll[1], 13.6988435694, 1e-10);
   });
 });
 
