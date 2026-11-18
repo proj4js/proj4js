@@ -1720,6 +1720,20 @@ var testPoints = [
       ll: 9
     }
   }, {
+    code: '+proj=mill +R_A +lon_0=0 +x_0=0 +y_0=0 +datum=WGS84 +units=m +no_defs',
+    ll: [100, 40],
+    xy: [11119505.197809, 4698879.749326],
+    acc: {
+      xy: 6
+    }
+  }, {
+    code: '+proj=laea +R_A +lat_0=45 +lon_0=-100 +x_0=0 +y_0=0 +ellps=clrk66 +towgs84=-8,160,176,0,0,0,0 +units=m +no_defs',
+    ll: [-90, 40],
+    xy: [850053.867229, -504362.638027],
+    acc: {
+      xy: 6
+    }
+  }, {
     code: `PROJCRS["Guam 1963 / Guam SPCS",
     BASEGEOGCRS["Guam 1963",
         DATUM["Guam 1963",
