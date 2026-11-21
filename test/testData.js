@@ -27,6 +27,19 @@ var testPoints = [
     xy: [736106.55, 5893331.11],
     ll: [11.0, 53.0]
   },
+  /* wintri: ESRI:54042 World_Winkel_Tripel_NGS, expected values from PROJ 9.9 `proj` */
+  { code: 'PROJCS["World_Winkel_Tripel_NGS",GEOGCS["GCS_WGS_1984",DATUM["D_WGS_1984",SPHEROID["WGS_1984",6378137.0,298.257223563]],PRIMEM["Greenwich",0.0],UNIT["Degree",0.0174532925199433]],PROJECTION["Winkel_Tripel"],PARAMETER["False_Easting",0.0],PARAMETER["False_Northing",0.0],PARAMETER["Central_Meridian",0.0],PARAMETER["Standard_Parallel_1",50.467],UNIT["Meter",1.0]]',
+    xy: [761738.88, 5568704.19],
+    ll: [10.0, 50.0]
+  },
+  { code: '+proj=wintri +lon_0=0 +lat_1=50.467 +x_0=0 +y_0=0 +datum=WGS84 +units=m +no_defs +type=crs',
+    xy: [0, 0],
+    ll: [0, 0]
+  },
+  { code: '+proj=wintri +lon_0=0 +lat_1=50.467 +x_0=0 +y_0=0 +datum=WGS84 +units=m +no_defs +type=crs',
+    xy: [-13429828.94, -6039912.42],
+    ll: [-179.5, -45.0]
+  },
   { code: 'PROJCS["CH1903 / LV03",GEOGCS["CH1903",DATUM["D_CH1903",SPHEROID["Bessel_1841",6377397.155,299.1528128]],PRIMEM["Greenwich",0],UNIT["Degree",0.017453292519943295]],PROJECTION["Hotine_Oblique_Mercator_Azimuth_Center"],PARAMETER["latitude_of_center",46.95240555555556],PARAMETER["longitude_of_center",7.439583333333333],PARAMETER["azimuth",90],PARAMETER["scale_factor",1],PARAMETER["false_easting",600000],PARAMETER["false_northing",200000],UNIT["Meter",1]]',
     xy: [660013.4882918689, 185172.17110117766],
     ll: [8.225, 46.815],
