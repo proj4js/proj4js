@@ -1727,9 +1727,9 @@ var testPoints = [
       xy: 6
     }
   }, {
-    code: '+proj=laea +R_A +lat_0=45 +lon_0=-100 +x_0=0 +y_0=0 +ellps=clrk66 +towgs84=-8,160,176,0,0,0,0 +units=m +no_defs',
+    code: '+proj=laea +R_A +lat_0=45 +lon_0=-100 +x_0=0 +y_0=0 +datum=NAD27 +units=m +no_defs +type=crs',
     ll: [-90, 40],
-    xy: [850053.867229, -504362.638027],
+    xy: [850045.547649, -504360.108327],
     acc: {
       xy: 6
     }
