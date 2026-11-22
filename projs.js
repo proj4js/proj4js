@@ -34,6 +34,7 @@ import eqearth from './lib/projections/eqearth';
 import bonne from './lib/projections/bonne';
 import ob_tran from './lib/projections/ob_tran';
 import col_urban from './lib/projections/col_urban';
+import wintri from './lib/projections/wintri';
 export default function (proj4) {
   proj4.Proj.projections.add(tmerc);
   proj4.Proj.projections.add(tmerc_approx);
@@ -71,4 +72,5 @@ export default function (proj4) {
   proj4.Proj.projections.add(bonne);
   proj4.Proj.projections.add(ob_tran);
   proj4.Proj.projections.add(col_urban);
+  proj4.Proj.projections.add(wintri);
 }
